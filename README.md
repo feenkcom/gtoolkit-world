@@ -1,0 +1,1 @@
+## Installation```Metacello new	repository: 'github://feenkcom/gtoolkit-world:main/src';	baseline: 'GtoolkitWorld';	load```
