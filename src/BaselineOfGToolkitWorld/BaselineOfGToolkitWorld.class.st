@@ -14,8 +14,6 @@ BaselineOfGToolkitWorld >> baseline: spec [
 					with: [ spec repository: 'github://feenkcom/gtoolkit-vm-bindings:main/src' ];
 				baseline: 'GToolkitClipboard'
 					with: [ spec repository: 'github://feenkcom/gtoolkit-clipboard:main/src' ];
-				baseline: 'GToolkitTranscript'
-					with: [ spec repository: 'github://feenkcom/gtoolkit:main/src' ];
 				baseline: 'GToolkitDebugger'
 					with: [ spec repository: 'github://feenkcom/gtoolkit-debugger:main/src' ];
 				baseline: 'GToolkitFileBrowser'
@@ -69,9 +67,9 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				package: 'GToolkit-DependencyAnalyzer';
 				package: 'GToolkit-World'
 					with: [ spec
-							requires: #('GToolkit-SceneDriller' 'GToolkitFileBrowser' 'LepiterEngine' 'GToolkit4Git' 'GToolkitTranscript' 'GToolkit-Monitor' 'GToolkitReleaser' 'XdocClient' 'GToolkitNotifications' 'GToolkitNotificationsExamples' 'GToolkit4Changes') ];
+							requires: #('GToolkit-SceneDriller' 'GToolkitFileBrowser' 'LepiterEngine' 'GToolkit4Git' 'GToolkit-Monitor' 'GToolkitReleaser' 'XdocClient' 'GToolkitNotifications' 'GToolkitNotificationsExamples' 'GToolkit4Changes') ];
 				package: 'GToolkit-Extensions'
 					with: [ spec
-							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitTranscript' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkit-World' 'GToolkit-Setup' 'GToolkit4GraphQL') ];
+							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkit-World' 'GToolkit-Setup' 'GToolkit4GraphQL') ];
 				package: 'GtIdentity' ]
 ]
