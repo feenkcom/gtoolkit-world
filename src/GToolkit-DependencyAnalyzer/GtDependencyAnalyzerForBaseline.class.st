@@ -107,7 +107,7 @@ GtDependencyAnalyzerForBaseline >> gtIndirectlyDefinedPackagesFor: aView context
 		ifAbsentPut: [ GtDependencyAnalyzerContext new ].
 		
 	^ aView list
-		title: 'Idirectly defined packages';
+		title: 'Indirectly defined packages';
 		priority: 12;
 		items: [
 			(self indirectlyDefinedPackagesWithContext: aContext)

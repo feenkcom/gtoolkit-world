@@ -28,6 +28,8 @@ BaselineOfGtoolkitWorld >> baseline: spec [
 					with: [ spec repository: 'github://feenkcom/gt4pharo:main/src' ];
 				baseline: 'GToolkit4XMLSupport'
 					with: [ spec repository: 'github://feenkcom/gt4xmlsupport:main/src' ];
+				baseline: 'GToolkit4Changes'
+					with: [ spec repository: 'github://feenkcom/gt4changes:main/src' ];
 				baseline: 'GToolkit4Git'
 					with: [ spec repository: 'github://feenkcom/gt4git:main/src' ];
 				baseline: 'GToolkit4GraphQL'
@@ -59,7 +61,7 @@ BaselineOfGtoolkitWorld >> baseline: spec [
 							requires: #('LepiterEngine' 'GToolkitVisualizerPhlow' 'GToolkitNotifications') ];
 				package: 'GToolkit-Constraints'
 					with: [ spec
-							requires: #('GToolkitConstrainer' 'GToolkit-DependencyAnalyzer' 'LepiterEngine') ];
+							requires: #('GToolkitConstrainer' 'GToolkit-DependencyAnalyzer' 'LepiterEngine' 'GToolkit4Git') ];
 				package: 'GToolkit-SceneDriller'
 					with: [ spec requires: #('GToolkitVisualizerPhlow' 'GToolkitPager') ];
 				package: 'GToolkit-Setup'
@@ -67,7 +69,7 @@ BaselineOfGtoolkitWorld >> baseline: spec [
 				package: 'GToolkit-DependencyAnalyzer';
 				package: 'GToolkit-World'
 					with: [ spec
-							requires: #('GToolkit-SceneDriller' 'GToolkitFileBrowser' 'LepiterEngine' 'GToolkit4Git' 'GToolkitTranscript' 'GToolkit-Monitor' 'GToolkitReleaser' 'XdocClient' 'GToolkitNotifications' 'GToolkitNotificationsExamples') ];
+							requires: #('GToolkit-SceneDriller' 'GToolkitFileBrowser' 'LepiterEngine' 'GToolkit4Git' 'GToolkitTranscript' 'GToolkit-Monitor' 'GToolkitReleaser' 'XdocClient' 'GToolkitNotifications' 'GToolkitNotificationsExamples' 'GToolkit4Changes') ];
 				package: 'GToolkit-Extensions'
 					with: [ spec
 							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitTranscript' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkit-World' 'GToolkit-Setup' 'GToolkit4GraphQL') ];
