@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfGtoolkitWorld,
+	#name : #BaselineOfGToolkitWorld,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfGtoolkitWorld
+	#category : #BaselineOfGToolkitWorld
 }
 
 { #category : #baseline }
-BaselineOfGtoolkitWorld >> baseline: spec [
+BaselineOfGToolkitWorld >> baseline: spec [
 	<baseline>
 	^ spec
 		for: #common

@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfGtoolkitWorld }
+Package { #name : #BaselineOfGToolkitWorld }
