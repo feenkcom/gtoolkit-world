@@ -50,9 +50,6 @@ BaselineOfGtoolkitWorld >> baseline: spec [
 					with: [ spec repository: 'github://feenkcom/lepiter:main/src' ].
 
 			spec
-				package: 'GToolkit-Extensions'
-					with: [ spec
-							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitTranscript' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkitWorld' 'GToolkit-Setup' 'GToolkit4GraphQL') ];
 				package: 'GToolkit-Docs'
 					with: [ spec requires: #('GToolkitCoder' 'GToolkit-World') ];
 				package: 'GToolkit-Monitor'
@@ -71,5 +68,8 @@ BaselineOfGtoolkitWorld >> baseline: spec [
 				package: 'GToolkit-World'
 					with: [ spec
 							requires: #('GToolkit-SceneDriller' 'GToolkitFileBrowser' 'LepiterEngine' 'GToolkit4Git' 'GToolkitTranscript' 'GToolkit-Monitor' 'GToolkitReleaser' 'XdocClient' 'GToolkitNotifications' 'GToolkitNotificationsExamples') ];
+				package: 'GToolkit-Extensions'
+					with: [ spec
+							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitTranscript' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkit-World' 'GToolkit-Setup' 'GToolkit4GraphQL') ];
 				package: 'GtIdentity' ]
 ]
