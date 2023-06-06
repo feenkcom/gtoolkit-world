@@ -30,6 +30,11 @@ GtIdentityRegistry >> addCredential: aCredential named: aKey [
 ]
 
 { #category : #accessing }
+GtIdentityRegistry >> credentialKey [
+	^ #credential
+]
+
+{ #category : #accessing }
 GtIdentityRegistry >> credentials [
 	^ credentials
 ]
@@ -79,6 +84,11 @@ GtIdentityRegistry >> identitiesFile [
 ]
 
 { #category : #accessing }
+GtIdentityRegistry >> identityNameKey [
+	^ #identityName
+]
+
+{ #category : #accessing }
 GtIdentityRegistry >> initialize [
 	super initialize.
 	
@@ -111,9 +121,9 @@ GtIdentityRegistry >> loadCredentials [
 	rawData
 		do: [ :anObject | 
 			| anIdentity |
-			anIdentity := GtIdentity forIdentityName: (anObject at: #identityName).
+			anIdentity := GtIdentity forIdentityName: (anObject at: self identityNameKey).
 			self credentials
-				add: (anIdentity fromCredentials: (anObject at: #credential)) ]
+				add: (anIdentity fromCredentials: (anObject at: self credentialKey)) ]
 ]
 
 { #category : #accessing }
@@ -138,8 +148,8 @@ GtIdentityRegistry >> saveCredentials [
 	self credentials
 		do: [ :aCredential | 
 			data
-				add: {#identityName -> aCredential class identityName.
-						#credential -> aCredential saveDictionary} asDictionary ].
+				add: {self identityNameKey -> aCredential class identityName.
+						self credentialKey -> aCredential saveDictionary} asDictionary ].
 
 	self identitiesFile
 		ensureDelete;
