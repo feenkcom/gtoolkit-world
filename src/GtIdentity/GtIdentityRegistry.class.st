@@ -30,6 +30,11 @@ GtIdentityRegistry >> addCredential: aCredential named: aKey [
 ]
 
 { #category : #accessing }
+GtIdentityRegistry >> allOfType: aClass [
+	^ self credentials select: [ :aCredential | aCredential isKindOf: aClass ]
+]
+
+{ #category : #accessing }
 GtIdentityRegistry >> credentialKey [
 	^ #credential
 ]
@@ -52,6 +57,11 @@ GtIdentityRegistry >> defaultKeysFolderLocator [
 { #category : #default }
 GtIdentityRegistry >> defaultPreferencesFolder [
 	^ FileLocator preferences / 'pharo'
+]
+
+{ #category : #accessing }
+GtIdentityRegistry >> firstOfType: aClass [
+	^ (self allOfType: aClass) ifEmpty: [ nil ] ifNotEmpty: #first
 ]
 
 { #category : #accessing }
