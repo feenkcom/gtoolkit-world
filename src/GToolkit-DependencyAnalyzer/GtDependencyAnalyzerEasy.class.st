@@ -39,5 +39,7 @@ GtDependencyAnalyzerEasy class >> preloadedBaselines [
 		BaselineOfIceberg.
 		BaselineOfUI.
 		BaselineOfBasicTools.
-		BaselineOfRing }
+		BaselineOfRing.
+		BaselineOfEpicea.
+		BaselineOfGeneralTests }
 ]
