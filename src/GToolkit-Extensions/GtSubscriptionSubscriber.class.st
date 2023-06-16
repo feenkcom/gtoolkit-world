@@ -35,10 +35,12 @@ GtSubscriptionSubscriber >> announcementClass [
 ]
 
 { #category : #printing }
-GtSubscriptionSubscriber >> gtDisplayString [
-	^ self subscriber
-		ifNotNil: #gtDisplayString 
-		ifNil: [ super gtDisplayString ]
+GtSubscriptionSubscriber >> gtDisplayOn: aStream [
+	self subscriber ifNotNil: [ :aSubscriber |
+		aSubscriber gtDisplayOn: aStream.
+		^ self ].
+		
+	super gtDisplayOn: aStream.
 ]
 
 { #category : #'gt - extensions' }
