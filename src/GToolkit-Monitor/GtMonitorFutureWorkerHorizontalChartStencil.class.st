@@ -324,7 +324,7 @@ GtMonitorFutureWorkerHorizontalChartStencil >> startTimeComputation: anObject [
 { #category : #accessing }
 GtMonitorFutureWorkerHorizontalChartStencil >> styleBar: anElement execution: anObject [ 
 	^ anElement
-		geometry: BlStadium new;
+		geometry: BlStadiumGeometry new;
 		background: ((colorComputation cull: anObject) ifNil: [
 			self defaultBarColor ]) 
 ]
