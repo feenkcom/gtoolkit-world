@@ -42,14 +42,20 @@ AsyncFutureThreadPool >> gtWorkersFor: aView [
 							ifTrue: [ aLabel := aLabel asRopedText
 										foreground: BrGlamorousColors disabledButtonTextColor ] ].
 				aLabel ];
-		column: 'Tasks' text: [ :each | each key amountOfFutures ];
+		column: 'Tasks'
+			text: [ :each | 
+				| size |
+				size := each key amountOfFutures.
+				size isZero ifTrue: [ '' ] ifFalse: [ size ] ];
 		column: 'Pending'
 			text: [ :each | 
 				| size |
 				size := each key pendingQueueSize.
 				size isZero ifTrue: [ '' ] ifFalse: [ size ] ];
-		column: 'Busy' text: [ :each | each key isBusy ifFalse: [ '' ] ifTrue: [ 'true' ] ];
-		column: 'Running' text: [ :each | each key isRunning ifFalse: [ '' ] ifTrue: [ 'true' ] ];
+		column: 'Busy'
+			text: [ :each | each key isBusy ifFalse: [ '' ] ifTrue: [ 'true' ] ];
+		column: 'Running'
+			text: [ :each | each key isRunning ifFalse: [ '' ] ifTrue: [ 'true' ] ];
 		send: [ :each | each key ];
 		actionUpdateButton;
 		actionButtonIcon: BrGlamorousVectorIcons signal
