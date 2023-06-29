@@ -44,6 +44,6 @@ TAsyncStream >> gtLiveFor: aView [
 		priority: 5;
 		items: [ self asyncSimilarCopy ];
 		column: 'Number' text: [ :_ :anIndex | anIndex ] width: 50;
-		column: 'Name' text: #yourself;
+		column: 'Name' text: [ :each | each ];
 		actionUpdateButton
 ]
