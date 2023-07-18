@@ -1,6 +1,29 @@
 Extension { #name : #GtRlSystemExamplesExplorer }
 
 { #category : #'*GToolkit-Extensions' }
+GtRlSystemExamplesExplorer >> gtViewAllEditorExamplesFor: aView context: aPhlowContext [
+	<gtView>
+	| anExampleViewModel |
+	anExampleViewModel := GtPharoCoderUIUtility
+			exampleViewModelCachedAs: #exampleViewModelHandler_gtViewAllEditorExamplesFor
+			inPhlowContext: aPhlowContext.
+
+	^ aView explicit
+		title: 'All editor examples';
+		priority: 14;
+		stencil: [ | aCollection aGroup aGroupView anElement |
+			aGroup := self allEditorExamples.
+			aCollection := aGroup examples.
+			aGroupView := GtPhlowView empty on: aGroup perform: #gtExamplesFor:.
+			anElement := aGroupView asElement.
+			anElement userData at: #gtExamplesFor: put: aGroup.
+			anExampleViewModel pharoExampleSuite stream: aCollection asAsyncStream.
+			anElement ];
+		actionStencil: [ :aBrTab | GtPharoCoderUIUtility newExamplesDropdownButtonForViewModel: anExampleViewModel ];
+		actionUpdateButtonTooltip: 'Update example list'
+]
+
+{ #category : #'*GToolkit-Extensions' }
 GtRlSystemExamplesExplorer >> gtViewAllExamplesFor: aView context: aPhlowContext [
 	<gtView>
 	| anExampleViewModel |
