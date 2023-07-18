@@ -142,6 +142,17 @@ GtWorldElement >> knowledgeBase: aKnowledgeBase [
 		source: self)
 ]
 
+{ #category : #'private - insance creation' }
+GtWorldElement >> newActionItemsInto: anActionbar [
+	super newActionItemsInto: anActionbar.
+	anActionbar addItem: self newNotificationsBadge.
+	anActionbar addItem: self newSpotterButton.
+	anActionbar addItem: self newStatusButton.
+	GtImage isSyncEnabled
+		ifTrue: [ anActionbar addItem: self newSynchronizeButton ].
+	anActionbar addItem: self newSubSpaceButton
+]
+
 { #category : #'private - instance creation' }
 GtWorldElement >> newNotificationsBadge [
 	self 
