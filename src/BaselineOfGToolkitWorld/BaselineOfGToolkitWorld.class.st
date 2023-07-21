@@ -10,7 +10,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'GToolkitVirtualMachine' with: [
-				spec repository: 'github://feenkcom/gtoolkit-vm-bindings:v0.6.20/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-vm-bindings:v0.6.21/src' ].
 		spec
 			baseline: 'GToolkitClipboard' with: [
 				spec repository: 'github://feenkcom/gtoolkit-clipboard:v0.8.56/src' ].
