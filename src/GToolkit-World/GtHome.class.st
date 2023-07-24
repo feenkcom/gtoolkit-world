@@ -17,7 +17,7 @@ GtHome >> clearKnowledgeBase [
 
 { #category : #accessing }
 GtHome >> collectHomeSectionStencils [
-	^ GtHomeSectionsCollector new
+	^ self homeSectionCollector
 		fromObject: self;
 		collect
 ]
@@ -75,6 +75,13 @@ GtHome >> gtViewHomeSectionsFor: aView [
 	^ aView list 
 		title: 'Section stencils';
 		items: [ self collectHomeSectionStencils ]
+]
+
+{ #category : #accessing }
+GtHome >> homeSectionCollector [
+	| collectorAnnotation |
+	collectorAnnotation := GtHomeSectionCollectorClassAnnotation currentCollectorAnnotation .
+	^ collectorAnnotation annotatedClass new
 ]
 
 { #category : #initialization }

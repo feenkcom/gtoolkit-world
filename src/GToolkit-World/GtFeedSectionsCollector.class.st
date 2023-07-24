@@ -8,3 +8,11 @@ Class {
 GtFeedSectionsCollector class >> defaultHomeSectionPragmaName [
 	^ #gtFeedSection
 ]
+
+{ #category : #accessing }
+GtFeedSectionsCollector class >> homeSectionCollectorAnnotation [
+	<classAnnotation>
+	
+	^ GtHomeSectionCollectorClassAnnotation new 
+		disableAnnotation
+]

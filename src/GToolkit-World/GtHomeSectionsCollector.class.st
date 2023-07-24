@@ -9,6 +9,14 @@ GtHomeSectionsCollector class >> defaultHomeSectionPragmaName [
 	^ #gtHomeSection
 ]
 
+{ #category : #accessing }
+GtHomeSectionsCollector class >> homeSectionCollectorAnnotation [
+	<classAnnotation>
+	
+	^ GtHomeSectionCollectorClassAnnotation new 
+		priority: 55
+]
+
 { #category : #actions }
 GtHomeSectionsCollector >> collect [
 	<return: #Array of: #GtPhlowView>
