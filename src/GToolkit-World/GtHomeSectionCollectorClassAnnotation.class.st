@@ -29,3 +29,13 @@ GtHomeSectionCollectorClassAnnotation >> disableAnnotation [
 GtHomeSectionCollectorClassAnnotation >> isForbidden [
 	^ shouldDisableAnnotation ifNil: [ false ]
 ]
+
+{ #category : #accessing }
+GtHomeSectionCollectorClassAnnotation >> printOn: aStream [
+	super printOn: aStream.
+	aStream nextPut: $(.
+	annotatedClass printOn: aStream.
+	aStream nextPutAll: '; '.
+	declarationSelector printOn: aStream.
+	aStream nextPut: $).
+]
