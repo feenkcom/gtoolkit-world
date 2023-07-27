@@ -6,12 +6,12 @@ Class {
 
 { #category : #converting }
 GtCoderStencil >> asPreviewElement [
-	^ GtCoder new asElement
+	^ GtCoderElement new asElement
 ]
 
 { #category : #'api - instantiation' }
 GtCoderStencil >> create [
-	^ GtCoder new createInPager maximized.
+	^ GtCoderElement new createInPager maximized.
 ]
 
 { #category : #accessing }

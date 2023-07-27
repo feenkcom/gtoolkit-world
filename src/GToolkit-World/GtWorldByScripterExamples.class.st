@@ -128,7 +128,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 			aStep click
 				label: 'Expand the first method';
 				// (GtPagerPageElementId indexed: 2);
-				// GtCoder;
+				// GtCoderElement;
 				// (GtSourceCoderId indexed: 1);
 				play.
 				
@@ -136,7 +136,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 				label: 'Assert a method coder is expanded';
 				value: [ :anElement | anElement isExpanded ] equals: [ true ];
 				// (GtPagerPageElementId indexed: 2);
-				// GtCoder;
+				// GtCoderElement;
 				// (GtSourceCoderId indexed: 1);
 				play ].
 
@@ -195,7 +195,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 			aStep click
 				label: 'Collapse the first method';
 				// (GtPagerPageElementId indexed: 2);
-				// GtCoder;
+				// GtCoderElement;
 				// (GtSourceCoderId indexed: 1);
 				// #sidebar;
 				play.
@@ -204,7 +204,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 				label: 'Assert a method coder is collapsed';
 				value: [ :anElement | anElement isExpanded ] equals: [ false ];
 				// (GtPagerPageElementId indexed: 2);
-				// GtCoder;
+				// GtCoderElement;
 				// (GtSourceCoderId indexed: 1);
 				play ].
 
@@ -452,7 +452,7 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 		satisfies: [ :aMethodCoder | 
 			aScripter space root boundsInSpace 
 				containsRect: aMethodCoder boundsInSpace ];
-		// GtCoder;
+		// GtCoderElement;
 		// GtPharoStreamingMethodsCoderElement;
 		/ GtPharoStreamingMethodsCoderListId;
 		/ #scrollable;
@@ -467,7 +467,7 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 		satisfies: [ :aMethodCoder | 
 			aMethodCoder parent boundsInSpace
 				containsRect: aMethodCoder boundsInSpace ];
-		// GtCoder;
+		// GtCoderElement;
 		// GtPharoStreamingMethodsCoderElement;
 		/ GtPharoStreamingMethodsCoderListId;
 		/ #scrollable;
@@ -515,7 +515,7 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 				id: GtWorldTabGroupId;
 				onBreadthFirstChildOfClass: GtPager;
 				onChildFromBlock: [ :aPager | aPager pages second widget ];
-				onBreadthFirstChildOfClass: GtCoder;
+				onBreadthFirstChildOfClass: GtCoderElement;
 				play.
 
 			aStep check
@@ -570,7 +570,7 @@ GtWorldByScripterExamples >> selectPackageInCoder [
 						description: 'Scripter model must be a package, but is nil'.
 					aScripter userData at: #tabLabel put: anElement shortTitle asString ];
 				id: GtWorldTabGroupId;
-				onBreadthFirstChildOfClass: GtCoder;
+				onBreadthFirstChildOfClass: GtCoderElement;
 				play.
 
 			aStep check
@@ -599,7 +599,7 @@ GtWorldByScripterExamples >> setupExpectedTabLabel: aBlock at: aPaneIndex step: 
 		id: GtWorldTabGroupId;
 		onBreadthFirstChildOfClass: GtPager;
 		onChildFromBlock: [ :aPager | (aPager pages at: aPaneIndex) widget ];
-		onBreadthFirstChildOfClass: GtCoder;
+		onBreadthFirstChildOfClass: GtCoderElement;
 		play
 ]
 
