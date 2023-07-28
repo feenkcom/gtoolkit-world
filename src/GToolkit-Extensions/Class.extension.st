@@ -47,9 +47,17 @@ Class >> gtExamplesFor: aView context: aPhlowContext [
 	^ aView explicit
 		title: 'Examples';
 		priority: 20;
-		stencil: [ | aCollection aGroup aGroupView anElement |
-			aCollection := self gtExamplesAll
-					collect: [ :eachExample | eachExample asCachedExampleWithResult ].
+		stencil: [ 
+			| aCollection aGroup aGroupView anElement |
+			
+			"If it is an abstract class, collect examples of its subclasses."
+			aCollection := self isAbstract
+				ifTrue: [ (self allSubclasses reject: #isAbstract)
+					flatCollect: #gtExamplesAll ]
+				ifFalse: [ self gtExamplesAll ].
+				
+			aCollection := aCollection collect: #asCachedExampleWithResult.
+			
 			aGroup := GtExampleGroup withAll: aCollection.
 			aGroupView := GtPhlowView empty on: aGroup perform: #gtExamplesFor:.
 			anElement := aGroupView asElement.
@@ -70,8 +78,18 @@ Class >> gtExamplesMapFor: aView context: aPhlowContext [
 	^ aView forward
 		title: 'Examples map';
 		priority: 11;
-		object: [ GtExampleGroup
-				withAll: (self gtExamplesAll collect: #asCachedExampleWithResult) ];
+		object: [ 
+			| aCollection |
+			
+			"If it is an abstract class, collect examples of its subclasses."
+			aCollection := self isAbstract
+				ifTrue: [ (self allSubclasses reject: #isAbstract)
+					flatCollect: #gtExamplesAll ]
+				ifFalse: [ self gtExamplesAll ].
+				
+			aCollection := aCollection collect: #asCachedExampleWithResult.
+		
+			GtExampleGroup withAll: aCollection ];
 		view: #gtMapFor:;
 		addAutoUpdate: GtPhlowUpdateViewOnAddedToScene
 ]
