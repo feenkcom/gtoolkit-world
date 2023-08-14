@@ -16,7 +16,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				spec repository: 'github://feenkcom/gtoolkit-clipboard:v0.8.56/src' ].
 		spec
 			baseline: 'GToolkitDebugger' with: [
-				spec repository: 'github://feenkcom/gtoolkit-debugger:v0.8.1777/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-debugger:v0.8.1778/src' ].
 		spec
 			baseline: 'GToolkitFileBrowser' with: [
 				spec repository: 'github://feenkcom/gtoolkit-filebrowser:v0.6.1334/src' ].
