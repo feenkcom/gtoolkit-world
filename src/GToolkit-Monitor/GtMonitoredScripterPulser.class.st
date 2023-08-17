@@ -19,6 +19,16 @@ GtMonitoredScripterPulser >> pulser: aBlDevScripterPulseUntilReady [
 ]
 
 { #category : #accessing }
+GtMonitoredScripterPulser >> startTime [
+	<return: #Duration or: nil>
+	| aPulser |
+	
+	aPulser := self pulser ifNil: [ ^ nil ].
+	
+	^ aPulser startTime
+]
+
+{ #category : #accessing }
 GtMonitoredScripterPulser >> status [
 	<return: #BlText>
 	| aPulser |
