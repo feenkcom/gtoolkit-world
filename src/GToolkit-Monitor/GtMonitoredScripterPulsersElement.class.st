@@ -52,7 +52,23 @@ GtMonitoredScripterPulsersElement >> initialize [
 			BrLabel new
 				aptitude: BrGlamorousLabelAptitude;
 				text: aTitle;
-				hMatchParent ].
+				hMatchParent ];
+		width: 100.
+				
+	pulserList column
+		title: 'Since';
+		stencil: [ :aMonitoredPulser |
+			| aText |
+			
+			aText := aMonitoredPulser startTime
+				ifNil: [ '~Garbage collected~' asRopedText italic foreground: Color gray ]
+				ifNotNil: [ :aTime | 'Started {1} ago' format: { (DateAndTime now - aTime) gtHumanReadableString } ].
+			
+			BrLabel new
+				aptitude: BrGlamorousLabelAptitude;
+				text: aText;
+				hMatchParent ];
+		width: 150.
 				
 	self addChild: pulserList.
 	
