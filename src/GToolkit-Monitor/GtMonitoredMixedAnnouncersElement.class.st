@@ -30,9 +30,10 @@ GtMonitoredMixedAnnouncersElement class >> hasMultipleSubscriptionTypesFor: anAn
 
 { #category : #private }
 GtMonitoredMixedAnnouncersElement class >> hasSubscriptionWithNonWeakActionTypesFor: anAnnouncer [
-	^ (anAnnouncer subscriptions subscriptions select: [:each | 
+	^ (anAnnouncer subscriptions subscriptions select: [ :each | 
 			(each isKindOf: WeakAnnouncementSubscription) and: [
-				(each action isKindOf: WeakMessageSend) not ] ]) size > 0
+				((each action isKindOf: WeakMessageSend) or: [
+					each action isKindOf: BrColumnWidthChangeAction]) not ] ]) size > 0
 ]
 
 { #category : #'instance creation' }
