@@ -8,6 +8,86 @@ Class {
 }
 
 { #category : #accessing }
+GtMonitoredScripterPulser >> allPathsTo [
+	Smalltalk garbageCollectMost.
+
+	^ self pulser
+		ifNotNil: [ :aPulser | (ReferenceFinder findAllPathsTo: aPulser) sorted: [ :a :b | a size < b size ] ]
+		ifNil: [ {  } ]
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtAllPathsToFor: aView [
+	<gtView>
+	
+	^ aView columnedList
+		title: 'All paths';
+		priority: 12;
+		items: [ self allPathsTo ];
+		column: 'Paths from Smalltalk' 
+			text: [ :anObject | anObject gtDisplayText ];
+		column: 'Length' 
+			text: [ :anObject | anObject size ]
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtPathToFor: aView [
+	<gtView>
+	
+	^ aView columnedList
+		title: 'Path';
+		priority: 11;
+		items: [ self pathTo ];
+		column: 'Path from Smalltalk' 
+			text: [ :anObject | anObject gtDisplayText ]
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtPointersFor: aView [
+	<gtView>
+	
+	^ aView columnedList
+		title: 'Pointers';
+		priority: 10;
+		items: [ self pointers ];
+		column: 'Pointers' 
+			text: [ :anObject | anObject gtDisplayText ]
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtScripterSpacePreview: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Preview';
+		priority: 1;
+		stencil: [ self pulser
+				ifNotNil: [ :aPulser | aPulser scripter gtSpacePreview ]
+				ifNil: [ BlElement new ] ];
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			label: 'Scripter'
+			tooltip: 'Inspect scripter'
+			action: [ :aButton | self pulser ifNotNil: [ :aPulser | aButton phlow spawnObject: aPulser scripter ] ]
+]
+
+{ #category : #accessing }
+GtMonitoredScripterPulser >> pathTo [
+	Smalltalk garbageCollectMost.
+
+	^ self pulser
+		ifNotNil: [ :aPulser |  ReferenceFinder findPathTo: aPulser ]
+		ifNil: [ {  } ]
+]
+
+{ #category : #accessing }
+GtMonitoredScripterPulser >> pointers [
+	Smalltalk garbageCollectMost.
+
+	^ self pulser
+		ifNotNil: [ :aPulser | aPulser pointersTo reject: [ :eachObject | eachObject isKindOf: WeakArray ] ]
+		ifNil: [ {  } ]
+]
+
+{ #category : #accessing }
 GtMonitoredScripterPulser >> pulser [
 	<return: #BlDevScripterPulseUntilReady or: nil>
 	^ pulser at: 1
