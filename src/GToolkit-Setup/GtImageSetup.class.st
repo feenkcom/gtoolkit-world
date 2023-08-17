@@ -25,13 +25,13 @@ GtImageSetup class >> cleanUpChangeSets [
 GtImageSetup class >> cleanUpImageAfterLoad [
 	self cleanUpMonticelloCaches.
 	self cleanUpChangeSets.
-	
+
 	Smalltalk organization sortCategories.
-	3 timesRepeat: [ 
-		Smalltalk garbageCollect.
-	 	Symbol compactSymbolTable ].
-	
-	Smalltalk garbageCollect.
+	3
+		timesRepeat: [ Smalltalk garbageCollect.
+			Symbol rehash ].
+
+	Smalltalk garbageCollect
 ]
 
 { #category : #actions }
