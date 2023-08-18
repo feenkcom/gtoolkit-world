@@ -1,8 +1,8 @@
 Extension { #name : #AssertionFailure }
 
 { #category : #'*GToolkit-Extensions' }
-AssertionFailure >> gtDebuggingViewConfiguration [
-	^ super gtDebuggingViewConfiguration
+AssertionFailure >> gtDebuggingExtensionConfiguration [
+	^ super gtDebuggingExtensionConfiguration
 		enableDebuggingViewExtension: [ self gtIsStringComparison ] 
 ]
 
