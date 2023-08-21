@@ -14,6 +14,18 @@ GtMonitoredScripterPulsersElement class >> allScripterPulsers [
 			GtMonitoredScripterPulser new pulser: anInstance ]
 ]
 
+{ #category : #accessing }
+GtMonitoredScripterPulsersElement class >> allScripters [
+	| allPulsers |
+	allPulsers := self allScripterPulsers.
+
+	^ BlScripter allSubInstances 
+		collect: [ :anInstance |
+			GtMonitoredScripter new 
+				scripter: anInstance;
+				pulsers: (allPulsers select: [ :each | each scripter == anInstance ]) ]
+]
+
 { #category : #initialization }
 GtMonitoredScripterPulsersElement >> initialize [
 	super initialize.
@@ -22,18 +34,19 @@ GtMonitoredScripterPulsersElement >> initialize [
 		c horizontal matchParent.
 		c vertical matchParent ].
 		
-	pulserList := BrColumnedList new.
-	pulserList addEventHandler: (GtPhlowListToSelectHandler new).
-	pulserList rowStencil: (BrGlamorousColumnedListSelectableRowElementStencilBuilder new
+	pulserList := BrColumnedTree new.
+	pulserList addEventHandler: (GtPhlowListToSelectHandler new
+				transformation: [ :variableNode | variableNode value ]).
+	pulserList rowStencil: (BrGlamorousColumnedTreeSelectableRowElementStencilBuilder new
 		cellSpacing: 10;
 		padding: (BlInsets top: 4 bottom: 4)).
 		
 	pulserList column
-		title: 'Method';
-		stencil: [ :aMonitoredPulser |
+		title: 'Title';
+		stencil: [ :aNode |
 			| aTitle |
 			
-			aTitle := aMonitoredPulser title
+			aTitle := aNode title
 				ifEmpty: [ '~Garbage collected~' asRopedText italic foreground: Color gray ].
 			
 			BrLabel new
@@ -43,10 +56,10 @@ GtMonitoredScripterPulsersElement >> initialize [
 				
 	pulserList column
 		title: 'Status';
-		stencil: [ :aMonitoredPulser |
+		stencil: [ :aNode |
 			| aTitle |
 			
-			aTitle := aMonitoredPulser status
+			aTitle := aNode status
 				ifEmpty: [ '~Garbage collected~' asRopedText italic foreground: Color gray ].
 			
 			BrLabel new
@@ -57,10 +70,10 @@ GtMonitoredScripterPulsersElement >> initialize [
 				
 	pulserList column
 		title: 'Since';
-		stencil: [ :aMonitoredPulser |
+		stencil: [ :aNode |
 			| aText |
 			
-			aText := aMonitoredPulser startTime
+			aText := aNode startTime
 				ifNil: [ '~Garbage collected~' asRopedText italic foreground: Color gray ]
 				ifNotNil: [ :aTime | 'Started {1} ago' format: { (DateAndTime now - aTime) gtHumanReadableString } ].
 			
@@ -77,5 +90,8 @@ GtMonitoredScripterPulsersElement >> initialize [
 
 { #category : #updating }
 GtMonitoredScripterPulsersElement >> updateList [
-	pulserList items: self class allScripterPulsers
+	pulserList
+		items: self class allScripters
+		immediate: [ :aNode | aNode children ].
+	pulserList expandUpTo: 2.
 ]
