@@ -16,6 +16,11 @@ GtMonitoredScripterPulser >> allPathsTo [
 		ifNil: [ {  } ]
 ]
 
+{ #category : #accessing }
+GtMonitoredScripterPulser >> children [
+	^ #()
+]
+
 { #category : #'gt-extension' }
 GtMonitoredScripterPulser >> gtAllPathsToFor: aView [
 	<gtView>
@@ -96,6 +101,12 @@ GtMonitoredScripterPulser >> pulser [
 { #category : #accessing }
 GtMonitoredScripterPulser >> pulser: aBlDevScripterPulseUntilReady [
 	pulser := aBlDevScripterPulseUntilReady asWeakReference
+]
+
+{ #category : #accessing }
+GtMonitoredScripterPulser >> scripter [
+	<return: #BlScripter or: nil>
+	^ self pulser ifNotNil: #scripter
 ]
 
 { #category : #accessing }
