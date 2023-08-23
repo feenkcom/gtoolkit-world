@@ -10,13 +10,6 @@ GtHomeGetStartedSection >> create [
 	sectionContainer := self newSectionContainer.
 	sectionContainer addChild: (self newSectionTitle: 'Get started').
 	cardsContainer := self newCardsContainer.
-
-	"cardsContainer
-		addChild: (self
-				newShowCardWithTitle: 'Tour'
-				slideshow: [ GtPresenterSlideShow create: GtTour new ]
-				description: 'Take an interactive tour through the environment.')."
-
 	cardsContainer
 		addChild: (self
 				newLepiterPageCardForPageNamed: 'Glamorous Toolkit'

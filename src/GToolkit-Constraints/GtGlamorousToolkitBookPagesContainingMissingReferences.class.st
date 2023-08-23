@@ -96,7 +96,7 @@ GtGlamorousToolkitBookPagesContainingMissingReferences >> name [
 
 { #category : #accessing }
 GtGlamorousToolkitBookPagesContainingMissingReferences >> nameOfPageWithAllowedFailures [
-	^ 'Pages Containing Missing References - Allowed Failures'
+	^ 'Pages containing missing references - allowed failures'
 ]
 
 { #category : #testing }
