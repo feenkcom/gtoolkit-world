@@ -2,7 +2,10 @@ Class {
 	#name : #GtWorldPagerPagePreview,
 	#superclass : #Object,
 	#instVars : [
-		'page'
+		'page',
+		'pageIndex',
+		'tabSpace',
+		'pager'
 	],
 	#category : #'GToolkit-World-UI - Preview '
 }
@@ -27,9 +30,30 @@ GtWorldPagerPagePreview >> page: aPage [
 ]
 
 { #category : #accessing }
+GtWorldPagerPagePreview >> pageIndex: index [ 
+	pageIndex := index
+]
+
+{ #category : #accessing }
 GtWorldPagerPagePreview >> pagePreviewScaled: aScale [
 	^ BlExporter form
 		element: page widget;
 		scaled: aScale;
 		export
+]
+
+{ #category : #accessing }
+GtWorldPagerPagePreview >> pager: aPager [ 
+	pager := aPager.
+]
+
+{ #category : #accessing }
+GtWorldPagerPagePreview >> select [
+	tabSpace select.
+	pager scrollTo: pageIndex
+]
+
+{ #category : #accessing }
+GtWorldPagerPagePreview >> tabSpace: aTabSpace [ 
+	tabSpace := aTabSpace
 ]
