@@ -32,10 +32,10 @@ GtWorldTabPreview >> asElement [
 					anElement
 						removeChildren;
 						addChild: ((aPreview pagePreviewScaled: 0.3) asElement
-								when: BlClickEvent
-								do: [ :e | 
-									e target phlow spawnObject: aPreview.
-									aPreview select ]) ];
+								aptitude: (BrStyleCommonAptitude new
+										default: [ :f | f border: Color transparent ];
+										hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
+								when: BlClickEvent do: [ :e | aPreview select ]) ];
 				items: pagePreviews ]
 		ifFalse: [  ]
 ]
