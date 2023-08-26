@@ -222,6 +222,11 @@ GtWorld >> showSpace: aSpace [
 	worldElement showSpace: aSpace
 ]
 
+{ #category : #'as yet unclassified' }
+GtWorld >> tabGroup [
+	^ worldElement children first
+]
+
 { #category : #initialization }
 GtWorld >> withWorldCloseEventHandler [
 	self addEventHandler: GtWorldCloseEventHandler new
