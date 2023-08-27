@@ -2,22 +2,22 @@ Class {
 	#name : #GtWorldPreviewerSelectPagerPageWish,
 	#superclass : #BrWish,
 	#instVars : [
-		'worldTabPreview'
+		'pagerPagePreview'
 	],
 	#category : #'GToolkit-World-UI - Preview'
 }
 
 { #category : #accessing }
+GtWorldPreviewerSelectPagerPageWish >> pagerPagePreview [
+	^ pagerPagePreview
+]
+
+{ #category : #accessing }
+GtWorldPreviewerSelectPagerPageWish >> pagerPagePreview: aPreview [ 
+	pagerPagePreview := aPreview
+]
+
+{ #category : #accessing }
 GtWorldPreviewerSelectPagerPageWish >> sendTo: anObject [
-	anObject previewerSelectEvent: self
-]
-
-{ #category : #accessing }
-GtWorldPreviewerSelectPagerPageWish >> worldTabPreview [
-	^ worldTabPreview
-]
-
-{ #category : #accessing }
-GtWorldPreviewerSelectPagerPageWish >> worldTabPreview: aPreview [ 
-	worldTabPreview := aPreview
+	anObject previewerSelectPagerPageEvent: self
 ]

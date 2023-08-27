@@ -37,19 +37,15 @@ GtWorldPreviewerTab >> asElement [
 										removeChildren;
 										addChild: aPagePreview asElement ]) ];
 				items: pagePreviews ]
-		ifFalse: [ | container |
+		ifFalse: [ | container tabSpacePreview |
 			container := BrVerticalPane new
 					fitContent;
 					margin: (BlInsets all: 10);
 					background: Color white;
 					addAptitude: BrShadowAptitude.
+			tabSpacePreview := GtWorldPreviewerTabSpace new tabSpace: tabSpace.
 			container
-				enqueueTask: (BlTaskAction new
-						action: [ container
-								addChild: (BlExporter form
-										element: tabSpace model root;
-										scaled: 0.3;
-										export) asElement ]) ]
+				enqueueTask: (BlTaskAction new action: [ container addChild: tabSpacePreview asElement ]) ]
 ]
 
 { #category : #accessing }

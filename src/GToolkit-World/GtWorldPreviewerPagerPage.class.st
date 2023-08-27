@@ -12,7 +12,25 @@ Class {
 
 { #category : #accessing }
 GtWorldPreviewerPagerPage >> asElement [
-	^ (self pagePreviewElementScaled: 0.3)
+	^ (self asElementScaled: 0.3)
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> asElementScaled: aScale [
+	| form |
+	form := BlExporter form
+			element: page widget;
+			scaled: aScale;
+			export.
+	^ form asElement
+			aptitude: (BrStyleCommonAptitude new
+					default: [ :f | f border: Color transparent ];
+					hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
+			when: BlClickEvent
+				do: [ :e | 
+					e consumed: true.
+					e target
+						fireEvent: (GtWorldPreviewerSelectPagerPageWish new pagerPagePreview: self) ]
 ]
 
 { #category : #accessing }
@@ -37,24 +55,6 @@ GtWorldPreviewerPagerPage >> page: aPage [
 { #category : #accessing }
 GtWorldPreviewerPagerPage >> pageIndex: index [ 
 	pageIndex := index
-]
-
-{ #category : #accessing }
-GtWorldPreviewerPagerPage >> pagePreviewElementScaled: aScale [
-	| form |
-	form := BlExporter form
-			element: page widget;
-			scaled: aScale;
-			export.
-	^ form asElement
-			aptitude: (BrStyleCommonAptitude new
-					default: [ :f | f border: Color transparent ];
-					hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
-			when: BlClickEvent
-				do: [ :e | 
-					e consumed: true.
-					e target
-						fireEvent: (GtWorldPreviewerSelectPagerPageWish new worldTabPreview: self) ]
 ]
 
 { #category : #accessing }

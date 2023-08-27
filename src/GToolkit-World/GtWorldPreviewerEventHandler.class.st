@@ -12,13 +12,21 @@ GtWorldPreviewerEventHandler >> eventsToHandle [
 	^ {
 		GtWorldPreviewerSelectPagerPageWish.
 		GtWorldPreviewerShowWish.
+		GtWorldPreviewerSelectSpaceTabWish
 	}
 ]
 
 { #category : #accessing }
-GtWorldPreviewerEventHandler >> previewerSelectEvent: aPreviewerEvent [
+GtWorldPreviewerEventHandler >> previewerSelectPagerPageEvent: aPreviewerEvent [
 	aPreviewerEvent consumed: true.
-	aPreviewerEvent worldTabPreview select.
+	aPreviewerEvent pagerPagePreview select.
+	self removePreviewerOverlay
+]
+
+{ #category : #accessing }
+GtWorldPreviewerEventHandler >> previewerSelectSpaceTabEvent: aPreviewerEvent [
+	aPreviewerEvent consumed: true.
+	aPreviewerEvent spaceTabPreview select.
 	self removePreviewerOverlay
 ]
 
