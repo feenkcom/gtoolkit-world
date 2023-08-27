@@ -1,14 +1,15 @@
 Class {
-	#name : #GtWorldPreview,
+	#name : #GtWorldPreviewer,
 	#superclass : #Object,
 	#instVars : [
-		'world'
+		'world',
+		'worldElement'
 	],
 	#category : #'GToolkit-World-UI - Preview'
 }
 
 { #category : #accessing }
-GtWorldPreview >> asElement [
+GtWorldPreviewer >> asElement [
 	^ BrSimpleList vertical matchParent
 		itemStencil: [ BrVerticalPane new
 				padding: (BlInsets all: 10);
@@ -17,15 +18,15 @@ GtWorldPreview >> asElement [
 		itemDataBinder: [ :anElement :aPreview :anIndex | 
 			anElement
 				removeChildren;
-				addChild: (BrLabel new text: aPreview tabLabel; aptitude: (BrGlamorousLabelAptitude new foreground: Color gray));
-				addChild: (aPreview asElement
-						when: BlClickEvent
-						do: [ :e | e target phlow spawnObject: aPreview ]) ];
+				addChild: (BrLabel new
+						text: aPreview tabLabel;
+						aptitude: (BrGlamorousLabelAptitude new foreground: Color gray));
+				addChild: aPreview asElement ];
 		items: self worldTabs
 ]
 
 { #category : #accessing }
-GtWorldPreview >> gtLiveFor: aView [
+GtWorldPreviewer >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit 
 		title: 'Preview';
@@ -33,7 +34,7 @@ GtWorldPreview >> gtLiveFor: aView [
 ]
 
 { #category : #accessing }
-GtWorldPreview >> gtTabsFor: aView [
+GtWorldPreviewer >> gtTabsFor: aView [
 	<gtView>
 	^ aView list 
 		title: 'Tabs';
@@ -41,14 +42,19 @@ GtWorldPreview >> gtTabsFor: aView [
 ]
 
 { #category : #accessing }
-GtWorldPreview >> world: aWorld [
-	world := aWorld
+GtWorldPreviewer >> world: aWorld [
+	worldElement := aWorld root children first.
 ]
 
 { #category : #accessing }
-GtWorldPreview >> worldTabs [
+GtWorldPreviewer >> worldElement: aWorldElement [
+	worldElement := aWorldElement
+]
+
+{ #category : #accessing }
+GtWorldPreviewer >> worldTabs [
 	| tabs |
-	tabs := world tabGroup viewModel tabs.
+	tabs := worldElement children first viewModel tabs.
 	^ (tabs reject: [ :eachTabSpace | eachTabSpace tabLabel text asString = 'Home' ])
 		collect: [ :eachTabSpace | GtWorldTabPreview new tabSpace: eachTabSpace ]
 ]

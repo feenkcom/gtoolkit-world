@@ -35,7 +35,11 @@ GtWorldTabPreview >> asElement [
 								aptitude: (BrStyleCommonAptitude new
 										default: [ :f | f border: Color transparent ];
 										hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
-								when: BlClickEvent do: [ :e | aPreview select ]) ];
+								when: BlClickEvent
+									do: [ :e | 
+										e consumed: true.
+										e target
+											fireEvent: (GtWorldPreviewerSelectWish new worldTabPreview: aPreview) ]) ];
 				items: pagePreviews ]
 		ifFalse: [  ]
 ]
