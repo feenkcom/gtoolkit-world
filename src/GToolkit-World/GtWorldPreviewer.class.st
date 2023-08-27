@@ -14,6 +14,7 @@ GtWorldPreviewer >> asElement [
 	container := BrVerticalPane new.
 	container
 		background: Color white;
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		addAptitude: BrShadowAptitude new beLarge;
 		margin: (BlInsets all: 100);
 		constraintsDo: [ :c | 
@@ -22,20 +23,23 @@ GtWorldPreviewer >> asElement [
 	container
 		addChild: (BrLabel new
 				text: 'Preview of all tabs and pager pages. Select to navigate.';
-				margin: (BlInsets all: 20);
+				margin: (BlInsets top: 10 left: 20 bottom: 10 right: 10);
 				aptitude: (BrGlamorousLabelAptitude new
-						fontSize: 20;
 						foreground: Color gray)).
 	list := BrSimpleList vertical matchParent
 			itemStencil: [ BrVerticalPane new
-					padding: (BlInsets all: 10);
+					margin: (BlInsets
+							top: 20
+							left: 10
+							bottom: 10
+							right: 10);
 					hMatchParent;
 					vFitContentLimited ];
 			itemDataBinder: [ :anElement :aPreview :anIndex | 
 				anElement
 					removeChildren;
 					addChild: (BrLabel new
-							text: aPreview tabLabel;
+							text: 'Tab: ', aPreview tabLabel;
 							margin: (BlInsets left: 10);
 							aptitude: (BrGlamorousLabelAptitude new foreground: Color gray));
 					addChild: aPreview asElement ];

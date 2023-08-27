@@ -37,7 +37,7 @@ GtWorldPreviewerEventHandler >> previewerShowEvent: aPreviewerShowWish [
 	previewerOverlay ifNotNil: [ ^ self ].
 	worldElement := aPreviewerShowWish currentTarget.
 	previewerOverlay := BrVerticalPane new
-			background: (Color veryLightGray alpha: 0.3);
+			background: (Color gray alpha: 0.2);
 			zIndex: 100;
 			constraintsDo: [ :c | 
 				c ignoreByLayout.
