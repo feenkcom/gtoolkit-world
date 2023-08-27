@@ -56,5 +56,5 @@ GtWorldPreviewer >> worldTabs [
 	| tabs |
 	tabs := worldElement children first viewModel tabs.
 	^ (tabs reject: [ :eachTabSpace | eachTabSpace tabLabel text asString = 'Home' ])
-		collect: [ :eachTabSpace | GtWorldTabPreview new tabSpace: eachTabSpace ]
+		collect: [ :eachTabSpace | GtWorldPreviewerTab new tabSpace: eachTabSpace ]
 ]

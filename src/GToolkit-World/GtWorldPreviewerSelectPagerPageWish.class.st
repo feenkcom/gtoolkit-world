@@ -1,5 +1,5 @@
 Class {
-	#name : #GtWorldPreviewerSelectWish,
+	#name : #GtWorldPreviewerSelectPagerPageWish,
 	#superclass : #BrWish,
 	#instVars : [
 		'worldTabPreview'
@@ -8,16 +8,16 @@ Class {
 }
 
 { #category : #accessing }
-GtWorldPreviewerSelectWish >> sendTo: anObject [
+GtWorldPreviewerSelectPagerPageWish >> sendTo: anObject [
 	anObject previewerSelectEvent: self
 ]
 
 { #category : #accessing }
-GtWorldPreviewerSelectWish >> worldTabPreview [
+GtWorldPreviewerSelectPagerPageWish >> worldTabPreview [
 	^ worldTabPreview
 ]
 
 { #category : #accessing }
-GtWorldPreviewerSelectWish >> worldTabPreview: aPreview [ 
+GtWorldPreviewerSelectPagerPageWish >> worldTabPreview: aPreview [ 
 	worldTabPreview := aPreview
 ]

@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 GtWorldPreviewerEventHandler >> eventsToHandle [
 	^ {
-		GtWorldPreviewerSelectWish.
+		GtWorldPreviewerSelectPagerPageWish.
 		GtWorldPreviewerShowWish.
 	}
 ]
