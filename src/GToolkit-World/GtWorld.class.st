@@ -167,6 +167,7 @@ GtWorld >> initialize [
 	self root addChild: worldElement.
 
 	self withSceneDriller.
+	self withWorldPreviewer.
 	self withScreenshotHandler.
 	self withGlamorousFullscreenMaxizimerHost.
 	self withWorldCloseEventHandler
@@ -230,4 +231,15 @@ GtWorld >> tabGroup [
 { #category : #initialization }
 GtWorld >> withWorldCloseEventHandler [
 	self addEventHandler: GtWorldCloseEventHandler new
+]
+
+{ #category : #'*GToolkit-World' }
+GtWorld >> withWorldPreviewer [
+	worldElement
+		addShortcut: (BlShortcutWithAction new
+				name: 'Open Previewer';
+				repeatable: false;
+				combination: BlKeyCombination builder primary shift t build;
+				action: [ worldElement fireEvent: GtWorldPreviewerShowWish new ]).
+	worldElement addEventHandler: GtWorldPreviewerEventHandler new
 ]
