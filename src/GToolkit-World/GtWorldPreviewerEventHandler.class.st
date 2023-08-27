@@ -1,6 +1,9 @@
 Class {
 	#name : #GtWorldPreviewerEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'previewerOverlay'
+	],
 	#category : #'GToolkit-World-UI - Preview'
 }
 
@@ -9,25 +12,23 @@ GtWorldPreviewerEventHandler >> eventsToHandle [
 	^ {
 		GtWorldPreviewerSelectWish.
 		GtWorldPreviewerShowWish.
-		"BlKeyDownEvent.
-		BlKeyUpEvent.
-		BlMouseMoveEvent.
-		BlClickEvent"
 	}
 ]
 
 { #category : #accessing }
 GtWorldPreviewerEventHandler >> previewerSelectEvent: aPreviewerEvent [
 	aPreviewerEvent consumed: true.
-	aPreviewerEvent worldTabPreview select
+	aPreviewerEvent worldTabPreview select.
+	self removePreviewerOverlay
 ]
 
 { #category : #accessing }
 GtWorldPreviewerEventHandler >> previewerShowEvent: aPreviewerShowWish [
-	| previewOverlay preview worldElement |
+	| preview worldElement |
 	aPreviewerShowWish consumed: true.
+	previewerOverlay ifNotNil: [ ^ self ].
 	worldElement := aPreviewerShowWish currentTarget.
-	previewOverlay := BrVerticalPane new
+	previewerOverlay := BrVerticalPane new
 			background: (Color veryLightGray alpha: 0.3);
 			zIndex: 100;
 			constraintsDo: [ :c | 
@@ -36,7 +37,7 @@ GtWorldPreviewerEventHandler >> previewerShowEvent: aPreviewerShowWish [
 				c vertical matchParent ];
 			when: BlClickEvent
 				do: [ :e | 
-					aPreviewerShowWish currentTarget removeChild: previewOverlay.
+					self removePreviewerOverlay.
 					e consumed: true ].
 	preview := (GtWorldPreviewer new worldElement: worldElement) asElement.
 	preview
@@ -47,6 +48,12 @@ GtWorldPreviewerEventHandler >> previewerShowEvent: aPreviewerShowWish [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
-	previewOverlay addChild: preview.
-	worldElement addChild: previewOverlay
+	previewerOverlay addChild: preview.
+	worldElement addChild: previewerOverlay
+]
+
+{ #category : #accessing }
+GtWorldPreviewerEventHandler >> removePreviewerOverlay [
+	previewerOverlay removeFromParent.
+	previewerOverlay := nil
 ]
