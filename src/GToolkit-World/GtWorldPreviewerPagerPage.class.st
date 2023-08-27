@@ -1,0 +1,74 @@
+Class {
+	#name : #GtWorldPreviewerPagerPage,
+	#superclass : #Object,
+	#instVars : [
+		'page',
+		'pageIndex',
+		'tabSpace',
+		'pager'
+	],
+	#category : #'GToolkit-World-UI - Preview'
+}
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> asElement [
+	^ (self pagePreviewElementScaled: 0.3)
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> gtPreviewFor: aView [
+	<gtView>
+	^ aView forward 
+		title: 'Preview';
+		object: [ page widget ];
+		view: #gtPreviewFor:
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> page [ 
+	^ page
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> page: aPage [ 
+	page := aPage
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> pageIndex: index [ 
+	pageIndex := index
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> pagePreviewElementScaled: aScale [
+	| form |
+	form := BlExporter form
+			element: page widget;
+			scaled: aScale;
+			export.
+	^ form asElement
+			aptitude: (BrStyleCommonAptitude new
+					default: [ :f | f border: Color transparent ];
+					hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
+			when: BlClickEvent
+				do: [ :e | 
+					e consumed: true.
+					e target
+						fireEvent: (GtWorldPreviewerSelectPagerPageWish new worldTabPreview: self) ]
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> pager: aPager [ 
+	pager := aPager.
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> select [
+	tabSpace select.
+	pager scrollTo: pageIndex
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> tabSpace: aTabSpace [ 
+	tabSpace := aTabSpace
+]
