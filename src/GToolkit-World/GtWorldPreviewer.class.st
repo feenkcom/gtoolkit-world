@@ -10,19 +10,42 @@ Class {
 
 { #category : #accessing }
 GtWorldPreviewer >> asElement [
-	^ BrSimpleList vertical matchParent
-		itemStencil: [ BrVerticalPane new
-				padding: (BlInsets all: 10);
-				hMatchParent;
-				vFitContentLimited ];
-		itemDataBinder: [ :anElement :aPreview :anIndex | 
-			anElement
-				removeChildren;
-				addChild: (BrLabel new
-						text: aPreview tabLabel;
-						aptitude: (BrGlamorousLabelAptitude new foreground: Color gray));
-				addChild: aPreview asElement ];
-		items: self worldTabs
+	| container list |
+	container := BrVerticalPane new.
+	container
+		background: Color white;
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		addAptitude: BrShadowAptitude new beLarge;
+		margin: (BlInsets all: 100);
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	container
+		addChild: (BrLabel new
+				text: 'Preview of all tabs and pager pages. Select to navigate.';
+				margin: (BlInsets top: 10 left: 20 bottom: 10 right: 10);
+				aptitude: (BrGlamorousLabelAptitude new
+						foreground: Color gray)).
+	list := BrSimpleList vertical matchParent
+			itemStencil: [ BrVerticalPane new
+					margin: (BlInsets
+							top: 20
+							left: 10
+							bottom: 10
+							right: 10);
+					hMatchParent;
+					vFitContentLimited ];
+			itemDataBinder: [ :anElement :aPreview :anIndex | 
+				anElement
+					removeChildren;
+					addChild: (BrLabel new
+							text: 'Tab: ', aPreview tabLabel;
+							margin: (BlInsets left: 10);
+							aptitude: (BrGlamorousLabelAptitude new foreground: Color gray));
+					addChild: aPreview asElement ];
+			items: self worldTabs.
+	container addChild: list.
+	^ container
 ]
 
 { #category : #accessing }
