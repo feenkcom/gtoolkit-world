@@ -22,39 +22,35 @@ AssertionFailure >> gtIsStringComparison [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-AssertionFailure >> gtTwoPanesStringDiffFor: aView [
-	<gtView>
-	<gtExceptionDebuggingView>
+AssertionFailure >> gtLocateAssertEqualsContextWithComparableTypes [
 	| assertionContext anActual anExpected |
-	self gtHasStack ifFalse: [ ^ aView empty ].
-	
 	assertionContext := self signalerContext findContextSuchThat: [ :ctx | 
 		   (ctx hasTemporaryVariableNamed: #actual) and: [ 
 			   ctx hasTemporaryVariableNamed: #expected ] ].
-	assertionContext ifNil: [ ^ aView empty ].
+	assertionContext ifNil: [ ^ nil ].
 	
 	anActual := assertionContext readVariableNamed: #actual.
 	anExpected := assertionContext readVariableNamed: #expected.
-	anActual isString ifFalse: [ ^ aView empty ].
-	anExpected isString ifFalse: [ ^ aView empty ].
+	anActual isString ifFalse: [ ^ nil ].
+	anExpected isString ifFalse: [ ^ nil ].
+	
+	^ assertionContext
+]
 
-	^ aView explicit
+{ #category : #'*GToolkit-Extensions' }
+AssertionFailure >> gtTwoPanesStringDiffFor: aView [
+	<gtView>
+	<gtExceptionDebuggingView>
+	| assertionContext |
+	
+	self gtHasStack ifFalse: [ ^ aView empty ].
+	assertionContext := self gtLocateAssertEqualsContextWithComparableTypes.
+	assertionContext ifNil: [
+		^ aView empty ].
+
+	^ aView forward
 		title: 'Diff';
 		priority: 0;
-		stencil: [
-			GtDiffElementWithLabelStencil new
-				fromLabelText: 'Actual:';
-				toLabelText: 'Expected:';
-				change: (GtDiffBuilder
-						computeDifferencesFrom: (anActual asString)
-						to: (anExpected asString)
-						using: GtCharacterGroupDiffSplitter words) ];
-		actionButtonIcon: BrGlamorousVectorIcons inspect 
-			tooltip: 'Inspect the comparator' 
-			action: [ :aButton |
-				aButton phlow 
-					spawnObject: ((GtDiffBuilder
-						computeDifferencesFrom: (anActual asString)
-						to: (anExpected asString)
-						using: GtCharacterGroupDiffSplitter words)) ]
+		object: [ assertionContext ];
+		view: #gtTwoPanesStringDiffFor:
 ]
