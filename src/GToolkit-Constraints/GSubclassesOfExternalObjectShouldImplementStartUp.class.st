@@ -4,37 +4,11 @@ Class {
 	#category : #'GToolkit-Constraints'
 }
 
-{ #category : #utilities }
-GSubclassesOfExternalObjectShouldImplementStartUp class >> lookMethodWithEvents [
-	<gtExample>
-	^ Array streamContents: [ :aStream |
-		BrAptitude withAllSubclassesDo: [ :eachLookClass |			
-			eachLookClass methodsDo: [ :eachMethod |
-				| referencedEvents |
-				referencedEvents := eachMethod referencedClasses select: [ :each | each inheritsFrom: BlEvent ].
-				referencedEvents ifNotEmpty: [ aStream nextPut: eachMethod ] ] ] ]
-]
-
-{ #category : #utilities }
-GSubclassesOfExternalObjectShouldImplementStartUp class >> lookMethodWithEventsOutsideOfInitializeListeners [
-	<gtExample>
-	| validSelectors |
-
-	validSelectors := { 
-		#initializeListeners.
-		#initializeRequests
-	 } asSet.
-
-	^ Array streamContents: [ :aStream |
-		BrAptitude withAllSubclassesDo: [ :eachLookClass |
-			
-			eachLookClass methodsDo: [ :eachMethod |
-				| referencedEvents |
-				referencedEvents := eachMethod referencedClasses select: [ :each | each inheritsFrom: BlEvent ].
-				
-				referencedEvents ifNotEmpty: [
-					(validSelectors includes: eachMethod selector)
-						ifFalse: [ aStream nextPut: eachMethod ] ]	 ] ] ]
+{ #category : #accessing }
+GSubclassesOfExternalObjectShouldImplementStartUp >> computeIssues [
+	^ (ExternalObject allSubclasses
+		select: [ :each | SessionManager default hasRegistered: each name ])
+			select: [ :each | (each class includesSelector: #startUp:) not ]
 ]
 
 { #category : #accessing }
@@ -43,10 +17,14 @@ GSubclassesOfExternalObjectShouldImplementStartUp >> description [
 ]
 
 { #category : #accessing }
+GSubclassesOfExternalObjectShouldImplementStartUp >> excludedClasses [
+	^ {FT2Handle}
+]
+
+{ #category : #accessing }
 GSubclassesOfExternalObjectShouldImplementStartUp >> issues [	
-	^ (ExternalObject allSubclasses
-		select: [ :each | SessionManager default hasRegistered: each name ])
-			select: [ :each | (each class includesSelector: #startUp:) not ]
+	^ self computeIssues 
+		copyWithoutAll: self excludedClasses
 ]
 
 { #category : #accessing }
