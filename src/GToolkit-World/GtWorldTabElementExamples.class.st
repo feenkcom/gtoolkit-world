@@ -21,81 +21,88 @@ GtWorldTabElementExamples >> showSpaceSelectScripter [
 
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_01_addSpace [
-	| aScripter |
 	<gtExample>
-
+	| aScripter |
 	aScripter := self showSpaceSelectScripter.
-	aScripter do
-		label: 'Show space selected by default';
-		action: [ :anActionScripter | anActionScripter element
-			showSpace: (BlSpace new
-				title: 'Tab 1';
-				in: [ :aSpace | anActionScripter model: aSpace id ];
-				rootDo: [ :aRoot | aRoot background: Color white ]) select: true ];
-		onScripter;
-		play.
+	aScripter
+		doStep: [ :s | 
+			s
+				label: 'Show space selected by default';
+				action: [ :anActionScripter | 
+					anActionScripter element
+						showSpace: (BlSpace new
+								title: 'Tab 1';
+								in: [ :aSpace | anActionScripter model: aSpace id ];
+								rootDo: [ :aRoot | aRoot background: Color white ])
+						select: true ];
+				onScripter ].
 
 	^ aScripter
 ]
 
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_02_moveMouseOverSpaceCloseButton [
-	| aScripter |
 	<gtExample>
-	
+	| aScripter |
 	aScripter := self showSpaceSelectScripter_01_addSpace.
-	
-	aScripter mouseMove by: 10@10; play.
-	
-	aScripter mouseMoveOver
-		label: 'Move mouse over the close button';
-		id: (GtWorldTabElement tabNameForSpaceId: aScripter model);
-		id: GtWorldTabElement spaceCloseButtonName;
+
+	aScripter mouseMove
+		by: 10 @ 10;
 		play.
+
+	aScripter
+		mouseMoveOverStep: [ :s | 
+			s
+				label: 'Move mouse over the close button';
+				id: (GtWorldTabElement tabNameForSpaceId: aScripter model);
+				id: GtWorldTabElement spaceCloseButtonName ].
 
 	^ aScripter
 ]
 
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_03_clickSpaceCloseButton [
-	| aScripter |
 	<gtExample>
-	
+	| aScripter |
 	aScripter := self showSpaceSelectScripter_02_moveMouseOverSpaceCloseButton.
-	
-	aScripter click
-		label: 'Mouse click the close button';
-		id: (GtWorldTabElement tabNameForSpaceId: aScripter model);
-		id: GtWorldTabElement spaceCloseButtonName;
-		play.
 
-	aScripter check
-		label: 'Check that there is no more space tab';
-		value: [ :theTabGroup | theTabGroup tabs size ] equals: 1;
-		onChildFromMessage: #tabs;
-		play.
+	aScripter
+		clickStep: [ :s | 
+			s
+				label: 'Mouse click the close button';
+				id: (GtWorldTabElement tabNameForSpaceId: aScripter model);
+				id: GtWorldTabElement spaceCloseButtonName ].
+
+	aScripter
+		checkStep: [ :s | 
+			s
+				label: 'Check that there is no more space tab';
+				value: [ :theTabGroup | theTabGroup tabs size ] equals: 1;
+				onChildFromMessage: #tabs ].
 
 	^ aScripter
 ]
 
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_04_checkSpaceGarbageCollected [
-	| aScripter |
 	<gtExample>
-	
+	| aScripter |
 	aScripter := self showSpaceSelectScripter_03_clickSpaceCloseButton.
-	aScripter do
-		label: 'Clear scripter events and garbage collect';
-		action: [ :_ |
-			aScripter events removeAll.
-			Smalltalk garbageCollect ];
-		play.
-	
-	aScripter check
-		label: 'Check that there is no space with the stored id';
-		value: [ :aStepScripter | BlSpace spaceWithId: aStepScripter model do: #yourself ] equals: nil;
-		onScripter;
-		play.
+	aScripter
+		doStep: [ :s | 
+			s
+				label: 'Clear scripter events and garbage collect';
+				action: [ :_ | 
+					aScripter events removeAll.
+					Smalltalk garbageCollect ] ].
+
+	aScripter
+		checkStep: [ :s | 
+			s
+				label: 'Check that there is no space with the stored id';
+				value: [ :aStepScripter | BlSpace spaceWithId: aStepScripter model do: #yourself ]
+					equals: nil;
+				onScripter ].
 
 	^ aScripter
 ]
