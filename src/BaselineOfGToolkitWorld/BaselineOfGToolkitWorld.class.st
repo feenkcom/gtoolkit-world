@@ -25,7 +25,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				spec repository: 'github://feenkcom/gtoolkit-releaser:v0.8.198/src' ].
 		spec
 			baseline: 'GToolkitConstrainer' with: [
-				spec repository: 'github://feenkcom/gtoolkit-constrainer:v0.8.12/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-constrainer:v0.8.13/src' ].
 		spec
 			baseline: 'GToolkit4Pharo' with: [
 				spec repository: 'github://feenkcom/gt4pharo:v0.6.1367/src' ].
