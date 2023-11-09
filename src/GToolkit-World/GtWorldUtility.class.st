@@ -8,7 +8,7 @@ Class {
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showObject: anObject from: anotherElement [
-	GtWorldUtility 
+	self 
 		showSpaceWithTitle:  (GtPhlowTitleLabelBuilder longLabel: [
 			anObject gtInspectorTitleString ]) build
 		inPagerWith: [ 
