@@ -7,6 +7,16 @@ Class {
 }
 
 { #category : #'instance creation' }
+GtWorldUtility class >> showObject: anObject from: anotherElement [
+	self 
+		showSpaceWithTitle:  (GtPhlowTitleLabelBuilder longLabel: [
+			anObject gtInspectorTitleString ]) build
+		inPagerWith: [ 
+			anObject gtDefaultInspectorTool asElementDo: [ :e | e ] ] asStencil
+		from: anotherElement.
+]
+
+{ #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithIcon: anIcon title: aString with: aStencil from: anotherElement [
 	| aSpace |
 	aSpace := BlSpace new.
