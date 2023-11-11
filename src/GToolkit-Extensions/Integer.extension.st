@@ -14,7 +14,9 @@ Integer >> gtIntegerFor: aView [
 					'bytes' -> self asStringWithCommas.
 					'kilobytes' -> (self / 1024) asStringWithCommas.
 					'megabytes' -> (self / 1048576) asStringWithCommas.
-					'gigabytes' -> (self / 1073741824) asStringWithCommas } asOrderedCollection.
+					'gigabytes' -> (self / 1073741824) asStringWithCommas.
+					'bytearray' -> self asByteArray.
+					'bytearray reversed' -> self asByteArray reversed } asOrderedCollection.
 			(self between: 0 and: 16r10FFFF)
 				ifTrue: [ associations add: 'character' -> self asCharacter ].
 			associations ];
