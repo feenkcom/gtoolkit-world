@@ -47,6 +47,85 @@ GtToolsMenu class >> open [
 		ifFalse: [ world show ]
 ]
 
+{ #category : #initialization }
+GtToolsMenu >> addBottomButtons [
+	| buttonList |
+	buttonList :=
+			{(BrButton new)
+				aptitude: BrGlamorousButtonWithLabelAptitude new;
+				label: 'Save';
+				hMatchParent;
+				action: [:aButton | self saveFrom: aButton].
+			self renameButton.
+			(BrButton new)
+				aptitude: BrGlamorousButtonWithLabelAptitude new;
+				label: 'Quit';
+				hMatchParent;
+				action: [:aButton | self quitFrom: aButton]}.
+	self addChild: ((BlElement new)
+				layout: (BlLinearLayout horizontal cellSpacing: 10);
+				margin: (BlInsets
+							top: 25
+							left: 0
+							bottom: 5
+							right: 0);
+				constraintsDo: 
+						[:c |
+						c horizontal matchParent.
+						c vertical fitContent];
+				addChildren: (buttonList reject: [:e | e isNil]))
+]
+
+{ #category : #initialization }
+GtToolsMenu >> addSections [
+	self
+		addChild: ((GtHomeToolsSection new
+				knowledgeBaseComputation: [self knowledgeBase]) newPlaygroundButtonStencil
+				smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: ((GtHomeToolsSection new
+				knowledgeBaseComputation: [self knowledgeBase]) newNotesButtonStencil
+				smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: ((GtHomeToolsSection new
+				knowledgeBaseComputation: [self knowledgeBase]) newLepiterButtonStencil
+				smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newCoderButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newGitButtonStencil smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newCodeChangesButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newMonitorButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newExamplesButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newTranscriptButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newFileSystemButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newMorphicWorldButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize)
+]
+
 { #category : #accessing }
 GtToolsMenu >> dropDownAptitude: anAptitude [
 	dropDownAptitude := anAptitude
@@ -70,44 +149,9 @@ GtToolsMenu >> initialize [
 
 { #category : #initialization }
 GtToolsMenu >> initializeElements [
-
 	self removeChildren.
-
-	self addChild: ((GtHomeToolsSection new knowledgeBaseComputation: [ self knowledgeBase ])
-		newPlaygroundButtonStencil smallIcon smallMargin create size: self iconSize).
-	
-	
-	self addChild: ((GtHomeToolsSection new knowledgeBaseComputation: [ self knowledgeBase ])
-		newNotesButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: ((GtHomeToolsSection new knowledgeBaseComputation: [ self knowledgeBase ]) 
-		newLepiterButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newCoderButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newGitButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newCodeChangesButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newMonitorButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newExamplesButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newTranscriptButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newFileSystemButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newMorphicWorldButtonStencil smallIcon smallMargin create size: self iconSize).
-		
-	self addChild: (BlElement new
-		layout: (BlLinearLayout horizontal cellSpacing: 10);
-		margin: (BlInsets top: 25 left: 0 bottom: 5 right: 0);
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical fitContent ];
-		addChildren: {
-			BrButton new
-				aptitude: BrGlamorousButtonWithLabelAptitude new;
-				label: 'Save';
-				hMatchParent;
-				action: [ :aButton | self saveFrom: aButton ].
-				
-			BrButton new
-				aptitude: (BrGlamorousButtonWithLabelAptitude new);
-				label: 'Quit';
-				hMatchParent;
-				action: [ :aButton | self quitFrom: aButton ] })
+	self addSections.
+	self addBottomButtons
 ]
 
 { #category : #accessing }
@@ -135,6 +179,12 @@ GtToolsMenu >> quitFrom: aButton [
 	aButton space universe postpone: [
 		aButton enqueueTask: (BlTaskAction new action: [
 			aButton label: 'Quit'; enable ]) ].
+]
+
+{ #category : #initialization }
+GtToolsMenu >> renameButton [
+	"Stub for Extension for Lifeware"
+	^nil
 ]
 
 { #category : #'private - actions' }
