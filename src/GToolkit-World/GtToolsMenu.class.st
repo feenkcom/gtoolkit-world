@@ -49,19 +49,6 @@ GtToolsMenu class >> open [
 
 { #category : #initialization }
 GtToolsMenu >> addBottomButtons [
-	| buttonList |
-	buttonList :=
-			{(BrButton new)
-				aptitude: BrGlamorousButtonWithLabelAptitude new;
-				label: 'Save';
-				hMatchParent;
-				action: [:aButton | self saveFrom: aButton].
-			self renameButton.
-			(BrButton new)
-				aptitude: BrGlamorousButtonWithLabelAptitude new;
-				label: 'Quit';
-				hMatchParent;
-				action: [:aButton | self quitFrom: aButton]}.
 	self addChild: ((BlElement new)
 				layout: (BlLinearLayout horizontal cellSpacing: 10);
 				margin: (BlInsets
@@ -73,7 +60,10 @@ GtToolsMenu >> addBottomButtons [
 						[:c |
 						c horizontal matchParent.
 						c vertical fitContent];
-				addChildren: (buttonList reject: [:e | e isNil]))
+				addChildren: 
+						{self saveButton.
+						self renameButton.
+						self quitButton})
 ]
 
 { #category : #initialization }
@@ -171,6 +161,15 @@ GtToolsMenu >> onAddedToSceneGraph [
 	self initializeElements
 ]
 
+{ #category : #initialization }
+GtToolsMenu >> quitButton [
+	^(BrButton new)
+		aptitude: BrGlamorousButtonWithLabelAptitude new;
+		label: 'Quit';
+		hMatchParent;
+		action: [:aButton | self quitFrom: aButton]
+]
+
 { #category : #'private - actions' }
 GtToolsMenu >> quitFrom: aButton [
 	aButton label: 'Quitting...'.
@@ -183,8 +182,72 @@ GtToolsMenu >> quitFrom: aButton [
 
 { #category : #initialization }
 GtToolsMenu >> renameButton [
-	"Stub for Extension for Lifeware"
-	^nil
+	| button |
+	button := BrButton new.
+	button
+		aptitude: BrGlamorousButtonWithLabelAptitude
+					+ (BrGlamorousWithDropdownAptitude handle: 
+								[(BrButton new)
+									aptitude: BrGlamorousButtonRectangularAptitude
+												+ BrGlamorousButtonLabelAptitude;
+									label: 'Rename';
+									
+									yourself]
+							content: [self renameFrom: button]);
+		label: 'Rename';
+		hMatchParent.
+	^button
+]
+
+{ #category : #'private (writing)' }
+GtToolsMenu >> renameFrom: aButton [
+	| container saveActionBlock |
+	saveActionBlock :=
+			[:aButtonRenameAction |
+			aButton
+				label: 'Renaming...';
+				disable.
+			aButtonRenameAction fireEvent: BrDropdownHideWish new.
+			aButton
+				enqueueTask: (BlTaskAction new action: 
+							[| aFilename |
+							aFilename := (aButtonRenameAction parent childWithId: #imageName) text
+										asString.
+							aButton space universe renameImageTo: aFilename.
+							aButton
+								label: 'Rename';
+								enable.
+							dropDownAptitude hide])].
+	container := (BlElement new)
+				layout: BlLinearLayout vertical;
+				constraintsDo: 
+						[:c |
+						c horizontal exact: 250.
+						c vertical fitContent];
+				padding: (BlInsets all: 8);
+				addChildren: 
+						{(BrEditor new)
+							aptitude: BrGlamorousEditorAptitude + BrGlamorousTextAreaSpacingAptitude;
+							text: SmalltalkImage current imageFile basenameWithoutExtension;
+							constraintsDo: [:c | c linear vertical alignCenter];
+							id: #imageName.
+						(BrButton new)
+							aptitude: BrGlamorousButtonWithIconAptitude new;
+							beSmallSize;
+							constraintsDo: [:c | c linear vertical alignCenter];
+							margin: (BlInsets top: 8);
+							icon: BrGlamorousVectorIcons accept;
+							action: saveActionBlock}.
+	^container
+]
+
+{ #category : #initialization }
+GtToolsMenu >> saveButton [
+	^(BrButton new)
+		aptitude: BrGlamorousButtonWithLabelAptitude new;
+		label: 'Save';
+		hMatchParent;
+		action: [:aButton | self saveFrom: aButton]
 ]
 
 { #category : #'private - actions' }
