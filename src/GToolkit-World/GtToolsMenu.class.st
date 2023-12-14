@@ -47,6 +47,75 @@ GtToolsMenu class >> open [
 		ifFalse: [ world show ]
 ]
 
+{ #category : #initialization }
+GtToolsMenu >> addBottomButtons [
+	self addChild: ((BlElement new)
+				layout: (BlLinearLayout horizontal cellSpacing: 10);
+				margin: (BlInsets
+							top: 25
+							left: 0
+							bottom: 5
+							right: 0);
+				constraintsDo: 
+						[:c |
+						c horizontal matchParent.
+						c vertical fitContent];
+				addChildren: 
+						{self saveButton.
+						self renameButton.
+						self quitButton})
+]
+
+{ #category : #initialization }
+GtToolsMenu >> addSections [
+	self
+		addChild: ((GtHomeToolsSection new
+				knowledgeBaseComputation: [self knowledgeBase]) newPlaygroundButtonStencil
+				smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: ((GtHomeToolsSection new
+				knowledgeBaseComputation: [self knowledgeBase]) newNotesButtonStencil
+				smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: ((GtHomeToolsSection new
+				knowledgeBaseComputation: [self knowledgeBase]) newLepiterButtonStencil
+				smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newCoderButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newGitButtonStencil smallIcon smallMargin
+				create size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newCodeChangesButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newMonitorButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newExamplesButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newTranscriptButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newFileSystemButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize).
+	self
+		addChild: (GtHomeToolsSection new newMorphicWorldButtonStencil smallIcon
+				smallMargin create
+				size: self iconSize)
+]
+
 { #category : #accessing }
 GtToolsMenu >> dropDownAptitude: anAptitude [
 	dropDownAptitude := anAptitude
@@ -70,44 +139,9 @@ GtToolsMenu >> initialize [
 
 { #category : #initialization }
 GtToolsMenu >> initializeElements [
-
 	self removeChildren.
-
-	self addChild: ((GtHomeToolsSection new knowledgeBaseComputation: [ self knowledgeBase ])
-		newPlaygroundButtonStencil smallIcon smallMargin create size: self iconSize).
-	
-	
-	self addChild: ((GtHomeToolsSection new knowledgeBaseComputation: [ self knowledgeBase ])
-		newNotesButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: ((GtHomeToolsSection new knowledgeBaseComputation: [ self knowledgeBase ]) 
-		newLepiterButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newCoderButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newGitButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newCodeChangesButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newMonitorButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newExamplesButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newTranscriptButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newFileSystemButtonStencil smallIcon smallMargin create size: self iconSize).
-	self addChild: (GtHomeToolsSection new newMorphicWorldButtonStencil smallIcon smallMargin create size: self iconSize).
-		
-	self addChild: (BlElement new
-		layout: (BlLinearLayout horizontal cellSpacing: 10);
-		margin: (BlInsets top: 25 left: 0 bottom: 5 right: 0);
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical fitContent ];
-		addChildren: {
-			BrButton new
-				aptitude: BrGlamorousButtonWithLabelAptitude new;
-				label: 'Save';
-				hMatchParent;
-				action: [ :aButton | self saveFrom: aButton ].
-				
-			BrButton new
-				aptitude: (BrGlamorousButtonWithLabelAptitude new);
-				label: 'Quit';
-				hMatchParent;
-				action: [ :aButton | self quitFrom: aButton ] })
+	self addSections.
+	self addBottomButtons
 ]
 
 { #category : #accessing }
@@ -127,6 +161,15 @@ GtToolsMenu >> onAddedToSceneGraph [
 	self initializeElements
 ]
 
+{ #category : #initialization }
+GtToolsMenu >> quitButton [
+	^(BrButton new)
+		aptitude: BrGlamorousButtonWithLabelAptitude new;
+		label: 'Quit';
+		hMatchParent;
+		action: [:aButton | self quitFrom: aButton]
+]
+
 { #category : #'private - actions' }
 GtToolsMenu >> quitFrom: aButton [
 	aButton label: 'Quitting...'.
@@ -135,6 +178,76 @@ GtToolsMenu >> quitFrom: aButton [
 	aButton space universe postpone: [
 		aButton enqueueTask: (BlTaskAction new action: [
 			aButton label: 'Quit'; enable ]) ].
+]
+
+{ #category : #initialization }
+GtToolsMenu >> renameButton [
+	| button |
+	button := BrButton new.
+	button
+		aptitude: BrGlamorousButtonWithLabelAptitude
+					+ (BrGlamorousWithDropdownAptitude handle: 
+								[(BrButton new)
+									aptitude: BrGlamorousButtonRectangularAptitude
+												+ BrGlamorousButtonLabelAptitude;
+									label: 'Rename';
+									
+									yourself]
+							content: [self renameFrom: button]);
+		label: 'Rename';
+		hMatchParent.
+	^button
+]
+
+{ #category : #'private (writing)' }
+GtToolsMenu >> renameFrom: aButton [
+	| container saveActionBlock |
+	saveActionBlock :=
+			[:aButtonRenameAction |
+			aButton
+				label: 'Renaming...';
+				disable.
+			aButtonRenameAction fireEvent: BrDropdownHideWish new.
+			aButton
+				enqueueTask: (BlTaskAction new action: 
+							[| aFilename |
+							aFilename := (aButtonRenameAction parent childWithId: #imageName) text
+										asString.
+							aButton space universe renameImageTo: aFilename.
+							aButton
+								label: 'Rename';
+								enable.
+							dropDownAptitude hide])].
+	container := (BlElement new)
+				layout: BlLinearLayout vertical;
+				constraintsDo: 
+						[:c |
+						c horizontal exact: 250.
+						c vertical fitContent];
+				padding: (BlInsets all: 8);
+				addChildren: 
+						{(BrEditor new)
+							aptitude: BrGlamorousEditorAptitude + BrGlamorousTextAreaSpacingAptitude;
+							text: SmalltalkImage current imageFile basenameWithoutExtension;
+							constraintsDo: [:c | c linear vertical alignCenter];
+							id: #imageName.
+						(BrButton new)
+							aptitude: BrGlamorousButtonWithIconAptitude new;
+							beSmallSize;
+							constraintsDo: [:c | c linear vertical alignCenter];
+							margin: (BlInsets top: 8);
+							icon: BrGlamorousVectorIcons accept;
+							action: saveActionBlock}.
+	^container
+]
+
+{ #category : #initialization }
+GtToolsMenu >> saveButton [
+	^(BrButton new)
+		aptitude: BrGlamorousButtonWithLabelAptitude new;
+		label: 'Save';
+		hMatchParent;
+		action: [:aButton | self saveFrom: aButton]
 ]
 
 { #category : #'private - actions' }
