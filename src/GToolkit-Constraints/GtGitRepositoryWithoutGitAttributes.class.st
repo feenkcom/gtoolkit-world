@@ -17,17 +17,25 @@ GtGitRepositoryWithoutGitAttributes >> description [
 
 { #category : #accessing }
 GtGitRepositoryWithoutGitAttributes >> issues [
-	| project directories |
+	| project directories toSkip |
 	project := GtGhGToolkitProject default.
 	directories := project ownedRepositories collect: [ :aRepository | 
 		aRepository baselineRepository icebergRepository workingCopy fileSystem ].
-	^ directories select: [ :aDirectory | 
+	toSkip := self skippedRepositories.
+	^ (directories select: [ :aDirectory | 
 		(aDirectory / '.gitattributes') exists not and:
 			[ (aDirectory / 'src') exists and:
-			[ ((aDirectory / 'src') allChildrenMatching: '*.st') isNotEmpty ] ] ]
+			[ ((aDirectory / 'src') allChildrenMatching: '*.st') isNotEmpty ] ] ])
+			reject: [ : each | toSkip includes: each basename ]
 ]
 
 { #category : #accessing }
 GtGitRepositoryWithoutGitAttributes >> name [ 
 	^ 'Git repositories from feenkcom with smalltalk code should include .gitattributes'
+]
+
+{ #category : #accessing }
+GtGitRepositoryWithoutGitAttributes >> skippedRepositories [
+
+	^ { 'XMLWriter'. 'XMLParser'. 'XPath'. }
 ]
