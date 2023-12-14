@@ -8,6 +8,17 @@ Class {
 	#category : #'GToolkit-Constraints'
 }
 
+{ #category : #'gt - exte' }
+GtGtoolkitArchitecturalReport class >> gtViewReportFor: aView [
+	<gtView>
+	<gtClassView>
+	
+	^ aView forward 
+		title: 'Report';
+		object: [ self new ];
+		view: #gtItemsFor: 
+]
+
 { #category : #accessing }
 GtGtoolkitArchitecturalReport class >> yourself [
 	<gtExample>
