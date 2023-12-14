@@ -11,17 +11,25 @@ GtGitRepositoryWithoutJenkinsFile class >> instance [
 ]
 
 { #category : #accessing }
+GtGitRepositoryWithoutJenkinsFile >> allowedRepositoryNamesWithoutJenkinsFiles [
+	^ {'XMLWriter' . 'XMLParser' . 'XPath'}
+]
+
+{ #category : #accessing }
 GtGitRepositoryWithoutJenkinsFile >> description [
 	^ 'A repository in the Feenk organisation should specify the Jenkins file to trigger a build for Glamorous Toolkit'
 ]
 
 { #category : #accessing }
 GtGitRepositoryWithoutJenkinsFile >> issues [
-	| project directories |
+	| project directories allowedFailures |
 	project := GtGhGToolkitProject default.
 	directories := project ownedRepositories collect: [ :aRepository | 
 		aRepository baselineRepository icebergRepository workingCopy fileSystem ].
-	^ directories select: [ :aDirectory | (aDirectory / 'Jenkinsfile') exists not ]
+	allowedFailures := self allowedRepositoryNamesWithoutJenkinsFiles.
+	^ (directories 
+		select: [ :aDirectory | (aDirectory / 'Jenkinsfile') exists not ])
+		reject: [ :aDirectory | allowedFailures includes: aDirectory basename ]
 ]
 
 { #category : #accessing }
