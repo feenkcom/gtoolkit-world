@@ -186,13 +186,13 @@ GtToolsMenu >> renameButton [
 	button := BrButton new.
 	button
 		aptitude: BrGlamorousButtonWithLabelAptitude
-					+ (BrGlamorousWithDropdownAptitude handle: 
-								[(BrButton new)
-									aptitude: BrGlamorousButtonRectangularAptitude
-												+ BrGlamorousButtonLabelAptitude;
-									label: 'Rename';
-									
-									yourself]
+					+ (BrGlamorousWithDropdownAptitude handle: [
+							(BrButton new)
+								aptitude: BrGlamorousButtonRectangularAptitude
+										+ BrGlamorousButtonLabelAptitude;
+								label: 'Rename';
+								hExact: button width;
+								yourself]
 							content: [self renameFrom: button]);
 		label: 'Rename';
 		hMatchParent.
