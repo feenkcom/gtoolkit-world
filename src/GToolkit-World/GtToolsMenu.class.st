@@ -213,7 +213,7 @@ GtToolsMenu >> renameFrom: aButton [
 							[| aFilename |
 							aFilename := (aButtonRenameAction parent childWithId: #imageName) text
 										asString.
-							aButton space universe renameImageTo: aFilename.
+							SmalltalkImage current saveAs: aFilename.
 							aButton
 								label: 'Rename';
 								enable.
