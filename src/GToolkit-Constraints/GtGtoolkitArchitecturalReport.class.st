@@ -1,5 +1,5 @@
 "
-Architectural report for Glamorous Toolkit.
+Architectural report for Glamorous Toolkit. This  report works in either a released image or in an image created from sources.
 
 "
 Class {
@@ -7,6 +7,17 @@ Class {
 	#superclass : #GtConstrainerReport,
 	#category : #'GToolkit-Constraints'
 }
+
+{ #category : #'gt - exte' }
+GtGtoolkitArchitecturalReport class >> gtViewReportFor: aView [
+	<gtView>
+	<gtClassView>
+	
+	^ aView forward 
+		title: 'Report';
+		object: [ self new ];
+		view: #gtItemsFor: 
+]
 
 { #category : #accessing }
 GtGtoolkitArchitecturalReport class >> yourself [
@@ -29,7 +40,6 @@ GtGtoolkitArchitecturalReport >> build: aComposite [
 		addConstraint: GtWeakSubscriptionsWithBlockSubscribers new;
 		addConstraint: GtGlamorousToolkitBookPagesContainingMissingReferences new;
 		"addConstraint: GtBaselinesShouldProperlySpecifyDependencies new;"
-		"addConstraint: GtGitRepositoryWithoutJenkinsFile new;"
 		addConstraint: GSubclassesOfExternalObjectShouldImplementStartUp new;
 		addConstraint: GtAnnouncementSubscriberShouldNotBeChanged new;
 		addConstraint: GtBoxerExternalObjectsShouldOnlyImplementFFILibrary new;
