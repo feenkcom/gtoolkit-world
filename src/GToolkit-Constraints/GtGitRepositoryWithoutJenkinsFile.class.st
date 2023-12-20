@@ -12,7 +12,7 @@ GtGitRepositoryWithoutJenkinsFile class >> instance [
 
 { #category : #accessing }
 GtGitRepositoryWithoutJenkinsFile >> allowedRepositoryNamesWithoutJenkinsFiles [
-	^ {'XMLWriter' . 'XMLParser' . 'XPath'}
+	^ { }
 ]
 
 { #category : #accessing }

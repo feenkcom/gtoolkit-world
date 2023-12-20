@@ -38,5 +38,5 @@ GtGitRepositoryWithoutGitAttributes >> name [
 { #category : #accessing }
 GtGitRepositoryWithoutGitAttributes >> skippedRepositories [
 
-	^ { 'XMLWriter'. 'XMLParser'. 'XPath'. }
+	^ { }
 ]
