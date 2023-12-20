@@ -22,5 +22,6 @@ GtGtoolkitArchitecturalDevelopmentReport >> build: aComposite [
 	
 	aComposite 
 		addConstraint: GtGitRepositoryWithoutJenkinsFile new;
-		addConstraint: GtGitRepositoryWithoutGitAttributes new
+		addConstraint: GtGitRepositoryWithoutGitAttributes new;
+		addConstraint: GtGitAttributesShouldHandleLineEndings new
 ]
