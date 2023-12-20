@@ -24,8 +24,9 @@ GtGitRepositoryWithoutJenkinsFile >> description [
 GtGitRepositoryWithoutJenkinsFile >> issues [
 	| project directories allowedFailures |
 	project := GtGhGToolkitProject default.
-	directories := project ownedRepositories collect: [ :aRepository | 
-		aRepository baselineRepository icebergRepository workingCopy fileSystem ].
+	directories := (project ownedRepositories, project forkedRepositories) 
+		collect: [ :aRepository | 
+			aRepository baselineRepository icebergRepository workingCopy fileSystem ].
 	allowedFailures := self allowedRepositoryNamesWithoutJenkinsFiles.
 	^ (directories 
 		select: [ :aDirectory | (aDirectory / 'Jenkinsfile') exists not ])
