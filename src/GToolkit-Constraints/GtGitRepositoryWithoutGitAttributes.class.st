@@ -19,8 +19,9 @@ GtGitRepositoryWithoutGitAttributes >> description [
 GtGitRepositoryWithoutGitAttributes >> issues [
 	| project directories toSkip |
 	project := GtGhGToolkitProject default.
-	directories := project ownedRepositories collect: [ :aRepository | 
-		aRepository baselineRepository icebergRepository workingCopy fileSystem ].
+	directories := (project ownedRepositories, project forkedRepositories) 
+		collect: [ :aRepository | 
+			aRepository baselineRepository icebergRepository workingCopy fileSystem ].
 	toSkip := self skippedRepositories.
 	^ (directories select: [ :aDirectory | 
 		(aDirectory / '.gitattributes') exists not and:
@@ -37,5 +38,5 @@ GtGitRepositoryWithoutGitAttributes >> name [
 { #category : #accessing }
 GtGitRepositoryWithoutGitAttributes >> skippedRepositories [
 
-	^ { 'XMLWriter'. 'XMLParser'. 'XPath'. }
+	^ { }
 ]
