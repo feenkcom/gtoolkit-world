@@ -48,7 +48,7 @@ GtClassesImplementingEqualsShouldAlsoHaveHashConstraint >> issues [
 
 { #category : #accessing }
 GtClassesImplementingEqualsShouldAlsoHaveHashConstraint >> name [
-	^ 'Classes implementing = should also implement hash.'
+	^ 'Classes implementing = should also implement hash'
 ]
 
 { #category : #accessing }
