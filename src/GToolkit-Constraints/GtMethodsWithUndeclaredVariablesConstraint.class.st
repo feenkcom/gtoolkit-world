@@ -67,10 +67,12 @@ GtMethodsWithUndeclaredVariablesConstraint >> issues [
 					aClass methods
 						do: [ :aMethod | 
 							(allIgnoredMethods includes: aMethod)
-								ifFalse: [ aMethod ast
-										nodesDo: [ :aNode | 
-											(aNode isVariable and: [ aNode binding isUndeclaredVariable and: [ (allIgnoredVariableNames includes: aNode name) not ] ])
-												ifTrue: [ aStream nextPut: aMethod ] ] ] ] ] ]) asSet asOrderedCollection sort: [ :a :b | a methodClass name < b methodClass name ]
+								ifFalse: [ (aMethod
+										hasLiteralSuchThat: [ :each | 
+											(each isKindOf: UndeclaredVariable)
+												and: [ (allIgnoredVariableNames includes: each name) not ] ])
+										ifTrue: [ aStream nextPut: aMethod ] ] ] ] ]) asSet
+		asOrderedCollection sort: [ :a :b | a methodClass name < b methodClass name ]
 ]
 
 { #category : #accessing }
