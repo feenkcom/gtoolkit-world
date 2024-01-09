@@ -9,10 +9,13 @@ Class {
 
 { #category : #accessing }
 GtWorldPreviewerTabSpace >> asElement [
-	^ (BlExporter form
-		element: tabSpace model root;
-		scaled: 0.3;
-		export) asElement
+	| aPreviewElement |
+
+	aPreviewElement := BrElementAsFormPreview
+		forElement: tabSpace model root
+		preferredScale: 0.3.
+
+	^ aPreviewElement
 		aptitude: (BrStyleCommonAptitude new
 				default: [ :f | f border: Color transparent ];
 				hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);

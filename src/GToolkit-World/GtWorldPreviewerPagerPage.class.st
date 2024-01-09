@@ -17,12 +17,13 @@ GtWorldPreviewerPagerPage >> asElement [
 
 { #category : #accessing }
 GtWorldPreviewerPagerPage >> asElementScaled: aScale [
-	| form |
-	form := BlExporter form
-			element: page widget;
-			scaled: aScale;
-			export.
-	^ form asElement
+	| aPreviewElement |
+	
+	aPreviewElement := BrElementAsFormPreview
+		forElement: page widget
+		preferredScale: 0.3.
+
+	^ aPreviewElement
 			aptitude: (BrStyleCommonAptitude new
 					default: [ :f | f border: Color transparent ];
 					hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
