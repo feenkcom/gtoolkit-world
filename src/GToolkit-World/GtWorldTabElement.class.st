@@ -225,11 +225,19 @@ GtWorldTabElement >> showSpace: aSpace [
 
 { #category : #'api - opening' }
 GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
-	| aTab |
-	aTab := BrTab new
+	| aTab aTabViewModel |
+	aTab := BrTab new.
+	aTabViewModel := aTab viewModel.
+	aTab
 		vExact: 36;
 		model: aSpace;
-		aptitude: BrGlamorousSpaceTabWithIconAndLabelAptitude new;
+		aptitude: (BrGlamorousSpaceTabWithIconAndLabelAptitude new + ((BrGlamorousWithTooltipAptitude content: [
+			BrElementAsFormPreview
+				forElement: (aTabViewModel
+					cachedContentElementDo: [ :anElement | anElement ]
+					ifAbsent: [ BlElement new ] )
+				preferredExtent: 400@400
+		]) hideDelay: 50 milliSeconds; showDelay: 100 milliSeconds));
 		label: aSpace title;
 		icon: (aSpace icon ifNil: [ BrGlamorousVectorIcons noIcon ]);
 		containerName: (self class tabNameForSpaceId: aSpace id);
