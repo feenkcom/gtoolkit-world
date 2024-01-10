@@ -43,6 +43,30 @@ GtHomeSection >> newCard [
 ]
 
 { #category : #'instance creation' }
+GtHomeSection >> newCardsContainer [
+	^ BlElement new
+		layout: BlFlowLayout new;
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical fitContent ];
+		padding: (BlInsets all: 0)
+]
+
+{ #category : #'instance creation' }
+GtHomeSection >> newCardWithoutIcon [
+	^ BrCard new
+		aptitude: (BrShadowAptitude new beLarge)+
+			(BrDescriptionAptitude new readonly glamorousRegularFont descriptionDo: [:e | e padding: (BlInsets all: 10)]) +
+			(BrGlamorousButtonExteriorAptitude new backgroundPaint: BrGlamorousColors secondaryHeaderBackgroundColor);
+		layout: (BlLinearLayout horizontal alignCenter cellSpacing: 0);
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		constraintsDo: [ :c |
+			c horizontal exact: 250.
+			c vertical exact: 100 ];
+		margin: (BlInsets top: self spaceGap left: self spaceGap * 2 bottom: self spaceGap right: self spaceGap * 2)
+]
+
+{ #category : #'instance creation' }
 GtHomeSection >> newCardWithTitle: aTitle description: aDescription action: aBlock [ 
 	| cardElement |	
 	self deprecated: 'not used'.
@@ -77,30 +101,6 @@ GtHomeSection >> newCardWithTitle: aTitle description: aDescription picture: anE
 "			border: (BlBorder paint: BrGlamorousColors defaultButtonBorderColor); "
 			preventMeAndChildrenMouseEvents);
 		action: aBlock
-]
-
-{ #category : #'instance creation' }
-GtHomeSection >> newCardWithoutIcon [
-	^ BrCard new
-		aptitude: (BrShadowAptitude new beLarge)+
-			(BrDescriptionAptitude new readonly glamorousRegularFont descriptionDo: [:e | e padding: (BlInsets all: 10)]) +
-			(BrGlamorousButtonExteriorAptitude new backgroundPaint: BrGlamorousColors secondaryHeaderBackgroundColor);
-		layout: (BlLinearLayout horizontal alignCenter cellSpacing: 0);
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-		constraintsDo: [ :c |
-			c horizontal exact: 250.
-			c vertical exact: 100 ];
-		margin: (BlInsets top: self spaceGap left: self spaceGap * 2 bottom: self spaceGap right: self spaceGap * 2)
-]
-
-{ #category : #'instance creation' }
-GtHomeSection >> newCardsContainer [
-	^ BlElement new
-		layout: BlFlowLayout new;
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical fitContent ];
-		padding: (BlInsets all: 0)
 ]
 
 { #category : #'instance creation' }

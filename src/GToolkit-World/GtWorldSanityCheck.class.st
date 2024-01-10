@@ -19,6 +19,10 @@ GtWorldSanityCheck class >> checkImage: aFileReference [
 		'GtWorldSanityCheck'.
 		'new'.
 		'checkImage'.
+		'--detachChangesFromFileSystem'.
+		'--epiceaMemoryStore'.
+		'--noLepiterReload'.
+		'--noGtImageUpdate'.
 		}.
 	proc := GtSubprocessWithInMemoryOutput
 		command: vm fullName
