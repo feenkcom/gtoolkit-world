@@ -1,12 +1,12 @@
-Extension { #name : #AsyncPendingFuturePromise }
+Extension { #name : #AsyncFuturePromise }
 
 { #category : #'*GToolkit-Extensions' }
-AsyncPendingFuturePromise >> gtCompositionChildren [
+AsyncFuturePromise >> gtCompositionChildren [
 	^ { future }
 ]
 
 { #category : #'*GToolkit-Extensions' }
-AsyncPendingFuturePromise >> gtCompositionFor: aView [
+AsyncFuturePromise >> gtCompositionFor: aView [
 	<gtView>
 	
 	future ifNil: [ ^ aView empty ].
