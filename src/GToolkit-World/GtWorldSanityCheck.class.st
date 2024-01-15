@@ -9,7 +9,7 @@ GtWorldSanityCheck class >> checkImage: aFileReference [
 	"Run the receiver in the supplied image using the current VM."
 	| vm arguments proc timedOut pharoDebug |
 
-	pharoDebug := 'PharoDebug.log' asFileReference.
+	pharoDebug := Smalltalk logFileName asFileReference.
 	self assert: pharoDebug exists not.
 	vm := LanguageLinkSettings pharoDefaultSettings serverExecutable.
 	arguments := {
@@ -36,7 +36,7 @@ GtWorldSanityCheck class >> checkImage: aFileReference [
 	(proc stdout includesSubstring: 'GtWorldSanityCheck pass') ifFalse:
 		[ self error: 'Check image process didn''t pass' ].
 	pharoDebug exists ifTrue:
-		[ self error: 'PharoDebug.log file present after running checks' ].
+		[ self error: 'PharoDebug log file present after running checks' ].
 ]
 
 { #category : #accessing }
