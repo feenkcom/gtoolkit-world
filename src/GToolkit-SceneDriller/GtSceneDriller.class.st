@@ -16,7 +16,7 @@ GtSceneDriller >> bindElementTreeValue: eachElement toRowElement: aRowElement [
 		childWithId: #elementLabel
 		ifFound: [ :anElementLabel | anElementLabel text: eachElement class name ]
 		ifNone: [  ].
-		
+
 	aRowElement
 		childWithId: #elementId
 		ifFound: [ :anElementIdButton |
@@ -31,7 +31,7 @@ GtSceneDriller >> bindElementTreeValue: eachElement toRowElement: aRowElement [
 					anElementIdButton visibility: BlVisibility visible
 				] ]
 		ifNone: [  ].
-		
+
 	aRowElement
 		childWithId: #elementResizers
 		ifFound: [ :anElementResizersLabel |
@@ -43,7 +43,81 @@ GtSceneDriller >> bindElementTreeValue: eachElement toRowElement: aRowElement [
 					nextPutAll: 'v: ';
 					nextPutAll: eachElement constraints vertical resizer asString asLowercase
 			]) ]
-		ifNone: [  ]
+		ifNone: [  ].
+		
+	self bindElementTreeValueWhenAddedToSceneGraph: eachElement toRowElement: aRowElement
+]
+
+{ #category : #'private - tree' }
+GtSceneDriller >> bindElementTreeValueWhenAddedToSceneGraph: eachElement toRowElement: aRowElement [
+	aRowElement
+		childWithId: #whenAddedToSceneGraph
+		ifFound: [ :anElementIdButton |
+			| anOverridenMethod isOverriden eventHandlers|
+			
+			anOverridenMethod := eachElement class lookupSelector: #onAddedToSceneGraph.
+			isOverriden := anOverridenMethod
+				ifNil: [ false ]
+				ifNotNil: [ :aMethod | aMethod methodClass ~= BlElement ].
+				
+			eventHandlers := Array
+				streamContents: [ :aStream |
+					eachElement eventDispatcher
+						handlersDo: [ :eachEventHandler |
+							(self doesEventHandler: eachEventHandler want: BlElementAddedToSceneGraphEvent)
+								ifTrue: [ aStream nextPut: eachEventHandler ] ];
+						filtersDo: [ :eachEventHandler |
+							(self doesEventHandler: eachEventHandler want: BlElementAddedToSceneGraphEvent)
+								ifTrue: [ aStream nextPut: eachEventHandler ] ] ].
+
+			(isOverriden not and: [ eventHandlers isEmpty ])
+				ifTrue: [
+					anElementIdButton model: nil.
+					anElementIdButton label: ''.
+					anElementIdButton visibility: BlVisibility gone ]
+				ifFalse: [
+					| aLabel aModel |
+				
+					aLabel := String streamContents: [ :aStream |
+						isOverriden
+							ifTrue: [ aStream nextPutAll: '#onAddedToSceneGraph' ].
+						eventHandlers ifNotEmpty: [ :theHandlers |
+							isOverriden ifTrue: [ aStream nextPutAll: ' and ' ].
+							aStream
+								print: theHandlers size;
+								space;
+								nextPutAll: 'AddedToSceneGraph event handlers' ] ].
+					
+					(isOverriden and: [ eventHandlers isNotEmpty ])
+						ifTrue: [ aModel := OrderedDictionary new
+							at: anOverridenMethod  printString put: anOverridenMethod;
+							at: 'AddedToSceneGraph event handlers' put: eventHandlers;
+							yourself ].
+							
+					(isOverriden and: [ eventHandlers isEmpty ])
+						ifTrue: [ aModel := anOverridenMethod ].
+					
+					(isOverriden not and: [ eventHandlers isNotEmpty ])
+						ifTrue: [ aModel := eventHandlers ].
+				
+					anElementIdButton model: aModel.
+					anElementIdButton label: aLabel.
+					anElementIdButton visibility: BlVisibility visible
+				] ]
+		ifNone: [  ].
+]
+
+{ #category : #'private - tree' }
+GtSceneDriller >> doesEventHandler: anEventHandler want: anEventClass [
+	<return: #Boolean>
+
+	((anEventHandler isKindOf: BlEventHandler) and: [ anEventHandler eventClass = anEventClass ])
+		ifTrue: [ ^ true ].
+		
+	(anEventHandler isKindOf: BlEventForwarder)
+		ifTrue: [ ^ self doesEventHandler: anEventHandler eventHandler want: anEventClass ].
+		
+	^ false
 ]
 
 { #category : #initialization }
@@ -218,13 +292,26 @@ GtSceneDriller >> newTreeRowElement [
 							cornerRadius: 3) + (BrStyleCommonAptitude new
 					default: [ :s | s background: (Color gray alpha: 0.1) ];
 					hovered: [ :s | s background: (Color gray alpha: 0.2) ];
-					pressed: [ :s | s background: (Color gray alpha: 0.3) ]
-				);
+					pressed: [ :s | s background: (Color gray alpha: 0.3) ]);
 				action: [ :aButtonElement | aButtonElement phlow spawnObject: aButtonElement model ].
 			BrLabel new
 				beSmallSize;
 				id: #elementResizers;
-				aptitude: (BrGlamorousLabelAptitude new foreground: Color darkGray) }
+				aptitude: (BrGlamorousLabelAptitude new foreground: Color darkGray).
+			BrButton new
+				beTinySize;
+				id: #whenAddedToSceneGraph;
+				aptitude: (BrGlamorousButtonLabelAptitude new
+							hoveredColor: Color black;
+							pressedColor: Color black) +
+						(BrGlamorousButtonRectangularAptitude
+							paddingScale: 0.8
+							heightScale: 0.85
+							cornerRadius: 3) + (BrStyleCommonAptitude new
+					default: [ :s | s background: (self theme  status failureBackgroundColor alpha: 0.6) ];
+					hovered: [ :s | s background: (self theme  status failureBackgroundColor alpha: 0.8) ];
+					pressed: [ :s | s background: (self theme  status failureBackgroundColor alpha: 1.0) ]);
+				action: [ :aButtonElement | aButtonElement phlow spawnObject: aButtonElement model ] }
 ]
 
 { #category : #accessing }
