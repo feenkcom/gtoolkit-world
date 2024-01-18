@@ -18,6 +18,7 @@ AsyncFutureThreadPool >> gtEnableTelemetryActionFor: anAction [
 AsyncFutureThreadPool >> gtWorkersFor: aView [
 	<gtView>
 	| aTelemetry |
+	
 	aTelemetry := self telemetryDo: #yourself ifNone: nil.
 
 	^ aView columnedList
@@ -42,6 +43,11 @@ AsyncFutureThreadPool >> gtWorkersFor: aView [
 							ifTrue: [ aLabel := aLabel asRopedText
 										foreground: BrGlamorousColors disabledButtonTextColor ] ].
 				aLabel ];
+		column: 'Futures/min'
+			stencil: [ :each |
+				(GtHorizontalSparklineStencil new
+					values: (each key timelineOfRecentFutures withIndexCollect: [ :v :i | v -> i ])) asElement height: 15 ]
+			width: 100;
 		column: 'Tasks'
 			text: [ :each | 
 				| size |
