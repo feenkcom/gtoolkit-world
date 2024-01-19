@@ -30,7 +30,8 @@ Class {
 		'description',
 		'databaseName',
 		'startPageName',
-		'sectionTitle'
+		'sectionTitle',
+		'loadLepiter'
 	],
 	#category : #'GToolkit-World-Sections'
 }
@@ -66,8 +67,9 @@ GtHomeStartPageSection >> create [
 
 { #category : #accessing }
 GtHomeStartPageSection >> database [
-	^ LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
-		databaseNamed: self databaseName
+	(self registry hasDatabaseNamed: self databaseName)
+		ifFalse: [ self loadLepiter value ].
+	^ self registry databaseNamed: self databaseName
 ]
 
 { #category : #accessing }
@@ -113,6 +115,23 @@ GtHomeStartPageSection >> description: anObject [
 ]
 
 { #category : #accessing }
+GtHomeStartPageSection >> loadLepiter [
+	"Default: do nothing."
+	loadLepiter ifNil: [ self loadLepiter: [  ] ].
+	^ loadLepiter
+]
+
+{ #category : #accessing }
+GtHomeStartPageSection >> loadLepiter: aBlock [
+	loadLepiter := aBlock
+]
+
+{ #category : #accessing }
+GtHomeStartPageSection >> registry [
+	^ LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
+]
+
+{ #category : #accessing }
 GtHomeStartPageSection >> sectionTitle [
 	sectionTitle ifNil: [ self sectionTitle: self title ].
 	^ sectionTitle
@@ -130,9 +149,7 @@ GtHomeStartPageSection >> startPage [
 
 { #category : #accessing }
 GtHomeStartPageSection >> startPageName [
-	startPageName ifNil: [ 
-	self startPageName: self defaultStartPageName
-	 ].
+	startPageName ifNil: [ self startPageName: self defaultStartPageName ].
 	^ startPageName
 ]
 
