@@ -11,9 +11,9 @@ TelemetryLogger >> gtFramesFor: aView [
 		stencil: [
 			| aData anIndexMap |
 			
-			anIndexMap := (self recordings collectWithIndex: [ :eachSignal :eachIndex | eachSignal task -> eachIndex ]) asDictionary.
+			anIndexMap := (self recordings collectWithIndex: [ :eachSignal :eachIndex | eachSignal ping -> eachIndex ]) asDictionary.
 			
-			aData := GtPlotterDataGroup new values: (self recordings collect: [ :eachSignal | eachSignal task ]).
+			aData := GtPlotterDataGroup new values: (self recordings collect: [ :eachSignal | eachSignal ping ]).
 			aData := aData labelled: [ :eachTask | (anIndexMap at: eachTask) asString ].
 			aData := aData colored: [ :eachTask |
 				eachTask durationInMilliseconds <= 16
