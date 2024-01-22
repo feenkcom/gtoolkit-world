@@ -8,6 +8,14 @@ TelemetryPing >> gtBarElements [
 
 { #category : #'*GToolkit-Profiler' }
 TelemetryPing >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
+	^ self
+		gtBarElementsWithGlobalWeight: aWeight
+		local: aLocalWeight
+		ping: self
+]
+
+{ #category : #'*GToolkit-Profiler' }
+TelemetryPing >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight ping: aTelemetryPing [
 	| taskElements aBarColor |
 	
 	aBarColor := BlColorTransition interpolate: Color veryLightGray to: BrGlamorousColors errorBorderColor at: aWeight.
@@ -15,18 +23,18 @@ TelemetryPing >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 	taskElements := aWeight > 0.1
 		ifTrue: [
 			| myDuration |		
-			myDuration := self duration.
+			myDuration := aTelemetryPing duration.
 	
-			self tasks collect: [ :eachTask |
+			aTelemetryPing tasks collect: [ :eachTask |
 				| eachWeight |
 				
 				eachWeight := myDuration isZero
 					ifTrue: [ 0 ]
 					ifFalse: [ (eachTask duration / myDuration) asFloat ].
-				(eachTask gtBarElementsWithGlobalWeight: eachWeight * aWeight local: eachWeight)
+				(self gtBarElementsWithGlobalWeight: eachWeight * aWeight local: eachWeight ping: eachTask)
 					constraintsDo: [ :c | c linear weight: (eachWeight max: 0.001) ] ] ]
 		ifFalse: [
-			self tasks
+			aTelemetryPing tasks
 				ifEmpty: [ #() ]
 				ifNotEmpty: [ {
 					BlElement new
@@ -37,7 +45,7 @@ TelemetryPing >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 						when: BlClickEvent
 						do: [ :anEvent |
 							anEvent consumed: true.
-							anEvent currentTarget phlow spawnObject: self ];
+							anEvent currentTarget phlow spawnObject: (self gtPingToSpawn: aTelemetryPing) ];
 						geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
 						border: (BlBorder paint: Color transparent width: (aWeight max: 0.1));
 						background: (BlLinearGradientPaint vertical stops: {
@@ -55,7 +63,7 @@ TelemetryPing >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 			when: BlClickEvent
 			do: [ :anEvent |
 				anEvent consumed: true.
-				anEvent currentTarget phlow spawnObject: self ];
+				anEvent currentTarget phlow spawnObject: (self gtPingToSpawn: aTelemetryPing) ];
 			constraintsDo: [ :c |
 				c horizontal matchParent.
 				c vertical exact: 20 ];
@@ -66,7 +74,7 @@ TelemetryPing >> gtBarElementsWithGlobalWeight: aWeight local: aLocalWeight [
 			in: [ :aPane | aWeight > 0.005
 				ifTrue: [ aPane addChild: (BrLabel new
 					aptitude: (BrGlamorousLabelAptitude new fontSize: 10);
-					text: self printString) asScalableElement ] ];
+					text: aTelemetryPing printString) asScalableElement ] ];
 			yourself);
 		addChild: (BlElement new
 			layout: (BlLinearLayout horizontal alignTopCenter weightSum: 1);
@@ -104,6 +112,11 @@ TelemetryPing >> gtNestedTree [
 ]
 
 { #category : #'*GToolkit-Profiler' }
+TelemetryPing >> gtPingToSpawn: aTelemetryPing [
+	^ aTelemetryPing
+]
+
+{ #category : #'*GToolkit-Profiler' }
 TelemetryPing >> gtSourceFor: aView [
 	<gtView>
 	^ aView forward
@@ -119,7 +132,7 @@ TelemetryPing >> gtTreeFor: aView [
 	
 	^ aView forward
 		title: 'Tree';
-		priority: 3;
+		priority: 6;
 		object: [ self gtNestedTree ];
 		view: #gtTreeFor:
 ]
