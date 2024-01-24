@@ -11,12 +11,12 @@ TelemetryLogger >> gtFramesFor: aView [
 		stencil: [
 			| aData anIndexMap |
 			
-			anIndexMap := (self recordings collectWithIndex: [ :eachSignal :eachIndex | eachSignal ping -> eachIndex ]) asDictionary.
+			anIndexMap := (self recordings collectWithIndex: [ :eachSignal :eachIndex | eachSignal -> eachIndex ]) asDictionary.
 			
-			aData := GtPlotterDataGroup new values: (self recordings collect: [ :eachSignal | eachSignal ping ]).
+			aData := GtPlotterDataGroup new values: (self recordings ).
 			aData := aData labelled: [ :eachTask | (anIndexMap at: eachTask) asString ].
 			aData := aData colored: [ :eachTask |
-				eachTask durationInMilliseconds <= 16
+				eachTask ping durationInMilliseconds <= 16
 					ifTrue: [ BrGlamorousColors primaryBorderColor ]
 					ifFalse: [ BrGlamorousColors errorBorderColor ] ].
 			
@@ -25,7 +25,7 @@ TelemetryLogger >> gtFramesFor: aView [
 				barGap: 0;
 				groupSpacing: 0;
 				barLabelWidth: 40;
-				barWidthData: [ :eachTask | eachTask durationInMilliseconds ];
+				barWidthData: [ :eachTask | eachTask ping durationInMilliseconds ];
 				barWidthScale: (GtPlotterLinearScale new domainFrom: 0 to: 100.0);
 				barHeightScale: (GtPlotterConstantScale new constant: 8);
 				tickLabelFormat: [ :eachDuration | eachDuration asString, ' ms' ] ]
