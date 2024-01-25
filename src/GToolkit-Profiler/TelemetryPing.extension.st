@@ -128,7 +128,7 @@ TelemetryPing >> gtSourceFor: aView [
 
 { #category : #'*GToolkit-Profiler' }
 TelemetryPing >> gtTreeFor: aView [
-	<gtView>
+	"<gtView>"
 	
 	^ aView forward
 		title: 'Tree';
