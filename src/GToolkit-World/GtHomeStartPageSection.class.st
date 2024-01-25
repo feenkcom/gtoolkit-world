@@ -21,6 +21,8 @@ GtHome >> yamlSection
 		priority: 8
 ```
 Note that this should be categorized as an extension method of one of your packages, for example `*YAMLParser` (assuming `YAMLParser` is a package of your repo). In this way, as soon as your repo is loaded, so will the extension method, and your card will automatically appear in the home section.
+
+NB: In case the database is not already loaded, you can provide a `loadLepiter:` block to load it when the card is first clicked.
 "
 Class {
 	#name : #GtHomeStartPageSection,
