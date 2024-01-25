@@ -41,7 +41,11 @@ TelemetrySignal >> gtElementUpdatesFor: aView [
 						size:eachBounds extent;
 						background: (Color blue alpha: 0.15);
 						outskirts: (BlOutskirts inside);
-						border: (BlBorder paint: (Color blue alpha: 0.5) width: 1) ].
+						elevation: (BlRelativeElevation elevation: eachElement compositionDepth);
+						border: (BlBorder paint: (Color blue alpha: 0.5) width: 1);
+						when: BlClickEvent do: [ :e |
+							e consumed: true.
+							e currentTarget phlow spawnObject: (layoutRequestedSignals at: eachElement) ] ].
 						
 			areasRequestingRepaint := repaintRequestedSignals keys
 				collect: [ :eachElement |
@@ -54,6 +58,7 @@ TelemetrySignal >> gtElementUpdatesFor: aView [
 						size:eachBounds extent;
 						background: (Color red alpha: 0.15);
 						outskirts: (BlOutskirts inside);
+						elevation: (BlRelativeElevation elevation: eachElement compositionDepth);
 						border: (BlBorder paint: (Color red alpha: 0.5) width: 1);
 						when: BlClickEvent do: [ :e |
 							e consumed: true.
