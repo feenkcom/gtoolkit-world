@@ -37,8 +37,20 @@ GtMonitoredBlocSpace >> close [
 ]
 
 { #category : #actions }
+GtMonitoredBlocSpace >> disableSceneDriller [
+	self space ifNotNil: [ :aSpace | aSpace removeEventHandlersSuchThat: [ :h |  h isKindOf: GtSceneDrillerEventHandler ] ].
+	self changed
+]
+
+{ #category : #actions }
 GtMonitoredBlocSpace >> disableShutdownOnClose [
 	self space ifNotNil: [ :aSpace | aSpace removeEventHandlersSuchThat: [ :h |  h isKindOf: BlSpaceShutdownOnCloseListener ] ].
+	self changed
+]
+
+{ #category : #actions }
+GtMonitoredBlocSpace >> enableSceneDriller [
+	self space ifNotNil: [ :aSpace | aSpace withSceneDriller ].
 	self changed
 ]
 
@@ -89,6 +101,30 @@ GtMonitoredBlocSpace >> gtActionsFor: aView [
 								aptitude: BrGlamorousButtonWithLabelAptitude new;
 								label: 'Enable';
 								action: [ self enableShutdownOnClose ]
+						 } ]));
+				addChild: (BrHorizontalPane new
+					vFitContent;
+					hMatchParent;
+					cellSpacing: 5;
+					alignCenterLeft;
+					addChildren: (self isWithSceneDriller
+						ifTrue: [ {
+							BrLabel new
+								aptitude: BrGlamorousLabelAptitude new;
+								text: 'The space can be inspected using Driller'.
+							BrButton new
+								aptitude: BrGlamorousButtonWithLabelAptitude new;
+								label: 'Disable';
+								action: [ self disableSceneDriller ].
+						}]
+						ifFalse: [ { 
+							BrLabel new
+								aptitude: BrGlamorousLabelAptitude new;
+								text: 'Driller is not installed on this space'.
+							BrButton new
+								aptitude: BrGlamorousButtonWithLabelAptitude new;
+								label: 'Enable';
+								action: [ self enableSceneDriller ]
 						 } ]));
 				addChild: (BrHorizontalPane new
 					vFitContent;
@@ -210,6 +246,17 @@ GtMonitoredBlocSpace >> isRunningAsSubSpace [
 						and: [ aSpace root space ~~ aSpace ] ] ] ]
 ]
 
+{ #category : #testing }
+GtMonitoredBlocSpace >> isWithSceneDriller [
+	^ self space
+		ifNil: [ false ]
+		ifNotNil: [ :aSpace |
+			aSpace eventDispatcher handlersDo: [ :eachEventHandler |
+				(eachEventHandler isKindOf: GtSceneDrillerEventHandler)
+					ifTrue: [ ^ true ] ].
+		false ]
+]
+
 { #category : #accessing }
 GtMonitoredBlocSpace >> pathTo [
 	Smalltalk garbageCollectMost.
@@ -233,7 +280,7 @@ GtMonitoredBlocSpace >> shouldShutdownOnClose [
 	^ self space
 		ifNil: [ false ]
 		ifNotNil: [ :aSpace |
-			aSpace eventDispatcher handlersDo: [ :eachEventHandler |
+			aSpace root eventDispatcher handlersDo: [ :eachEventHandler |
 				(eachEventHandler isKindOf: BlSpaceShutdownOnCloseListener)
 					ifTrue: [ ^ true ] ].
 		false ]
