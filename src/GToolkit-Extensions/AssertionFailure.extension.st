@@ -38,6 +38,50 @@ AssertionFailure >> gtLocateAssertEqualsContextWithComparableTypes [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+AssertionFailure >> gtScripterPreviewFor: aView [
+	<gtView>
+	<gtExceptionDebuggingView>
+	| aScripter |
+	
+	self gtHasStack ifFalse: [ ^ aView empty ].
+	aScripter := self gtScripter.
+	aScripter ifNil: [
+		^ aView empty ].
+
+	^ aView forward
+		title: 'Scripter preview';
+		priority: -1;
+		object: [ aScripter ];
+		view: #gtSpaceFor:;
+		actionButtonIcon: BrGlamorousIcons inspect 
+			label: 'Scripter'
+			tooltip: 'Inspect Scripter'
+			action: [ :anElement | anElement phlow spawnObject: aScripter ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+AssertionFailure >> gtScripterStepsFor: aView [
+	<gtView>
+	<gtExceptionDebuggingView>
+	| aScripter |
+	
+	self gtHasStack ifFalse: [ ^ aView empty ].
+	aScripter := self gtScripter.
+	aScripter ifNil: [
+		^ aView empty ].
+
+	^ aView forward
+		title: 'Scripter steps';
+		priority: 0;
+		object: [ aScripter ];
+		view: #gtStepsMondrianTreeFor:;
+		actionButtonIcon: BrGlamorousIcons inspect 
+			label: 'Scripter'
+			tooltip: 'Inspect Scripter'
+			action: [ :anElement | anElement phlow spawnObject: aScripter ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtTwoPanesStringDiffFor: aView [
 	<gtView>
 	<gtExceptionDebuggingView>
