@@ -38,7 +38,7 @@ RGMethodDefinition >> gtSourceFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Source';
-		priority: 0;
+		priority: 5;
 		actionButtonIcon: BrGlamorousVectorIcons browse 
 			tooltip: 'Browse method'
 			action: [ :aButton | aButton phlow spawnTool: 
