@@ -50,6 +50,65 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 	^ aScripter
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter: aScripter [
+	<gtExample>
+	
+	aScripter
+		substep: 'Add lepiter page into a World tab'
+		do: [ :aStep | 
+			aStep
+				doStep: [ :s | 
+					s
+						label: 'Show lepiter page space';
+						block: [ :aTabElement | 
+							| aTool aPageElement aPager |
+							aTool := aLePage asLepiterPagePhlowTool.
+							aPageElement := aTool asElementDo: [ :anElement | anElement ].
+							aPager := GtPager createWrappedOn: aPageElement.
+							GtWorldUtility
+								showSpaceWithIcon: aTool icon
+								title: aTool name
+								with: aPager
+								from: aTabElement ] ].	
+								
+			aStep
+				checkStep: [ :s | 
+					s
+						label: 'Check lepiter in a new tab';
+						value: [ :anElement | anElement tabs size ] equals: 2;
+						// GtWorldTabGroupId ].
+
+			aStep
+				checkStep: [ :s | 
+					s
+						label: 'Check lepiter tab label';
+						value: [ :anElement | anElement tabs second widget label asString ]
+							equals: [ aLePage title asString ];
+						// GtWorldTabGroupId ].
+
+			aStep
+				checkStep: [ :s | 
+					s
+						label: 'Check lepiter tab selection';
+						satisfies: [ :anElement | anElement tabs second isSelected ]
+							description: [ 'Lepiter tab must be selected' ];
+						// GtWorldTabGroupId ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
+	<gtExample>
+	| aScripter aPageHolder |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
+	self addLepiterPage: aPageHolder page intoTabElementUsingScripter: aScripter.
+	
+	^ aScripter
+]
+
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 	<gtExample>
@@ -305,6 +364,36 @@ GtWorldByScripterExamples >> clickOnInspectorInTheSecondPane [
 	^ aScripter
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> clickOnLepiterPageTitle: aPage atPagerPaneIndex: anIndex scripter: aScripter [
+	<gtExample>
+	aScripter
+		clickStep: [ :s | 
+			s
+				label: 'Click on a lepiter page editable title';
+				// (GtPagerPageElementId indexed: anIndex);
+				// LePageEditableTitleElement ].
+
+	aScripter
+		checkStep: [ :s | 
+			s
+				label: 'Check the lepiter page title';
+				value: [ :anElement | anElement pageViewModel pageModel title asString ]
+					equals: [ aPage title asString ];
+				// (GtPagerPageElementId indexed: anIndex);
+				// LePageEditableTitleElement ].
+	aScripter
+		checkStep: [ :s | 
+			s
+				label: 'Check the lepiter page title has focus';
+				value: [ :anElement | anElement hasFocus ]
+					equals: [ true ];
+				// (GtPagerPageElementId indexed: anIndex);
+				// LePageEditableTitleElement ].
+
+	^ aScripter
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> clickOnPackageEditableName [
 	<gtExample>
@@ -425,6 +514,37 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 						value: [ :anElement | anElement pages size ] equals: [ 2 ];
 						id: GtWorldTabGroupId;
 						onBreadthFirstChildOfClass: GtPager ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
+	<gtExample>
+	<noTest>
+	| aScripter aPageHolder aPage |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
+	aPage := aPageHolder page.
+
+	aScripter
+		substeps: 'Open the same page in a second pane'
+		do: [ :aStep | 
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Play and inspect Pharo script';
+						// (GtPagerPageElementId indexed: 2);
+						// LePageSnippetsTreeElementId;
+						// LeSnippetElementId;
+						// GtSourceCoderDoItAndGoActionId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert there is a second pane with a same page';
+						value: [ :aPager | aPager pages size ] equals: 3;
+						// GtPager ] ].
 
 	^ aScripter
 ]
@@ -648,6 +768,43 @@ GtWorldByScripterExamples >> setupExpectedTabLabel: aBlock at: aPaneIndex step: 
 				onBreadthFirstChildOfClass: GtPager;
 				onChildFromBlock: [ :aPager | (aPager pages at: aPaneIndex) widget ];
 				onBreadthFirstChildOfClass: GtCoderElement ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> spawnSameLepiterPageWithPharoSnippetToNextPane [
+	<gtExample>
+	| aScripter aPageHolder aPage |
+	aScripter := self addLepiterPageWithPharoSnippetIntoTabElement.
+	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
+	aPage := aPageHolder page.
+
+	aScripter
+		substeps: 'Open the same page in a second pane'
+		do: [ :aStep | 
+			self
+				clickOnLepiterPageTitle: aPage
+				atPagerPaneIndex: 1
+				scripter: aStep.
+			aStep
+				shortcutStep: [ :s | 
+					s
+						label: 'Click on a lepiter page editable title';
+						combination: BlKeyCombination primaryB;
+						// (GtPagerPageElementId indexed: 1);
+						// LePageEditableTitleElement;
+						// BrEditor ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert there is a second pane with a same page';
+						value: [ :anEditor | anEditor text asString ]
+							equals: [ aPage title asString ];
+						// (GtPagerPageElementId indexed: 2);
+						// LePageEditableTitleElement;
+						// BrEditor ] ].
+
+	^ aScripter
 ]
 
 { #category : #'examples - world' }
