@@ -3,7 +3,7 @@ Extension { #name : #AssertionFailure }
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtDebuggingExtensionConfiguration [
 	^ super gtDebuggingExtensionConfiguration
-		enableDebuggingViewExtension: [ self gtIsStringComparison ] 
+		enableDebuggingViewExtension: [ self gtIsStringComparison or: [ self gtScripter isNotNil ] ] 
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -50,7 +50,7 @@ AssertionFailure >> gtScripterPreviewFor: aView [
 
 	^ aView forward
 		title: 'Scripter preview';
-		priority: -1;
+		priority: 0;
 		object: [ aScripter ];
 		view: #gtSpaceFor:;
 		actionButtonIcon: BrGlamorousIcons inspect 
@@ -72,7 +72,7 @@ AssertionFailure >> gtScripterStepsFor: aView [
 
 	^ aView forward
 		title: 'Scripter steps';
-		priority: 0;
+		priority: -1;
 		object: [ aScripter ];
 		view: #gtStepsMondrianTreeFor:;
 		actionButtonIcon: BrGlamorousIcons inspect 
