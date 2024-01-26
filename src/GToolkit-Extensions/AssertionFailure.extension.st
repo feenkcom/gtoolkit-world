@@ -3,7 +3,7 @@ Extension { #name : #AssertionFailure }
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtDebuggingExtensionConfiguration [
 	^ super gtDebuggingExtensionConfiguration
-		enableDebuggingViewExtension: [ self gtIsStringComparison ] 
+		enableDebuggingViewExtension: [ self gtIsStringComparison or: [ self gtScripter isNotNil ] ] 
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -35,6 +35,50 @@ AssertionFailure >> gtLocateAssertEqualsContextWithComparableTypes [
 	anExpected isString ifFalse: [ ^ nil ].
 	
 	^ assertionContext
+]
+
+{ #category : #'*GToolkit-Extensions' }
+AssertionFailure >> gtScripterPreviewFor: aView [
+	<gtView>
+	<gtExceptionDebuggingView>
+	| aScripter |
+	
+	self gtHasStack ifFalse: [ ^ aView empty ].
+	aScripter := self gtScripter.
+	aScripter ifNil: [
+		^ aView empty ].
+
+	^ aView forward
+		title: 'Scripter preview';
+		priority: 0;
+		object: [ aScripter ];
+		view: #gtSpaceFor:;
+		actionButtonIcon: BrGlamorousIcons inspect 
+			label: 'Scripter'
+			tooltip: 'Inspect Scripter'
+			action: [ :anElement | anElement phlow spawnObject: aScripter ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+AssertionFailure >> gtScripterStepsFor: aView [
+	<gtView>
+	<gtExceptionDebuggingView>
+	| aScripter |
+	
+	self gtHasStack ifFalse: [ ^ aView empty ].
+	aScripter := self gtScripter.
+	aScripter ifNil: [
+		^ aView empty ].
+
+	^ aView forward
+		title: 'Scripter steps';
+		priority: -1;
+		object: [ aScripter ];
+		view: #gtStepsMondrianTreeFor:;
+		actionButtonIcon: BrGlamorousIcons inspect 
+			label: 'Scripter'
+			tooltip: 'Inspect Scripter'
+			action: [ :anElement | anElement phlow spawnObject: aScripter ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
