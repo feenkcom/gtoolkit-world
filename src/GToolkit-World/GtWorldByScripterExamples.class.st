@@ -104,6 +104,7 @@ GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 	| aScripter aPageHolder |
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
+	aScripter model: aPageHolder.
 	self addLepiterPage: aPageHolder page intoTabElementUsingScripter: aScripter.
 	
 	^ aScripter
@@ -522,13 +523,11 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 	<gtExample>
 	<noTest>
-	| aScripter aPageHolder aPage |
+	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
-	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
-	aPage := aPageHolder page.
-
+	
 	aScripter
-		substeps: 'Open the same page in a second pane'
+		substeps: 'Open result in the third pane'
 		do: [ :aStep | 
 			aStep
 				clickStep: [ :s | 
@@ -542,7 +541,7 @@ GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 			aStep
 				assertStep: [ :s | 
 					s
-						label: 'Assert there is a second pane with a same page';
+						label: 'Assert the third result pane';
 						value: [ :aPager | aPager pages size ] equals: 3;
 						// GtPager ] ].
 
@@ -773,11 +772,10 @@ GtWorldByScripterExamples >> setupExpectedTabLabel: aBlock at: aPaneIndex step: 
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> spawnSameLepiterPageWithPharoSnippetToNextPane [
 	<gtExample>
-	| aScripter aPageHolder aPage |
+	| aScripter aPage |
 	aScripter := self addLepiterPageWithPharoSnippetIntoTabElement.
-	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
-	aPage := aPageHolder page.
-
+	aPage := aScripter model page.
+	
 	aScripter
 		substeps: 'Open the same page in a second pane'
 		do: [ :aStep | 
