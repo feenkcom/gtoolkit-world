@@ -8,7 +8,8 @@ Class {
 		'action',
 		'iconSize',
 		'margin',
-		'priority'
+		'priority',
+		'elementId'
 	],
 	#category : #'GToolkit-World-Stencils'
 }
@@ -26,13 +27,12 @@ GtToolButtonStencil >> action: anObject [
 { #category : #'api - instantiation' }
 GtToolButtonStencil >> create [
 	<return: #BrButton>
-
-	| iconElement labelElement |
+	| iconElement labelElement button |
 	iconElement := (self icon asElement asScalableElement) size: self iconSize; margin: (BlInsets bottom: 5).
 	labelElement := BrLabel new 
 	    text: self title;
 	    aptitude: (BrGlamorousLabelAptitude new fontSize: 10).
-	^ BrButton new
+	button := BrButton new
 		constraintsDo:[ :c | 
 	        c horizontal exact: 74.
 	        c vertical exact: 74 ];
@@ -45,6 +45,8 @@ GtToolButtonStencil >> create [
 		layout: BlLinearLayout vertical alignCenter;
 		addChild: iconElement;
 		addChild: labelElement.
+	elementId ifNotNil: [ button id: elementId ].
+	^ button
 ]
 
 { #category : #accessing }
@@ -55,6 +57,16 @@ GtToolButtonStencil >> description [
 { #category : #accessing }
 GtToolButtonStencil >> description: anObject [
 	description := anObject
+]
+
+{ #category : #accessing }
+GtToolButtonStencil >> elementId [
+	^ elementId
+]
+
+{ #category : #accessing }
+GtToolButtonStencil >> elementId: anObject [
+	elementId := anObject
 ]
 
 { #category : #accessing }

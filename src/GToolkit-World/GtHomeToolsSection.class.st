@@ -120,7 +120,8 @@ GtHomeToolsSection >> newCoderButtonStencil [
 				title: 'Coder'
 				with: GtCoderStencil new
 				from: card ];
-		description: 'Browse and manipulate code.'
+		description: 'Browse and manipulate code.';
+		elementId: GtHomeCoderButtonId.
 ]
 
 { #category : #'tools creation' }
