@@ -125,7 +125,7 @@ GtHome >> initializePanes [
 	sectionsHolder := self createSectionsHolder.
 	sectionsPane addChild: notificationsElement.
 	sectionsPane addChild: sectionsHolder.
-	mainPane addChild: (self toolsSection create margin: (BlInsets top: self spaceGap left: self spaceGap bottom: self spaceGap * 2 right: self spaceGap * 2)).
+	mainPane addChild: self toolsSectionElement as: #toolsSection.
 	mainPane addChild: sectionsPane.
 	"mainPane addChild: feedElement."
 	
@@ -172,6 +172,17 @@ GtHome >> toolsSection [
 		knowledgeBaseComputation: [ self knowledgeBase ]
 ]
 
+{ #category : #sections }
+GtHome >> toolsSectionElement [
+
+	^ self toolsSection create 
+		margin: (BlInsets 
+			top: self spaceGap 
+			left: self spaceGap 
+			bottom: self spaceGap * 2 
+			right: self spaceGap * 2)
+]
+
 { #category : #updating }
 GtHome >> update: anAnnouncement [
 	anAnnouncement classAffected == self class
@@ -203,8 +214,19 @@ GtHome >> updateSections [
 ]
 
 { #category : #updating }
+GtHome >> updateToolsSection [
+	| toolsSection toolsSectionParent |
+
+	toolsSection := self childNamed: #toolsSection.
+	toolsSectionParent := toolsSection parent.
+	toolsSection removeFromParent.
+	toolsSectionParent addChildFirst: self toolsSectionElement as: #toolsSection.
+]
+
+{ #category : #updating }
 GtHome >> updateWidget [
 	self updateNotifications.
 	self updateSections.
 	self updateFeed.
+	self updateToolsSection.
 ]

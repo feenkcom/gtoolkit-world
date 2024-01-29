@@ -522,7 +522,6 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 	<gtExample>
-	<noTest>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 	
