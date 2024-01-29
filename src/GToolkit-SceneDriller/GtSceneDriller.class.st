@@ -45,7 +45,26 @@ GtSceneDriller >> bindElementTreeValue: eachElement toRowElement: aRowElement [
 			]) ]
 		ifNone: [  ].
 		
+	self bindElementTreeValuePhlowContext: eachElement toRowElement: aRowElement.
 	self bindElementTreeValueWhenAddedToSceneGraph: eachElement toRowElement: aRowElement
+]
+
+{ #category : #'private - tree' }
+GtSceneDriller >> bindElementTreeValuePhlowContext: eachElement toRowElement: aRowElement [ 
+	aRowElement
+		childWithId: #phlowContext
+		ifFound: [ :anPhlowContextButton | 
+			((eachElement userData includesKey: #phlow)  and: [
+				eachElement phlow hasActivePhlowContexts])
+			ifTrue: [
+				anPhlowContextButton model: eachElement phlow.
+				anPhlowContextButton label: ('phlow: ', eachElement phlow activePhlowContextsDescription).
+				anPhlowContextButton visibility: BlVisibility visible]
+			ifFalse: [
+				anPhlowContextButton model: nil.
+				anPhlowContextButton label: ''.
+				anPhlowContextButton visibility: BlVisibility gone ] ]
+		ifNone: [  ].
 ]
 
 { #category : #'private - tree' }
@@ -298,6 +317,20 @@ GtSceneDriller >> newTreeRowElement [
 				beSmallSize;
 				id: #elementResizers;
 				aptitude: (BrGlamorousLabelAptitude new foreground: Color darkGray).
+			BrButton new
+				beTinySize;
+				id: #phlowContext;
+				aptitude: (BrGlamorousButtonLabelAptitude new
+							hoveredColor: Color black;
+							pressedColor: Color black) +
+						(BrGlamorousButtonRectangularAptitude
+							paddingScale: 0.8
+							heightScale: 0.85
+							cornerRadius: 3) + (BrStyleCommonAptitude new
+					default: [ :s | s background: (Color gray alpha: 0.1) ];
+					hovered: [ :s | s background: (Color gray alpha: 0.2) ];
+					pressed: [ :s | s background: (Color gray alpha: 0.3) ]);
+				action: [ :aButtonElement | aButtonElement phlow spawnObject: aButtonElement model ].
 			BrButton new
 				beTinySize;
 				id: #whenAddedToSceneGraph;
