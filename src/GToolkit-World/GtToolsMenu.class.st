@@ -68,52 +68,16 @@ GtToolsMenu >> addBottomButtons [
 
 { #category : #initialization }
 GtToolsMenu >> addSections [
-	self
-		addChild: ((GtHomeToolsSection new
-				knowledgeBaseComputation: [self knowledgeBase]) newPlaygroundButtonStencil
-				smallIcon smallMargin
-				create size: self iconSize).
-	self
-		addChild: ((GtHomeToolsSection new
-				knowledgeBaseComputation: [self knowledgeBase]) newNotesButtonStencil
-				smallIcon smallMargin
-				create size: self iconSize).
-	self
-		addChild: ((GtHomeToolsSection new
-				knowledgeBaseComputation: [self knowledgeBase]) newLepiterButtonStencil
-				smallIcon smallMargin
-				create size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newCoderButtonStencil smallIcon
-				smallMargin create
-				size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newGitButtonStencil smallIcon smallMargin
-				create size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newCodeChangesButtonStencil smallIcon
-				smallMargin create
-				size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newMonitorButtonStencil smallIcon
-				smallMargin create
-				size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newExamplesButtonStencil smallIcon
-				smallMargin create
-				size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newTranscriptButtonStencil smallIcon
-				smallMargin create
-				size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newFileSystemButtonStencil smallIcon
-				smallMargin create
-				size: self iconSize).
-	self
-		addChild: (GtHomeToolsSection new newMorphicWorldButtonStencil smallIcon
-				smallMargin create
-				size: self iconSize)
+	| homeToolsSection iconSize |
+
+	homeToolsSection := GtHomeToolsSection new
+		knowledgeBaseComputation: [self knowledgeBase].
+	iconSize := self iconSize.
+
+	self addChildren: (homeToolsSection allButtonStencils collect: [ :each |
+		[ each smallIcon smallMargin create size: iconSize]
+			on: Error
+			do: [ :ex | (homeToolsSection handleButtonCreationException: ex) create size: iconSize ] ]).
 ]
 
 { #category : #accessing }

@@ -7,6 +7,32 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
+{ #category : #'private - accessing' }
+GtHomeToolsSection >> allButtonStencils [
+	"Answer the stencils to be displayed in the GT home tab.
+	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
+
+	^ ((GtPhlowCollector new
+		fromObject: self;
+		pragmaName: #gtToolButton;
+		collectAllPragmas)
+			collect: [ :aPragma | [ self perform: aPragma methodSelector ]
+				on: Error
+				do: [ :ex | self handleButtonCreationException: ex ] ])
+					sorted: #priority ascending
+]
+
+{ #category : #'private - accessing' }
+GtHomeToolsSection >> allButtons [
+	"Answer the buttons to be displayed in the GT home tab.
+	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
+
+	^ self allButtonStencils collect: [ :stencil |
+		[ stencil create ]
+			on: Error
+			do: [ :ex | (self handleButtonCreationException: ex) create ] ]
+]
+
 { #category : #'api - instantiation' }
 GtHomeToolsSection >> create [
 	| sectionContainer cardsContainer |
@@ -25,22 +51,30 @@ GtHomeToolsSection >> create [
 			c horizontal fitContent.
 			c vertical fitContent ];
 		padding: (BlInsets all: 0).
-	cardsContainer addChild: self newPlaygroundButtonStencil create.
-	
-	
-	cardsContainer addChild: self newNotesButtonStencil create.
-	cardsContainer addChild: self newLepiterButtonStencil create.
-	cardsContainer addChild: self newCoderButtonStencil create as: GtHomeCoderButtonId.
-	cardsContainer addChild: self newGitButtonStencil create.
-	cardsContainer addChild: self newCodeChangesButtonStencil create.
-	cardsContainer addChild: self newMonitorButtonStencil create.
-	cardsContainer addChild: self newExamplesButtonStencil create.
-	cardsContainer addChild: self newTranscriptButtonStencil create.
-	cardsContainer addChild: self newFileSystemButtonStencil create.
-	cardsContainer addChild: self newMorphicWorldButtonStencil create.
-	cardsContainer addChild: self newSpotterButtonStencil create.
+	cardsContainer addChildren: self allButtons.
 	sectionContainer addChild: cardsContainer.
 	^ sectionContainer
+]
+
+{ #category : #'private ' }
+GtHomeToolsSection >> handleButtonCreationException: anException [
+	"Answer a button stencil that opens an inspector on the supplied exception"
+	| frozenException |
+
+	frozenException := anException freeze.
+	^ GtToolButtonStencil new
+		title: 'Error';
+		priority: 5;
+		icon: BrGlamorousVectorIcons debug;
+		action: [ :card | 
+			self
+				showSpaceWithIcon: (BrGlamorousVectorIcons debug asElement asPannableElement size: 16@16)
+				title: 'Error during button creation'
+				with: (GtInspector
+					createOn: frozenException) maximized
+				from: card ];
+		description:
+			'An error occured while creating the button'
 ]
 
 { #category : #accessing }
@@ -55,8 +89,12 @@ GtHomeToolsSection >> knowledgeBaseComputation: aValuable [
 
 { #category : #accessing }
 GtHomeToolsSection >> newCodeChangesButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new
 		title: 'Code Changes';
+		priority: 35;
+
 		icon: BrGlamorousVectorIcons largeChanges;
 		action: [ :card | 
 			self
@@ -70,8 +108,11 @@ GtHomeToolsSection >> newCodeChangesButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newCoderButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Coder';
+		priority: 25;
 		icon: BrGlamorousVectorIcons largeBook;
 		action: [ :card | 
 			self
@@ -79,13 +120,17 @@ GtHomeToolsSection >> newCoderButtonStencil [
 				title: 'Coder'
 				with: GtCoderStencil new
 				from: card ];
-		description: 'Browse and manipulate code.'
+		description: 'Browse and manipulate code.';
+		elementId: GtHomeCoderButtonId.
 ]
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newExamplesButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Exemplifier';
+		priority: 45;
 		icon: BrGlamorousVectorIcons largeEg;
 		action: [ :card | 
 			self
@@ -100,8 +145,11 @@ GtHomeToolsSection >> newExamplesButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newFileSystemButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'File system';
+		priority: 55;
 		icon: BrGlamorousVectorIcons folder;
 		action: [ :card | 
 			(GtPhlowCompositeTool new
@@ -118,8 +166,11 @@ GtHomeToolsSection >> newFileSystemButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newGitButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Git';
+		priority: 30;
 		icon: BrGlamorousVectorIcons largebranching;
 		action: [ :card | 
 			self
@@ -132,8 +183,11 @@ GtHomeToolsSection >> newGitButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newLepiterButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Lepiter';
+		priority: 20;
 		icon: LeIcons lepiterDatabase;
 		action: [ :card | 
 			self
@@ -147,8 +201,11 @@ GtHomeToolsSection >> newLepiterButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newMonitorButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Monitor';
+		priority: 40;
 		icon: BrGlamorousVectorIcons largeSignal;
 		action: [ :card | 
 			self
@@ -161,8 +218,11 @@ GtHomeToolsSection >> newMonitorButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newMorphicWorldButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Morphic World';
+		priority: 60;
 		icon: BrGlamorousVectorIcons largeWindow;
 		action: [ :card | card space host openMorphicWorld ];
 		description: 'The legacy Morphic World interface and tools.'
@@ -170,8 +230,11 @@ GtHomeToolsSection >> newMorphicWorldButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newNotesButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Note';
+		priority: 15;
 		icon: LeIcons lepiterPage;
 		action: [ :card | 
 			self
@@ -185,8 +248,11 @@ GtHomeToolsSection >> newNotesButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newPlaygroundButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Playground';
+		priority: 10;
 		icon: (GtPlaygroundStencil playgroundClass defaultIcon);
 		action: [ :card | 
 			self
@@ -200,8 +266,11 @@ GtHomeToolsSection >> newPlaygroundButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newSpotterButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Spotter';
+		priority: 65;
 		icon: BrGlamorousVectorIcons largeSearch;
 		action: [ :card | card fireEvent: GtSpawnSpotter new ];
 		description: 'Search anything. Really anything.'
@@ -209,8 +278,11 @@ GtHomeToolsSection >> newSpotterButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newTranscriptButtonStencil [
+	<gtToolButton>
+
 	^ GtToolButtonStencil new 
 		title: 'Transcript';
+		priority: 50;
 		icon: BrGlamorousVectorIcons largeTranscript;
 		action: [ :card | 
 			self
