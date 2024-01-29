@@ -571,6 +571,55 @@ GtWorldByScripterExamples >> playgroundStencil [
 	^ aStencil
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
+	<gtExample>
+	| aScripter |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+
+	aScripter
+		substeps: 'Print result in the second pane'
+		do: [ :aStep | 
+			aStep
+				shortcutStep: [ :s | 
+					s
+						label: 'Play and print Pharo script';
+						combination: BlKeyCombination primaryP;
+						// (GtPagerPageElementId indexed: 2);
+						// LePageSnippetsTreeElementId;
+						// LeSnippetElementId;
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert two panes';
+						value: [ :aPager | aPager pages size ] equals: 2;
+						// GtPager ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert print element in the second pane';
+						exists;
+						// (GtPagerPageElementId indexed: 2);
+						// LePageSnippetsTreeElementId;
+						// LeSnippetElementId;
+						// GtCoderPrintStringElementId ].
+						
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert print element not in the first pane';
+						notExists;
+						// (GtPagerPageElementId indexed: 1);
+						// LePageSnippetsTreeElementId;
+						// LeSnippetElementId;
+						// GtCoderPrintStringElementId ] ].
+
+	^ aScripter
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 	"Issue [feenkcom/gtoolkit#3168](https://github.com/feenkcom/gtoolkit/issues/3168)"
