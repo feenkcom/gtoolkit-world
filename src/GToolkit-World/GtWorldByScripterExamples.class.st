@@ -155,6 +155,45 @@ GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 	^ aScripter
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> browseImplementorsInTheSecondLepiterPagePane [
+	<gtExample>
+	| aScripter |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+
+	aScripter
+		substeps: 'Open implementors in the third pane'
+		do: [ :aStep | 
+			aStep
+				doStep: [ :s | 
+					s
+						label: 'Move cursor to the end';
+						block: [ :anEditor | 
+							anEditor navigator
+								moveTo: anEditor text size;
+								apply ];
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				shortcutStep: [ :s | 
+					s
+						label: 'Browse implementors';
+						combination: BlKeyCombination primaryM;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert the third result pane';
+						value: [ :aPager | aPager pages size ] equals: 3;
+						// GtPager ] ].
+
+	^ aScripter
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> browsePackageInSecondPane [
 	<gtExample>
@@ -171,6 +210,45 @@ GtWorldByScripterExamples >> browsePackageInSecondPane [
 				label: 'Check we have two tools';
 				// GtPager;
 				value: [ :anElement | anElement pages size ] equals: [ 2 ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> browseSendersInTheSecondLepiterPagePane [
+	<gtExample>
+	| aScripter |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+
+	aScripter
+		substeps: 'Open senders in the third pane'
+		do: [ :aStep | 
+			aStep
+				doStep: [ :s | 
+					s
+						label: 'Move cursor to the end';
+						block: [ :anEditor | 
+							anEditor navigator
+								moveTo: anEditor text size;
+								apply ];
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				shortcutStep: [ :s | 
+					s
+						label: 'Browse senders';
+						combination: BlKeyCombination primaryN;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert the third result pane';
+						value: [ :aPager | aPager pages size ] equals: 3;
+						// GtPager ] ].
 
 	^ aScripter
 ]
@@ -533,8 +611,6 @@ GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 					s
 						label: 'Play and inspect Pharo script';
 						// (GtPagerPageElementId indexed: 2);
-						// LePageSnippetsTreeElementId;
-						// LeSnippetElementId;
 						// GtSourceCoderDoItAndGoActionId ].
 
 			aStep
@@ -569,6 +645,75 @@ GtWorldByScripterExamples >> playgroundStencil [
 	self assert: aStencil knowledgeBase == aDb.
 
 	^ aStencil
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
+	<gtExample>
+	| aScripter |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+
+	aScripter
+		substeps: 'Print result in the second pane'
+		do: [ :aStep | 
+			aStep
+				shortcutStep: [ :s | 
+					s
+						label: 'Play and print Pharo script';
+						combination: BlKeyCombination primaryP;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert two panes';
+						value: [ :aPager | aPager pages size ] equals: 2;
+						// GtPager ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert print element in the second pane';
+						exists;
+						// (GtPagerPageElementId indexed: 2);
+						// GtCoderPrintStringElementId ].
+						
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert print element not in the first pane';
+						notExists;
+						// (GtPagerPageElementId indexed: 1);
+						// GtCoderPrintStringElementId ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> profileScriptInTheSecondLepiterPagePane [
+	<gtExample>
+	| aScripter |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+	
+	aScripter
+		substeps: 'Open profile report in the third pane'
+		do: [ :aStep | 
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Profile Pharo script';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderProfileActionId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert the third result pane';
+						value: [ :aPager | aPager pages size ] equals: 3;
+						// GtPager ] ].
+
+	^ aScripter
 ]
 
 { #category : #'examples - coder' }
