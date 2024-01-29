@@ -7,7 +7,8 @@ Class {
 		'description',
 		'action',
 		'iconSize',
-		'margin'
+		'margin',
+		'priority'
 	],
 	#category : #'GToolkit-World-Stencils'
 }
@@ -82,6 +83,7 @@ GtToolButtonStencil >> initialize [
 	description := 'Some tool'.
 	title := 'Some tool'.
 	action := [  ].
+	priority := 50.
 
 	iconSize := 32@32.
 	margin := BlInsets top: 10 left: 20 bottom: 10 right: 20.
@@ -97,6 +99,16 @@ GtToolButtonStencil >> margin [
 { #category : #accessing }
 GtToolButtonStencil >> margin: anObject [
 	margin := anObject
+]
+
+{ #category : #accessing }
+GtToolButtonStencil >> priority [
+	^ priority
+]
+
+{ #category : #accessing }
+GtToolButtonStencil >> priority: anObject [
+	priority := anObject
 ]
 
 { #category : #accessing }
