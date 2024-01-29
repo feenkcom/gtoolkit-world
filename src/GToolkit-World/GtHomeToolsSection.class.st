@@ -12,10 +12,14 @@ GtHomeToolsSection >> allButtonStencils [
 	"Answer the stencils to be displayed in the GT home tab.
 	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
 
-	^ (self class allMethods
-		select: [ :method | method hasPragmaNamed: #gtToolButton ]
-		thenCollect: [ :method | self perform: method selector ])
-			sorted: #priority ascending
+	^ ((GtPhlowCollector new
+		fromObject: self;
+		pragmaName: #gtToolButton;
+		collectAllPragmas)
+			collect: [ :aPragma | [ self perform: aPragma methodSelector ]
+				on: Error
+				do: [ :ex | self handleButtonCreationException: ex ] ])
+					sorted: #priority ascending
 ]
 
 { #category : #'private - accessing' }
@@ -23,7 +27,10 @@ GtHomeToolsSection >> allButtons [
 	"Answer the buttons to be displayed in the GT home tab.
 	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
 
-	^ self allButtonStencils collect: #create
+	^ self allButtonStencils collect: [ :stencil |
+		[ stencil create ]
+			on: Error
+			do: [ :ex | (self handleButtonCreationException: ex) create ] ]
 ]
 
 { #category : #'api - instantiation' }
@@ -47,6 +54,27 @@ GtHomeToolsSection >> create [
 	cardsContainer addChildren: self allButtons.
 	sectionContainer addChild: cardsContainer.
 	^ sectionContainer
+]
+
+{ #category : #'private ' }
+GtHomeToolsSection >> handleButtonCreationException: anException [
+	"Answer a button stencil that opens an inspector on the supplied exception"
+	| frozenException |
+
+	frozenException := anException freeze.
+	^ GtToolButtonStencil new
+		title: 'Error';
+		priority: 5;
+		icon: BrGlamorousVectorIcons debug;
+		action: [ :card | 
+			self
+				showSpaceWithIcon: (BrGlamorousVectorIcons debug asElement asPannableElement size: 16@16)
+				title: 'Error during button creation'
+				with: (GtInspector
+					createOn: frozenException) maximized
+				from: card ];
+		description:
+			'An error occured while creating the button'
 ]
 
 { #category : #accessing }

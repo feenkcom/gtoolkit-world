@@ -75,7 +75,9 @@ GtToolsMenu >> addSections [
 	iconSize := self iconSize.
 
 	self addChildren: (homeToolsSection allButtonStencils collect: [ :each |
-		each smallIcon smallMargin create size: iconSize ]).
+		[ each smallIcon smallMargin create size: iconSize]
+			on: Error
+			do: [ :ex | (homeToolsSection handleButtonCreationException: ex) create size: iconSize ] ]).
 ]
 
 { #category : #accessing }
