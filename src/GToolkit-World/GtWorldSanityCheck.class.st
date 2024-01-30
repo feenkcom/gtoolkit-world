@@ -16,7 +16,7 @@ GtWorldSanityCheck class >> checkImage: aFileReference [
 		'--interactive'.
 		aFileReference fullName.
 		'eval'.
-		'GtWorldSanityCheck'.
+		self name asString.
 		'new'.
 		'checkImage'.
 		'--detachChangesFromFileSystem'.
@@ -49,15 +49,8 @@ GtWorldSanityCheck class >> checkOnDiskImage [
 
 { #category : #checking }
 GtWorldSanityCheck >> checkImage [
-	| image gtw screenshot |
 
-	[ gtw := GtWorld allInstances anyOne.
-	self assert: gtw isOpened.
-	screenshot := gtw root exportAsPNG.
-	self assert: screenshot exists.
-	image := ImageReadWriter gtFormFromFileReference:  screenshot.
-	self assert: (image width between: 600 and: 2000).
-	self assert: (image height between: 400 and: 2000).
+	[ self runChecks.
 	Stdio stdout lf; << 'GtWorldSanityCheck pass'; lf ]
 		on: Exception
 		do: [ :ex |
@@ -68,4 +61,17 @@ GtWorldSanityCheck >> checkImage [
 				lf.
 			Smalltalk exit: 1 ].
 	Smalltalk exit: 0.
+]
+
+{ #category : #checking }
+GtWorldSanityCheck >> runChecks [
+	| image gtw screenshot |
+
+	gtw := GtWorld allInstances anyOne.
+	self assert: gtw isOpened.
+	screenshot := gtw root exportAsPNG.
+	self assert: screenshot exists.
+	image := ImageReadWriter gtFormFromFileReference:  screenshot.
+	self assert: (image width between: 600 and: 2000).
+	self assert: (image height between: 400 and: 2000).
 ]
