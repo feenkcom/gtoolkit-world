@@ -8,17 +8,6 @@ Class {
 }
 
 { #category : #'private - accessing' }
-GtHomeToolsSection >> allButtons [
-	"Answer the buttons to be displayed in the GT home tab.
-	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
-
-	^ self allButtonStencils collect: [ :stencil |
-		[ stencil create ]
-			on: Error
-			do: [ :ex | (self handleButtonCreationException: ex) create ] ]
-]
-
-{ #category : #'private - accessing' }
 GtHomeToolsSection >> allButtonStencils [
 	"Answer the stencils to be displayed in the GT home tab.
 	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
@@ -31,6 +20,17 @@ GtHomeToolsSection >> allButtonStencils [
 				on: Error
 				do: [ :ex | self handleButtonCreationException: ex ] ])
 					sorted: #priority ascending
+]
+
+{ #category : #'private - accessing' }
+GtHomeToolsSection >> allButtons [
+	"Answer the buttons to be displayed in the GT home tab.
+	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
+
+	^ self allButtonStencils collect: [ :stencil |
+		[ stencil create ]
+			on: Error
+			do: [ :ex | (self handleButtonCreationException: ex) create ] ]
 ]
 
 { #category : #'api - instantiation' }

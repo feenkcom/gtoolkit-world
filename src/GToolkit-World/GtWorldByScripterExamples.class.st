@@ -891,6 +891,112 @@ GtWorldByScripterExamples >> selectPackageInCoder [
 	^ aScripter
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> semanticErrorScriptInTheSecondLepiterPagePane [
+	<gtExample>
+	| aScripter |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+
+	aScripter
+		substeps: 'Open result in the third pane'
+		do: [ :aStep | 
+			aStep
+				typeStep: [ :s | 
+					s
+						label: 'Define variable';
+						text: '| each | ';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+			aStep
+				doStep: [ :s | 
+					s
+						label: 'Move cursor to the end';
+						block: [ :anEditor | 
+							anEditor navigator
+								moveTo: anEditor text size;
+								apply ];
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+			aStep
+				typeStep: [ :s | 
+					s
+						label: 'Type block with variable';
+						text: ' files do: [ :each | each ]';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Play and inspect Pharo script';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderDoItAndGoActionId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert two panes';
+						value: [ :aPager | aPager pages size ] equals: 2;
+						// GtPager ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert one error content dropdown';
+						value: [ :aRoot | 
+								| aQuery |
+								aQuery := aRoot query // GtSourceCoderErrorContentElementId.
+								aQuery result size ]
+							equals: 1;
+						onSpaceRoot ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesAt: 49)
+								anySatisfy: [ :a | a class = GtSourceCoderErrorAttribute ] ];
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesAt: 49)
+								allSatisfy: [ :a | (a class = GtSourceCoderErrorAttribute) not ] ];
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Click inside of the code';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
+						exists;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId;
+						// GtSourceCoderErrorButtonElementId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
+						notExists;
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId;
+						// GtSourceCoderErrorButtonElementId ] ].
+
+	^ aScripter
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> setupExpectedTabLabel: aBlock at: aPaneIndex step: aStep scripter: aScripter [
 	<gtExample>
