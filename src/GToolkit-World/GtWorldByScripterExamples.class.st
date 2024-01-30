@@ -676,29 +676,28 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 						onSpaceRoot ].
 
 			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Click inside of the code';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+			aStep
 				assertStep: [ :s | 
 					s
 						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
 						satisfies: [ :anEditor | 
-							(anEditor text attributesAt: 49)
+							(anEditor text attributesAt: 26)
 								anySatisfy: [ :a | a class = GtSourceCoderErrorAttribute ] ];
 						// (GtPagerPageElementId indexed: 2);
 						// GtSourceCoderEditorId ].
-
 			aStep
 				assertStep: [ :s | 
 					s
 						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
 						satisfies: [ :anEditor | 
-							(anEditor text attributesAt: 49)
+							(anEditor text attributesAt: 26)
 								allSatisfy: [ :a | (a class = GtSourceCoderErrorAttribute) not ] ];
 						// (GtPagerPageElementId indexed: 1);
-						// GtSourceCoderEditorId ].
-			aStep
-				clickStep: [ :s | 
-					s
-						label: 'Click inside of the code';
-						// (GtPagerPageElementId indexed: 2);
 						// GtSourceCoderEditorId ].
 
 			aStep
