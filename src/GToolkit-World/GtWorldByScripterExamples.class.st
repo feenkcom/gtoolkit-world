@@ -686,7 +686,7 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 					s
 						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
 						satisfies: [ :anEditor | 
-							(anEditor text attributesAt: 26)
+							(anEditor text attributesAt: 27)
 								anySatisfy: [ :a | a class = GtSourceCoderErrorAttribute ] ];
 						// (GtPagerPageElementId indexed: 2);
 						// GtSourceCoderEditorId ].
