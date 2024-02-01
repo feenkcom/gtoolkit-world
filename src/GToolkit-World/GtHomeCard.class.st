@@ -8,7 +8,8 @@ Class {
 		'title',
 		'description',
 		'action',
-		'page'
+		'page',
+		'priority'
 	],
 	#category : #'GToolkit-World-Sections'
 }
@@ -104,6 +105,11 @@ GtHomeCard >> description: aString [
 ]
 
 { #category : #accessing }
+GtHomeCard >> gtDisplayOn: stream [
+	stream nextPutAll: self title
+]
+
+{ #category : #accessing }
 GtHomeCard >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
@@ -122,6 +128,16 @@ GtHomeCard >> page [
 { #category : #accessing }
 GtHomeCard >> page: aLePage [
 	page := aLePage
+]
+
+{ #category : #accessing }
+GtHomeCard >> priority [
+	^ priority ifNil: [ 0 ]
+]
+
+{ #category : #accessing }
+GtHomeCard >> priority: anObject [
+	priority := anObject
 ]
 
 { #category : #'view creation' }
