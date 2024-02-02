@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 GtHomeGetStartedSection >> create [
 	| sectionContainer cardsContainer |
-	self deprecated: 'Obsolete. See GtHome>>#getStartedSection'.
+	"self deprecated: 'Obsolete. See GtHome>>#getStartedSection'."
 	sectionContainer := self newSectionContainer.
 	sectionContainer addChild: (self newSectionTitle: 'Get started').
 	cardsContainer := self newCardsContainer.
