@@ -9,7 +9,8 @@ Class {
 		'description',
 		'action',
 		'page',
-		'priority'
+		'priority',
+		'definingMethod'
 	],
 	#category : #'GToolkit-World-Sections'
 }
@@ -49,6 +50,8 @@ GtHomeCard >> cardButton [
 					right: 2 * self spaceGap);
 			geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
 			action: self action.
+	container addAptitude: (GtPhlowBrowseDefinitionAptitude new
+		definition: [ self definingMethod ]).
 
 	^ container addChild: self cardLabel preventMeAndChildrenMouseEvents
 ]
@@ -88,6 +91,16 @@ GtHomeCard >> defaultTitle [
 ]
 
 { #category : #accessing }
+GtHomeCard >> definingMethod [
+	^ definingMethod
+]
+
+{ #category : #accessing }
+GtHomeCard >> definingMethod: anObject [
+	definingMethod := anObject
+]
+
+{ #category : #accessing }
 GtHomeCard >> description [
 	"For tooltip"
 
@@ -111,6 +124,14 @@ GtHomeCard >> gtLiveFor: aView [
 		title: 'Live';
 		priority: 10;
 		stencil: [ self asElement ]
+]
+
+{ #category : #accessing }
+GtHomeCard >> initialize [
+	self
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
 ]
 
 { #category : #accessing }
