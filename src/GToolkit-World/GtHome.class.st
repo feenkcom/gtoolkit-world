@@ -69,12 +69,6 @@ GtHome >> getStartedSection [
 		priority: 15
 ]
 
-{ #category : #accessing }
-GtHome >> gtBookSection [
-	<gtHomeSection>
-	^ GtHomeMultiCardSectionExamples new gtBook2CardSectionWithoutSubclassing
-]
-
 { #category : #ui }
 GtHome >> gtViewHomeSectionsFor: aView [
 	<gtView>
