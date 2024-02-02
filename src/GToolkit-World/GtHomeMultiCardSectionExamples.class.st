@@ -1,3 +1,9 @@
+"
+I illustrate a typical usage of a multi-card home section:
+- I subclass {{gtClass:name=GtHomeMultiCardSection}}
+- I override (or set)  `sectionTitle`
+- I define card methods with the `<gtSectionCard>` pragma
+"
 Class {
 	#name : #GtHomeMultiCardSectionExamples,
 	#superclass : #GtHomeMultiCardSection,
@@ -19,9 +25,7 @@ GtHomeMultiCardSectionExamples >> aboutThisBookCard [
 GtHomeMultiCardSectionExamples >> gtBook2CardSection [
 	<gtExample>
 	<notest>
-	^ GtHomeMultiCardSectionExamples new
-		sectionTitle: 'Glamorous Toolkit book pages';
-		yourself
+	^ self
 ]
 
 { #category : #example }
@@ -32,6 +36,12 @@ GtHomeMultiCardSectionExamples >> gtBookCard [
 	^ GtHomeCard new
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';
+		priority: 10;
 		page: (LeDatabase gtBook pageNamed: 'Glamorous Toolkit');
 		yourself
+]
+
+{ #category : #accessing }
+GtHomeMultiCardSectionExamples >> sectionTitle [
+	^ 'Glamorous Toolkit book pages'
 ]
