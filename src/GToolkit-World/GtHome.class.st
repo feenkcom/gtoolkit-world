@@ -65,8 +65,11 @@ GtHome >> createVersionLabel [
 { #category : #sections }
 GtHome >> getStartedSection [
 	<gtHomeSection>
-	^ GtHomeGetStartedSection new
-		priority: 15
+	^ GtHomeMultiCardSection new
+		sectionTitle: 'Glamorous Toolkit book pages';
+		addCard: GtHomeCardExamples new gtBookCard;
+		priority: 15;
+		yourself
 ]
 
 { #category : #ui }
