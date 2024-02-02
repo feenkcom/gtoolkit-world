@@ -1,16 +1,35 @@
 "
 I am a home section that can hold multiple cards. 
 My subclasses should have cards each defined in a method with a `<gtSectionCard>` pragma.
-See {{gtClass:name=GtHomeMultiCardSectionExamples}} for an example.
+See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSectionWithSubclassing}}. 
+
+I can also have cards added explicitly with `addCard:`, with or without subclassing.
+See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSectionWithoutSubclassing}}. 
+
+To install an instance of me or a subclass, define an extension method of {{gtClass:name=GtHome}} that has the `<gtHomeSection>` pragma and returns the instance. For example:
+```
+GtHome>>gtBookSection
+	<gtHomeSection>
+	^ GtHomeMultiCardSectionExamples new
+		gtBook2CardSectionWithoutSubclassing
+```
+
+
 "
 Class {
 	#name : #GtHomeMultiCardSection,
 	#superclass : #GtHomeSection,
 	#instVars : [
-		'sectionTitle'
+		'sectionTitle',
+		'cards'
 	],
 	#category : #'GToolkit-World-Sections'
 }
+
+{ #category : #accessing }
+GtHomeMultiCardSection >> addCard: aGtHomeCard [ 
+	cards addLast: aGtHomeCard
+]
 
 { #category : #accessing }
 GtHomeMultiCardSection >> cardMethods [
@@ -19,8 +38,10 @@ GtHomeMultiCardSection >> cardMethods [
 
 { #category : #accessing }
 GtHomeMultiCardSection >> cards [
-	^ (self cardMethods collect: [ :m | m valueWithReceiver: self arguments: #() ])
-		sort: [ :a :b | a priority < b priority ]
+"Concatenate any cards that have been explicitly added with addCard: and cards defined in methods with the <gtSectionCard> pragma"
+	^ cards
+		copyWithAll: ((self cardMethods collect: [ :m | m valueWithReceiver: self arguments: #() ])
+				sort: [ :a :b | a priority < b priority ])
 ]
 
 { #category : #'api - instantiation' }
@@ -37,7 +58,8 @@ GtHomeMultiCardSection >> create [
 { #category : #initialization }
 GtHomeMultiCardSection >> initialize [
 	super initialize.
-	self sectionTitle: 'New section'
+	self sectionTitle: 'New section'.
+	cards := OrderedCollection new.
 ]
 
 { #category : #accessing }

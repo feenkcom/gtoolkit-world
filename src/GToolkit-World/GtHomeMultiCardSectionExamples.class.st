@@ -22,10 +22,29 @@ GtHomeMultiCardSectionExamples >> aboutThisBookCard [
 ]
 
 { #category : #example }
-GtHomeMultiCardSectionExamples >> gtBook2CardSection [
+GtHomeMultiCardSectionExamples >> gtBook2CardSectionWithSubclassing [
+	"This example relies on this class being a subclass of
+	GtHomeMultiCardSection and defining its cards in methods
+	with the <gtSectionCard> pragma."
+
 	<gtExample>
 	<notest>
 	^ self
+]
+
+{ #category : #example }
+GtHomeMultiCardSectionExamples >> gtBook2CardSectionWithoutSubclassing [
+	"This example directly instantiates and configures
+	GtHomeMultiCardSection without relying on the
+	<gtSectionCard> pragma."
+
+	<gtExample>
+	<notest>
+	^ GtHomeMultiCardSection new
+		sectionTitle: 'Glamorous Toolkit book pages';
+		addCard: self gtBookCard;
+		addCard: self aboutThisBookCard;
+		yourself
 ]
 
 { #category : #example }

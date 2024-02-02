@@ -1,4 +1,6 @@
 "
+Caveat: This class is obsolete. Instead use {{gtClass:name=GtHomeMultiCardSection}}.
+
 I am a generic home section. By default, I will generate a home section card for the first table of contents page in the default database.
 You can configure the title, the database name and the start page. For example:
 ```language=text
