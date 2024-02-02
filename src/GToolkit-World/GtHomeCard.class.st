@@ -1,5 +1,5 @@
 "
-I am a model for a home card. See GtHomeCardExamples.
+I am a model for a home card. See {{gtClass:name=GtHomeCardExamples}}.
 "
 Class {
 	#name : #GtHomeCard,
