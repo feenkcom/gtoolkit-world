@@ -73,13 +73,8 @@ GtHomeCard >> create [
 
 { #category : #accessing }
 GtHomeCard >> defaultAction [
-	^ [ :aButton :aModel :anEvent | 
-	self page
-		ifNotNil: [ GtWorldUtility
-				showSpaceWithTitle: self page title
-				inPagerWith: [ self page asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
-						asStencil
-				from: aButton ] ]
+	^ [ :aButton :aModel :anEvent |
+		self page ifNotNil: [ self spawnPageFrom: aButton ] ]
 ]
 
 { #category : #accessing }
@@ -143,6 +138,15 @@ GtHomeCard >> priority: anObject [
 { #category : #'view creation' }
 GtHomeCard >> spaceGap [
 	^ 10
+]
+
+{ #category : #accessing }
+GtHomeCard >> spawnPageFrom: aButton [
+	^ GtWorldUtility
+		showSpaceWithTitle: self page title
+		inPagerWith: [ self page asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
+				asStencil
+		from: aButton
 ]
 
 { #category : #accessing }

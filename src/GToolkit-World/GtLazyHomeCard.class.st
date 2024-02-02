@@ -33,11 +33,12 @@ GtLazyHomeCard >> databaseName: aLeDatabaseName [
 GtLazyHomeCard >> defaultAction [
 	^ [ :aButton :aModel :anEvent | 
 	self page
-		ifNotNil: [ GtWorldUtility
-				showSpaceWithTitle: self page title
-				inPagerWith: [ self page asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
-						asStencil
-				from: aButton ] ]
+		ifNil: [ [ UIManager default
+				informUser: 'Loading ' , self databaseName
+				during: [ page := self database pageNamed: self pageName.
+
+					self spawnPageFrom: aButton ] ] fork ]
+		ifNotNil: [ self spawnPageFrom: aButton ] ]
 ]
 
 { #category : #accessing }
