@@ -1,5 +1,6 @@
 "
 I am a kind of GtHomeCard for a page in a database that might not yet be loaded.
+For an example, see {{gtMethod:name=GtLazyHomeCardExamples>>#lazyGtDemosCard}}. 
 "
 Class {
 	#name : #GtLazyHomeCard,
@@ -31,6 +32,8 @@ GtLazyHomeCard >> databaseName: aLeDatabaseName [
 
 { #category : #accessing }
 GtLazyHomeCard >> defaultAction [
+	"If the page is missing, load the database."
+
 	^ [ :aButton :aModel :anEvent | 
 	self page
 		ifNil: [ [ UIManager default
