@@ -1,9 +1,14 @@
 "
-I am a home section that can hold multiple cards. My cards are each defined in a method with a `<gtSectionCard>` pragma.
+I am a home section that can hold multiple cards. 
+My subclasses should have cards each defined in a method with a `<gtSectionCard>` pragma.
+See {{gtClass:name=GtHomeMultiCardSectionExamples}} for an example.
 "
 Class {
 	#name : #GtHomeMultiCardSection,
-	#superclass : #GtHomeStartPageSection,
+	#superclass : #GtHomeSection,
+	#instVars : [
+		'sectionTitle'
+	],
 	#category : #'GToolkit-World-Sections'
 }
 
@@ -18,7 +23,7 @@ GtHomeMultiCardSection >> cards [
 		sort: [ :a :b | a priority < b priority ]
 ]
 
-{ #category : #accessing }
+{ #category : #'api - instantiation' }
 GtHomeMultiCardSection >> create [
 	| sectionContainer cardsContainer |
 	sectionContainer := self newSectionContainer.
@@ -27,4 +32,22 @@ GtHomeMultiCardSection >> create [
 	self cards do: [ :card | cardsContainer addChild: card asElement ].
 	sectionContainer addChild: cardsContainer.
 	^ sectionContainer
+]
+
+{ #category : #initialization }
+GtHomeMultiCardSection >> initialize [
+	super initialize.
+	self sectionTitle: 'New section'
+]
+
+{ #category : #accessing }
+GtHomeMultiCardSection >> sectionTitle [
+	"Set or override me in subclasses."
+
+	^ sectionTitle
+]
+
+{ #category : #accessing }
+GtHomeMultiCardSection >> sectionTitle: aString [
+	sectionTitle := aString
 ]
