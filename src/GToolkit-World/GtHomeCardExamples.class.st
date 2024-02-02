@@ -10,6 +10,7 @@ GtHomeCardExamples >> gtBookCard [
 	^ GtHomeCard new
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';
+		priority: 10;
 		page: (LeDatabase gtBook pageNamed: 'Glamorous Toolkit');
 		yourself
 ]
