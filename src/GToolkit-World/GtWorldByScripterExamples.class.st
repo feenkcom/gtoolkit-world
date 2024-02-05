@@ -624,6 +624,94 @@ GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> formatScriptWithAssignmentInTheSecondLepiterPagePane [
+	<gtExample>
+	| aScripter |
+	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
+
+	aScripter
+		substeps: 'Open result in the third pane'
+		do: [ :aStep | 
+			aStep
+				typeStep: [ :s | 
+					s
+						label: 'Type assignment';
+						text: 'dir := ';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+			aStep
+				shortcutStep: [ :s | 
+					s
+						label: 'Format script';
+						combination: BlKeyCombination primaryShiftF;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert two panes';
+						value: [ :aPager | aPager pages size ] equals: 2;
+						// GtPager ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert no error content dropdown';
+						value: [ :aRoot | 
+								| aQuery |
+								aQuery := aRoot query // GtSourceCoderErrorContentElementId.
+								aQuery result size ]
+							equals: 0;
+						onSpaceRoot ].
+
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Click inside of the code';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesFinder
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId ].
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesFinder
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
+						notExists;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId;
+						// GtSourceCoderErrorButtonElementId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
+						notExists;
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId;
+						// GtSourceCoderErrorButtonElementId ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePane [
 	<gtExample>
 	| aScripter |
@@ -684,20 +772,20 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 			aStep
 				assertStep: [ :s | 
 					s
+						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesFinder
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId ].
+			aStep
+				assertStep: [ :s | 
+					s
 						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
 						satisfies: [ :anEditor | 
 							(anEditor text attributesAt: 27)
 								anySatisfy: [ :a | a class = GtSourceCoderErrorAttribute ] ];
 						// (GtPagerPageElementId indexed: 2);
-						// GtSourceCoderEditorId ].
-			aStep
-				assertStep: [ :s | 
-					s
-						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
-						satisfies: [ :anEditor | 
-							(anEditor text attributesAt: 26)
-								allSatisfy: [ :a | (a class = GtSourceCoderErrorAttribute) not ] ];
-						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId ].
 
 			aStep
@@ -1062,8 +1150,8 @@ GtWorldByScripterExamples >> semanticErrorScriptInTheSecondLepiterPagePane [
 					s
 						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
 						satisfies: [ :anEditor | 
-							(anEditor text attributesAt: 49)
-								allSatisfy: [ :a | (a class = GtSourceCoderErrorAttribute) not ] ];
+							(anEditor text attributesFinder
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
 						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId ].
 
@@ -1219,8 +1307,8 @@ GtWorldByScripterExamples >> syntaxErrorScriptInTheSecondLepiterPagePane [
 					s
 						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
 						satisfies: [ :anEditor | 
-							(anEditor text attributesAt: 27)
-								allSatisfy: [ :a | (a class = GtSourceCoderErrorAttribute) not ] ];
+							(anEditor text attributesFinder
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
 						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId ].
 
