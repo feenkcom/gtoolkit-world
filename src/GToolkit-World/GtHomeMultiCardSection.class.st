@@ -42,11 +42,15 @@ GtHomeMultiCardSection >> cards [
 	^ cards
 		ifNil: [ cards := (self cardMethods
 					collect: [ :m | 
-						thisContext
+						[ thisContext
 							object: self
 							perform: m selector
 							withArguments: {}
-							inClass: self class ]) sortedAs: #priority ]
+							inClass: self class ]
+							on: Error
+							do: [ :error | 
+								error freeze.
+								GtHomeErrorCard new targetError: error ] ]) sortedAs: #priority ]
 ]
 
 { #category : #'api - instantiation' }

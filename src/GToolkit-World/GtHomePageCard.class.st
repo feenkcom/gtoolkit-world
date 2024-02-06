@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #accessing }
+GtHomePageCard >> assertInvariant [
+	self assert: pageName isNotNil description: 'pageName must not be nil.'.
+	self assert: databaseName isNotNil description: 'databaseName must not be nil.'.
+]
+
+{ #category : #accessing }
 GtHomePageCard >> database [
 	^ self registry databaseNamed: self databaseName
 ]
