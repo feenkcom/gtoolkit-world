@@ -4,7 +4,7 @@ For an example, see {{gtMethod:name=GtLazyHomeCardExamples>>#lazyGtDemosCard}}.
 "
 Class {
 	#name : #GtLazyHomeCard,
-	#superclass : #GtHomeCard,
+	#superclass : #GtHomePageCard,
 	#instVars : [
 		'databaseName',
 		'pageName',
@@ -40,8 +40,13 @@ GtLazyHomeCard >> defaultAction [
 				informUser: 'Loading ' , self databaseName
 				during: [ page := self database pageNamed: self pageName.
 
-					self spawnPageFrom: aButton ] ] fork ]
-		ifNotNil: [ self spawnPageFrom: aButton ] ]
+					self spawnPage: self page from: aButton ] ] fork ]
+		ifNotNil: [ self spawnPage: self page from: aButton ] ]
+]
+
+{ #category : #accessing }
+GtLazyHomeCard >> defaultTitle [
+	^ 'A Lazy Home Page Card'
 ]
 
 { #category : #accessing }

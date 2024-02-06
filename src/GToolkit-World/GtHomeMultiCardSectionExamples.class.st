@@ -15,7 +15,7 @@ GtHomeMultiCardSectionExamples >> aboutThisBookCard [
 	<gtSectionCard>
 	<gtExample>
 	<notest>
-	^ GtHomeCard new
+	^ GtHomeCard page
 		priority: 20;
 		page: (LeDatabase gtBook pageNamed: 'About this book');
 		yourself
@@ -52,7 +52,7 @@ GtHomeMultiCardSectionExamples >> gtBookCard [
 	<gtSectionCard>
 	<gtExample>
 	<notest>
-	^ GtHomeCard new
+	^ GtHomeCard page
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';
 		priority: 10;

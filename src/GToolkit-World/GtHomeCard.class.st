@@ -16,6 +16,22 @@ Class {
 }
 
 { #category : #accessing }
+GtHomeCard class >> lazy [
+	^ GtLazyHomeCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
+]
+
+{ #category : #example }
+GtHomeCard class >> page [
+	^ GtHomePageCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
+]
+
+{ #category : #accessing }
 GtHomeCard >> action [
 	^ action ifNil: [ self defaultAction ]
 ]
@@ -53,15 +69,20 @@ GtHomeCard >> cardButton [
 	container addAptitude: (GtPhlowBrowseDefinitionAptitude new
 		definition: [ self definingMethod ]).
 
-	^ container addChild: self cardLabel preventMeAndChildrenMouseEvents
+	^ container addChild: self cardLabel asScalableElement preventMeAndChildrenMouseEvents
 ]
 
 { #category : #'view creation' }
 GtHomeCard >> cardLabel [
-	^ (BrLabel new
+	^ BrLabel new
 		text: self title;
-		aptitude: BrGlamorousLabelAptitude new bold;
-		padding: (BlInsets all: 20)) asScalableElement
+		aptitude: self cardLabelAptitude;
+		padding: (BlInsets all: 20)
+]
+
+{ #category : #'view creation' }
+GtHomeCard >> cardLabelAptitude [
+	^ BrGlamorousLabelAptitude new bold
 ]
 
 { #category : #'view creation' }
@@ -76,18 +97,17 @@ GtHomeCard >> create [
 
 { #category : #accessing }
 GtHomeCard >> defaultAction [
-	^ [ :aButton :aModel :anEvent |
-		self page ifNotNil: [ self spawnPageFrom: aButton ] ]
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
 GtHomeCard >> defaultDescription [
-	^ page ifNil: [ 'A description' ] ifNotNil: [ page title ]
+	^ 'A description'
 ]
 
 { #category : #accessing }
 GtHomeCard >> defaultTitle [
-	^ page ifNil: [ 'A Card' ] ifNotNil: [ page title ]
+	^ 'A Home Page Card'
 ]
 
 { #category : #accessing }
@@ -128,7 +148,7 @@ GtHomeCard >> gtLiveFor: aView [
 
 { #category : #accessing }
 GtHomeCard >> initialize [
-	self initializeDefiningMethod
+	"self initializeDefiningMethod"
 ]
 
 { #category : #accessing }
@@ -140,7 +160,10 @@ GtHomeCard >> initializeDefiningMethod [
 	If it doesn't we can look for methods with the gtSectionCard
 	or methods that refer to GtHomeCard or one of its subclasses."
 
+	<gtCollector>
+	
 	| stack |
+
 	stack := thisContext stack copyFrom: 3 to: 10.	"Probably overkill."
 	(stack at: 1) method selector = #new
 		ifTrue: [ ^ definingMethod := stack at: 2 ].	"Usually we are done here.
@@ -150,11 +173,12 @@ GtHomeCard >> initializeDefiningMethod [
 		detect: [ :each | each method hasPragmaNamed: 'gtSectionCard' ]
 		ifFound: [ :m | ^ definingMethod := m ].
 
-	stack
+	"stack
 		detect: [ :each | 
 			each method isCompiledMethod
 				and: [ each method referencedClasses includes: GtHomeCard ] ]
-		ifFound: [ :m | ^ definingMethod := m ].
+		ifFound: [ :m | ^ definingMethod := m ]."
+	
 	stack
 		detect: [ :each | 
 			each method isCompiledMethod
@@ -163,18 +187,6 @@ GtHomeCard >> initializeDefiningMethod [
 		ifFound: [ :m | ^ definingMethod := m ].
 
 	definingMethod := nil
-]
-
-{ #category : #accessing }
-GtHomeCard >> page [
-	"NB: Could be nil"
-
-	^ page
-]
-
-{ #category : #accessing }
-GtHomeCard >> page: aLePage [
-	page := aLePage
 ]
 
 { #category : #accessing }
@@ -193,10 +205,16 @@ GtHomeCard >> spaceGap [
 ]
 
 { #category : #accessing }
-GtHomeCard >> spawnPageFrom: aButton [
+GtHomeCard >> spawnObject: anObject from: aButton [
 	^ GtWorldUtility
-		showSpaceWithTitle: self page title
-		inPagerWith: [ self page asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
+		showObject: anObject from: aButton
+]
+
+{ #category : #accessing }
+GtHomeCard >> spawnPage: aPage from: aButton [
+	^ GtWorldUtility
+		showSpaceWithTitle: aPage title
+		inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
 				asStencil
 		from: aButton
 ]

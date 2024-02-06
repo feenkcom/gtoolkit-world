@@ -38,9 +38,17 @@ GtHomeMultiCardSection >> cardMethods [
 
 { #category : #accessing }
 GtHomeMultiCardSection >> cards [
-"Concatenate any cards that have been explicitly added with addCard: and cards defined in methods with the <gtSectionCard> pragma"
+	"Concatenate any cards that have been explicitly added with addCard: and cards defined in methods with the <gtSectionCard> pragma"
+
+	<gtCollector>
 	^ cards
-		copyWithAll: ((self cardMethods collect: [ :m | m valueWithReceiver: self arguments: #() ])
+		copyWithAll: ((self cardMethods
+				collect: [  "m valueWithReceiver: self arguments: #() ":m | 
+					thisContext
+						object: self
+						perform: m selector
+						withArguments: {}
+						inClass: self class ])
 				sort: [ :a :b | a priority < b priority ])
 ]
 
