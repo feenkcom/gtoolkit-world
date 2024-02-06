@@ -8,7 +8,6 @@ Class {
 		'title',
 		'description',
 		'action',
-		'page',
 		'priority',
 		'definingMethod'
 	],
@@ -107,7 +106,7 @@ GtHomeCard >> defaultDescription [
 
 { #category : #accessing }
 GtHomeCard >> defaultTitle [
-	^ 'A Home Page Card'
+	^ 'A Home Card'
 ]
 
 { #category : #accessing }
@@ -163,6 +162,45 @@ GtHomeCard >> initializeDefiningMethod [
 	<gtCollector>
 	
 	| stack |
+
+	stack := thisContext stack copyFrom: 3 to: 10.	"Probably overkill."
+	(stack at: 1) method selector = #new
+		ifTrue: [ ^ definingMethod := stack at: 2 ].	"Usually we are done here.
+	The rest is fallback."
+
+	stack
+		detect: [ :each | each method hasPragmaNamed: 'gtSectionCard' ]
+		ifFound: [ :m | ^ definingMethod := m ].
+
+	"stack
+		detect: [ :each | 
+			each method isCompiledMethod
+				and: [ each method referencedClasses includes: GtHomeCard ] ]
+		ifFound: [ :m | ^ definingMethod := m ]."
+	
+	stack
+		detect: [ :each | 
+			each method isCompiledMethod
+				and: [ (each method referencedClasses
+						select: [ :class | class inheritsFrom: GtHomeCard ]) isNotEmpty ] ]
+		ifFound: [ :m | ^ definingMethod := m ].
+
+	definingMethod := nil
+]
+
+{ #category : #obsolete }
+GtHomeCard >> obsoleteInitializeDefiningMethod [
+	"NB: skip this method and the initialize method!
+	The first heuristic of looking just up the stack above
+		new -> initialize -> this method
+	seems to always work.
+	If it doesn't we can look for methods with the gtSectionCard
+	or methods that refer to GtHomeCard or one of its subclasses."
+
+	
+	| stack |
+	
+	self deprecated: 'We are using the GtPhlowDefiningMethodsCollector instead. See GtHomeCard class>>#page'.
 
 	stack := thisContext stack copyFrom: 3 to: 10.	"Probably overkill."
 	(stack at: 1) method selector = #new

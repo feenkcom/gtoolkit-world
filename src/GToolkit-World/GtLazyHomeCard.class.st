@@ -6,8 +6,6 @@ Class {
 	#name : #GtLazyHomeCard,
 	#superclass : #GtHomePageCard,
 	#instVars : [
-		'databaseName',
-		'pageName',
 		'loadLepiter'
 	],
 	#category : #'GToolkit-World-Sections'
@@ -35,7 +33,7 @@ GtLazyHomeCard >> defaultAction [
 	"If the page is missing, load the database."
 
 	^ [ :aButton :aModel :anEvent | 
-	self page
+	page
 		ifNil: [ [ UIManager default
 				informUser: 'Loading ' , self databaseName
 				during: [ page := self database pageNamed: self pageName.

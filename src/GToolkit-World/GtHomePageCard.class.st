@@ -1,8 +1,28 @@
 Class {
 	#name : #GtHomePageCard,
 	#superclass : #GtHomeCard,
+	#instVars : [
+		'databaseName',
+		'pageName',
+		'page'
+	],
 	#category : #'GToolkit-World-Sections'
 }
+
+{ #category : #accessing }
+GtHomePageCard >> database [
+	^ self registry databaseNamed: self databaseName
+]
+
+{ #category : #accessing }
+GtHomePageCard >> databaseName [
+	^ databaseName
+]
+
+{ #category : #accessing }
+GtHomePageCard >> databaseName: aLeDatabaseName [
+	databaseName := aLeDatabaseName
+]
 
 { #category : #accessing }
 GtHomePageCard >> defaultAction [
@@ -16,17 +36,30 @@ GtHomePageCard >> defaultDescription [
 
 { #category : #accessing }
 GtHomePageCard >> defaultTitle [
-	^ page ifNil: [ super defaultTitle ] ifNotNil: [ page title ]
+	^ self pageName ifNil: [ 'A Home Page Card' ] ifNotNil: [ self pageName ]
 ]
 
 { #category : #accessing }
 GtHomePageCard >> page [
-	"NB: Could be nil"
-
-	^ page
+	^ page ifNil: [ page := self database pageNamed: self pageName ]
 ]
 
 { #category : #accessing }
 GtHomePageCard >> page: aLePage [
 	page := aLePage
+]
+
+{ #category : #accessing }
+GtHomePageCard >> pageName [
+	^ pageName
+]
+
+{ #category : #accessing }
+GtHomePageCard >> pageName: aLePageName [
+	pageName := aLePageName
+]
+
+{ #category : #accessing }
+GtHomePageCard >> registry [
+	^ LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
 ]
