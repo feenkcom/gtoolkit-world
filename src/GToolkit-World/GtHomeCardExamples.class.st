@@ -7,11 +7,12 @@ Class {
 { #category : #example }
 GtHomeCardExamples >> gtBookCard [
 	<gtExample>
-	^ GtHomeCard new
+	^ GtHomeCard page
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';
 		priority: 10;
-		page: (LeDatabase gtBook pageNamed: 'Glamorous Toolkit');
+		pageName: 'Glamorous Toolkit';
+		databaseName: 'Glamorous Toolkit Book';
 		yourself
 ]
 
@@ -27,7 +28,8 @@ GtHomeCardExamples >> primaryDbTocCard [
 	self
 		assert: toc notNil
 		description: 'This example supposes the primary db has a TOC'.
-	^ GtHomeCard new
-		page: toc;
+	^ GtHomeCard page
+		pageName: toc title;
+		databaseName: toc database databaseName;
 		yourself
 ]
