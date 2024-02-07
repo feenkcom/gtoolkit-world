@@ -56,6 +56,16 @@ GtHomeMultiCardSection >> initialize [
 	self sectionTitle: 'New section'.
 ]
 
+{ #category : #utility }
+GtHomeMultiCardSection >> repoIsPresent: aRepoName [
+	"Can be used to return an empty card if a repo already exists."
+
+	^ IceRepository registry
+		detect: [ :aRepository | aRepository name = aRepoName ]
+		ifFound: [ :aRepository | true ]
+		ifNone: [ false ]
+]
+
 { #category : #accessing }
 GtHomeMultiCardSection >> sectionTitle [
 	"Set or override me in subclasses."
