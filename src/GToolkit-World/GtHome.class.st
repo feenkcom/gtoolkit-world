@@ -68,7 +68,7 @@ GtHome >> getStartedSection [
 	<gtExample>
 	<noTest>
 	^ GtHomeMultiCardGetStartedSection new
-		priority: 15;
+		priority: 20;
 		yourself
 ]
 
