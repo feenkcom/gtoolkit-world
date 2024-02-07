@@ -17,11 +17,6 @@ Class {
 }
 
 { #category : #accessing }
-GtHomeMultiCardSection >> addCard: aGtHomeCard [ 
-	cards addLast: aGtHomeCard
-]
-
-{ #category : #accessing }
 GtHomeMultiCardSection >> cardMethods [
 	^ self class methods select: [ :m | m hasPragmaNamed: 'gtSectionCard' ]
 ]
@@ -30,7 +25,7 @@ GtHomeMultiCardSection >> cardMethods [
 GtHomeMultiCardSection >> cards [
 	<gtCollector>
 	^ cards
-		ifNil: [ cards := (self cardMethods
+		ifNil: [ cards := self cardMethods
 					collect: [ :m | 
 						[ thisContext
 							object: self
@@ -40,7 +35,8 @@ GtHomeMultiCardSection >> cards [
 							on: Error
 							do: [ :error | 
 								error freeze.
-								GtHomeErrorCard new targetError: error ] ]) sortedAs: #priority ]
+								GtHomeErrorCard new targetError: error ] ].
+			cards := (cards reject: #isEmpty) sortedAs: #priority ]
 ]
 
 { #category : #'api - instantiation' }

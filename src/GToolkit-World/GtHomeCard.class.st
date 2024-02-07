@@ -15,6 +15,14 @@ Class {
 }
 
 { #category : #accessing }
+GtHomeCard class >> empty [
+	^ GtEmptyHomeCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
+]
+
+{ #category : #accessing }
 GtHomeCard class >> lazy [
 	^ GtLazyHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
@@ -139,6 +147,7 @@ GtHomeCard >> gtDisplayOn: stream [
 { #category : #accessing }
 GtHomeCard >> gtLiveFor: aView [
 	<gtView>
+	self isEmpty ifTrue: [ ^ aView empty ].
 	^ aView explicit
 		title: 'Live';
 		priority: 10;
@@ -186,6 +195,11 @@ GtHomeCard >> initializeDefiningMethod [
 		ifFound: [ :m | ^ definingMethod := m ].
 
 	definingMethod := nil
+]
+
+{ #category : #testing }
+GtHomeCard >> isEmpty [
+	^ false
 ]
 
 { #category : #obsolete }

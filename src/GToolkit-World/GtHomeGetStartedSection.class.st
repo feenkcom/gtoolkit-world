@@ -1,5 +1,5 @@
 "
-I am obsolete. Use GtHome>>#getStartedSection instead.
+I am obsolete. Use {{gtClass:name=GtHomeMultiCardGetStartedSection}} instead.
 "
 Class {
 	#name : #GtHomeGetStartedSection,
