@@ -30,7 +30,7 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 	^ GtHomeCard page
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';
-		priority: 10;
+		priority: 20;
 		pageName: 'Glamorous Toolkit';
 		databaseName: self gtBookName;
 		yourself
