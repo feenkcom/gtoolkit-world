@@ -4,10 +4,8 @@ For an example, see {{gtMethod:name=GtLazyHomeCardExamples>>#lazyGtDemosCard}}.
 "
 Class {
 	#name : #GtLazyHomeCard,
-	#superclass : #GtHomeCard,
+	#superclass : #GtHomePageCard,
 	#instVars : [
-		'databaseName',
-		'pageName',
 		'loadLepiter'
 	],
 	#category : #'GToolkit-World-Sections'
@@ -35,13 +33,18 @@ GtLazyHomeCard >> defaultAction [
 	"If the page is missing, load the database."
 
 	^ [ :aButton :aModel :anEvent | 
-	self page
+	page
 		ifNil: [ [ UIManager default
 				informUser: 'Loading ' , self databaseName
 				during: [ page := self database pageNamed: self pageName.
 
-					self spawnPageFrom: aButton ] ] fork ]
-		ifNotNil: [ self spawnPageFrom: aButton ] ]
+					self spawnPage: self page from: aButton ] ] fork ]
+		ifNotNil: [ self spawnPage: self page from: aButton ] ]
+]
+
+{ #category : #accessing }
+GtLazyHomeCard >> defaultTitle [
+	^ 'A Lazy Home Page Card'
 ]
 
 { #category : #accessing }

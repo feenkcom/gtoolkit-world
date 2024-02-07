@@ -15,14 +15,14 @@ GtHomeMultiCardSectionExamples >> aboutThisBookCard [
 	<gtSectionCard>
 	<gtExample>
 	<notest>
-	^ GtHomeCard new
+	^ GtHomeCard page
 		priority: 20;
 		page: (LeDatabase gtBook pageNamed: 'About this book');
 		yourself
 ]
 
 { #category : #example }
-GtHomeMultiCardSectionExamples >> gtBook2CardSectionWithSubclassing [
+GtHomeMultiCardSectionExamples >> gtBook2CardSection [
 	"This example relies on this class being a subclass of
 	GtHomeMultiCardSection and defining its cards in methods
 	with the <gtSectionCard> pragma."
@@ -33,26 +33,11 @@ GtHomeMultiCardSectionExamples >> gtBook2CardSectionWithSubclassing [
 ]
 
 { #category : #example }
-GtHomeMultiCardSectionExamples >> gtBook2CardSectionWithoutSubclassing [
-	"This example directly instantiates and configures
-	GtHomeMultiCardSection without relying on the
-	<gtSectionCard> pragma."
-
-	<gtExample>
-	<notest>
-	^ GtHomeMultiCardSection new
-		sectionTitle: 'Glamorous Toolkit book pages';
-		addCard: self gtBookCard;
-		addCard: self aboutThisBookCard;
-		yourself
-]
-
-{ #category : #example }
 GtHomeMultiCardSectionExamples >> gtBookCard [
 	<gtSectionCard>
 	<gtExample>
 	<notest>
-	^ GtHomeCard new
+	^ GtHomeCard page
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';
 		priority: 10;

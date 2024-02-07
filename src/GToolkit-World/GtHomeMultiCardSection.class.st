@@ -1,10 +1,10 @@
 "
 I am a home section that can hold multiple cards. 
 My subclasses should have cards each defined in a method with a `<gtSectionCard>` pragma.
-See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSectionWithSubclassing}}. 
+See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSection}}. 
 
 I can also have cards added explicitly with `addCard:`, with or without subclassing.
-See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSectionWithoutSubclassing}}. 
+See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSection}}. 
 
 To install an instance of me or a subclass, define an extension method of {{gtClass:name=GtHome}} that has the `<gtHomeSection>` pragma and returns the instance. For example:
 ```
@@ -38,10 +38,19 @@ GtHomeMultiCardSection >> cardMethods [
 
 { #category : #accessing }
 GtHomeMultiCardSection >> cards [
-"Concatenate any cards that have been explicitly added with addCard: and cards defined in methods with the <gtSectionCard> pragma"
+	<gtCollector>
 	^ cards
-		copyWithAll: ((self cardMethods collect: [ :m | m valueWithReceiver: self arguments: #() ])
-				sort: [ :a :b | a priority < b priority ])
+		ifNil: [ cards := (self cardMethods
+					collect: [ :m | 
+						[ thisContext
+							object: self
+							perform: m selector
+							withArguments: {}
+							inClass: self class ]
+							on: Error
+							do: [ :error | 
+								error freeze.
+								GtHomeErrorCard new targetError: error ] ]) sortedAs: #priority ]
 ]
 
 { #category : #'api - instantiation' }
@@ -59,7 +68,6 @@ GtHomeMultiCardSection >> create [
 GtHomeMultiCardSection >> initialize [
 	super initialize.
 	self sectionTitle: 'New section'.
-	cards := OrderedCollection new.
 ]
 
 { #category : #accessing }

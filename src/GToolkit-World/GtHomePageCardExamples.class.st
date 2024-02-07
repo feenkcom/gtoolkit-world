@@ -1,11 +1,11 @@
 Class {
-	#name : #GtHomeCardExamples,
+	#name : #GtHomePageCardExamples,
 	#superclass : #Object,
 	#category : #'GToolkit-World-Examples'
 }
 
 { #category : #example }
-GtHomeCardExamples >> gtBookCard [
+GtHomePageCardExamples >> gtBookCard [
 	<gtExample>
 	^ GtHomeCard page
 		title: 'Glamorous Toolkit Book';
@@ -17,7 +17,7 @@ GtHomeCardExamples >> gtBookCard [
 ]
 
 { #category : #example }
-GtHomeCardExamples >> primaryDbTocCard [
+GtHomePageCardExamples >> primaryDbTocCard [
 	"A card for the TOC of the user's default database, with default title and tooltip description.
 	NB: this will fail for a new installation with an empty primary Lepiter database."
 

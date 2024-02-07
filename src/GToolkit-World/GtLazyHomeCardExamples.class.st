@@ -18,7 +18,7 @@ GtLazyHomeCardExamples >> lazyGtDemosCard [
 
 	<gtExample>
 	<noTest>
-	^ GtLazyHomeCard new
+	^ GtHomeCard lazy
 		title: 'GT Demos';
 		description: 'GT Demos';
 		databaseName: self gtDemosDbName;
