@@ -1,10 +1,10 @@
 "
 I am a home section that can hold multiple cards. 
 My subclasses should have cards each defined in a method with a `<gtSectionCard>` pragma.
-See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSectionWithSubclassing}}. 
+See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSection}}. 
 
 I can also have cards added explicitly with `addCard:`, with or without subclassing.
-See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSectionWithoutSubclassing}}. 
+See {{gtMethod:name=GtHomeMultiCardSectionExamples>>#gtBook2CardSection}}. 
 
 To install an instance of me or a subclass, define an extension method of {{gtClass:name=GtHome}} that has the `<gtHomeSection>` pragma and returns the instance. For example:
 ```
