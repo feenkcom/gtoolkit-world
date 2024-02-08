@@ -23,6 +23,14 @@ GtHomeCard class >> empty [
 ]
 
 { #category : #accessing }
+GtHomeCard class >> errorCard [
+	^ GtHomeErrorCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
+]
+
+{ #category : #accessing }
 GtHomeCard class >> jobs [
 	^ GtJobHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
@@ -231,17 +239,26 @@ GtHomeCard >> spaceGap [
 
 { #category : #utility }
 GtHomeCard >> spawnObject: anObject from: aButton [
-	^ GtWorldUtility
-		showObject: anObject from: aButton
+	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
+
+	^ aButton
+		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
+		ifFound: [ :aParent | aButton phlow spawnObject: anObject ]
+		ifNone: [ GtWorldUtility showObject: anObject from: aButton ]
 ]
 
 { #category : #utility }
 GtHomeCard >> spawnPage: aPage from: aButton [
-	^ GtWorldUtility
-		showSpaceWithTitle: aPage title
-		inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
-				asStencil
-		from: aButton
+	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
+
+	^ aButton
+		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
+		ifFound: [ :aParent | aButton phlow spawnTool: aPage asPhlowTool ]
+		ifNone: [ GtWorldUtility
+				showSpaceWithTitle: aPage title
+				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
+						asStencil
+				from: aButton ]
 ]
 
 { #category : #accessing }

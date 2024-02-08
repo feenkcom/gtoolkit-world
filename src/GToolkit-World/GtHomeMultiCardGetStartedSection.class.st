@@ -48,6 +48,18 @@ GtHomeMultiCardGetStartedSection >> gtBookName [
 	^ 'Glamorous Toolkit Book'
 ]
 
+{ #category : #example }
+GtHomeMultiCardGetStartedSection >> gtTourCard [
+	"<gtSectionCard>"
+	<gtExample>
+	^ GtHomeCard jobs
+		title: 'GT Tour';
+		description: 'Open the GtTour slideshow';
+		priority: 15;
+		job: [ GtPresenterSlideShow openInSpace: GtTour ];
+		yourself
+]
+
 { #category : #accessing }
 GtHomeMultiCardGetStartedSection >> sectionTitle [
 	^ 'Glamorous Toolkit book pages'

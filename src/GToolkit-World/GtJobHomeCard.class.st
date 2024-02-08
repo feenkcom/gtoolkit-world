@@ -13,11 +13,16 @@ GtJobHomeCard >> action [
 	[ [ :job | 
 	job title: self title.
 	self jobs
-		withIndexDo: [ :assoc :index | 
+		withIndexDo: [ :aBlock :index | 
 			job
 				progress: index / self jobs size;
-				title: assoc key.
-			assoc value value ] ] asJob run ] fork ]
+				title: aBlock printString.
+			aBlock value ] ] asJob run ] fork ]
+]
+
+{ #category : #accessing }
+GtJobHomeCard >> job: aBlock [
+	self jobs: {aBlock}
 ]
 
 { #category : #accessing }
@@ -26,12 +31,6 @@ GtJobHomeCard >> jobs [
 ]
 
 { #category : #accessing }
-GtJobHomeCard >> jobs: anAssociationList [
-	"Should have the form:
-		{ 'description' -> [ ... ] .
-			...
-		}
-	"
-
-	jobs := anAssociationList
+GtJobHomeCard >> jobs: aBlockArray [
+	jobs := aBlockArray
 ]
