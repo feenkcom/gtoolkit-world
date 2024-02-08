@@ -1,6 +1,6 @@
 "
 I am a kind of GtHomeCard for a page in a database that might not yet be loaded.
-For an example, see {{gtMethod:name=GtLazyHomeCardExamples>>#lazyGtDemosCard}}. 
+For an example, see {{gtMethod:name=GtHomeCardExamples>>#lazyGtDemosCard}}. 
 "
 Class {
 	#name : #GtLazyHomeCard,
