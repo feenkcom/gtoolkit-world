@@ -30,6 +30,17 @@ GtHomeCardExamples >> gtDemosDbName [
 ]
 
 { #category : #accessing }
+GtHomeCardExamples >> gtTourCard [
+	<gtExample>
+	^ GtHomeCard jobs
+		title: 'GtTour';
+		description: 'Open the GtTour slideshow';
+		priority: 20;
+		job: [ GtPresenterSlideShow openInSpace: GtTour ];
+		yourself
+]
+
+{ #category : #accessing }
 GtHomeCardExamples >> jobsCard [
 	<gtExample>
 	^ GtHomeCard jobs
