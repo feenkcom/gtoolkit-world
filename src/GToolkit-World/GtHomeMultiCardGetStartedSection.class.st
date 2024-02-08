@@ -50,13 +50,12 @@ GtHomeMultiCardGetStartedSection >> gtBookName [
 
 { #category : #example }
 GtHomeMultiCardGetStartedSection >> gtTourCard [
-	"<gtSectionCard>"
 	<gtExample>
-	^ GtHomeCard jobs
-		title: 'GT Tour';
+	^ GtHomeCard job
+		title: 'GtTour';
 		description: 'Open the GtTour slideshow';
-		priority: 15;
-		job: [ GtPresenterSlideShow openInSpace: GtTour ];
+		priority: 20;
+		block: [ GtPresenterSlideShow openInSpace: GtTour ];
 		yourself
 ]
 
