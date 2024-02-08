@@ -1,3 +1,6 @@
+"
+See {{gtMethod:name=GtHomeCardExamples>>#jobCard}}
+"
 Class {
 	#name : #GtJobHomeCard,
 	#superclass : #GtHomeCard,
