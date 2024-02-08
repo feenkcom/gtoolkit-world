@@ -42,13 +42,17 @@ Class {
 
 { #category : #accessing }
 GtHomeStartPageSection >> card [
+"The label is pink to highlight the fact that this class is deprecated."
 	^ self
 		newHeaderCardWithTitle: self title
 		description: self description
 		size: 200 @ 150
 		content: (BrLabel new
 				text: self title;
-				aptitude: BrGlamorousLabelAptitude new bold;
+				aptitude: (BrGlamorousLabelAptitude new
+						bold;
+						foreground: BrGlamorousColors errorBackgroundColor;
+						yourself);
 				padding: (BlInsets all: 20)) asScalableElement
 		action: [ :card | 
 			GtWorldUtility

@@ -1,8 +1,11 @@
+"
+See {{gtMethod:name=GtHomeCardExamples>>#jobCard}}
+"
 Class {
 	#name : #GtJobHomeCard,
 	#superclass : #GtHomeCard,
 	#instVars : [
-		'jobs'
+		'block'
 	],
 	#category : #'GToolkit-World-Sections'
 }
@@ -12,25 +15,15 @@ GtJobHomeCard >> action [
 	^ [ :aButton :aModel :anEvent | 
 	[ [ :job | 
 	job title: self title.
-	self jobs
-		withIndexDo: [ :aBlock :index | 
-			job
-				progress: index / self jobs size;
-				title: aBlock printString.
-			aBlock value ] ] asJob run ] fork ]
+	self block value ] asJob run ] fork ]
 ]
 
 { #category : #accessing }
-GtJobHomeCard >> job: aBlock [
-	self jobs: {aBlock}
+GtJobHomeCard >> block [
+	^ block
 ]
 
 { #category : #accessing }
-GtJobHomeCard >> jobs [
-	^ jobs
-]
-
-{ #category : #accessing }
-GtJobHomeCard >> jobs: aBlockArray [
-	jobs := aBlockArray
+GtJobHomeCard >> block: anObject [
+	block := anObject
 ]

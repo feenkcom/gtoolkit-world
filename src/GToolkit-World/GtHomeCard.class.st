@@ -31,7 +31,7 @@ GtHomeCard class >> errorCard [
 ]
 
 { #category : #accessing }
-GtHomeCard class >> jobs [
+GtHomeCard class >> job [
 	^ GtJobHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
 				stack: thisContext stack;

@@ -32,24 +32,22 @@ GtHomeCardExamples >> gtDemosDbName [
 { #category : #accessing }
 GtHomeCardExamples >> gtTourCard [
 	<gtExample>
-	^ GtHomeCard jobs
+	^ GtHomeCard job
 		title: 'GtTour';
 		description: 'Open the GtTour slideshow';
 		priority: 20;
-		job: [ GtPresenterSlideShow openInSpace: GtTour ];
+		block: [ GtPresenterSlideShow openInSpace: GtTour ];
 		yourself
 ]
 
 { #category : #accessing }
-GtHomeCardExamples >> jobsCard [
+GtHomeCardExamples >> jobCard [
 	<gtExample>
-	^ GtHomeCard jobs
-		title: 'Test multiple jobs cards';
-		description: 'Demo running jobs from a card';
+	^ GtHomeCard job
+		title: 'Test job card';
+		description: 'Demo running a job from a card';
 		priority: 20;
-		jobs: {[ 3 seconds asDelay wait ].
-				[ 2 seconds asDelay wait ].
-				[ 1 second asDelay wait ]};
+		block: [ 3 seconds asDelay wait ];
 		yourself
 ]
 
@@ -101,17 +99,6 @@ GtHomeCardExamples >> primaryDbTocCard [
 GtHomeCardExamples >> registry [
 	<gtExample>
 	^ LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
-]
-
-{ #category : #accessing }
-GtHomeCardExamples >> singleJobCard [
-	<gtExample>
-	^ GtHomeCard jobs
-		title: 'Test single job card';
-		description: 'Demo running a job from a card';
-		priority: 20;
-		job: [ 3 seconds asDelay wait ];
-		yourself
 ]
 
 { #category : #utility }
