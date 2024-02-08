@@ -15,6 +15,22 @@ Class {
 }
 
 { #category : #accessing }
+GtHomeCard class >> empty [
+	^ GtEmptyHomeCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
+]
+
+{ #category : #accessing }
+GtHomeCard class >> jobs [
+	^ GtJobHomeCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
+]
+
+{ #category : #accessing }
 GtHomeCard class >> lazy [
 	^ GtLazyHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
@@ -139,53 +155,16 @@ GtHomeCard >> gtDisplayOn: stream [
 { #category : #accessing }
 GtHomeCard >> gtLiveFor: aView [
 	<gtView>
+	self isEmpty ifTrue: [ ^ aView empty ].
 	^ aView explicit
 		title: 'Live';
 		priority: 10;
 		stencil: [ self asElement ]
 ]
 
-{ #category : #accessing }
-GtHomeCard >> initialize [
-	"self initializeDefiningMethod"
-]
-
-{ #category : #accessing }
-GtHomeCard >> initializeDefiningMethod [
-	"NB: skip this method and the initialize method!
-	The first heuristic of looking just up the stack above
-		new -> initialize -> this method
-	seems to always work.
-	If it doesn't we can look for methods with the gtSectionCard
-	or methods that refer to GtHomeCard or one of its subclasses."
-
-	<gtCollector>
-	
-	| stack |
-
-	stack := thisContext stack copyFrom: 3 to: 10.	"Probably overkill."
-	(stack at: 1) method selector = #new
-		ifTrue: [ ^ definingMethod := stack at: 2 ].	"Usually we are done here.
-	The rest is fallback."
-
-	stack
-		detect: [ :each | each method hasPragmaNamed: 'gtSectionCard' ]
-		ifFound: [ :m | ^ definingMethod := m ].
-
-	"stack
-		detect: [ :each | 
-			each method isCompiledMethod
-				and: [ each method referencedClasses includes: GtHomeCard ] ]
-		ifFound: [ :m | ^ definingMethod := m ]."
-	
-	stack
-		detect: [ :each | 
-			each method isCompiledMethod
-				and: [ (each method referencedClasses
-						select: [ :class | class inheritsFrom: GtHomeCard ]) isNotEmpty ] ]
-		ifFound: [ :m | ^ definingMethod := m ].
-
-	definingMethod := nil
+{ #category : #testing }
+GtHomeCard >> isEmpty [
+	^ false
 ]
 
 { #category : #obsolete }
@@ -237,18 +216,26 @@ GtHomeCard >> priority: anObject [
 	priority := anObject
 ]
 
+{ #category : #utility }
+GtHomeCard >> repoIsPresent: aRepoName [
+	^ IceRepository registry
+		detect: [ :aRepository | aRepository name = aRepoName ]
+		ifFound: [ :aRepository | true ]
+		ifNone: [ false ]
+]
+
 { #category : #'view creation' }
 GtHomeCard >> spaceGap [
 	^ 10
 ]
 
-{ #category : #accessing }
+{ #category : #utility }
 GtHomeCard >> spawnObject: anObject from: aButton [
 	^ GtWorldUtility
 		showObject: anObject from: aButton
 ]
 
-{ #category : #accessing }
+{ #category : #utility }
 GtHomeCard >> spawnPage: aPage from: aButton [
 	^ GtWorldUtility
 		showSpaceWithTitle: aPage title

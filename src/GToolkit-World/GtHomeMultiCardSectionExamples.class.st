@@ -22,6 +22,18 @@ GtHomeMultiCardSectionExamples >> aboutThisBookCard [
 ]
 
 { #category : #example }
+GtHomeMultiCardSectionExamples >> emptyCard [
+	"This card should not appear in the section."
+
+	<gtSectionCard>
+	<gtExample>
+	<notest>
+	^ GtHomeCard empty
+		priority: 30;
+		yourself
+]
+
+{ #category : #example }
 GtHomeMultiCardSectionExamples >> gtBook2CardSection [
 	"This example relies on this class being a subclass of
 	GtHomeMultiCardSection and defining its cards in methods
@@ -29,7 +41,10 @@ GtHomeMultiCardSectionExamples >> gtBook2CardSection [
 
 	<gtExample>
 	<notest>
-	^ self
+	| section |
+	section := self.
+	self assert: section cards size equals: 2.
+	^ section
 ]
 
 { #category : #example }
