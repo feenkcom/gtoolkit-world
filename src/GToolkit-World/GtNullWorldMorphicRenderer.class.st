@@ -35,14 +35,11 @@ GtNullWorldMorphicRenderer class >> isApplicableFor: aWorld [
 	(Smalltalk isHeadless and: [ (CommandLineArguments new hasOption: 'interactive') ])
 		ifFalse: [ ^ false ].
 
-	GtWorld defaultId
-		ifNil: [ ^ false ].
-
- 	GtWorld
-		spaceWithId: GtWorld defaultId 
-		do: [ :aSpace | ^ aSpace isOpened ].
-
-	^ false
+	"We shouldn't open a morphic world pn Startup if there is at least one GtWorld"
+	^ BlParallelUniverse all anySatisfy: [ :eachUniverse |
+		eachUniverse spaces anySatisfy: [ :eachSpace |
+			(eachSpace isKindOf: GtWorld)
+				and: [ eachSpace isOpened ] ] ]
 ]
 
 { #category : #accessing }
