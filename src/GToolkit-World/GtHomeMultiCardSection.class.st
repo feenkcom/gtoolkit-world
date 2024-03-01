@@ -50,6 +50,14 @@ GtHomeMultiCardSection >> create [
 	^ sectionContainer
 ]
 
+{ #category : #utility }
+GtHomeMultiCardSection >> databaseIsPresent: aDatabaseName [
+	"Useful for optionally loading a database."
+
+	^  LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
+		databaseNamed: aDatabaseName
+]
+
 { #category : #initialization }
 GtHomeMultiCardSection >> initialize [
 	super initialize.
