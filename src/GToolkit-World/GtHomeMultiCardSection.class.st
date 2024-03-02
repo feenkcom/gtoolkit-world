@@ -55,7 +55,7 @@ GtHomeMultiCardSection >> databaseIsPresent: aDatabaseName [
 	"Useful for optionally loading a database."
 
 	^  LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
-		databaseNamed: aDatabaseName
+		hasDatabaseNamed: aDatabaseName
 ]
 
 { #category : #initialization }
