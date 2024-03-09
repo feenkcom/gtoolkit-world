@@ -64,18 +64,14 @@ AssertionFailure >> gtScripterStepsFor: aView [
 	<gtView>
 	<gtExceptionDebuggingView>
 	| aScripter |
-	
 	self gtHasStack ifFalse: [ ^ aView empty ].
 	aScripter := self gtScripter.
-	aScripter ifNil: [
-		^ aView empty ].
+	aScripter ifNil: [ ^ aView empty ].
 
-	^ aView forward
+	^ (aScripter gtStepsMondrianTreeFor: aView)
 		title: 'Scripter steps';
 		priority: -1;
-		object: [ aScripter ];
-		view: #gtStepsMondrianTreeFor:;
-		actionButtonIcon: BrGlamorousIcons inspect 
+		actionButtonIcon: BrGlamorousIcons inspect
 			label: 'Scripter'
 			tooltip: 'Inspect Scripter'
 			action: [ :anElement | anElement phlow spawnObject: aScripter ]
