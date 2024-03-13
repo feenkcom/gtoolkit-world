@@ -42,6 +42,8 @@ GtHomeCardExamples >> gtTourCard [
 
 { #category : #accessing }
 GtHomeCardExamples >> jobCard [
+	"If you click multiple times on the button, this will trigger a warning that a job is still running."
+
 	<gtExample>
 	^ GtHomeCard job
 		title: 'Test job card';

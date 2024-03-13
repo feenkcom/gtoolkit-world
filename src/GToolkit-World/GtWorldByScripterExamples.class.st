@@ -624,6 +624,30 @@ GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> expandMethodCoder [
+	<gtExample>
+	| aScripter aPage |
+	aScripter := self addLepiterPageWithPharoSnippetIntoTabElement.
+	aPage := aScripter model page.
+
+	aScripter methodCoder
+		assertMethodExpandersCountIs: 1;
+		clickOnMethodCoderExpander: 1
+			insideDo: [ :imageDirStep | 
+				imageDirStep
+					assertMethodExpandersCountIs: 1;
+					assertSelfObjectIs: FileLocator;
+					assertTargetBehaviorIs: FileLocator class;
+					assertExplicitProviderClassIs: nil ];
+		// (GtPagerPageElementId indexed: 1);
+		id: LeSnippetElementId index: 1;
+		play.
+
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> formatScriptWithAssignmentInTheSecondLepiterPagePane [
 	<gtExample>
 	| aScripter |
