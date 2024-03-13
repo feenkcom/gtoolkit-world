@@ -14,7 +14,7 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
-{ #category : #accessing }
+{ #category : #factory }
 GtHomeCard class >> empty [
 	^ GtEmptyHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
@@ -22,7 +22,7 @@ GtHomeCard class >> empty [
 				collect)
 ]
 
-{ #category : #accessing }
+{ #category : #factory }
 GtHomeCard class >> errorCard [
 	^ GtHomeErrorCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
@@ -30,7 +30,7 @@ GtHomeCard class >> errorCard [
 				collect)
 ]
 
-{ #category : #accessing }
+{ #category : #factory }
 GtHomeCard class >> job [
 	^ GtJobHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
@@ -38,7 +38,7 @@ GtHomeCard class >> job [
 				collect)
 ]
 
-{ #category : #accessing }
+{ #category : #factory }
 GtHomeCard class >> lazy [
 	^ GtLazyHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
@@ -49,6 +49,14 @@ GtHomeCard class >> lazy [
 { #category : #example }
 GtHomeCard class >> page [
 	^ GtHomePageCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector new
+				stack: thisContext stack;
+				collect)
+]
+
+{ #category : #factory }
+GtHomeCard class >> slideshow [
+	^ GtSlideshowHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector new
 				stack: thisContext stack;
 				collect)
@@ -155,12 +163,12 @@ GtHomeCard >> description: aString [
 	description := aString
 ]
 
-{ #category : #accessing }
+{ #category : #view }
 GtHomeCard >> gtDisplayOn: stream [
 	stream nextPutAll: self title
 ]
 
-{ #category : #accessing }
+{ #category : #view }
 GtHomeCard >> gtLiveFor: aView [
 	<gtView>
 	self isEmpty ifTrue: [ ^ aView empty ].
@@ -270,4 +278,10 @@ GtHomeCard >> title [
 { #category : #accessing }
 GtHomeCard >> title: aString [
 	title := aString
+]
+
+{ #category : #utility }
+GtHomeCard >> updateGtWorld [
+	^ GtWorld allInstances
+		do: [ :aGtWorld | aGtWorld root children first home updateWidget ]
 ]
