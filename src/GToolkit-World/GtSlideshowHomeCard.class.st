@@ -10,6 +10,20 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
+{ #category : #running }
+GtSlideshowHomeCard >> action [
+	^ [ :aButton :aModel :anEvent | 
+	self invariant
+		ifTrue: [ Smalltalk globals
+				at: self slideshowClassSymbol
+				ifPresent: [ self spawnSlideshowFor: aButton ]
+				ifAbsent: [ super action
+						value: aButton
+						value: aModel
+						value: anEvent ] ]
+		ifFalse: [ self reportInvariantFailed ] ]
+]
+
 { #category : #accessing }
 GtSlideshowHomeCard >> baseLineName [
 	^ baseLineName
@@ -17,17 +31,16 @@ GtSlideshowHomeCard >> baseLineName [
 
 { #category : #running }
 GtSlideshowHomeCard >> block [
-	^ [ self invariant
-		ifTrue: [ Smalltalk globals
-				at: self slideshowClassSymbol
-				ifAbsent: [ Metacello new
-						baseline: self baseLineName;
-						repository: self repo;
-						load.
-					loadLepiterBaseline ifNotNil: [ loadLepiterBaseline asClass loadLepiter ] ].
-			GtPresenterSlideShow openInSpace: self slideshowClassSymbol asClass.
-			self updateGtWorld ]
-		ifFalse: [ self reportInvariantFailed ] ]
+	^ [ :aButton :aModel :anEvent | 
+	Smalltalk globals
+		at: self slideshowClassSymbol
+		ifAbsent: [ Metacello new
+				baseline: self baseLineName;
+				repository: self repo;
+				load.
+			loadLepiterBaseline ifNotNil: [ loadLepiterBaseline asClass loadLepiter ] ].	"GtPresenterSlideShow openInSpace: self slideshowClassSymbol asClass."
+	self spawnSlideshowFor: aButton.
+	self updateGtWorld ]
 ]
 
 { #category : #invariant }
@@ -79,4 +92,9 @@ GtSlideshowHomeCard >> slideshowClassSymbol: aSlideshowSymbol baseLineName: aBas
 		repo: aGithubRepo.
 
 	loadLepiterBaseline := aBaselineSymbol
+]
+
+{ #category : #running }
+GtSlideshowHomeCard >> spawnSlideshowFor: aButton [
+	self spawnObject: self slideshowClassSymbol asClass new from: aButton
 ]
