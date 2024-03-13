@@ -38,7 +38,7 @@ GtSlideshowHomeCard >> block [
 				baseline: self baseLineName;
 				repository: self repo;
 				load.
-			loadLepiterBaseline ifNotNil: [ loadLepiterBaseline asClass loadLepiter ] ].	"GtPresenterSlideShow openInSpace: self slideshowClassSymbol asClass."
+			loadLepiterBaseline ifNotNil: [ loadLepiterBaseline asClass loadLepiter ] ].
 	self spawnSlideshowFor: aButton.
 	self updateGtWorld ]
 ]
