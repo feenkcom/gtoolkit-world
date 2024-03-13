@@ -67,16 +67,14 @@ GtImageSetup class >> copyDataAndDocsFolders [
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit' / 'lepiter');
 		add: (gtoolkitRepoFolders asFileReference / 'lepiter' / 'test-data');
 		add: (gtoolkitRepoFolders asFileReference / 'JSLink' / 'js');
-		add: (gtoolkitRepoFolders asFileReference / 'PythonBridge' / 'PythonBridgeRuntime');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests').
 
 	self copyDocFolders: docFolders.
 
-	"PythonBridge and JSLink need to be told where to find their runtime files.
+	"JSLink needs to be told where to find its runtime files.
 	This should be a FileLocator so that it uses the local location, not the CI's"
-	PBPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/PythonBridge/PythonBridgeRuntime'.
-	JSLinkPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/JSLink/js'.
 
+	JSLinkPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/JSLink/js'.
 ]
 
 { #category : #utilities }

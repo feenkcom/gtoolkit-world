@@ -22,7 +22,13 @@ GtJobHomeCard >> action [
 		critical: [ process
 				ifNil: [ process := [ [ :job | 
 						job title: self title.
-						self block value.
+						self block argumentCount = 0 ifTrue: [ self block value ].
+						self block argumentCount = 1 ifTrue: [ self block value: aButton ].
+						self block argumentCount = 3
+							ifTrue: [ self block
+									value: aButton
+									value: aModel
+									value: anEvent ].
 						mutex critical: [ process := nil ] ] asJob run ] fork ]
 				ifNotNil: [ self inform: 'A job is already running!' ] ] ]
 ]
