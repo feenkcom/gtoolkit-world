@@ -39,3 +39,12 @@ String >> gtJSONFor: aView context: aContext [
 		  styler: JSONParser gtStyler;
 		  aptitude: BrGlamorousCodeEditorAptitude
 ]
+
+{ #category : #'*Gtoolkit-Extensions' }
+String class >> password: aPasswordString [
+	"Mark aPasswordString as sensitive data that should be hidden
+	by the Pharo styler addOn GtPharoMethodPasswordStyler"
+	
+	<gtMethodPassword>
+	^ aPasswordString
+]
