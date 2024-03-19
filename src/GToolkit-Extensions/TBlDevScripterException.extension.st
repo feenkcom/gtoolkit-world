@@ -45,11 +45,9 @@ TBlDevScripterException >> gtSpaceFor: aView [
 TBlDevScripterException >> gtStepsMondrianTreeFor: aView [
 	<gtView>
 	self scripter ifNil: [ ^ aView empty ].
-	^ aView forward
+	^ (self scripter gtStepsMondrianTreeFor: aView)
 		title: 'Steps';
-		priority: 7;
-		object: [ self scripter ];
-		view: #gtStepsMondrianTreeFor:
+		priority: 7
 ]
 
 { #category : #'*GToolkit-Extensions' }

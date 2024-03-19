@@ -15,6 +15,13 @@ Class {
 	#category : #'GToolkit-Setup'
 }
 
+{ #category : #utilities }
+GtImageSetup class >> addFoldersIn: icebergRepositories named: folderNames into: docFolders [
+	icebergRepositories do: [ :aRepository | 
+		folderNames do: [ :aName | 
+			docFolders addAll: (aRepository location childrenMatching: aName) ] ]
+]
+
 { #category : #actions }
 GtImageSetup class >> cleanUpChangeSets [
 	ChangeSet removeChangeSetsNamedSuchThat: [ :each | true ].
@@ -55,17 +62,23 @@ GtImageSetup class >> copyDataAndDocsFolders [
 				(aRepository location parent = gtoolkitRepoFolders) not ] ] ].
 	
 	docFolders := OrderedCollection new.
-	icebergRepositories do: [ :aRepository | 
-		docFolders 
-			addAll: (aRepository location childrenMatching: 'doc');
-			addAll: (aRepository location childrenMatching: 'data') ].
+	self addFoldersIn: icebergRepositories named: #('doc' 'data') into: docFolders.
 	docFolders 
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit' / 'lepiter');
 		add: (gtoolkitRepoFolders asFileReference / 'lepiter' / 'test-data');
 		add: (gtoolkitRepoFolders asFileReference / 'JSLink' / 'js');
-		add: (gtoolkitRepoFolders asFileReference / 'PythonBridge' / 'PythonBridgeRuntime');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests').
 
+	self copyDocFolders: docFolders.
+
+	"JSLink needs to be told where to find its runtime files.
+	This should be a FileLocator so that it uses the local location, not the CI's"
+
+	JSLinkPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/JSLink/js'.
+]
+
+{ #category : #utilities }
+GtImageSetup class >> copyDocFolders: docFolders [
 	docFolders do: [ :each |
 		|icebergIndex size topSegments localPath|
 		icebergIndex := each absolutePath segments indexOf: 'iceberg'.
@@ -77,12 +90,6 @@ GtImageSetup class >> copyDataAndDocsFolders [
 		[each copyAllTo: (GtResourcesUtilityConstants localGtDirectory asFileReference / localPath) ] 
 			on: FileExists 
 			do: [ :e | e printString traceCr ]].
-
-	"PythonBridge and JSLink need to be told where to find their runtime files.
-	This should be a FileLocator so that it uses the local location, not the CI's"
-	PBPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/PythonBridge/PythonBridgeRuntime'.
-	JSLinkPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/JSLink/js'.
-
 ]
 
 { #category : #actions }
