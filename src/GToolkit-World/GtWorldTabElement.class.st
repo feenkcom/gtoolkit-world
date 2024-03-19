@@ -177,11 +177,10 @@ GtWorldTabElement >> newToolbarForTabModel: aTabModel [
 			{(BrButton new
 				icon: BrGlamorousIcons maximize;
 				exact: 16 @ 16;
-				opacity: 0.5;
 				aptitude: GtWorldTabToolbarButtonAptitude;
 				model: aTabModel;
 				label: 'Open in a new window';
-				action: [ :aButtonElement | 
+				action: [ :aButtonElement |
 					tabs viewModel removeTab: aButtonElement model.
 					self space class
 						openWithSpaces: {aButtonElement model model}
@@ -189,7 +188,6 @@ GtWorldTabElement >> newToolbarForTabModel: aTabModel [
 			(BrButton new
 				icon: BrGlamorousVectorIcons close;
 				exact: 16 @ 16;
-				opacity: 0.5;
 				aptitude: GtWorldTabToolbarButtonAptitude;
 				label: 'Close';
 				model: aTabModel;
