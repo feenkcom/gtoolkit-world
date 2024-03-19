@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #accessing }
+GtWorldTabElement class >> dragAndDrop [
+	^ false
+]
+
+{ #category : #accessing }
 GtWorldTabElement class >> spaceCloseButtonName [
 	^ #'gt-world--space-close-button'
 ]
@@ -16,6 +21,18 @@ GtWorldTabElement class >> spaceCloseButtonName [
 { #category : #accessing }
 GtWorldTabElement class >> tabNameForSpaceId: aNumber [
 	^ GtWorldSpaceTabId spaceId: aNumber
+]
+
+{ #category : #accessing }
+GtWorldTabElement >> createBaseTab: aSpace [
+	| aTab |
+	aTab := BrTab new.
+	aTab
+		vExact: 36;
+		aptitude: BrGlamorousSpaceTabWithIconAndLabelAptitude;
+		label: aSpace title;
+		icon: (aSpace icon ifNil: [ BrGlamorousVectorIcons noIcon ]).
+	^ aTab
 ]
 
 { #category : #defaults }
@@ -224,10 +241,9 @@ GtWorldTabElement >> showSpace: aSpace [
 { #category : #'api - opening' }
 GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
 	| aTab aTabViewModel |
-	aTab := BrTab new.
+	aTab := self createBaseTab: aSpace.
 	aTabViewModel := aTab viewModel.
 	aTab
-		vExact: 36;
 		model: aSpace;
 		aptitude: (BrGlamorousSpaceTabWithIconAndLabelAptitude new + ((BrGlamorousWithTooltipAptitude content: [
 			BrElementAsFormPreview
@@ -236,10 +252,8 @@ GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
 					ifAbsent: [ BlElement new ] )
 				preferredExtent: 400@400
 		]) hideDelay: 50 milliSeconds; showDelay: 100 milliSeconds));
-		label: aSpace title;
-		icon: (aSpace icon ifNil: [ BrGlamorousVectorIcons noIcon ]);
-		containerName: (self class tabNameForSpaceId: aSpace id);
-		stencil: [ :aTabModel | 
+		id: (self class tabNameForSpaceId: aSpace id);
+		stencil: [ :aTabModel |
 			| anActualSpace |
 			anActualSpace := aTabModel model.
 			anActualSpace root hasParent
@@ -255,6 +269,21 @@ GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
 					c vertical matchParent ] ];
 		actionbarStencil:
 				[ :aTabModel | self newToolbarForTabModel: aTabModel ].
+
+	self class dragAndDrop
+		ifTrue: [
+			aTab addEventHandler: (BlDragHandler new liftItem: [ :aSourceElement |
+				BlDragItem new
+					sourceElement: aSourceElement;
+					domainObject: aSourceElement model;
+					stencil: [ :aDragItem |
+						(self createBaseTab: aDragItem domainObject)
+							select;
+							opacity: 0.85 ] ]) ].
+
+	aTab addAptitude: (BrLazyStyleCommonAptitude new
+		when: BlElementDraggingState uniqueInstance style: [ :aStyle | aStyle background: Color transparent ]).
+	
 	aTab selected: shouldBeSelected.
 	tabs addTab: aTab.
 	aTab := nil
