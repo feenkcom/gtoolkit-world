@@ -17,49 +17,37 @@ Class {
 { #category : #factory }
 GtHomeCard class >> empty [
 	^ GtEmptyHomeCard new
-		definingMethod: (GtPhlowDefiningMethodsCollector new
-				stack: thisContext stack;
-				collect)
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
 { #category : #factory }
 GtHomeCard class >> errorCard [
 	^ GtHomeErrorCard new
-		definingMethod: (GtPhlowDefiningMethodsCollector new
-				stack: thisContext stack;
-				collect)
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
 { #category : #factory }
 GtHomeCard class >> job [
 	^ GtJobHomeCard new
-		definingMethod: (GtPhlowDefiningMethodsCollector new
-				stack: thisContext stack;
-				collect)
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
 { #category : #factory }
 GtHomeCard class >> lazy [
 	^ GtLazyHomeCard new
-		definingMethod: (GtPhlowDefiningMethodsCollector new
-				stack: thisContext stack;
-				collect)
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
 { #category : #example }
 GtHomeCard class >> page [
 	^ GtHomePageCard new
-		definingMethod: (GtPhlowDefiningMethodsCollector new
-				stack: thisContext stack;
-				collect)
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
 { #category : #factory }
 GtHomeCard class >> slideshow [
 	^ GtSlideshowHomeCard new
-		definingMethod: (GtPhlowDefiningMethodsCollector new
-				stack: thisContext stack;
-				collect)
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
 { #category : #accessing }
