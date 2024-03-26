@@ -9,11 +9,6 @@ Class {
 }
 
 { #category : #accessing }
-GtWorldTabElement class >> dragAndDrop [
-	^ false
-]
-
-{ #category : #accessing }
 GtWorldTabElement class >> spaceCloseButtonName [
 	^ #'gt-world--space-close-button'
 ]
@@ -33,6 +28,19 @@ GtWorldTabElement >> createBaseTab: aSpace [
 		label: aSpace title;
 		icon: (aSpace icon ifNil: [ BrGlamorousVectorIcons noIcon ]).
 	^ aTab
+]
+
+{ #category : #'api - opening' }
+GtWorldTabElement >> createTabDragHandler [
+	^ BlDragHandler new
+		liftItem: [ :aSourceElement | 
+			BlDragItem new
+				sourceElement: aSourceElement;
+				domainObject: aSourceElement model;
+				stencil: [ :aDragItem | 
+					(self createBaseTab: aDragItem domainObject)
+						select;
+						opacity: 0.85 ] ]
 ]
 
 { #category : #defaults }
@@ -245,45 +253,41 @@ GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
 	aTabViewModel := aTab viewModel.
 	aTab
 		model: aSpace;
-		aptitude: (BrGlamorousSpaceTabWithIconAndLabelAptitude new + ((BrGlamorousWithTooltipAptitude content: [
-			BrElementAsFormPreview
-				forElement: (aTabViewModel
-					cachedContentElementDo: [ :anElement | anElement ]
-					ifAbsent: [ BlElement new ] )
-				preferredExtent: 400@400
-		]) hideDelay: 50 milliSeconds; showDelay: 100 milliSeconds));
+		aptitude: BrGlamorousSpaceTabWithIconAndLabelAptitude new
+				+ ((BrGlamorousWithTooltipAptitude
+						content: [ BrElementAsFormPreview
+								forElement: (aTabViewModel
+										cachedContentElementDo: [ :anElement | anElement ]
+										ifAbsent: [ BlElement new ])
+								preferredExtent: 400 @ 400 ])
+						hideDelay: 50 milliSeconds;
+						showDelay: 100 milliSeconds);
 		id: (self class tabNameForSpaceId: aSpace id);
-		stencil: [ :aTabModel |
+		stencil: [ :aTabModel | 
 			| anActualSpace |
 			anActualSpace := aTabModel model.
 			anActualSpace root hasParent
 				ifTrue: [ anActualSpace root removeFromParent ]
 				ifFalse: [ anActualSpace root dispatchRemovedFromSceneGraph ].
 
-			aTabModel widgetDo: [ :aWidget |
-				aWidget enqueueTask: (GtWorldReEnqueueTasks new previousSpace: anActualSpace).
-				anActualSpace root addEventHandler: (GtWorldChangeTabAppearanceChangeHandler new tab: aWidget) ].
+			aTabModel
+				widgetDo: [ :aWidget | 
+					aWidget enqueueTask: (GtWorldReEnqueueTasks new previousSpace: anActualSpace).
+					anActualSpace root
+						addEventHandler: (GtWorldChangeTabAppearanceChangeHandler new tab: aWidget) ].
 			anActualSpace root
 				constraintsDo: [ :c | 
 					c horizontal matchParent.
 					c vertical matchParent ] ];
-		actionbarStencil:
-				[ :aTabModel | self newToolbarForTabModel: aTabModel ].
+		actionbarStencil: [ :aTabModel | self newToolbarForTabModel: aTabModel ].
 
-	self class dragAndDrop
-		ifTrue: [
-			aTab addEventHandler: (BlDragHandler new liftItem: [ :aSourceElement |
-				BlDragItem new
-					sourceElement: aSourceElement;
-					domainObject: aSourceElement model;
-					stencil: [ :aDragItem |
-						(self createBaseTab: aDragItem domainObject)
-							select;
-							opacity: 0.85 ] ]) ].
+	aTab addEventHandler: self createTabDragHandler.
 
-	aTab addAptitude: (BrLazyStyleCommonAptitude new
-		when: BlElementDraggingState uniqueInstance style: [ :aStyle | aStyle background: Color transparent ]).
-	
+	aTab
+		addAptitude: (BrLazyStyleCommonAptitude new
+				when: BlElementDraggingState uniqueInstance
+				style: [ :aStyle | aStyle background: (Color white alpha: 0.25) ]).
+
 	aTab selected: shouldBeSelected.
 	tabs addTab: aTab.
 	aTab := nil
