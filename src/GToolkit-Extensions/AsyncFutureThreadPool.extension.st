@@ -59,7 +59,13 @@ AsyncFutureThreadPool >> gtWorkersFor: aView [
 				size := each key pendingQueueSize.
 				size isZero ifTrue: [ '' ] ifFalse: [ size ] ];
 		column: 'Busy'
-			text: [ :each | each key isBusy ifFalse: [ '' ] ifTrue: [ 'true' ] ];
+			text: [ :each |
+				each key isBusy
+					ifFalse: [ '' ]
+					ifTrue: [
+						each key isWaitingOnSemaphore
+							ifTrue: [ 'true (waiting)' ]
+							ifFalse: [ 'true' ] ] ];
 		column: 'Running'
 			text: [ :each | each key isRunning ifFalse: [ '' ] ifTrue: [ 'true' ] ];
 		send: [ :each | each key ];
