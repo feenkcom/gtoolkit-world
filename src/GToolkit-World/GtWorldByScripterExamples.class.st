@@ -638,7 +638,7 @@ GtWorldByScripterExamples >> expandMethodCoder [
 					assertMethodExpandersCountIs: 1;
 					assertSelfObjectIs: FileLocator;
 					assertTargetBehaviorIs: FileLocator class;
-					assertExplicitProviderClassIs: nil ];
+					assertExplicitProviderClassIs: FileLocator class ];
 		// (GtPagerPageElementId indexed: 1);
 		id: LeSnippetElementId index: 1;
 		play.
