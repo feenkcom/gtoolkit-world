@@ -216,6 +216,19 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 		play.
 
 	aScripter assert
+		label: 'Assert LeOnDemandDummyClass >> #example exists';
+		satisfies: [ Smalltalk
+					at: #LeOnDemandDummyClass
+					ifPresent: [ :aClass | 
+						aClass methodDict
+							at: #example
+							ifPresent: [ :aMethod | true ]
+							ifAbsent: [ false ] ]
+					ifAbsent: [ false ] ]
+			description: [ 'LeOnDemandDummyClass >> #example does not exist' ];
+		play.
+
+	aScripter assert
 		label: 'Assert example method link is clickable';
 		exists;
 		// (LeSnippetId new uid: aMethodLinkId);
@@ -1000,6 +1013,73 @@ GtWorldByScripterExamples >> profileScriptInTheSecondLepiterPagePane [
 						label: 'Assert the third result pane';
 						value: [ :aPager | aPager pages size ] equals: 3;
 						// GtPager ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> removeMethodAddedByEpiceaSnippet [
+	<gtExample>
+	| aScripter aCreateClassId aClassLinkId aCreateMethodId aMethodLinkId anExampleId |
+	aScripter := self applyEpiceaSnippetChanges.
+	aCreateClassId := aScripter model page children first uid.
+	aClassLinkId := aScripter model page children second uid.
+	aCreateMethodId := aScripter model page children third uid.
+	aMethodLinkId := aScripter model page children fourth uid.
+	anExampleId := aScripter model page children fifth uid.
+
+	aScripter do
+		label: 'Remove LeOnDemandDummyClass >> #example';
+		block: [ | aClass aMethod |
+			aClass := Smalltalk at: #LeOnDemandDummyClass.
+			aMethod := aClass methodDict at: #example.
+			aMethod removeFromSystem ];
+		play.
+		
+	aScripter assert
+		label: 'Assert LeOnDemandDummyClass exists';
+		satisfies: [ Smalltalk
+					at: #LeOnDemandDummyClass
+					ifPresent: [ :aClass | true ]
+					ifAbsent: [ false ] ]
+			description: [ 'LeOnDemandDummyClass does not exist' ];
+		play.
+		
+	aScripter assert
+		label: 'Assert LeOnDemandDummyClass >> #example does not exist';
+		satisfies: [ Smalltalk
+					at: #LeOnDemandDummyClass
+					ifPresent: [ :aClass | 
+						aClass methodDict
+							at: #example
+							ifPresent: [ :aMethod | false ]
+							ifAbsent: [ true ] ]
+					ifAbsent: [ false ] ]
+			description: [ 'LeOnDemandDummyClass >> #example does not exist' ];
+		play.
+
+	aScripter assert
+		label: 'Assert LeOnDemandDummyClass link is clickable';
+		exists;
+		// (LeSnippetId new uid: aClassLinkId);
+		// GtSourceCoderEditorId;
+		// (LeTextSnippetAttributeLabelElementId indexed: 1);
+		play.
+
+	aScripter assert
+		label: 'Assert example method link is clickable';
+		notExists;
+		// (LeSnippetId new uid: aMethodLinkId);
+		// GtSourceCoderEditorId;
+		// (LeTextSnippetAttributeLabelElementId indexed: 1);
+		play.
+
+	aScripter assert
+		label: 'Assert example includes preview';
+		notExists;
+		// (LeSnippetId new uid: anExampleId);
+		// GtPhlowCompositeViewElementId;
+		play.
 
 	^ aScripter
 ]
