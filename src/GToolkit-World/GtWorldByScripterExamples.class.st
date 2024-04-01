@@ -99,6 +99,18 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageWithChangeAndDependentSnippets [
+	<gtExample>
+	| aScripter aPageHolder |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new pageHavingChangeAndDependentSnippets.
+	aScripter model: aPageHolder.
+	self addLepiterPage: aPageHolder page intoTabElementUsingScripter: aScripter.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 	<gtExample>
 	| aScripter aPageHolder |
@@ -151,6 +163,75 @@ GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 						label: 'Check Playground tab selection';
 						satisfies: [ :anElement | anElement tabs tabs second isSelected ]
 							description: [ 'Playground tab must be selected' ] ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
+	<gtExample>
+	| aScripter aCreateClassId aClassLinkId aCreateMethodId aMethodLinkId anExampleId |
+	self removeOnDemandDummyClass.
+
+	aScripter := self addLepiterPageWithChangeAndDependentSnippets.
+	aCreateClassId := aScripter model page children first uid.
+	aClassLinkId := aScripter model page children second uid.
+	aCreateMethodId := aScripter model page children third uid.
+	aMethodLinkId := aScripter model page children fourth uid.
+	anExampleId := aScripter model page children fifth uid.
+
+	aScripter do
+		label: 'Set space size';
+		block: [ :aSpace | aSpace extent: 1200 @ 1200 ];
+		onSpace;
+		play.
+
+	aScripter click
+		label: 'Create class';
+		// (LeSnippetId new uid: aCreateClassId);
+		// GtEpiceaApplyChangesId;
+		play.
+
+	aScripter assert
+		label: 'Assert LeOnDemandDummyClass exists';
+		satisfies: [ Smalltalk
+					at: #LeOnDemandDummyClass
+					ifPresent: [ :aClass | true ]
+					ifAbsent: [ false ] ]
+			description: [ 'LeOnDemandDummyClass does not exist' ];
+		play.
+
+	true
+		ifFalse: [ aScripter assert
+				label: 'Assert LeOnDemandDummyClass link is clickable';
+				exists;
+				// (LeSnippetId new uid: aClassLinkId);
+				// GtSourceCoderEditorId;
+				// (LeTextSnippetAttributeLabelElementId indexed: 1);
+				play ].
+
+	aScripter click
+		label: 'Create method';
+		// (LeSnippetId new uid: aCreateMethodId);
+		// GtEpiceaApplyChangesId;
+		play.
+
+	true
+		ifFalse: [ aScripter assert
+				label: 'Assert example method link is clickable';
+				exists;
+				// (LeSnippetId new uid: aMethodLinkId);
+				// GtSourceCoderEditorId;
+				// (LeTextSnippetAttributeLabelElementId indexed: 1);
+				play ].
+
+	true
+		ifFalse: [ aScripter assert
+				label: 'Assert example includes preview';
+				exists;
+				// (LeSnippetId new uid: anExampleId);
+				// GtPhlowCompositeViewElementId;
+				play ].
 
 	^ aScripter
 ]
@@ -924,6 +1005,14 @@ GtWorldByScripterExamples >> profileScriptInTheSecondLepiterPagePane [
 						// GtPager ] ].
 
 	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> removeOnDemandDummyClass [
+	Smalltalk globals
+		at: #LeOnDemandDummyClass
+		ifPresent: [ :aClass | aClass removeFromSystem ]
+		ifAbsent: [  ]
 ]
 
 { #category : #'examples - coder' }
