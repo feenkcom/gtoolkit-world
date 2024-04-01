@@ -201,14 +201,13 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 			description: [ 'LeOnDemandDummyClass does not exist' ];
 		play.
 
-	true
-		ifFalse: [ aScripter assert
-				label: 'Assert LeOnDemandDummyClass link is clickable';
-				exists;
-				// (LeSnippetId new uid: aClassLinkId);
-				// GtSourceCoderEditorId;
-				// (LeTextSnippetAttributeLabelElementId indexed: 1);
-				play ].
+	aScripter assert
+		label: 'Assert LeOnDemandDummyClass link is clickable';
+		exists;
+		// (LeSnippetId new uid: aClassLinkId);
+		// GtSourceCoderEditorId;
+		// (LeTextSnippetAttributeLabelElementId indexed: 1);
+		play.
 
 	aScripter click
 		label: 'Create method';
@@ -216,14 +215,13 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 		// GtEpiceaApplyChangesId;
 		play.
 
-	true
-		ifFalse: [ aScripter assert
-				label: 'Assert example method link is clickable';
-				exists;
-				// (LeSnippetId new uid: aMethodLinkId);
-				// GtSourceCoderEditorId;
-				// (LeTextSnippetAttributeLabelElementId indexed: 1);
-				play ].
+	aScripter assert
+		label: 'Assert example method link is clickable';
+		exists;
+		// (LeSnippetId new uid: aMethodLinkId);
+		// GtSourceCoderEditorId;
+		// (LeTextSnippetAttributeLabelElementId indexed: 1);
+		play.
 
 	true
 		ifFalse: [ aScripter assert
