@@ -1044,21 +1044,21 @@ GtWorldByScripterExamples >> removeClassAddedByEpiceaSnippet [
 			description: [ 'LeOnDemandDummyClass exists' ];
 		play.
 
-	true ifFalse: [ aScripter assert
+	aScripter assert
 		label: 'Assert LeOnDemandDummyClass link is not clickable';
 		notExists;
 		// (LeSnippetId new uid: aClassLinkId);
 		// GtSourceCoderEditorId;
 		// (LeTextSnippetAttributeLabelElementId indexed: 1);
-		play ].
+		play.
 
-	true ifFalse: [ aScripter assert
+	aScripter assert
 		label: 'Assert example method link is not clickable';
 		notExists;
 		// (LeSnippetId new uid: aMethodLinkId);
 		// GtSourceCoderEditorId;
 		// (LeTextSnippetAttributeLabelElementId indexed: 1);
-		play ].
+		play.
 
 	aScripter assert
 		label: 'Assert example does not include preview';
