@@ -223,13 +223,12 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 		// (LeTextSnippetAttributeLabelElementId indexed: 1);
 		play.
 
-	true
-		ifFalse: [ aScripter assert
-				label: 'Assert example includes preview';
-				exists;
-				// (LeSnippetId new uid: anExampleId);
-				// GtPhlowCompositeViewElementId;
-				play ].
+	aScripter assert
+		label: 'Assert example includes preview';
+		exists;
+		// (LeSnippetId new uid: anExampleId);
+		// GtPhlowCompositeViewElementId;
+		play.
 
 	^ aScripter
 ]
