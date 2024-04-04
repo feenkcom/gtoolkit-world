@@ -8,8 +8,8 @@ Context >> gtIsAssertionContextWithComparableTypes [
 
 	anActual := self readVariableNamed: #actual.
 	anExpected := self readVariableNamed: #expected.
-	anActual isString ifFalse: [ ^ false ].
-	anExpected isString ifFalse: [ ^ false ].
+	"anActual isString ifFalse: [ ^ false ].
+	anExpected isString ifFalse: [ ^ false ]."
 	
 	^ true
 ]
@@ -21,14 +21,27 @@ Context >> gtTwoPanesStringDiffFor: aView [
 	self gtIsAssertionContextWithComparableTypes ifFalse: [ ^ aView empty ].
 	
 	^ aView explicit
-		title: 'Diff';
+		title: 'Textual Diff';
 		priority: 8;
 		stencil: [ GtDiffElementWithLabelStencil new
 				fromLabelText: 'Actual:';
 				toLabelText: 'Expected:';
 				change: (GtDiffBuilder
 						computeDifferencesFrom: (self 
-							readVariableNamed: #actual) asString
-						to: (self readVariableNamed: #expected) asString
-						using: GtCharacterGroupDiffSplitter words) ]
+							readVariableNamed: #actual) gtDebuggerPrintForComparison
+						to: (self readVariableNamed: #expected) gtDebuggerPrintForComparison
+						using: GtCharacterGroupDiffSplitter words) ];
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			label: 'Actual'
+			tooltip: 'Inspect actual object'
+			action: [ :aButton | 
+				aButton phlow 
+					spawnObject: (self readVariableNamed: #actual) ];
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			label: 'Expected'
+			tooltip: 'Inspect expected object'
+			action: [ :aButton | 
+				aButton phlow 
+					spawnObject: (self readVariableNamed: #expected) ]
+			
 ]
