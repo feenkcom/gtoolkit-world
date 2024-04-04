@@ -3,22 +3,23 @@ Extension { #name : #AssertionFailure }
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtDebuggingExtensionConfiguration [
 	^ super gtDebuggingExtensionConfiguration
-		enableDebuggingViewExtension: [ self gtIsStringComparison or: [ self gtScripter isNotNil ] ] 
+		enableDebuggingViewExtension: [ self gtHasComparableTypes or: [ self gtScripter isNotNil ] ] 
 ]
 
 { #category : #'*GToolkit-Extensions' }
-AssertionFailure >> gtIsStringComparison [
+AssertionFailure >> gtHasComparableTypes [
 	| assertionContext actualValue expectedValue |
 	self gtHasStack ifFalse: [ ^ false ].
 	
 	assertionContext := self signalerContext findContextSuchThat: [ :ctx | 
-		   (ctx hasTemporaryVariableNamed: #actual) and: [ 
-			   ctx hasTemporaryVariableNamed: #expected ] ].
+		(ctx hasTemporaryVariableNamed: #actual) and: [ 
+			ctx hasTemporaryVariableNamed: #expected ] ].
 	assertionContext ifNil: [ ^ false ].
 	
-	actualValue := assertionContext readVariableNamed: #actual.
+	^ true
+	"actualValue := assertionContext readVariableNamed: #actual.
 	expectedValue := assertionContext readVariableNamed: #expected.
-	^ actualValue isString and: [expectedValue isString].
+	^ actualValue isString and: [expectedValue isString]."
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -31,8 +32,8 @@ AssertionFailure >> gtLocateAssertEqualsContextWithComparableTypes [
 	
 	anActual := assertionContext readVariableNamed: #actual.
 	anExpected := assertionContext readVariableNamed: #expected.
-	anActual isString ifFalse: [ ^ nil ].
-	anExpected isString ifFalse: [ ^ nil ].
+	"anActual isString ifFalse: [ ^ nil ].
+	anExpected isString ifFalse: [ ^ nil ]."
 	
 	^ assertionContext
 ]
@@ -89,7 +90,7 @@ AssertionFailure >> gtTwoPanesStringDiffFor: aView [
 		^ aView empty ].
 
 	^ aView forward
-		title: 'Diff';
+		title: 'Textual Diff';
 		priority: 0;
 		object: [ assertionContext ];
 		view: #gtTwoPanesStringDiffFor:
