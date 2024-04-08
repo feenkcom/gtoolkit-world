@@ -15,7 +15,7 @@ TelemetryLogger >> gtFramesFor: aView [
 			
 			aData := GtPlotterDataGroup new values: (self recordings ).
 			aData := aData labelled: [ :eachTask | (anIndexMap at: eachTask) asString ].
-			aData := aData colored: [ :eachTask |
+			aData := aData background: [ :eachTask |
 				eachTask ping durationInMilliseconds <= 16
 					ifTrue: [ BrGlamorousColors primaryBorderColor ]
 					ifFalse: [ BrGlamorousColors errorBorderColor ] ].
