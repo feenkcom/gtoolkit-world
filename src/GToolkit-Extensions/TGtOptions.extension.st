@@ -35,7 +35,7 @@ TGtOptions >> gtOptionsFor: aView [
 							   self clearOption: assoc key ifAbsent: [ "ignore" ].
 							   aButton phlow firstParentWithView
 								   ifNotNil: [ :anElement | anElement phlow update ]
-								   ifNil: [ aButton phlow fireUpdateWish ] ];
+								   ifNil: [ aButton phlow fireToolUpdateWish ] ];
 						   constraintsDo: [ :c | c linear vertical alignCenter ]);
 				  when: BlMouseEnterEvent do: [ :anEvent | 
 				  (anEvent currentTarget childAt: 2) visibility:
