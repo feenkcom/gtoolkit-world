@@ -2,7 +2,8 @@ Class {
 	#name : #GtMonitoredScripterPulser,
 	#superclass : #Object,
 	#instVars : [
-		'pulser'
+		'pulser',
+		'example'
 	],
 	#category : #'GToolkit-Monitor-Scripter'
 }
@@ -19,6 +20,26 @@ GtMonitoredScripterPulser >> allPathsTo [
 { #category : #accessing }
 GtMonitoredScripterPulser >> children [
 	^ #()
+]
+
+{ #category : #accessing }
+GtMonitoredScripterPulser >> example [
+	"Return example that keeps the Scripter"
+
+	<return: #GtExampleWithResult or: nil>
+	^ example
+		ifNotNil: [ :aWeak | 
+			(aWeak at: 1)
+				ifNotNil: [ :anExampleWithResult | 
+					(anExampleWithResult isSuccess
+						and: [ anExampleWithResult result returnValue == self scripter ])
+						ifTrue: [ anExampleWithResult ]
+						ifFalse: [ nil ] ] ]
+]
+
+{ #category : #accessing }
+GtMonitoredScripterPulser >> example: anExampleWithResultOrNil [
+	example := anExampleWithResultOrNil asWeakReference
 ]
 
 { #category : #'gt-extension' }
@@ -57,6 +78,22 @@ GtMonitoredScripterPulser >> gtPointersFor: aView [
 		items: [ self pointers ];
 		column: 'Pointers' 
 			text: [ :anObject | anObject gtDisplayText ]
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtScripterExampleFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Example';
+		priority: 5;
+		object: [ self example ifNil: [ GtExampleWithResult new ] ];
+		view: #gtSourceFor:;
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			label: 'Example'
+			tooltip: 'Inspect example'
+			action: [ :aButton | 
+				self example
+					ifNotNil: [ :anExampleWithResult | aButton phlow spawnObject: anExampleWithResult example ] ]
 ]
 
 { #category : #'gt-extension' }
