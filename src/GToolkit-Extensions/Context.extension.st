@@ -18,6 +18,7 @@ Context >> gtIsAssertionContextWithComparableTypes [
 Context >> gtTwoPanesStringDiffFor: aView [
 	<gtView>
 	<gtContextDebuggingView>
+	
 	self gtIsAssertionContextWithComparableTypes ifFalse: [ ^ aView empty ].
 	
 	^ aView explicit
