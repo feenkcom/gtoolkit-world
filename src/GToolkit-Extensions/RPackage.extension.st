@@ -4,7 +4,7 @@ Extension { #name : #RPackage }
 RPackage >> gtClassHierarchyFor: aView [
 	<gtPackageView>
 	^ aView mondrian
-		title: 'Classes Map';
+		title: 'Classes dependencies';
 		priority: 10.6;
 		tooltip: 'Classes: black, Traits: orange, Extended classes: gray';
 		painting: [ :aMondrian | self paintClassHierarchyWith: aMondrian ];
@@ -112,12 +112,12 @@ RPackage >> gtDependencyAnalyzerFor: aView [
 	
 	| anAnalyzer |
 	^ aView explicit
-		title: 'Dependency Analysis';
+		title: 'Dependency analysis';
 		priority: 40;
 		stencil: [ 
 			| anObjectHolder |
 			anAnalyzer := GtDependencyAnalyzerEasy analyzePackageNamed: self name.
-			anObjectHolder := GtInspectorObject new object: anAnalyzer; viewSelector: #gtPackageDependenciesFor:context:.
+			anObjectHolder := GtInspectorObject new object: anAnalyzer; viewSelector: #gtPackageDependenciesFor:.
 			GtInspector new objectHolder: anObjectHolder ];
 		actionButtonIcon: BrGlamorousVectorIcons refresh 
 			tooltip: 'Update dependency analysis' 
@@ -227,7 +227,7 @@ RPackage >> gtTagAndClassHierarchyFor: aView [
 	"<gtView>"
 	<gtPackageView>
 	^ aView mondrian
-		title: 'Tags Map';
+		title: 'Tags and classes';
 		priority: 10.7;
 		tooltip: 'Classes: black, Traits: orange';
 		painting: [ :aMondrian | self paintTagAndClassHierarchyWith: aMondrian ];
