@@ -7,9 +7,27 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
+{ #category : #action }
+GtHomeSection class >> gtUpdateGtWorldActionFor: anAction [
+	<gtAction>
+	<gtClassAction>
+	^anAction button
+		tooltip: 'Update GT World';
+		priority: 20;
+		icon: BrGlamorousVectorIcons refresh;
+		action: [ :aButton | 
+			self updateGtWorld]
+]
+
 { #category : #testing }
 GtHomeSection class >> isAbstract [ 
 	^ self name = #GtHomeSection 
+]
+
+{ #category : #utility }
+GtHomeSection class >> updateGtWorld [
+	^ GtWorld allInstances
+		do: [ :aGtWorld | aGtWorld root children first home updateWidget ]
 ]
 
 { #category : #'instance creation' }
