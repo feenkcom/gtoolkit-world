@@ -41,7 +41,7 @@ AssertionFailure >> gtLocateAssertEqualsContextWithComparableTypes [
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtScripterPreviewFor: aView [
 	<gtView>
-	<gtExceptionDebuggingView>
+	<gtExceptionView>
 	| aScripter |
 	
 	self gtHasStack ifFalse: [ ^ aView empty ].
@@ -63,7 +63,7 @@ AssertionFailure >> gtScripterPreviewFor: aView [
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtScripterStepsFor: aView [
 	<gtView>
-	<gtExceptionDebuggingView>
+	<gtExceptionView>
 	| aScripter |
 	self gtHasStack ifFalse: [ ^ aView empty ].
 	aScripter := self gtScripter.
@@ -81,7 +81,7 @@ AssertionFailure >> gtScripterStepsFor: aView [
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtTwoPanesStringDiffFor: aView [
 	<gtView>
-	<gtExceptionDebuggingView>
+	<gtExceptionView>
 	| assertionContext |
 	
 	self gtHasStack ifFalse: [ ^ aView empty ].
