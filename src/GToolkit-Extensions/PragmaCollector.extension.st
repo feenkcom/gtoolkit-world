@@ -14,5 +14,5 @@ PragmaCollector >> gtCollectedFor: aView [
 		  tooltip: 'Collect existing pragmas'
 		  action: [ :aButton | 
 			  self reset.
-			  aButton phlow fireUpdateWish ]
+			  aButton phlow fireToolUpdateWish ]
 ]

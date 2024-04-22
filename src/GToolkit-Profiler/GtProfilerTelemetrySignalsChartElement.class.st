@@ -76,7 +76,7 @@ GtProfilerTelemetrySignalsChartElement >> updateChart [
 	
 	aData := GtPlotterDataGroup new values: (theRecordings collect: [ :eachSignal | eachSignal task ]).
 	aData := aData labelled: [ :eachTask | (anIndexMap at: eachTask) asString ].
-	aData := aData colored: [ :eachTask |
+	aData := aData background: [ :eachTask |
 		eachTask durationInMilliseconds <= 16
 			ifTrue: [ BrGlamorousColors primaryBorderColor ]
 			ifFalse: [ BrGlamorousColors errorBorderColor ] ].
