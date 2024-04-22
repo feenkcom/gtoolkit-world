@@ -12,7 +12,7 @@ OSEnvironment >> gtEnvironmentFor: aView [
 		contextItemLabel: 'Remove'
 			action: [ :anElement :anAssoc | 
 				self removeKey: anAssoc key.
-				anElement phlow fireUpdateWish ];
+				anElement phlow fireToolUpdateWish ];
 		send: #value
 ]
 

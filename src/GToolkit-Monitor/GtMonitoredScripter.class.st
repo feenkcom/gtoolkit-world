@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'scripter',
-		'pulsers'
+		'pulsers',
+		'example'
 	],
 	#category : #'GToolkit-Monitor-Scripter'
 }
@@ -11,6 +12,20 @@ Class {
 { #category : #accessing }
 GtMonitoredScripter >> children [
 	^ pulsers ifNil: [ #() ]
+]
+
+{ #category : #accessing }
+GtMonitoredScripter >> example [
+	"Return example that keeps the Scripter"
+
+	<return: #GtExampleWithResult or: nil>
+	^ self pulsers
+		ifNotEmpty: [ :aCollection | 
+			aCollection
+				detect: [ :aPulser | aPulser example isNotNil ]
+				ifFound: [ :aPulser | aPulser example ]
+				ifNone: [ nil ] ]
+		ifEmpty: [ nil ]
 ]
 
 { #category : #'gt - extensions' }
@@ -23,6 +38,22 @@ GtMonitoredScripter >> gtPointersFor: aView [
 		items: [ self pointers ];
 		column: 'Pointers' 
 			text: [ :anObject | anObject gtDisplayText ]
+]
+
+{ #category : #'gt - extensions' }
+GtMonitoredScripter >> gtScripterExampleFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Example';
+		priority: 5;
+		object: [ self example ifNil: [ GtExampleWithResult new ] ];
+		view: #gtSourceFor:;
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			label: 'Example'
+			tooltip: 'Inspect example'
+			action: [ :aButton | 
+				self example
+					ifNotNil: [ :anExampleWithResult | aButton phlow spawnObject: anExampleWithResult example ] ]
 ]
 
 { #category : #'gt - extensions' }
@@ -51,12 +82,22 @@ GtMonitoredScripter >> pointers [
 
 { #category : #accessing }
 GtMonitoredScripter >> pulsers [
-	^ pulsers ifNil: [ #() ]
+	^ pulsers
+		ifNotNil: [ :aWeak | 
+			Array
+				new: aWeak size
+				streamContents: [ :aStream | 
+					aWeak
+						doWithIndex: [ :aPulserOrNil :anIndex | aPulserOrNil ifNotNil: [ :aPulser | aStream nextPut: aPulser ] ] ] ]
+		ifNil: [ #() ]
 ]
 
 { #category : #accessing }
-GtMonitoredScripter >> pulsers: anObject [
-	pulsers := anObject
+GtMonitoredScripter >> pulsers: aCollection [
+	| aWeakCollection |
+	pulsers := aWeakCollection := WeakArray new: aCollection size.
+	aCollection
+		doWithIndex: [ :aPulser :anIndex | aWeakCollection at: anIndex put: aPulser ]
 ]
 
 { #category : #accessing }
@@ -72,7 +113,9 @@ GtMonitoredScripter >> scripter: aScripter [
 
 { #category : #accessing }
 GtMonitoredScripter >> startTime [
-	^ self pulsers min: #startTime
+	^ self pulsers
+		ifNotEmpty: [ :aCollection | aCollection min: #startTime ]
+		ifEmpty: [ nil ]
 ]
 
 { #category : #accessing }
