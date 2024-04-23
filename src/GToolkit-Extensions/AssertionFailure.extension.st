@@ -3,7 +3,9 @@ Extension { #name : #AssertionFailure }
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtDebuggingExtensionConfiguration [
 	^ super gtDebuggingExtensionConfiguration
-		enableDebuggingViewExtension: [ self gtHasComparableTypes or: [ self gtScripter isNotNil ] ] 
+		enableDebuggingViewExtension: [ 
+			self gtHasComparableTypes or: [ 
+				self gtScripter isNotNil ] ] 
 ]
 
 { #category : #'*GToolkit-Extensions' }
