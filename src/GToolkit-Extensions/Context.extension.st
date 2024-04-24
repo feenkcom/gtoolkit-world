@@ -1,7 +1,7 @@
 Extension { #name : #Context }
 
 { #category : #'*GToolkit-Extensions' }
-Context >> gtComparableTypesDiffFor: aView [
+Context >> gtComparableTypesTextualDiffFor: aView [
 	<gtView>
 	<gtContextView>
 	

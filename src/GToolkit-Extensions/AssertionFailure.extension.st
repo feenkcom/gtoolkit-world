@@ -1,7 +1,7 @@
 Extension { #name : #AssertionFailure }
 
 { #category : #'*GToolkit-Extensions' }
-AssertionFailure >> gtComparableTypesDiffFor: aView [
+AssertionFailure >> gtComparableTypesTextualDiffFor: aView [
 	<gtView>
 	<gtExceptionView>
 	| assertionContext |
@@ -15,7 +15,7 @@ AssertionFailure >> gtComparableTypesDiffFor: aView [
 		title: 'Textual Diff';
 		priority: 0;
 		object: [ assertionContext ];
-		view: #gtComparableTypesDiffFor:
+		view: #gtComparableTypesTextualDiffFor:
 ]
 
 { #category : #'*GToolkit-Extensions' }
