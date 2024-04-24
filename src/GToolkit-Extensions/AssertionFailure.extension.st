@@ -1,6 +1,24 @@
 Extension { #name : #AssertionFailure }
 
 { #category : #'*GToolkit-Extensions' }
+AssertionFailure >> gtComparableTypesDiffFor: aView [
+	<gtView>
+	<gtExceptionView>
+	| assertionContext |
+	
+	self gtHasStack ifFalse: [ ^ aView empty ].
+	assertionContext := self gtLocateAssertEqualsContextWithComparableTypes.
+	assertionContext ifNil: [
+		^ aView empty ].
+
+	^ aView forward
+		title: 'Textual Diff';
+		priority: 0;
+		object: [ assertionContext ];
+		view: #gtComparableTypesDiffFor:
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtExceptionDebuggerSpecification [
 	^ super gtExceptionDebuggerSpecification
 		title: 'Assertion Failure';
@@ -79,22 +97,4 @@ AssertionFailure >> gtScripterStepsFor: aView [
 			label: 'Scripter'
 			tooltip: 'Inspect Scripter'
 			action: [ :anElement | anElement phlow spawnObject: aScripter ]
-]
-
-{ #category : #'*GToolkit-Extensions' }
-AssertionFailure >> gtTwoPanesStringDiffFor: aView [
-	<gtView>
-	<gtExceptionView>
-	| assertionContext |
-	
-	self gtHasStack ifFalse: [ ^ aView empty ].
-	assertionContext := self gtLocateAssertEqualsContextWithComparableTypes.
-	assertionContext ifNil: [
-		^ aView empty ].
-
-	^ aView forward
-		title: 'Textual Diff';
-		priority: 0;
-		object: [ assertionContext ];
-		view: #gtTwoPanesStringDiffFor:
 ]
