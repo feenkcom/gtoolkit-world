@@ -17,7 +17,8 @@ Context >> gtIsAssertionContextWithComparableTypes [
 { #category : #'*GToolkit-Extensions' }
 Context >> gtTwoPanesStringDiffFor: aView [
 	<gtView>
-	<gtContextDebuggingView>
+	<gtContextView>
+	
 	self gtIsAssertionContextWithComparableTypes ifFalse: [ ^ aView empty ].
 	
 	^ aView explicit
