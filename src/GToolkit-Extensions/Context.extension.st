@@ -1,21 +1,7 @@
 Extension { #name : #Context }
 
 { #category : #'*GToolkit-Extensions' }
-Context >> gtIsAssertionContextWithComparableTypes [
-	| anActual anExpected |
-	(self hasTemporaryVariableNamed: #actual) ifFalse: [ ^ false ].
-	(self hasTemporaryVariableNamed: #expected) ifFalse: [ ^ false ].
-
-	anActual := self readVariableNamed: #actual.
-	anExpected := self readVariableNamed: #expected.
-	"anActual isString ifFalse: [ ^ false ].
-	anExpected isString ifFalse: [ ^ false ]."
-	
-	^ true
-]
-
-{ #category : #'*GToolkit-Extensions' }
-Context >> gtTwoPanesStringDiffFor: aView [
+Context >> gtComparableTypesDiffFor: aView [
 	<gtView>
 	<gtContextView>
 	
@@ -45,4 +31,18 @@ Context >> gtTwoPanesStringDiffFor: aView [
 				aButton phlow 
 					spawnObject: (self readVariableNamed: #expected) ]
 			
+]
+
+{ #category : #'*GToolkit-Extensions' }
+Context >> gtIsAssertionContextWithComparableTypes [
+	| anActual anExpected |
+	(self hasTemporaryVariableNamed: #actual) ifFalse: [ ^ false ].
+	(self hasTemporaryVariableNamed: #expected) ifFalse: [ ^ false ].
+
+	anActual := self readVariableNamed: #actual.
+	anExpected := self readVariableNamed: #expected.
+	"anActual isString ifFalse: [ ^ false ].
+	anExpected isString ifFalse: [ ^ false ]."
+	
+	^ true
 ]
