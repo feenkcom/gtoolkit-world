@@ -177,7 +177,7 @@ GtToolsMenu >> renameFrom: aButton [
 							[| aFilename |
 							aFilename := (aButtonRenameAction parent childWithId: #imageName) text
 										asString.
-							SmalltalkImage current saveAs: aFilename.
+							self renameImageTo: aFilename.
 							aButton
 								label: 'Rename';
 								enable.
@@ -203,6 +203,11 @@ GtToolsMenu >> renameFrom: aButton [
 							icon: BrGlamorousVectorIcons accept;
 							action: saveActionBlock}.
 	^container
+]
+
+{ #category : #'private (writing)' }
+GtToolsMenu >> renameImageTo: aFilename [
+	SmalltalkImage current saveAs: aFilename
 ]
 
 { #category : #initialization }
