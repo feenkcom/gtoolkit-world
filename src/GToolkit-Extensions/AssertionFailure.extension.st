@@ -3,6 +3,7 @@ Extension { #name : #AssertionFailure }
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtExceptionDebuggerSpecification [
 	^ super gtExceptionDebuggerSpecification
+		title: 'Assertion Failure';
 		enableWhen: [ 
 			self gtHasComparableTypes or: [ 
 				self gtScripter isNotNil ] ] 
