@@ -18,6 +18,21 @@ GtWorldTabElement class >> tabNameForSpaceId: aNumber [
 	^ GtWorldSpaceTabId spaceId: aNumber
 ]
 
+{ #category : #'api - opening' }
+GtWorldTabElement >> aptitudeForSpaceTab: aTab [ 
+	| aTabViewModel |
+	aTabViewModel := aTab viewModel.
+	^ BrGlamorousSpaceTabWithIconAndLabelAptitude new
+		+ ((BrGlamorousWithTooltipAptitude
+				content: [ BrElementAsFormPreview
+					forElement: (aTabViewModel
+					cachedContentElementDo: [ :anElement | anElement ]
+										ifAbsent: [ BlElement new ])
+					preferredExtent: 400 @ 400 ])
+				hideDelay: 50 milliSeconds;
+				showDelay: 100 milliSeconds)
+]
+
 { #category : #accessing }
 GtWorldTabElement >> createBaseTab: aSpace [
 	| aTab |
@@ -248,20 +263,11 @@ GtWorldTabElement >> showSpace: aSpace [
 
 { #category : #'api - opening' }
 GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
-	| aTab aTabViewModel |
+	| aTab |
 	aTab := self createBaseTab: aSpace.
-	aTabViewModel := aTab viewModel.
 	aTab
 		model: aSpace;
-		aptitude: BrGlamorousSpaceTabWithIconAndLabelAptitude new
-				+ ((BrGlamorousWithTooltipAptitude
-						content: [ BrElementAsFormPreview
-								forElement: (aTabViewModel
-										cachedContentElementDo: [ :anElement | anElement ]
-										ifAbsent: [ BlElement new ])
-								preferredExtent: 400 @ 400 ])
-						hideDelay: 50 milliSeconds;
-						showDelay: 100 milliSeconds);
+		aptitude: (self aptitudeForSpaceTab: aTab);
 		id: (self class tabNameForSpaceId: aSpace id);
 		stencil: [ :aTabModel | 
 			| anActualSpace |
