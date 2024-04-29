@@ -4,32 +4,6 @@ Class {
 	#category : #'GToolkit-Monitor'
 }
 
-{ #category : #accessing }
-GtMonitoredProcess >> annotations [
-	<return: #Array of: #Association>
-	| aService |
-	aService := self service.
-	aService ifNil: [ ^ #() ].
-	aService hasProcessAnnotations ifFalse: [ ^ #() ].
-	^ Array streamContents: [ :aStream |
-		aService processAnnotation associationsDo: [ :eachAssoc | 
-			aStream nextPut: eachAssoc ] ]
-]
-
-{ #category : #'gt-extension' }
-GtMonitoredProcess >> gtAnnotationsFor: aView [
-	<gtView>
-	self annotations ifEmpty: [ ^ aView empty ].
-	^ aView columnedList
-		title: 'Annotations';
-		priority: 10;
-		items: [ self annotations ];
-		column: 'Name' text: [ :anAssoc | anAssoc key ];
-		column: 'Value' text: [ :anAssoc | anAssoc value ];
-		send: [ :anAssoc | anAssoc value ]
-		
-]
-
 { #category : #'gt-extension' }
 GtMonitoredProcess >> gtPSKeysFor: aView [
 	<gtView>
