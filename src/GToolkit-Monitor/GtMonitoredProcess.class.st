@@ -31,6 +31,18 @@ GtMonitoredProcess >> gtAnnotationsFor: aView [
 ]
 
 { #category : #'gt-extension' }
+GtMonitoredProcess >> gtPSKeysFor: aView [
+	<gtView>
+	self service ifNil: [ ^ aView empty ].
+
+	^ aView forward
+		title: 'PS Keys';
+		priority: 5;
+		object: [ self service ];
+		view: #gtPSKeysFor:
+]
+
+{ #category : #'gt-extension' }
 GtMonitoredProcess >> gtStackFor: aView [
 
 	<gtView>
