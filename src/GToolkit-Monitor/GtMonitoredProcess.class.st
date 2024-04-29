@@ -66,6 +66,14 @@ GtMonitoredProcess >> isSuspended [
 	^ self service ifNotNil: [ :aService | aService isSuspended ] ifNil: [ false ]
 ]
 
+{ #category : #testing }
+GtMonitoredProcess >> isUserSnippet [
+	<return: #Boolean>
+	^ self service
+		ifNotNil: [ :aService | (GtCoderUserSnippetDynamicVariable valueAtProcess: aService) isUserSnippet ]
+		ifNil: [ false ]
+]
+
 { #category : #accessing }
 GtMonitoredProcess >> priority [
 	<return: #Integer>
