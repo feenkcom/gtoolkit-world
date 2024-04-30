@@ -44,12 +44,74 @@ PositionableStream >> gtStreamStateByteArrayFor: aView [
 PositionableStream >> gtStreamStateFor: aView [
 	<gtView>
 	self position ifNil: [ ^ aView empty ].
-	^ aView textEditor
+	^ aView explicit
 		title: 'Contents';
-		text: [ 
-			| aText |
-			aText := self contents asRopedText.
-			(aText from: 1 to: self position) underlineColor: BrGlamorousColors errorBackgroundColor.
-			aText ];
-		actionUpdateButton
+		priority: 15;
+		stencil: [ | container list editor contents text |
+			container := BrHorizontalPane new
+					matchParent;
+					margin: (BlInsets top: 10 bottom: 10);
+					cellSpacing: 10.
+			contents := self contents.
+			text := contents asRopedText glamorousCodeFont.
+			(text from: 1 to: self position)
+				highlight: BrGlamorousColors textHighlightColor.
+			editor := BrEditor new
+					matchParent;
+					constraintsDo: [ :c | c linear weight: 4 ];
+					editor: (BrTextEditorModel new
+							text: text;
+							when: BrTextEditorCursorMovedEvent
+								do: [ :e | 
+									list selectOne: (e newIndex max: 1).
+									list children first scrollToPosition: (e newIndex max: 1) ];
+							when: BrTextEditorCursorAddedEvent
+								do: [ :e | 
+									list selectOne: (e cursor position max: 1).
+									list children first scrollToPosition: (e cursor position max: 1) ]).
+			container addChild: editor.
+
+			list := BrColumnedList new
+					rowStencil: BrGlamorousColumnedListSelectableRowElementStencilBuilder new;
+					matchParent;
+					items: (contents asOrderedCollection collectWithIndex: [ :char :index | char -> index ]);
+					when: BrSelectionChanged
+						do: [ :event | 
+							event selectedInterval
+								ifNotNil: [ editor editor text
+										clearAttributes: [ :each | each isKindOf: GtPlaygroundEvaluatedCodeButtonAttribute ].
+									(editor editor text
+										from: event selectedInterval first
+										to: event selectedInterval last)
+										attribute: (GtPlaygroundEvaluatedCodeButtonAttribute new beAppend
+												result: (editor editor text at: event selectedInterval first))	"(editor scrollToPosition: event selectedInterval first)." ] ].
+			list column
+				title: 'Index';
+				stencil: [ :assoc | 
+					| cellLabel |
+					cellLabel := BrColumnCellLabelStencil new
+						text: (assoc value asString asRopedText
+								glamorousRegularFont;
+								foreground: Color gray;
+								glamorousRegularSmallSize);
+						asElement.
+					assoc value <= self position ifTrue: [ cellLabel background: BrGlamorousColors textHighlightColor ].
+					cellLabel ].
+			list column
+				title: 'Char';
+				stencil: [ :assoc | 
+					BrColumnCellLabelStencil new
+						text: ((assoc key gtDisplayString gtRemovePrefix: 'Character ') asRopedText
+								glamorousRegularFont;
+								glamorousRegularSmallSize) ].
+			list column
+				title: 'ASCII';
+				stencil: [ :assoc | 
+					BrColumnCellLabelStencil new
+						text: (assoc key asciiValue asString asRopedText
+								glamorousRegularFont;
+								glamorousRegularSmallSize) ].
+			container addChild: list.
+
+			container ]
 ]
