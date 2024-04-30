@@ -49,7 +49,7 @@ PositionableStream >> gtStreamStateFor: aView [
 		text: [ 
 			| aText |
 			aText := self contents asRopedText.
-			(aText from: 1 to: self position) underlineColor: BrGlamorousColors errorBackgroundColor.
+			(aText from: 1 to: self position) highlight: BrGlamorousColors textHighlightColor.
 			aText ];
 		actionUpdateButton
 ]
