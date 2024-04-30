@@ -46,6 +46,7 @@ PositionableStream >> gtStreamStateFor: aView [
 	self position ifNil: [ ^ aView empty ].
 	^ aView textEditor
 		title: 'Contents';
+		aptitude: BrGlamorousCodeEditorAptitude;
 		text: [ 
 			| aText |
 			aText := self contents asRopedText.
