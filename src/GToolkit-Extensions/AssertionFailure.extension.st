@@ -1,6 +1,28 @@
 Extension { #name : #AssertionFailure }
 
 { #category : #'*GToolkit-Extensions' }
+AssertionFailure >> gtComparableTypesStateDiffFor: aView [
+	<gtView>
+	<gtExceptionView>
+	| assertionContext |
+	
+	self gtHasStack ifFalse: [ ^ aView empty ].
+	assertionContext := self gtLocateAssertEqualsContextWithComparableTypes.
+	assertionContext ifNil: [
+		^ aView empty ].
+
+	^ aView explicit
+		title: 'State Comparison';
+		priority: 5;
+		stencil: [ 
+			GtDebuggerDiffObjectStateComparisonStencil new
+				fromLabelText: 'Actual:';
+				toLabelText: 'Expected:';
+				fromValue: (assertionContext readVariableNamed: #actual);
+				toValue: (assertionContext readVariableNamed: #expected) ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtComparableTypesTextualDiffFor: aView [
 	<gtView>
 	<gtExceptionView>
