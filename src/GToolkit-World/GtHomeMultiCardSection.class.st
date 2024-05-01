@@ -3,6 +3,8 @@ I am a home section that can hold multiple cards.
 My subclasses should have cards each defined in a method with a `<gtSectionCard>` pragma.
 See {{gtClass:name=GtHomeMultiCardGetStartedSection}}.
 
+Subclasses should also redefine `defaultPriority`.
+
 To install an instance of me or a subclass, define an extension method of {{gtClass:name=GtHome}} that has the `<gtHomeSection>` pragma and returns the instance. For example: {{gtMethod:name=GtHome>>#getStartedSection}}
 
 "
@@ -59,9 +61,16 @@ GtHomeMultiCardSection >> databaseIsPresent: aDatabaseName [
 ]
 
 { #category : #initialization }
+GtHomeMultiCardSection >> defaultPriority [
+	"This will be used if the priority is not explicitly set in the GtHome section."
+	^ 30
+]
+
+{ #category : #initialization }
 GtHomeMultiCardSection >> initialize [
 	super initialize.
 	self sectionTitle: 'New section'.
+	self priority: self defaultPriority
 ]
 
 { #category : #utility }
