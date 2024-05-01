@@ -68,8 +68,7 @@ GtHome >> getStartedSection [
 	<gtExample>
 	<noTest>
 	^ GtHomeMultiCardGetStartedSection new
-		priority: 20;
-		yourself
+
 ]
 
 { #category : #ui }

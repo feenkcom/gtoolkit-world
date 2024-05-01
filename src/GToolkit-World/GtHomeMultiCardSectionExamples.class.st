@@ -21,6 +21,11 @@ GtHomeMultiCardSectionExamples >> aboutThisBookCard [
 		yourself
 ]
 
+{ #category : #accessing }
+GtHomeMultiCardSectionExamples >> defaultPriority [
+	^ 50
+]
+
 { #category : #example }
 GtHomeMultiCardSectionExamples >> emptyCard [
 	"This card should not appear in the section."

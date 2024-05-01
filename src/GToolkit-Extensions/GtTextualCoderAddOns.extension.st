@@ -3,6 +3,8 @@ Extension { #name : #GtTextualCoderAddOns }
 { #category : #'*GToolkit-Extensions' }
 GtTextualCoderAddOns >> gtExploreAstFor: aView [
 	<gtView>
+	self ast ifNil: [ ^ aView empty ].
+	
 	^ aView forward
 		title: 'Ast' translated;
 		priority: 40;

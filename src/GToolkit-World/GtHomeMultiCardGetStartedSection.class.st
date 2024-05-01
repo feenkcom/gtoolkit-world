@@ -22,6 +22,11 @@ GtHomeMultiCardGetStartedSection >> aboutThisBookCard [
 		yourself
 ]
 
+{ #category : #initialization }
+GtHomeMultiCardGetStartedSection >> defaultPriority [
+	^ 30
+]
+
 { #category : #example }
 GtHomeMultiCardGetStartedSection >> gtBookCard [
 	<gtSectionCard>

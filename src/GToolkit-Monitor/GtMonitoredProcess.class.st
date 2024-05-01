@@ -4,30 +4,16 @@ Class {
 	#category : #'GToolkit-Monitor'
 }
 
-{ #category : #accessing }
-GtMonitoredProcess >> annotations [
-	<return: #Array of: #Association>
-	| aService |
-	aService := self service.
-	aService ifNil: [ ^ #() ].
-	aService hasProcessAnnotations ifFalse: [ ^ #() ].
-	^ Array streamContents: [ :aStream |
-		aService processAnnotation associationsDo: [ :eachAssoc | 
-			aStream nextPut: eachAssoc ] ]
-]
-
 { #category : #'gt-extension' }
-GtMonitoredProcess >> gtAnnotationsFor: aView [
+GtMonitoredProcess >> gtPSKeysFor: aView [
 	<gtView>
-	self annotations ifEmpty: [ ^ aView empty ].
-	^ aView columnedList
-		title: 'Annotations';
-		priority: 10;
-		items: [ self annotations ];
-		column: 'Name' text: [ :anAssoc | anAssoc key ];
-		column: 'Value' text: [ :anAssoc | anAssoc value ];
-		send: [ :anAssoc | anAssoc value ]
-		
+	self service ifNil: [ ^ aView empty ].
+
+	^ aView forward
+		title: 'PS Keys';
+		priority: 5;
+		object: [ self service ];
+		view: #gtPSKeysFor:
 ]
 
 { #category : #'gt-extension' }
@@ -64,6 +50,14 @@ GtMonitoredProcess >> gtUpdatingStackFor: aView [
 GtMonitoredProcess >> isSuspended [
 	<return: #Boolean>
 	^ self service ifNotNil: [ :aService | aService isSuspended ] ifNil: [ false ]
+]
+
+{ #category : #testing }
+GtMonitoredProcess >> isUserSnippet [
+	<return: #Boolean>
+	^ self service
+		ifNotNil: [ :aService | (GtCoderUserSnippetDynamicVariable valueAtProcess: aService) isUserSnippet ]
+		ifNil: [ false ]
 ]
 
 { #category : #accessing }
