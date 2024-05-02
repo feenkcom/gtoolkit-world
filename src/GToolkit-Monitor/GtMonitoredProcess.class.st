@@ -32,7 +32,7 @@ GtMonitoredProcess >> gtStackFor: aView [
 GtMonitoredProcess >> gtTerminateActionFor: anAction [
 	<gtAction>
 	^ anAction button
-		icon: BrGlamorousVectorIcons close;
+		icon: BrGlamorousVectorIcons stop;
 		tooltip: 'Terminate process';
 		action: [ :aButton | self terminate ]
 ]
