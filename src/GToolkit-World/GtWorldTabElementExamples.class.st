@@ -94,6 +94,7 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_04_checkSpaceGarbageCollect
 				label: 'Clear scripter events and garbage collect';
 				action: [ :_ | 
 					aScripter events removeAll.
+					Smalltalk garbageCollect.
 					Smalltalk garbageCollect ] ].
 
 	aScripter

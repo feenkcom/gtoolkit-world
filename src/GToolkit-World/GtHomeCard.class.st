@@ -228,6 +228,16 @@ GtHomeCard >> repoIsPresent: aRepoName [
 		ifNone: [ false ]
 ]
 
+{ #category : #priorities }
+GtHomeCard >> setPriority [
+	| sender |
+	sender := thisContext sender.
+	self
+		assert: (sender receiver isKindOf: GtHomeMultiCardSection)
+		description: 'setPriority should only be sent from an instance of a GtHomeMultiCardSection subclass'.
+	self priority: (sender receiver priorityFor: sender selector)
+]
+
 { #category : #'view creation' }
 GtHomeCard >> spaceGap [
 	^ 10

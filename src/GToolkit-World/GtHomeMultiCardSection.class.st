@@ -23,6 +23,17 @@ GtHomeMultiCardSection >> cardMethods [
 	^ self class methods select: [ :m | m hasPragmaNamed: 'gtSectionCard' ]
 ]
 
+{ #category : #priority }
+GtHomeMultiCardSection >> cardPriorities [
+	"Override this method in the subclass.
+	Instead of manually setting priorities, just list the cards in order here. NB: the names can be the same as the method selectors, but need not be."
+	
+	<gtExample>
+	^ #( 
+		"Add the names of the cards here ..."
+		)
+]
+
 { #category : #accessing }
 GtHomeMultiCardSection >> cards [
 	<gtCollector>
@@ -71,6 +82,14 @@ GtHomeMultiCardSection >> initialize [
 	super initialize.
 	self sectionTitle: 'New section'.
 	self priority: self defaultPriority
+]
+
+{ #category : #priority }
+GtHomeMultiCardSection >> priorityFor: aSlideMethodSelector [
+	^ self cardPriorities
+		indexOf: aSlideMethodSelector
+		ifAbsent: [ 
+			self cardPriorities size + 1 ]
 ]
 
 { #category : #utility }
