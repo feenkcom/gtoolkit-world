@@ -92,14 +92,14 @@ GtHomeToolsSection >> newCodeChangesButtonStencil [
 	<gtToolButton>
 
 	^ GtToolButtonStencil new
-		title: 'Code Changes';
+		title: 'Code changes';
 		priority: 35;
 
 		icon: BrGlamorousVectorIcons largeChanges;
 		action: [ :card | 
 			self
 				showSpaceWithIcon: (BrGlamorousVectorIcons changes asElement asPannableElement size: 16@16)
-				title: 'Code Changes'
+				title: 'Code changes'
 				with: GtEpiceaStencil new
 				from: card ];
 		description:
@@ -186,17 +186,17 @@ GtHomeToolsSection >> newLepiterButtonStencil [
 	<gtToolButton>
 
 	^ GtToolButtonStencil new 
-		title: 'Lepiter';
+		title: 'Knowledge bases';
 		priority: 20;
 		icon: LeIcons lepiterDatabase;
 		action: [ :card | 
 			self
 				showSpaceWithIcon: LeIcons lepiterDatabase
-				title: 'Lepiter'
+				title: 'Knowledge bases'
 				with: (LeLepiterToolStencil new
 					knowledgeBase: self knowledgeBase)
 				from: card ];
-		description: 'Lepiter'
+		description: 'Knowledge bases'
 ]
 
 { #category : #'tools creation' }

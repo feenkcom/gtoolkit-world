@@ -67,5 +67,5 @@ GtHomeMultiCardSectionExamples >> gtBookCard [
 
 { #category : #accessing }
 GtHomeMultiCardSectionExamples >> sectionTitle [
-	^ 'Glamorous Toolkit book pages'
+	^ 'Learn Glamorous Toolkit'
 ]

@@ -66,5 +66,5 @@ GtHomeMultiCardGetStartedSection >> gtTourCard [
 
 { #category : #accessing }
 GtHomeMultiCardGetStartedSection >> sectionTitle [
-	^ 'Glamorous Toolkit book pages'
+	^ 'Learn Glamorous Toolkit'
 ]
