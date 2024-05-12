@@ -34,8 +34,8 @@ GtToolButtonStencil >> create [
 	    aptitude: (BrGlamorousLabelAptitude new fontSize: 10).
 	button := BrButton new
 		constraintsDo:[ :c | 
-	        c horizontal exact: 74.
-	        c vertical exact: 74 ];
+	        c horizontal exact: 80.
+	        c vertical exact: 80 ];
 		margin: self margin;
 		action: self action;
 		padding: (BlInsets all: 10);

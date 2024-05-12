@@ -3,7 +3,7 @@ I am a model for a home card. See {{gtClass:name=GtHomeCardExamples}}.
 "
 Class {
 	#name : #GtHomeCard,
-	#superclass : #Object,
+	#superclass : #BrStencil,
 	#instVars : [
 		'title',
 		'description',
@@ -39,6 +39,12 @@ GtHomeCard class >> lazy [
 ]
 
 { #category : #example }
+GtHomeCard class >> lepiterBase [
+	^ GtHomeLepiterBaseCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
+]
+
+{ #category : #example }
 GtHomeCard class >> page [
 	^ GtHomePageCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
@@ -58,11 +64,6 @@ GtHomeCard >> action [
 { #category : #accessing }
 GtHomeCard >> action: aBlock [
 	action := aBlock
-]
-
-{ #category : #accessing }
-GtHomeCard >> asElement [
-	^ self create
 ]
 
 { #category : #'view creation' }
@@ -142,8 +143,8 @@ GtHomeCard >> definingMethod: anObject [
 { #category : #accessing }
 GtHomeCard >> description [
 	"For tooltip"
-
-	^ description ifNil: [ self defaultDescription ]
+	^ description ifNil: [ self defaultDescription 
+	]
 ]
 
 { #category : #accessing }
@@ -154,16 +155,6 @@ GtHomeCard >> description: aString [
 { #category : #view }
 GtHomeCard >> gtDisplayOn: stream [
 	stream nextPutAll: self title
-]
-
-{ #category : #view }
-GtHomeCard >> gtLiveFor: aView [
-	<gtView>
-	self isEmpty ifTrue: [ ^ aView empty ].
-	^ aView explicit
-		title: 'Live';
-		priority: 10;
-		stencil: [ self asElement ]
 ]
 
 { #category : #testing }
