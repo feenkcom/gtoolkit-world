@@ -32,13 +32,20 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 	<gtSectionCard>
 	<gtExample>
 	<notest>
-	^ GtHomeCard page
+	^ GtHomeCard lepiterBase
 		title: 'Glamorous Toolkit Book';
-		description: 'Read the Glamorous Toolkit book';
+		description: 'Read the extensive Glamorous Toolkit book';
 		priority: 10;
 		pageName: 'Glamorous Toolkit';
 		databaseName: self gtBookName;
-		yourself
+		details: [ :db | 
+			| snippets |
+			snippets := db pages flatCollect: #allChildrenDepthFirst.
+			'The book is expressed as a knowledge base in Glamorous Toolkit itself. It documents the environment extensively with live examples in '
+				, db pages size asString , ' lovely pages containing '
+				, snippets size asString , ' snippets of '
+				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
+				yourself
 ]
 
 { #category : #example }
