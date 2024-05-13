@@ -139,6 +139,7 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
 	self recordSpaceTallyAtEnd.
+	self resetFFIMethods.
 ]
 
 { #category : #api }
@@ -169,6 +170,17 @@ GtImageSetup class >> registerTools [
 	GtEmergencyDebugger register.
 	GtInspectorToolRegistryAdaptor register.
 	GtPlaygroundToolRegistryAdaptor register.
+]
+
+{ #category : #actions }
+GtImageSetup class >> resetFFIMethods [
+	FFIMethodRegistry resetAll.
+	
+	CompiledMethod allInstances do: [ :cm |
+		(cm hasProperty: #ffiNonCompiledMethod) ifTrue:
+			[ cm methodClass methodDict
+				at: cm selector
+				put: (cm propertyAt: #ffiNonCompiledMethod) ] ]
 ]
 
 { #category : #api }
