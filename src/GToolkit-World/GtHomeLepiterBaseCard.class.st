@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'databaseName',
 		'pageName',
-		'page'
+		'page',
+		'details'
 	],
 	#category : #'GToolkit-World-Sections'
 }
@@ -13,17 +14,19 @@ Class {
 GtHomeLepiterBaseCard >> assertInvariant [
 	self assert: pageName isNotNil description: 'pageName must not be nil.'.
 	self assert: databaseName isNotNil description: 'databaseName must not be nil.'.
+	self assert: details isNotNil description: 'details must not be nil.'.
 ]
 
 { #category : #accessing }
 GtHomeLepiterBaseCard >> create [
-	| container tree |
+	| container tree detailsPane contents |
 	container := BrButton new
 			layout: (BlLinearLayout vertical cellSpacing: 5);
-			exact: 300 @ 300;
+			exact: 500 @ 250;
 			background: Color white;
 			aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude new;
 			label: self description;
+			padding: (BlInsets all: 10);
 			margin: (BlInsets
 					top: self spaceGap
 					left: 2 * self spaceGap
@@ -36,45 +39,50 @@ GtHomeLepiterBaseCard >> create [
 				borderPaint: Color transparent)
 				+ (GtPhlowBrowseDefinitionAptitude new definition: [ self definingMethod ]).
 
+	contents := BrHorizontalPane new matchParent.
+
+	detailsPane := BrVerticalPane new matchParent.
 	container
 		addChild: (BrLabel new
 				beLargeSize;
-				padding: (BlInsets left: 5 right: 5);
+				padding: (BlInsets top: 10 left: 5 bottom: 10 right: 20);
 				aptitude: BrGlamorousLabelAptitude new bold;
 				text: self database databaseName).
-	container
-		addChild: (BrLabel new
-				beSmallSize;
-				padding: (BlInsets left: 5 right: 5);
-				aptitude: (BrGlamorousLabelAptitude new foreground: Color gray);
-				text: self database pages size asString , ' lovely pages').
+	detailsPane
+		addChild: (BrEditor new
+				preventMeAndChildrenMouseEvents;
+				padding: (BlInsets left: 6 right: 5);
+				aptitude: (BrGlamorousRegularEditorAptitude new foreground: Color black);
+				text: (details value: self database)).
+	contents addChild: detailsPane.
+	container addChild: contents.
 	tree := BrSimpleTree new.
 	tree
-		"when: BrSelectionDoubleClicked
+		padding: (BlInsets left: 5 right: 5);
+		nodeStencil: [ BrLabel new
+				beSmallSize;
+				aptitude: (BrGlamorousLabelAptitude new foreground: Color gray) ];
+		nodeDataBinder: [ :aLabel :aNode | aLabel text: aNode page title ];
+		items: self database tableOfContentsNodes lazy: #children;
+		expandUpTo: 1; 
+		when: BrSelectionDoubleClicked
 			do: [ :e | 
 				e selection
 					ifNotEmpty: [ :theIndices | 
 						| selectedObject |
 						selectedObject := e currentTarget viewModel itemAt: theIndices first.
-						self spawnPage: selectedObject value page from: e currentTarget ] ];"
-		padding: (BlInsets left: 5 right: 5);
-		nodeStencil: [ BrLabel new
-				beSmallSize;
-				aptitude: BrGlamorousLabelAptitude new ];
-		nodeDataBinder: [ :aLabel :aNode | aLabel text: aNode page title ];
-		items: self database tableOfContentsNodes lazy: #children;
-		expandUpTo: 1";
-		rowStencil: BrGlamorousSimpleTreeSelectableRowElementStencilBuilder new".
-	container addChild: tree.	"container
-	addChild: (BrToolbar new
+						self spawnPage: selectedObject value page from: e currentTarget ] ].
+		"rowStencil: BrGlamorousSimpleTreeSelectableRowElementStencilBuilder new"
+	contents addChild: tree.	
+	container addChild: (BrToolbar new
 			aptitude: (BrGlamorousToolbarAptitude new spacing: 5);
 			fitContent;
 			addChild: (BrButton new
-					aptitude: BrGlamorousButtonWithIconAptitude;
+					aptitude: BrGlamorousButtonWithIconAndLabelAptitude;
 					beSmallSize;
-					icon: BrGlamorousVectorIcons add;
-					label: 'Add page';
-					action: [ self halt ]))."
+					icon: LeIcons lepiterIcon;
+					label: 'What exactly is Glamorous Toolkit?';
+					action: self action)).
 	^ container
 ]
 
@@ -94,6 +102,11 @@ GtHomeLepiterBaseCard >> databaseName: aLeDatabaseName [
 ]
 
 { #category : #accessing }
+GtHomeLepiterBaseCard >> databaseSnippets [
+	^ self database pages flatCollect: #allChildrenDepthFirst
+]
+
+{ #category : #accessing }
 GtHomeLepiterBaseCard >> defaultAction [
 	^ [ :aButton :aModel :anEvent | self page ifNotNil: [ self spawnPage: self page from: aButton ] ]
 ]
@@ -106,6 +119,16 @@ GtHomeLepiterBaseCard >> defaultDescription [
 { #category : #accessing }
 GtHomeLepiterBaseCard >> defaultTitle [
 	^ self pageName ifNil: [ 'A Home Page Card' ] ifNotNil: [ self pageName ]
+]
+
+{ #category : #accessing }
+GtHomeLepiterBaseCard >> details [
+	^ details
+]
+
+{ #category : #accessing }
+GtHomeLepiterBaseCard >> details: anObject [
+	details := anObject
 ]
 
 { #category : #accessing }
