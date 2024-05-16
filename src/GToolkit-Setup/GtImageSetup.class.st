@@ -97,6 +97,19 @@ GtImageSetup class >> installLogo [
 	GtWorldMenu setGtDesktopLogo.
 ]
 
+{ #category : #accessing }
+GtImageSetup class >> notRegisteredSystemFFIMethods [
+	| allFFIMethods allRegisteredMethods |
+	allFFIMethods := SystemNavigation default 
+		allMethodsSelect: [ :eachMethod | 
+			eachMethod hasProperty: #ffiNonCompiledMethod ].
+	
+	allRegisteredMethods := FFIMethodRegistry 
+		uniqueInstance compiledMethods.
+		
+	^ allFFIMethods difference: allRegisteredMethods.
+]
+
 { #category : #api }
 GtImageSetup class >> performLocalSetup [
 	"Perform a setup for images that should be used locally for development."
