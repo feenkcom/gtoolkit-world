@@ -17,7 +17,7 @@ AsyncFutureThreadPool >> gtEnableTelemetryActionFor: anAction [
 { #category : #'*GToolkit-Extensions' }
 AsyncFutureThreadPool >> gtWorkersFor: aView [
 	<gtView>
-	| aTelemetry |
+	| aTelemetry aMemoryLogger |
 	
 	aTelemetry := self telemetryDo: #yourself ifNone: nil.
 
@@ -77,5 +77,10 @@ AsyncFutureThreadPool >> gtWorkersFor: aView [
 					ifNone: [ self telemetry: (aTelemetry := AsyncFutureThreadPoolTelemetry new) ] ];
 		actionButtonIcon: BrGlamorousVectorIcons cancel
 			tooltip: 'Reset telemetry'
-			action: [ self telemetryDo: #reset ]
+			action: [ self telemetryDo: #reset ];
+		actionButtonIcon: BrGlamorousVectorIcons right 
+			tooltip: 'Monitor pending tasks' 
+			action: [ :aButton | 
+				AsyncFutureThreadPoolWorker ensureDefaultLogger: AsyncFutureBeaconLogger new.
+				aButton phlow spawnObject: (aMemoryLogger ifNil: [ aMemoryLogger := MemoryLogger new startFor: AsyncFutureSignal]) ]
 ]
