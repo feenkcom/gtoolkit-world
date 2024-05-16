@@ -79,6 +79,8 @@ GtWorld class >> openDefault [
 	aSpace prepareForRelease.
 	aSpace show.
 	
+	GtImageSetup printNotRegisteredFFIMethods.
+	[1 second wait. GtImageSetup printNotRegisteredFFIMethods.] fork.
 	"Record a tally"
 	"GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Open Default GtWorld'."
 	

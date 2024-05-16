@@ -166,16 +166,22 @@ GtImageSetup class >> preparePharoCompletionCache [
 GtImageSetup class >> printNotRegisteredFFIMethods [
 	self notRegisteredSystemFFIMethods 
 		ifEmpty: [
-			('GtImageSetup>>printNotRegisteredFFIMethods: all FFI methods are registered!') traceCr. ] 
+			Stdio stderr 
+				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: all FFI methods are registered!');
+				lf . ] 
 		ifNotEmpty: [ :aCollection |
-			('GtImageSetup>>printNotRegisteredFFIMethods: found {1} FFI methods not in the registry:' 
-				format: {aCollection size asString}) traceCr.
-			(String streamContents: [ :s | 
-				aCollection 
-					do: [ :aMethod | s 
-						tab;
-						<< aMethod printString ] 
-					separatedBy: [ s << String cr] ]) traceCr ]
+			Stdio stderr 
+				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: found {1} FFI methods not in the registry:'
+					format: {aCollection size asString});
+				lf.
+			Stdio stderr 
+				nextPutAll: (String streamContents: [ :s | 
+					aCollection 
+						do: [ :aMethod | s 
+							tab;
+							<< aMethod printString ] 
+						separatedBy: [ s << String lf] ]);
+				lf ]
 ]
 
 { #category : #api }
