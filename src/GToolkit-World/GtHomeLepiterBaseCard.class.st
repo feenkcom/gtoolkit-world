@@ -81,7 +81,7 @@ GtHomeLepiterBaseCard >> create [
 					aptitude: BrGlamorousButtonWithIconAndLabelAptitude;
 					beSmallSize;
 					icon: LeIcons lepiterIcon;
-					label: 'What exactly is Glamorous Toolkit?';
+					label: 'Read more';
 					action: self action)).
 	^ container
 ]
