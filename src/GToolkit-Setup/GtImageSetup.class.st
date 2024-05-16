@@ -153,11 +153,29 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self registerGTNamespace.
 	self recordSpaceTallyAtEnd.
 	self resetFFIMethods.
+	
+	self printNotRegisteredFFIMethods.
 ]
 
 { #category : #api }
 GtImageSetup class >> preparePharoCompletionCache [
 	GtPharoIndex initializeCache
+]
+
+{ #category : #api }
+GtImageSetup class >> printNotRegisteredFFIMethods [
+	self notRegisteredSystemFFIMethods 
+		ifEmpty: [
+			('GtImageSetup>>printNotRegisteredFFIMethods: all FFI methods are registered!') traceCr. ] 
+		ifNotEmpty: [ :aCollection |
+			('GtImageSetup>>printNotRegisteredFFIMethods: found {1} FFI methods not in the registry:' 
+				format: {aCollection size asString}) traceCr.
+			(String streamContents: [ :s | 
+				aCollection 
+					do: [ :aMethod | s 
+						tab;
+						<< aMethod printString ] 
+					separatedBy: [ s << String cr] ]) traceCr ]
 ]
 
 { #category : #api }
