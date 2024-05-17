@@ -619,7 +619,7 @@ GtWorldByScripterExamples >> clickOnPackageEditableNameInSecondPane [
 
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> clickOnWorldHomeCoderIcon [
-	<gtExample>
+	"<gtExample>"
 	| aScripter |
 	aScripter := self worldElementInScripter.
 	aScripter
