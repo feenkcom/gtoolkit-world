@@ -97,6 +97,19 @@ GtImageSetup class >> installLogo [
 	GtWorldMenu setGtDesktopLogo.
 ]
 
+{ #category : #accessing }
+GtImageSetup class >> notRegisteredSystemFFIMethods [
+	| allFFIMethods allRegisteredMethods |
+	allFFIMethods := SystemNavigation default 
+		allMethodsSelect: [ :eachMethod | 
+			eachMethod hasProperty: #ffiNonCompiledMethod ].
+	
+	allRegisteredMethods := FFIMethodRegistry 
+		uniqueInstance compiledMethods.
+		
+	^ allFFIMethods difference: allRegisteredMethods.
+]
+
 { #category : #api }
 GtImageSetup class >> performLocalSetup [
 	"Perform a setup for images that should be used locally for development."
@@ -140,11 +153,35 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self registerGTNamespace.
 	self recordSpaceTallyAtEnd.
 	self resetFFIMethods.
+	
+	self printNotRegisteredFFIMethods.
 ]
 
 { #category : #api }
 GtImageSetup class >> preparePharoCompletionCache [
 	GtPharoIndex initializeCache
+]
+
+{ #category : #api }
+GtImageSetup class >> printNotRegisteredFFIMethods [
+	self notRegisteredSystemFFIMethods 
+		ifEmpty: [
+			Stdio stderr 
+				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: all FFI methods are registered!');
+				lf . ] 
+		ifNotEmpty: [ :aCollection |
+			Stdio stderr 
+				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: found {1} FFI methods not in the registry:'
+					format: {aCollection size asString});
+				lf.
+			Stdio stderr 
+				nextPutAll: (String streamContents: [ :s | 
+					aCollection 
+						do: [ :aMethod | s 
+							tab;
+							<< aMethod printString ] 
+						separatedBy: [ s << String lf] ]);
+				lf ]
 ]
 
 { #category : #api }
