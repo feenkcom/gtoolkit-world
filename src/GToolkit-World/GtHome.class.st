@@ -127,7 +127,7 @@ GtHome >> initializePanes [
 	sectionsHolder := self createSectionsHolder.
 	sectionsPane addChild: notificationsElement.
 	sectionsPane addChild: sectionsHolder.
-	mainPane addChild: self toolsSectionElement as: #toolsSection.
+	"mainPane addChild: self toolsSectionElement as: #toolsSection."
 	mainPane addChild: sectionsPane.
 	"mainPane addChild: feedElement."
 	
@@ -230,5 +230,5 @@ GtHome >> updateWidget [
 	self updateNotifications.
 	self updateSections.
 	self updateFeed.
-	self updateToolsSection.
+	"self updateToolsSection."
 ]
