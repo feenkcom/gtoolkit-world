@@ -59,20 +59,12 @@ GtHomeNotifications >> takeATourNotification [
 				showSpaceWithTitle: aPage title
 				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
 						asStencil
-				from: cardElement	"self
-				showSpaceWithTitle: 'Tour'
-				with: (GtLiveShow createWithArrowsVisible: GtTour new)
-				from: cardElement" ];
+				from: cardElement ];
 		refreshAction: [ self updateWidget ];
-		cardStencil: self takeATourStencil
-]
-
-{ #category : #'instance creation' }
-GtHomeNotifications >> takeATourStencil [
-	^ GtNotificationCardStencil new
-		headerText: 'New to Glamorous Toolkit?';
-		actionText: 'Take a tour';
-		tooltipText: 'Take an interactive tour through the environment'
+		cardStencil: (GtNotificationCardStencil new
+				headerText: 'New to Glamorous Toolkit?';
+				actionText: 'Take a tour';
+				tooltipText: 'Take an interactive tour through the environment')
 ]
 
 { #category : #updating }
