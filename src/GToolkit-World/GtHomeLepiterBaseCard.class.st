@@ -47,7 +47,7 @@ GtHomeLepiterBaseCard >> create [
 				beLargeSize;
 				padding: (BlInsets top: 10 left: 5 bottom: 10 right: 20);
 				aptitude: BrGlamorousLabelAptitude new bold;
-				text: self database databaseName).
+				text: self title).
 	detailsPane
 		addChild: (BrEditor new
 				preventMeAndChildrenMouseEvents;

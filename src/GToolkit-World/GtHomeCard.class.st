@@ -39,6 +39,11 @@ GtHomeCard class >> lazy [
 ]
 
 { #category : #example }
+GtHomeCard class >> lepiterBase [
+	^ self lepiterBaseWithTableOfContents
+]
+
+{ #category : #example }
 GtHomeCard class >> lepiterBaseWithTableOfContents [
 	^ GtHomeLepiterBaseCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
