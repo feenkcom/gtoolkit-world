@@ -46,23 +46,25 @@ GtHomeNotifications >> statusRegistry [
 
 { #category : #'instance creation' }
 GtHomeNotifications >> takeATourNotification [
+	| database |
 	^ GtNotification new
 		id: 'notification/take-a-tour';
-		openAction: [ :cardElement |
-			self
-				showSpaceWithTitle: 'Tour'
-				with: (GtLiveShow createWithArrowsVisible: GtTour new)
+		openAction: [ :cardElement | 
+			| aPage |
+			database := LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
+					databases detect: [ :each | each databaseName = 'Glamorous Toolkit Book' ].
+			aPage := database pages
+					detect: [ :each | each title = 'A tour of the environment' ].
+			GtWorldUtility
+				showSpaceWithTitle: aPage title
+				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
+						asStencil
 				from: cardElement ];
 		refreshAction: [ self updateWidget ];
-		cardStencil: self takeATourStencil
-]
-
-{ #category : #'instance creation' }
-GtHomeNotifications >> takeATourStencil [
-	^ GtNotificationCardStencil new
-		headerText: 'New to Glamorous Toolkit?';
-		actionText: 'Take a tour';
-		tooltipText: 'Take an interactive tour through tools and engines'
+		cardStencil: (GtNotificationCardStencil new
+				headerText: 'New to Glamorous Toolkit?';
+				actionText: 'Take a tour';
+				tooltipText: 'Take an interactive tour through the environment')
 ]
 
 { #category : #updating }
