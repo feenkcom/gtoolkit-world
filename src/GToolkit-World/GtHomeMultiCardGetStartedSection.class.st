@@ -32,7 +32,7 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 	<gtSectionCard>
 	<gtExample>
 	<notest>
-	^ GtHomeCard lepiterBase
+	^ GtHomeCard lepiterBaseWithTableOfContents
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the extensive book';
 		priority: 10;
