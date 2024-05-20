@@ -26,6 +26,12 @@ GtHomeCard class >> errorCard [
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
+{ #category : #accessing }
+GtHomeCard class >> explicit [
+	^ GtExplicitHomeCard new
+		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
+]
+
 { #category : #factory }
 GtHomeCard class >> job [
 	^ GtJobHomeCard new
