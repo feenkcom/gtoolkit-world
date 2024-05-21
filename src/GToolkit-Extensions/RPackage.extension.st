@@ -138,7 +138,7 @@ RPackage >> gtDependencyTreeFor: aView [
 	<gtPackageView>
 	^ aView columnedList
 		title: 'Dependencies';
-		priority: 2;
+		priority: 5;
 		items: [ self gtDependenciesStatusByAnalyzer ];
 		column: 'Package'
 			text: [ :eachDependencyStatus | 
