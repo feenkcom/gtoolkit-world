@@ -9,6 +9,30 @@ TAsyncPromise >> gtChainedPromises [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+TAsyncPromise >> gtCompositionChildren [
+
+	^ #(  )
+]
+
+{ #category : #'*GToolkit-Extensions' }
+TAsyncPromise >> gtCompositionDescription [
+	^ self printString
+]
+
+{ #category : #'*GToolkit-Extensions' }
+TAsyncPromise >> gtCompositionFor: aView [
+
+	<gtView>
+	^ aView columnedTree
+		  title: 'Composition';
+		  items: [ { self } ];
+		  children: #gtCompositionChildren;
+		  expandAll;
+		  column: 'Name' text: #gtCompositionDescription;
+		  actionUpdateButtonTooltip: 'Update composition tree'
+]
+
+{ #category : #'*GToolkit-Extensions' }
 TAsyncPromise >> gtFullPromiseTreeFor: aView [
 	<gtView>
 	

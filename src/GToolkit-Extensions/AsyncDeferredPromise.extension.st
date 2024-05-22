@@ -9,8 +9,25 @@ AsyncDeferredPromise >> gtChainedPromises [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+AsyncDeferredPromise >> gtChainedPromisesFor: aView [
+	<gtView>
+	chainedPromises ifNil: [ ^ aView empty ].
+
+	^ aView forward
+		title: 'Chained promises';
+		tooltip: 'Promises that are next in the chain after this one';
+		object: [ chainedPromises ];
+		view: #gtItemsFor:
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AsyncDeferredPromise >> gtCompositionChildren [
-	^ #( )
+	^ self gtPrecedingPromises
+		ifNotEmpty: [ :aCollection | 
+			{GtPhlowOverviewItem new
+					name: 'Preceding promises';
+					description: 'Preceding promises on which this promise depends';
+					value: aCollection} ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
