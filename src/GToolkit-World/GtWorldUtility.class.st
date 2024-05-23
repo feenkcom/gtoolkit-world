@@ -27,6 +27,7 @@ GtWorldUtility class >> showSpaceWithIcon: anIcon title: aString with: aStencil 
 	aSpace addChild: aStencil asElement.
 	aSpace withHalos.
 	anotherElement showSpace: aSpace.
+	anotherElement fireEvent: BrDropdownHideWish new.
 	^ aSpace
 ]
 
