@@ -93,6 +93,11 @@ GtImageSetup class >> copyDocFolders: docFolders [
 ]
 
 { #category : #actions }
+GtImageSetup class >> installGtSessionManaer [
+	GtSessionManager install
+]
+
+{ #category : #actions }
 GtImageSetup class >> installLogo [
 	GtWorldMenu setGtDesktopLogo.
 ]
@@ -122,6 +127,7 @@ GtImageSetup class >> performLocalSetup [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
+	self installGtSessionManaer.
 	self recordSpaceTallyAtEnd
 ]
 
@@ -151,6 +157,7 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
+	self installGtSessionManaer.
 	self recordSpaceTallyAtEnd.
 	self resetFFIMethods.
 	
