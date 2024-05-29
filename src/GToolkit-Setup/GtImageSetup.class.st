@@ -93,7 +93,7 @@ GtImageSetup class >> copyDocFolders: docFolders [
 ]
 
 { #category : #actions }
-GtImageSetup class >> installGtSessionManaer [
+GtImageSetup class >> installGtSessionManager [
 	GtSessionManager install
 ]
 
@@ -127,7 +127,7 @@ GtImageSetup class >> performLocalSetup [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
-	self installGtSessionManaer.
+	self installGtSessionManager.
 	self recordSpaceTallyAtEnd
 ]
 
@@ -157,7 +157,7 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
-	self installGtSessionManaer.
+	self installGtSessionManager.
 	self recordSpaceTallyAtEnd.
 	self resetFFIMethods.
 	
