@@ -142,11 +142,6 @@ GtWorldTabElement >> initializeTabs [
 ]
 
 { #category : #'private - instance creation' }
-GtWorldTabElement >> newActionItemsInto: anActionbar [
-	"Subclasses may add action items into the World toolbar"
-]
-
-{ #category : #'private - instance creation' }
 GtWorldTabElement >> newActionbar [
 	| anActionbar |
 
@@ -156,6 +151,11 @@ GtWorldTabElement >> newActionbar [
 	self newActionItemsInto: anActionbar.
 
 	^ anActionbar
+]
+
+{ #category : #'private - instance creation' }
+GtWorldTabElement >> newActionItemsInto: anActionbar [
+	"Subclasses may add action items into the World toolbar"
 ]
 
 { #category : #'private - instance creation' }
