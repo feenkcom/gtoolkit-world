@@ -23,6 +23,11 @@ GtImageSetup class >> addFoldersIn: icebergRepositories named: folderNames into:
 ]
 
 { #category : #actions }
+GtImageSetup class >> captureRepositoryRegistryHistory [
+	GtGitRepositoryRegistryHistory instance capture
+]
+
+{ #category : #actions }
 GtImageSetup class >> cleanUpChangeSets [
 	ChangeSet removeChangeSetsNamedSuchThat: [ :each | true ].
 	ChangeSet resetCurrentToNewUnnamedChangeSet.
@@ -151,6 +156,7 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	
 	self recordSpaceTallyAtBeginning.
 	self copyDataAndDocsFolders.
+	self captureRepositoryRegistryHistory.
 	self installLogo.
 	self registerTools.
 	self updateNextReleaseVersion: (GtRlSemanticVersionComputation named: aVersionComputationName).
