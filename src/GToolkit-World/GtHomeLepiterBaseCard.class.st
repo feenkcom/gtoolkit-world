@@ -79,7 +79,6 @@ GtHomeLepiterBaseCard >> create [
 			fitContent;
 			addChild: (BrButton new
 					aptitude: BrGlamorousButtonWithIconAndLabelAptitude;
-					beSmallSize;
 					icon: LeIcons lepiterIcon;
 					label: 'Read more';
 					action: self action)).
