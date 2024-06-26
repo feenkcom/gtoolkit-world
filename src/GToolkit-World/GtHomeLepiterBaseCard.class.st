@@ -50,7 +50,12 @@ GtHomeLepiterBaseCard >> createContainer [
 
 { #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createDailyNotesElement [
-	^ BrGroupedList new
+	self flag: LeDatabaseSidebarTreeElement.
+	
+	^ GtHomeLepiterDailyNotesElement new
+		databaseViewModel: self database asContentUIModel.
+
+	"^ BrGroupedList new
 		margin: (BlInsets all: 3);
 		headerElementStencil: [ BrLabel new
 				beSmallSize;
@@ -67,7 +72,7 @@ GtHomeLepiterBaseCard >> createDailyNotesElement [
 						selectedObject := e currentTarget viewModel entityAt: theIndices first.
 						self spawnPage: selectedObject itemObject from: e currentTarget ] ];
 		stream: self dailyNotesGroup;
-		matchParent
+		matchParent"
 ]
 
 { #category : #'private - widgets' }
