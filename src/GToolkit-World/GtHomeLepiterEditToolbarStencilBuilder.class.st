@@ -69,11 +69,10 @@ GtHomeLepiterEditToolbarStencilBuilder >> pageWithSnippetRequested: aSnippet inD
 	aPageName := (aSnippet class respondsTo: #contextMenuItemSpecification)
 			ifTrue: [ 'Playground: {1}' format: {aSnippet class contextMenuItemSpecification title} ]
 			ifFalse: [ 'Playground' ].
-
-	aPage := aLeDatabase pageBuilder
-			title: aPageName;
-			add.
+			
+	aPage := LePage unnamedPageWithDefaultTitle: aPageName.
 	aPage addSnippet: aSnippet.
+	aLeDatabase addPage: aPage.
 
 	aCard spawnPage: aPage from: aButton
 ]
