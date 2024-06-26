@@ -50,29 +50,8 @@ GtHomeLepiterBaseCard >> createContainer [
 
 { #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createDailyNotesElement [
-	self flag: LeDatabaseSidebarTreeElement.
-	
 	^ GtHomeLepiterDailyNotesElement new
-		databaseViewModel: self database asContentUIModel.
-
-	"^ BrGroupedList new
-		margin: (BlInsets all: 3);
-		headerElementStencil: [ BrLabel new
-				beSmallSize;
-				aptitude: (BrGlamorousLabelAptitude new);
-				hMatchParent;
-				vFitContent;
-				margin: (BlInsets top: 3 left: 3) ];
-		headerDataBinder: [ :aLabelElement :aGroup | aLabelElement text: aGroup domainObject asString ];
-		when: BrSelectionDoubleClicked
-			do: [ :e | 
-				e selection
-					ifNotEmpty: [ :theIndices | 
-						| selectedObject |
-						selectedObject := e currentTarget viewModel entityAt: theIndices first.
-						self spawnPage: selectedObject itemObject from: e currentTarget ] ];
-		stream: self dailyNotesGroup;
-		matchParent"
+		databaseViewModel: self database asContentUIModel
 ]
 
 { #category : #'private - widgets' }
@@ -105,27 +84,8 @@ GtHomeLepiterBaseCard >> createTabGroup [
 
 { #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createTableOfContentsElement [
-	| tree |
-	tree := BrSimpleTree new.
-	tree
-		margin: (BlInsets top: 5 left: 3);
-		nodeStencil: [ BrLabel new
-				beSmallSize;
-				aptitude: (BrGlamorousLabelAptitude new) ];
-		nodeDataBinder: [ :aLabel :aNode | aLabel text: aNode page title ];
-		items: self tableOfContentsNodes lazy: #children;
-		expandUpTo: 1;
-		when: BrSelectionDoubleClicked
-			do: [ :e | 
-				e selection
-					ifNotEmpty: [ :theIndices | 
-						| selectedObject |
-						selectedObject := e currentTarget viewModel itemAt: theIndices first.
-						self spawnPage: selectedObject value page from: e currentTarget ] ].
-						
-		"rowStencil: BrGlamorousSimpleTreeSelectableRowElementStencilBuilder new"
-		
-	^ tree
+	^ GtHomeLepiterTableOfContentsElement new
+		databaseViewModel: self database asContentUIModel
 ]
 
 { #category : #'private - widgets' }

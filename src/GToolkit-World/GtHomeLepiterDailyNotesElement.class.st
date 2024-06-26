@@ -79,7 +79,7 @@ GtHomeLepiterDailyNotesElement >> initializeUpdater [
 GtHomeLepiterDailyNotesElement >> onContentUIModelChanged [
 	super onContentUIModelChanged.
 
-	self updateGroupedListElement
+	self updateElement
 ]
 
 { #category : #'event handling' }
