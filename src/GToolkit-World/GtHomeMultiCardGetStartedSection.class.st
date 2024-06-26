@@ -71,6 +71,27 @@ GtHomeMultiCardGetStartedSection >> gtTourCard [
 		yourself
 ]
 
+{ #category : #example }
+GtHomeMultiCardGetStartedSection >> gtUsedKnowledgeBaseCard [
+	<gtSectionCard>
+	<gtExample>
+	<notest>
+	^ GtHomeCard lepiterBaseWithTableOfContents
+		title: 'Personal local knowledge base';
+		description: 'Explore your personal local knowledge base';
+		priority: 15;
+		primaryKnowledgebase;
+		recentlyEditedPage;
+		details: [ :db | 
+			| snippets |
+			snippets := db pages flatCollect: #allChildrenDepthFirst.
+			'Your local knowledge base includes '
+				, db pages size asString , ' lovely pages containing '
+				, snippets size asString , ' snippets of '
+				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
+				yourself
+]
+
 { #category : #accessing }
 GtHomeMultiCardGetStartedSection >> sectionTitle [
 	^ 'Start'
