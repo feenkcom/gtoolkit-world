@@ -31,12 +31,12 @@ GtHomeLepiterBaseCard >> create [
 { #category : #accessing }
 GtHomeLepiterBaseCard >> createContainer [
 	^ BrButton new
-		layout: (BlLinearLayout horizontal cellSpacing: 5);
+		layout: (BlLinearLayout horizontal );
 		exact: 500 @ 250;
 		background: Color white;
 		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude new;
 		label: self description;
-		padding: (BlInsets all: 10);
+		padding: (BlInsets top: 10 left: 10 bottom: 10 right: 0 );
 		margin: (BlInsets
 				top: self spaceGap
 				left: 2 * self spaceGap
@@ -52,10 +52,10 @@ GtHomeLepiterBaseCard >> createContainer [
 { #category : #accessing }
 GtHomeLepiterBaseCard >> createDailyNotesElement [
 	^ BrGroupedList new
-		margin: (BlInsets all: 10);
+		margin: (BlInsets all: 3);
 		headerElementStencil: [ BrLabel new
 				beSmallSize;
-				aptitude: (BrGlamorousLabelAptitude new foreground: Color gray);
+				aptitude: (BrGlamorousLabelAptitude new);
 				hMatchParent;
 				vFitContent;
 				margin: (BlInsets top: 3 left: 3) ];
@@ -83,7 +83,7 @@ GtHomeLepiterBaseCard >> createDailyNotesTabElement [
 GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
 	^ BrEditor new
 		preventMeAndChildrenMouseEvents;
-		padding: (BlInsets left: 6 right: 5);
+		padding: (BlInsets all: 10);
 		aptitude: (BrGlamorousRegularEditorAptitude new foreground: Color black);
 		text: self databaseDescriptionText
 ]
@@ -104,10 +104,10 @@ GtHomeLepiterBaseCard >> createTableOfContentsElement [
 	| tree |
 	tree := BrSimpleTree new.
 	tree
-		margin: (BlInsets all: 10);
+		margin: (BlInsets top: 5 left: 3);
 		nodeStencil: [ BrLabel new
 				beSmallSize;
-				aptitude: (BrGlamorousLabelAptitude new foreground: Color gray) ];
+				aptitude: (BrGlamorousLabelAptitude new) ];
 		nodeDataBinder: [ :aLabel :aNode | aLabel text: aNode page title ];
 		items: self tableOfContentsNodes lazy: #children;
 		expandUpTo: 1;
@@ -128,16 +128,16 @@ GtHomeLepiterBaseCard >> createTableOfContentsElement [
 GtHomeLepiterBaseCard >> createTableOfContentsTabElement [
 	^ BrTab new
 		aptitude: GtHomeLepiterCardTabAptitude new;
-		label: 'ToC';
+		label: 'Table of contents';
 		stencil: [ self createTableOfContentsElement ]
 ]
 
 { #category : #accessing }
 GtHomeLepiterBaseCard >> createTitleElement [
 	^ BrEditor new
-		hMatchParent;
+		hMatchParent
 		vFitContent;
-		padding: (BlInsets top: 10 left: 5 bottom: 10 right: 20);
+		padding: (BlInsets all: 10);
 		aptitude: (BrGlamorousRegularEditorAptitude new bold; fontSize: 18);
 		text: self title
 ]
