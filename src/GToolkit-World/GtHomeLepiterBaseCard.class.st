@@ -2,7 +2,6 @@ Class {
 	#name : #GtHomeLepiterBaseCard,
 	#superclass : #GtHomeLepiterBasicCard,
 	#instVars : [
-		'databaseName',
 		'details',
 		'toolbarStencil'
 	],
