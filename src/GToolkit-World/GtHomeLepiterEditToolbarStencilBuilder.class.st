@@ -65,12 +65,8 @@ GtHomeLepiterEditToolbarStencilBuilder >> newAddSnippetButtonWithDropdownAptitud
 
 { #category : #private }
 GtHomeLepiterEditToolbarStencilBuilder >> pageWithSnippetRequested: aSnippet inDatabase: aLeDatabase fromCard: aCard button: aButton [
-	| aPageName aPage |
-	aPageName := (aSnippet class respondsTo: #contextMenuItemSpecification)
-			ifTrue: [ 'Playground: {1}' format: {aSnippet class contextMenuItemSpecification title} ]
-			ifFalse: [ 'Playground' ].
-			
-	aPage := LePage unnamedPageWithDefaultTitle: aPageName.
+	| aPage |
+	aPage := LePage unnamedPage.
 	aPage addSnippet: aSnippet.
 	aLeDatabase addPage: aPage.
 
