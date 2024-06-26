@@ -27,7 +27,7 @@ GtHomeLepiterBaseCard >> create [
 	^ container
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createContainer [
 	^ BrButton new
 		layout: (BlLinearLayout horizontal );
@@ -48,7 +48,7 @@ GtHomeLepiterBaseCard >> createContainer [
 		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ self definingMethod ])
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createDailyNotesElement [
 	^ BrGroupedList new
 		margin: (BlInsets all: 3);
@@ -70,7 +70,7 @@ GtHomeLepiterBaseCard >> createDailyNotesElement [
 		matchParent
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createDailyNotesTabElement [
 	^ BrTab new
 		aptitude: GtHomeLepiterCardTabAptitude new;
@@ -78,7 +78,7 @@ GtHomeLepiterBaseCard >> createDailyNotesTabElement [
 		stencil: [ self createDailyNotesElement ]
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
 	^ BrEditor new
 		preventMeAndChildrenMouseEvents;
@@ -87,7 +87,7 @@ GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
 		text: self databaseDescriptionText
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createTabGroup [
 	^ BrTabGroup new
 		aptitude: BrGlamorousTabGroupAptitude new;
@@ -98,7 +98,7 @@ GtHomeLepiterBaseCard >> createTabGroup [
 		addTab: self createDailyNotesTabElement
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createTableOfContentsElement [
 	| tree |
 	tree := BrSimpleTree new.
@@ -123,7 +123,7 @@ GtHomeLepiterBaseCard >> createTableOfContentsElement [
 	^ tree
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createTableOfContentsTabElement [
 	^ BrTab new
 		aptitude: GtHomeLepiterCardTabAptitude new;
@@ -131,7 +131,7 @@ GtHomeLepiterBaseCard >> createTableOfContentsTabElement [
 		stencil: [ self createTableOfContentsElement ]
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createTitleElement [
 	^ BrEditor new
 		hMatchParent
@@ -141,44 +141,44 @@ GtHomeLepiterBaseCard >> createTitleElement [
 		text: self title
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createToolbarElement [
 	^ self toolbarStencil
 		card: self;
 		asElement
 ]
 
-{ #category : #accessing }
+{ #category : #'api - details' }
 GtHomeLepiterBaseCard >> databaseDescriptionText [
 	^ details value: self database
 ]
 
-{ #category : #accessing }
+{ #category : #'api - database' }
 GtHomeLepiterBaseCard >> databaseSnippets [
 	^ self database pages flatCollect: #allChildrenDepthFirst
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtHomeLepiterBaseCard >> defaultAction [
 	^ [ :aButton :aModel :anEvent | self page ifNotNil: [ self spawnPage: self page from: aButton ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtHomeLepiterBaseCard >> defaultDescription [
 	^ self page ifNil: [ super defaultDescription ] ifNotNil: [ :aPage | aPage title ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtHomeLepiterBaseCard >> defaultTitle [
 	^ self pageName ifNil: [ 'A Home Page Card' ] ifNotNil: [ :aString | aString ]
 ]
 
-{ #category : #accessing }
+{ #category : #'api - details' }
 GtHomeLepiterBaseCard >> details [
 	^ details
 ]
 
-{ #category : #accessing }
+{ #category : #'api - details' }
 GtHomeLepiterBaseCard >> details: anObject [
 	details := anObject
 ]
