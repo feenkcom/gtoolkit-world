@@ -38,6 +38,7 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 		priority: 10;
 		pageName: 'Glamorous Toolkit';
 		databaseName: self gtBookName;
+		readMoreToolbar;
 		details: [ :db | 
 			| snippets |
 			snippets := db pages flatCollect: #allChildrenDepthFirst.
@@ -82,6 +83,7 @@ GtHomeMultiCardGetStartedSection >> gtUsedKnowledgeBaseCard [
 		priority: 15;
 		primaryKnowledgebase;
 		recentlyEditedPage;
+		editableToolbar;
 		details: [ :db | 
 			| snippets |
 			snippets := db pages flatCollect: #allChildrenDepthFirst.

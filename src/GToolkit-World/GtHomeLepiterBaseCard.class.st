@@ -3,7 +3,8 @@ Class {
 	#superclass : #GtHomeLepiterBasicCard,
 	#instVars : [
 		'databaseName',
-		'details'
+		'details',
+		'toolbarStencil'
 	],
 	#category : #'GToolkit-World-Sections'
 }
@@ -140,14 +141,9 @@ GtHomeLepiterBaseCard >> createTitleElement [
 
 { #category : #accessing }
 GtHomeLepiterBaseCard >> createToolbarElement [
-	^ BrToolbar new
-		aptitude: (BrGlamorousToolbarAptitude new spacing: 5);
-		fitContent;
-		addChild: (BrButton new
-				aptitude: BrGlamorousButtonWithIconAndLabelAptitude;
-				icon: LeIcons lepiterIcon;
-				label: 'Read more';
-				action: self action)
+	^ self toolbarStencil
+		card: self;
+		asElement
 ]
 
 { #category : #accessing }
@@ -183,4 +179,35 @@ GtHomeLepiterBaseCard >> details [
 { #category : #accessing }
 GtHomeLepiterBaseCard >> details: anObject [
 	details := anObject
+]
+
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> editableToolbar [
+	"For knowledge bases that are supposed to be edited by users, e.g., personal notes."
+
+	self toolbarStencil: GtHomeLepiterEditToolbarStencilBuilder new
+]
+
+{ #category : #initialization }
+GtHomeLepiterBaseCard >> initialize [
+	super initialize.
+	self readMoreToolbar
+]
+
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> readMoreToolbar [
+	"For knowledge bases that served as read-only books.
+	In other words, for knowledge bases that are NOT used to personal notes."
+
+	self toolbarStencil: GtHomeLepiterReadMoreToolbarStencilBuilder new
+]
+
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> toolbarStencil [
+	^ toolbarStencil
+]
+
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> toolbarStencil: aStencilBuilder [
+	toolbarStencil := aStencilBuilder asStencilBuilder: GtHomeLepiterReadMoreToolbarStencilBuilder
 ]
