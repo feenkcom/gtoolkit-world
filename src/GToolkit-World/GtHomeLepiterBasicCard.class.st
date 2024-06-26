@@ -95,6 +95,12 @@ GtHomeLepiterBasicCard >> pageFinder: anObject [
 ]
 
 { #category : #'api - page' }
+GtHomeLepiterBasicCard >> pageName [
+	<return: #String or: nil>
+	^ (self pageFinder pageIn: self database) title
+]
+
+{ #category : #'api - page' }
 GtHomeLepiterBasicCard >> pageName: aPageName [
 	self pageFinder: (GtHomeLepiterPageNameFinder new pageName: aPageName)
 ]

@@ -3,19 +3,10 @@ Class {
 	#superclass : #GtHomeLepiterBasicCard,
 	#instVars : [
 		'databaseName',
-		'pageName',
-		'page',
 		'details'
 	],
 	#category : #'GToolkit-World-Sections'
 }
-
-{ #category : #asserting }
-GtHomeLepiterBaseCard >> assertInvariant [
-	self assert: pageName isNotNil description: 'pageName must not be nil.'.
-	self assert: databaseName isNotNil description: 'databaseName must not be nil.'.
-	self assert: details isNotNil description: 'details must not be nil.'.
-]
 
 { #category : #'view creation' }
 GtHomeLepiterBaseCard >> create [
@@ -176,12 +167,12 @@ GtHomeLepiterBaseCard >> defaultAction [
 
 { #category : #accessing }
 GtHomeLepiterBaseCard >> defaultDescription [
-	^ page ifNil: [ super defaultDescription ] ifNotNil: [ page title ]
+	^ self page ifNil: [ super defaultDescription ] ifNotNil: [ :aPage | aPage title ]
 ]
 
 { #category : #accessing }
 GtHomeLepiterBaseCard >> defaultTitle [
-	^ self pageName ifNil: [ 'A Home Page Card' ] ifNotNil: [ self pageName ]
+	^ self pageName ifNil: [ 'A Home Page Card' ] ifNotNil: [ :aString | aString ]
 ]
 
 { #category : #accessing }

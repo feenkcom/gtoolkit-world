@@ -15,7 +15,7 @@ GtHomeLepiterPageNameFinder >> pageIn: aLeDatabase [
 	^ aLeDatabase pageNamed: self pageName
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GtHomeLepiterPageNameFinder >> pageName [
 	^ pageName
 ]
