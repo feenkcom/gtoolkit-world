@@ -49,20 +49,6 @@ GtHomeLepiterBaseCard >> createContainer [
 ]
 
 { #category : #'private - widgets' }
-GtHomeLepiterBaseCard >> createDailyNotesElement [
-	^ GtHomeLepiterDailyNotesElement new
-		databaseViewModel: self database asContentUIModel
-]
-
-{ #category : #'private - widgets' }
-GtHomeLepiterBaseCard >> createDailyNotesTabElement [
-	^ BrTab new
-		aptitude: GtHomeLepiterCardTabAptitude new;
-		label: 'Pages';
-		stencil: [ self createDailyNotesElement ]
-]
-
-{ #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
 	^ BrEditor new
 		preventMeAndChildrenMouseEvents;
@@ -73,27 +59,8 @@ GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
 
 { #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createTabGroup [
-	^ BrTabGroup new
-		aptitude: BrGlamorousTabGroupAptitude new;
-		margin: (BlInsets all: 10);
-		in: [ :theGroup | 
-			self hasTableOfContents
-				ifTrue: [ theGroup addTab: self createTableOfContentsTabElement ] ];
-		addTab: self createDailyNotesTabElement
-]
-
-{ #category : #'private - widgets' }
-GtHomeLepiterBaseCard >> createTableOfContentsElement [
-	^ GtHomeLepiterTableOfContentsElement new
+	^ GtHomeLepiterKnowledgeBaseTabGroupElement new
 		databaseViewModel: self database asContentUIModel
-]
-
-{ #category : #'private - widgets' }
-GtHomeLepiterBaseCard >> createTableOfContentsTabElement [
-	^ BrTab new
-		aptitude: GtHomeLepiterCardTabAptitude new;
-		label: 'Table of contents';
-		stencil: [ self createTableOfContentsElement ]
 ]
 
 { #category : #'private - widgets' }
