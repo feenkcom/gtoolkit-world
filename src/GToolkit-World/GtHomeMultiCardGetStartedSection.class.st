@@ -80,7 +80,7 @@ GtHomeMultiCardGetStartedSection >> gtUsedKnowledgeBaseCard [
 	^ GtHomeCard lepiterBaseWithTableOfContents
 		title: 'Local knowledge base';
 		description: 'Explore your local knowledge base';
-		priority: 15;
+		priority: 1;
 		primaryKnowledgebase;
 		recentlyEditedPage;
 		editableToolbar;
