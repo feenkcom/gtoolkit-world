@@ -1,6 +1,19 @@
 Extension { #name : #String }
 
 { #category : #'*GToolkit-Extensions' }
+String >> firstLineWithEllipsis [
+	"If the receiver is multi-line, answer the first line with ellipsis appended, otherwise answer the receiver, removing any trailing newlines.
+	Used, e.g. in labels where we don't want to attempt to display the entire multi-line string with ugly boxes."
+	| firstLine |
+
+	self linesDo: [ :line |
+		firstLine
+			ifNil: [ firstLine := line ]
+			ifNotNil: [ ^ firstLine, '...' ] ].
+	^ firstLine ifNil: [ self ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 String >> gtJSONDataFor: aView context: aContext [
 
 	<gtView>
@@ -38,6 +51,40 @@ String >> gtJSONFor: aView context: aContext [
 		  text: [ self ];
 		  styler: JSONParser gtStyler;
 		  aptitude: BrGlamorousCodeEditorAptitude
+]
+
+{ #category : #'*GToolkit-Extensions' }
+String >> gtXMLFor: aView [
+	<gtView>
+	self ifEmpty: [ ^ aView empty ].
+	((self at: 1) = $< or: [ (self at: 2) = $? ]) ifFalse: [ ^ aView empty ].
+
+	^ aView textEditor
+		title: 'XML';
+		priority: 20;
+		text: [ self ];
+		styler: Gt4XMLStyler new;
+		actionButtonIcon: BrGlamorousIcons tree
+			action: [ :aButton | aButton phlow spawnObject: (XMLDOMParser parse: self) ];
+		aptitude: BrGlamorousCodeEditorAptitude;
+		actionDropdownButtonIcon: nil
+			label: 'XPath'
+			content: [ :b | 
+				| editor |
+				editor := BrEditor new aptitude: BrGlamorousCodeEditorAptitude.
+				BlElement new
+					constraintsDo: [ :c | 
+						c horizontal exact: 200.
+						c vertical fitContent ];
+					layout: BlLinearLayout horizontal;
+					padding: (BlInsets all: 10);
+					addChild: editor;
+					addChild: (BrButton new
+							aptitude: BrGlamorousButtonWithIconAptitude;
+							icon: BrGlamorousVectorIcons search;
+							label: 'Search with XPath';
+							action: [ b phlow
+									spawnObject: ((XMLDOMParser parse: self) xpath: editor editor text asString) ]) ]
 ]
 
 { #category : #'*Gtoolkit-Extensions' }

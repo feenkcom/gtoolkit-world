@@ -1,156 +1,147 @@
 Class {
 	#name : #GtHomeLepiterBaseCard,
-	#superclass : #GtHomeCard,
+	#superclass : #GtHomeLepiterBasicCard,
 	#instVars : [
-		'databaseName',
-		'pageName',
-		'page',
-		'details'
+		'details',
+		'toolbarStencil'
 	],
 	#category : #'GToolkit-World-Sections'
 }
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> assertInvariant [
-	self assert: pageName isNotNil description: 'pageName must not be nil.'.
-	self assert: databaseName isNotNil description: 'databaseName must not be nil.'.
-	self assert: details isNotNil description: 'details must not be nil.'.
-]
-
-{ #category : #accessing }
+{ #category : #'view creation' }
 GtHomeLepiterBaseCard >> create [
-	| container tree detailsPane contents |
-	container := BrButton new
-			layout: (BlLinearLayout vertical cellSpacing: 5);
-			exact: 500 @ 250;
-			background: Color white;
-			aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude new;
-			label: self description;
-			padding: (BlInsets all: 10);
-			margin: (BlInsets
-					top: self spaceGap
-					left: 2 * self spaceGap
-					bottom: 2 * self spaceGap
-					right: 2 * self spaceGap);
-			action: self action.
-	container
-		addAptitude: (BrGlamorousButtonExteriorAptitude new
-				backgroundPaint: Color white;
-				borderPaint: Color transparent)
-				+ (GtPhlowBrowseDefinitionAptitude new definition: [ self definingMethod ]).
+	| container detailsPane contents |
+	detailsPane := BrVerticalPane new matchParent.
+	detailsPane
+		addChild: self createTitleElement;
+		addChild: self createDatabaseDescriptionElement;
+		addChild: self createToolbarElement.
 
 	contents := BrHorizontalPane new matchParent.
-
-	detailsPane := BrVerticalPane new matchParent.
-	container
-		addChild: (BrLabel new
-				beLargeSize;
-				padding: (BlInsets top: 10 left: 5 bottom: 10 right: 20);
-				aptitude: BrGlamorousLabelAptitude new bold;
-				text: self title).
-	detailsPane
-		addChild: (BrEditor new
-				preventMeAndChildrenMouseEvents;
-				padding: (BlInsets left: 6 right: 5);
-				aptitude: (BrGlamorousRegularEditorAptitude new foreground: Color black);
-				text: (details value: self database)).
 	contents addChild: detailsPane.
+	contents addChild: self createTabGroup.
+
+	container := self createContainer.
 	container addChild: contents.
-	tree := BrSimpleTree new.
-	tree
-		padding: (BlInsets left: 5 right: 5);
-		nodeStencil: [ BrLabel new
-				beSmallSize;
-				aptitude: (BrGlamorousLabelAptitude new foreground: Color gray) ];
-		nodeDataBinder: [ :aLabel :aNode | aLabel text: aNode page title ];
-		items: self database tableOfContentsNodes lazy: #children;
-		expandUpTo: 1; 
-		when: BrSelectionDoubleClicked
-			do: [ :e | 
-				e selection
-					ifNotEmpty: [ :theIndices | 
-						| selectedObject |
-						selectedObject := e currentTarget viewModel itemAt: theIndices first.
-						self spawnPage: selectedObject value page from: e currentTarget ] ].
-		"rowStencil: BrGlamorousSimpleTreeSelectableRowElementStencilBuilder new"
-	contents addChild: tree.	
-	container addChild: (BrToolbar new
-			aptitude: (BrGlamorousToolbarAptitude new spacing: 5);
-			fitContent;
-			addChild: (BrButton new
-					aptitude: BrGlamorousButtonWithIconAndLabelAptitude;
-					icon: LeIcons lepiterIcon;
-					label: 'Read more';
-					action: self action)).
+
 	^ container
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> database [
-	^ self registry databaseNamed: self databaseName
+{ #category : #'private - widgets' }
+GtHomeLepiterBaseCard >> createContainer [
+	^ BrButton new
+		layout: (BlLinearLayout horizontal );
+		exact: 500 @ 250;
+		background: Color white;
+		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude new;
+		label: self description;
+		padding: (BlInsets top: 10 left: 10 bottom: 10 right: 0 );
+		margin: (BlInsets
+				top: self spaceGap
+				left: 2 * self spaceGap
+				bottom: 2 * self spaceGap
+				right: 2 * self spaceGap);
+		action: self action;
+		addAptitude: (BrGlamorousButtonExteriorAptitude new
+				backgroundPaint: Color white;
+				borderPaint: Color transparent);
+		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ self definingMethod ])
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> databaseName [
-	^ databaseName
+{ #category : #'private - widgets' }
+GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
+	^ BrEditor new
+		preventMeAndChildrenMouseEvents;
+		padding: (BlInsets all: 10);
+		aptitude: (BrGlamorousRegularEditorAptitude new foreground: Color black);
+		text: self databaseDescriptionText
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> databaseName: aLeDatabaseName [
-	databaseName := aLeDatabaseName
+{ #category : #'private - widgets' }
+GtHomeLepiterBaseCard >> createTabGroup [
+	^ GtHomeLepiterKnowledgeBaseTabGroupElement new
+		databaseViewModel: self database asContentUIModel
 ]
 
-{ #category : #accessing }
+{ #category : #'private - widgets' }
+GtHomeLepiterBaseCard >> createTitleElement [
+	^ BrEditor new
+		hMatchParent
+		vFitContent;
+		padding: (BlInsets all: 10);
+		aptitude: (BrGlamorousRegularEditorAptitude new bold; fontSize: 18);
+		text: self title
+]
+
+{ #category : #'private - widgets' }
+GtHomeLepiterBaseCard >> createToolbarElement [
+	^ self toolbarStencil
+		card: self;
+		asElement
+]
+
+{ #category : #'api - details' }
+GtHomeLepiterBaseCard >> databaseDescriptionText [
+	^ details value: self database
+]
+
+{ #category : #'api - database' }
 GtHomeLepiterBaseCard >> databaseSnippets [
 	^ self database pages flatCollect: #allChildrenDepthFirst
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtHomeLepiterBaseCard >> defaultAction [
 	^ [ :aButton :aModel :anEvent | self page ifNotNil: [ self spawnPage: self page from: aButton ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtHomeLepiterBaseCard >> defaultDescription [
-	^ page ifNil: [ super defaultDescription ] ifNotNil: [ page title ]
+	^ self page ifNil: [ super defaultDescription ] ifNotNil: [ :aPage | aPage title ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtHomeLepiterBaseCard >> defaultTitle [
-	^ self pageName ifNil: [ 'A Home Page Card' ] ifNotNil: [ self pageName ]
+	^ self pageName ifNil: [ 'A Home Page Card' ] ifNotNil: [ :aString | aString ]
 ]
 
-{ #category : #accessing }
+{ #category : #'api - details' }
 GtHomeLepiterBaseCard >> details [
 	^ details
 ]
 
-{ #category : #accessing }
+{ #category : #'api - details' }
 GtHomeLepiterBaseCard >> details: anObject [
 	details := anObject
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> page [
-	^ page ifNil: [ page := self database pageNamed: self pageName ]
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> editableToolbar [
+	"For knowledge bases that are supposed to be edited by users, e.g., personal notes."
+
+	self toolbarStencil: GtHomeLepiterEditToolbarStencilBuilder new
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> page: aLePage [
-	page := aLePage
+{ #category : #initialization }
+GtHomeLepiterBaseCard >> initialize [
+	super initialize.
+	self readMoreToolbar
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> pageName [
-	^ pageName
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> readMoreToolbar [
+	"For knowledge bases that served as read-only books.
+	In other words, for knowledge bases that are NOT used to personal notes."
+
+	self toolbarStencil: GtHomeLepiterReadMoreToolbarStencilBuilder new
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> pageName: aLePageName [
-	pageName := aLePageName
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> toolbarStencil [
+	^ toolbarStencil
 ]
 
-{ #category : #accessing }
-GtHomeLepiterBaseCard >> registry [
-	^ LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
+{ #category : #'api - toolbar' }
+GtHomeLepiterBaseCard >> toolbarStencil: aStencilBuilder [
+	toolbarStencil := aStencilBuilder asStencilBuilder: GtHomeLepiterReadMoreToolbarStencilBuilder
 ]

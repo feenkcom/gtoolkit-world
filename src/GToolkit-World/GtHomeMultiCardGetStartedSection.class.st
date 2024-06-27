@@ -38,6 +38,7 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 		priority: 10;
 		pageName: 'Glamorous Toolkit';
 		databaseName: self gtBookName;
+		readMoreToolbar;
 		details: [ :db | 
 			| snippets |
 			snippets := db pages flatCollect: #allChildrenDepthFirst.
@@ -69,6 +70,28 @@ GtHomeMultiCardGetStartedSection >> gtTourCard [
 		priority: 20;
 		block: [ GtPresenterSlideShow openInSpace: GtTour ];
 		yourself
+]
+
+{ #category : #example }
+GtHomeMultiCardGetStartedSection >> gtUsedKnowledgeBaseCard [
+	<gtSectionCard>
+	<gtExample>
+	<notest>
+	^ GtHomeCard lepiterBaseWithTableOfContents
+		title: 'Local knowledge base';
+		description: 'Explore your local knowledge base';
+		priority: 15;
+		primaryKnowledgebase;
+		recentlyEditedPage;
+		editableToolbar;
+		details: [ :db | 
+			| snippets |
+			snippets := db pages flatCollect: #allChildrenDepthFirst.
+			'Your local knowledge base includes '
+				, db pages size asString , ' lovely pages containing '
+				, snippets size asString , ' snippets of '
+				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
+				yourself
 ]
 
 { #category : #accessing }

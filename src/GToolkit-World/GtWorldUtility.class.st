@@ -26,8 +26,13 @@ GtWorldUtility class >> showSpaceWithIcon: anIcon title: aString with: aStencil 
 	aSpace root background: Color transparent.
 	aSpace addChild: aStencil asElement.
 	aSpace withHalos.
-	anotherElement showSpace: aSpace.
-	anotherElement fireEvent: BrDropdownHideWish new.
+	
+	anotherElement 
+		ifNil: [ aSpace show ] 
+		ifNotNil: [
+			anotherElement showSpace: aSpace.
+			anotherElement fireEvent: BrDropdownHideWish new ].
+	
 	^ aSpace
 ]
 
@@ -62,7 +67,11 @@ GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon with: aStencil 
 	aSpace root background: Color transparent.
 	aSpace addChild: aStencil asElement.
 	aSpace withHalos.
-	anotherElement showSpace: aSpace.
+	
+	anotherElement 
+		ifNil: [ aSpace show ] 
+		ifNotNil: [ anotherElement showSpace: aSpace ].
+	
 	^ aSpace
 ]
 
