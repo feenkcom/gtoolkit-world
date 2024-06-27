@@ -113,7 +113,7 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> removeTableOfContentsTab [
 { #category : #'private - updating' }
 GtHomeLepiterKnowledgeBaseTabGroupElement >> searchButton [
 	^ GtSpotterDropdownButtonStencil new
-		beMiniSize;
+		beSmallSize;
 		valuable: (GtHomeLepiterKnowledgeBaseSpotterStart new databaseProvider: self);
 		tooltip: 'Search Pages';
 		objectActOn: [ :anActOnEvent :anItem :theButton | 
