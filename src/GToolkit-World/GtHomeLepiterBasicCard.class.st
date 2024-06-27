@@ -74,7 +74,7 @@ GtHomeLepiterBasicCard >> initialize [
 
 { #category : #'api - page' }
 GtHomeLepiterBasicCard >> page [
-	<return: #LePage>
+	<return: #LePage or: nil>
 	^ self pageFinder pageIn: self database
 ]
 

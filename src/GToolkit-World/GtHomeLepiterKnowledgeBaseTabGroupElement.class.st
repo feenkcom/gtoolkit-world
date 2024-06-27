@@ -117,9 +117,9 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> searchButton [
 		valuable: (GtHomeLepiterKnowledgeBaseSpotterStart new databaseProvider: self);
 		tooltip: 'Search Pages';
 		objectActOn: [ :anActOnEvent :anItem :theButton | 
+			theButton fireEvent: BrDropdownHideWish new.
 			self spawnPage: anItem from: theButton.
-			anActOnEvent beActed.
-			theButton fireEvent: BrDropdownHideWish new ];
+			anActOnEvent beActed. ];
 		asElement
 ]
 

@@ -8,6 +8,8 @@ Class {
 
 { #category : #accessing }
 GtHomeLepiterRecentlyEditedPageFinder >> pageIn: aLeDatabase [
-	<return: #LePage>
-	^ aLeDatabase dailyNotesGroup first children first
+	<return: #LePage or: nil>
+	^ aLeDatabase dailyNotesGroup
+		ifNotEmpty: [ :aCollection | aCollection first children first ]
+		ifEmpty: [ nil ]
 ]

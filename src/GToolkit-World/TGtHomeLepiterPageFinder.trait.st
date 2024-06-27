@@ -5,6 +5,6 @@ Trait {
 
 { #category : #accessing }
 TGtHomeLepiterPageFinder >> pageIn: aLeDatabase [
-	<return: #LePage>
+	<return: #LePage or: nil>
 	^ self explicitRequirement
 ]
