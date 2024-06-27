@@ -1,6 +1,19 @@
 Extension { #name : #String }
 
 { #category : #'*GToolkit-Extensions' }
+String >> firstLineWithEllipsis [
+	"If the receiver is multi-line, answer the first line with ellipsis appended, otherwise answer the receiver, removing any trailing newlines.
+	Used, e.g. in labels where we don't want to attempt to display the entire multi-line string with ugly boxes."
+	| firstLine |
+
+	self linesDo: [ :line |
+		firstLine
+			ifNil: [ firstLine := line ]
+			ifNotNil: [ ^ firstLine, '...' ] ].
+	^ firstLine ifNil: [ self ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 String >> gtJSONDataFor: aView context: aContext [
 
 	<gtView>

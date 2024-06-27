@@ -49,7 +49,7 @@ GtPlaygroundStencil >> asPreviewElement [
 { #category : #'api - instantiation' }
 GtPlaygroundStencil >> create [
 	^ self class playgroundClass 
-			createWithPharoCodPageInKnowledgeBase: self currentKnowledgeBase
+			createWithPharoCodePageInKnowledgeBase: self currentKnowledgeBase
 ]
 
 { #category : #'api - instantiation' }
