@@ -64,7 +64,12 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> initialize [
 
 { #category : #initialization }
 GtHomeLepiterKnowledgeBaseTabGroupElement >> initializeTabGroupElement [
-	tabGroupElement := BrTabGroup new aptitude: BrGlamorousTabGroupAptitude new
+	tabGroupElement := BrTabGroup new
+			aptitude: BrGlamorousTabGroupAptitude new;
+			actionbarStencil: [ BrToolbar new
+					aptitude: BrGlamorousToolbarAptitude new;
+					addItem: self searchButton;
+					yourself ]
 ]
 
 { #category : #'api - ui model' }
@@ -103,6 +108,34 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> removeTableOfContentsTab [
 	tocTab ifNil: [ ^ self ].
 	tabGroupElement removeTab: tocTab.
 	tocTab := nil
+]
+
+{ #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> searchButton [
+	^ GtSpotterDropdownButtonStencil new
+		beMiniSize;
+		valuable: (GtHomeLepiterKnowledgeBaseSpotterStart new databaseProvider: self);
+		tooltip: 'Search Pages';
+		objectActOn: [ :anActOnEvent :anItem :theButton | 
+			self spawnPage: anItem from: theButton.
+			anActOnEvent beActed.
+			theButton fireEvent: BrDropdownHideWish new ];
+		asElement
+]
+
+{ #category : #'event handling' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> spawnPage: aPage from: aButton [
+	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
+
+	^ aButton
+		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
+		ifFound: [ :aParent | aButton phlow spawnTool: aPage asPhlowTool ]
+		ifNone: [ 
+			GtWorldUtility
+				showSpaceWithTitle: aPage title
+				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
+						asStencil
+				from: aButton ]
 ]
 
 { #category : #'private - subscriptions' }
