@@ -58,6 +58,7 @@ GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
 { #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createTabGroup [
 	^ GtHomeLepiterKnowledgeBaseTabGroupElement new
+		margin: (BlInsets all: 10);
 		databaseViewModel: self database asContentUIModel
 ]
 
