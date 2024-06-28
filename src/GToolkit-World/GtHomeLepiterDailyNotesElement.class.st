@@ -5,7 +5,7 @@ Class {
 		'groupedListElement',
 		'updater'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : #'GToolkit-World-Helpers'
 }
 
 { #category : #'private - updating' }
@@ -71,8 +71,7 @@ GtHomeLepiterDailyNotesElement >> initializeGroupedListElement [
 { #category : #initialization }
 GtHomeLepiterDailyNotesElement >> initializeUpdater [
 	updater := BrElementUpdater new
-			element: self selector: #updateElement;
-			postponedDuration: 3 seconds
+			element: self selector: #updateElement
 ]
 
 { #category : #'api - ui model' }

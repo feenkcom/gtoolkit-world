@@ -6,7 +6,7 @@ Class {
 		'tocTab',
 		'tocPage'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : #'GToolkit-World-Helpers'
 }
 
 { #category : #'private - updating' }

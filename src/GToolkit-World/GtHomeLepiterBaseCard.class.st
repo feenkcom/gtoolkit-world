@@ -50,11 +50,9 @@ GtHomeLepiterBaseCard >> createContainer [
 
 { #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createDatabaseDescriptionElement [
-	^ BrEditor new
-		preventMeAndChildrenMouseEvents;
-		padding: (BlInsets all: 10);
-		aptitude: (BrGlamorousRegularEditorAptitude new foreground: Color black);
-		text: self databaseDescriptionText
+	^ GtHomeLepiterKnowledgeBaseDescriptionElement new
+		databaseViewModel: self database asContentUIModel;
+		details: self details
 ]
 
 { #category : #'private - widgets' }
@@ -78,11 +76,6 @@ GtHomeLepiterBaseCard >> createToolbarElement [
 	^ self toolbarStencil
 		card: self;
 		asElement
-]
-
-{ #category : #'api - details' }
-GtHomeLepiterBaseCard >> databaseDescriptionText [
-	^ details value: self database
 ]
 
 { #category : #'api - database' }
