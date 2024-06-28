@@ -70,7 +70,9 @@ GtHomeLepiterEditToolbarStencilBuilder >> pageWithSnippetRequested: aSnippet inD
 	aPage addSnippet: aSnippet.
 	aLeDatabase addPage: aPage.
 
-	aCard spawnPage: aPage from: aButton
+	BlTaskAction
+		enqueueElement: aButton
+		action: [ aCard spawnPage: aPage from: aButton ]
 ]
 
 { #category : #'api - instantiation' }
