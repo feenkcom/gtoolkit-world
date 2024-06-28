@@ -50,6 +50,7 @@ GtHomeLepiterDailyNotesElement >> initialize [
 { #category : #initialization }
 GtHomeLepiterDailyNotesElement >> initializeGroupedListElement [
 	groupedListElement := BrGroupedList new
+			padding: (BlInsets top: 3 right: 5 bottom: 3 left: 3);
 			headerElementStencil: [ BrLabel new
 					beSmallSize;
 					aptitude: BrGlamorousLabelAptitude new;
