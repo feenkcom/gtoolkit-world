@@ -6,7 +6,7 @@ Class {
 		'treeElement',
 		'tocPage'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : #'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }
@@ -47,7 +47,7 @@ GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 GtHomeLepiterTableOfContentsElement >> initializeUpdater [
 	updater := BrElementUpdater new
 			element: self selector: #updateElement;
-			postponedDuration: 3 seconds
+			postponedDuration: 0 seconds
 ]
 
 { #category : #'api - ui model' }

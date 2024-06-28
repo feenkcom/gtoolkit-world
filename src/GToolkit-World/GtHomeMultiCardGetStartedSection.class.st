@@ -40,10 +40,11 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 		databaseName: self gtBookName;
 		readMoreToolbar;
 		details: [ :db | 
-			| snippets |
-			snippets := db pages flatCollect: #allChildrenDepthFirst.
+			| snippets somePages |
+			somePages := db pages select: #shouldAppearInIndexOrDailyNotes.
+			snippets := somePages flatCollect: #allChildrenDepthFirst.
 			'The book is expressed as a knowledge base. It documents the environment in '
-				, db pages size asString , ' lovely pages containing '
+				, somePages size asString , ' lovely pages containing '
 				, snippets size asString , ' snippets of '
 				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
 				yourself
@@ -85,10 +86,11 @@ GtHomeMultiCardGetStartedSection >> gtUsedKnowledgeBaseCard [
 		recentlyEditedPage;
 		editableToolbar;
 		details: [ :db | 
-			| snippets |
-			snippets := db pages flatCollect: #allChildrenDepthFirst.
+			| snippets somePages |
+			somePages := db pages select: #shouldAppearInIndexOrDailyNotes.
+			snippets := somePages flatCollect: #allChildrenDepthFirst.
 			'Your local knowledge base includes '
-				, db pages size asString , ' lovely pages containing '
+				, somePages size asString , ' pages containing '
 				, snippets size asString , ' snippets of '
 				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
 				yourself
