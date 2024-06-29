@@ -25,7 +25,7 @@ GtHomeLepiterTableOfContentsElement >> initialize [
 GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 	treeElement := BrSimpleTree new.
 	treeElement
-		margin: (BlInsets top: 5 left: 3);
+		padding: (BlInsets top: 3 right: 5 bottom: 3 left: 3);
 		nodeStencil: [ BrLabel new
 				beSmallSize;
 				aptitude: BrGlamorousLabelAptitude new ];
