@@ -30,7 +30,7 @@ GtHomeLepiterEditToolbarStencilBuilder >> newAddSnippetButton [
 	^ BrButton new
 		aptitude: BrGlamorousButtonWithIconAndLabelAptitude;
 		icon: BrGlamorousVectorIcons add;
-		label: 'Add page'
+		label: 'Add new page'
 ]
 
 { #category : #private }
