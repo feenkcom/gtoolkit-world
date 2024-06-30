@@ -43,7 +43,7 @@ GtHomeLepiterKnowledgeBaseSpotterStart >> gtSpotterForPagesFor: aSearch [
 		priority: 1;
 		search: [ :aContext | self database asyncPagesForWord: aContext searchQuery ];
 		itemName: #title;
-		wantsToDisplayOnEmptyQuery: false
+		wantsToDisplayOnEmptyQuery: true
 ]
 
 { #category : #printing }
