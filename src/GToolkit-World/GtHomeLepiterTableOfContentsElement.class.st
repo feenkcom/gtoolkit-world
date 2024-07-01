@@ -47,7 +47,7 @@ GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 GtHomeLepiterTableOfContentsElement >> initializeUpdater [
 	updater := BrElementUpdater new
 			element: self selector: #updateElement;
-			postponedDuration: 0 seconds
+			postponedDuration: 300 milliSeconds
 ]
 
 { #category : #'api - ui model' }
