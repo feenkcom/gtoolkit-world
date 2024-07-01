@@ -62,6 +62,16 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> initializeUpdater [
 			postponedDuration: 300 milliSeconds
 ]
 
+{ #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseDescriptionElement >> isReloading [
+	^ isReloading ifNil: [ false ]
+]
+
+{ #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseDescriptionElement >> isUnloaded [
+	^ isUnloaded ifNil: [ self hasContent not ]
+]
+
 { #category : #'api - ui model' }
 GtHomeLepiterKnowledgeBaseDescriptionElement >> onContentUIModelChanged [
 	isUnloaded := false.
@@ -129,13 +139,13 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> unsubscribeFromContent [
 
 { #category : #'private - updating' }
 GtHomeLepiterKnowledgeBaseDescriptionElement >> updateDescriptionElement [
-	isUnloaded
+	self isUnloaded
 		ifTrue: [ descriptionElement
 				text: ('Knowledge base is not loaded.' asRopedText
 						foreground: self theme button disabledTextColor).
 			^ self ].
 
-	isReloading
+	self isReloading
 		ifFalse: [ descriptionElement text: self descriptionText ]
 		ifTrue: [ descriptionElement
 				text: ('Reloading knowledge base...' asRopedText
