@@ -27,8 +27,10 @@ GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 	treeElement
 		padding: (BlInsets top: 3 right: 5 bottom: 3 left: 3);
 		nodeStencil: [ BrLabel new
+				hMatchParent;
 				beSmallSize;
-				aptitude: BrGlamorousLabelAptitude new ];
+				aptitude: BrGlamorousLabelAptitude new;
+				addAptitude: GtHomeLepiterCardListItemAptitude new ];
 		nodeDataBinder: [ :aLabel :aNode | aLabel text: aNode page title ];
 		when: BrSelectionDoubleClicked
 			do: [ :e | 

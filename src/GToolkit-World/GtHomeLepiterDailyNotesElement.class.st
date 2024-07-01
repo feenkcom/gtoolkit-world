@@ -51,13 +51,15 @@ GtHomeLepiterDailyNotesElement >> initialize [
 GtHomeLepiterDailyNotesElement >> initializeGroupedListElement [
 	groupedListElement := BrGroupedList new
 			padding: (BlInsets top: 3 right: 5 bottom: 3 left: 3);
-			headerElementStencil: [ BrLabel new
+			headerElementStencil: [ 
+				BrLabel new
 					beSmallSize;
-					aptitude: BrGlamorousLabelAptitude new;
+					aptitude: (BrGlamorousLabelAptitude new foreground: Color gray);
 					hMatchParent;
 					vFitContent;
 					margin: (BlInsets top: 3 left: 3) ];
-			headerDataBinder: [ :aLabelElement :aGroup | aLabelElement text: aGroup domainObject asString ];
+			headerDataBinder: [ :aLabelElement :aGroup | 
+				aLabelElement text: aGroup domainObject asString ];
 			when: BrSelectionDoubleClicked
 				do: [ :anEvent | 
 					anEvent selection

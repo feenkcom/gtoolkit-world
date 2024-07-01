@@ -172,6 +172,8 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> removeTableOfContentsTab [
 GtHomeLepiterKnowledgeBaseTabGroupElement >> searchButton [
 	^ GtSpotterDropdownButtonStencil new
 		beSmallSize;
+		aptitude: [ BrGlamorousButtonWithIconAptitude 
+			- BrGlamorousButtonExteriorAptitude  ];
 		valuable: (GtHomeLepiterKnowledgeBaseSpotterStart new databaseProvider: self);
 		tooltip: 'Search Pages';
 		objectActOn: [ :anActOnEvent :anItem :theButton | 
