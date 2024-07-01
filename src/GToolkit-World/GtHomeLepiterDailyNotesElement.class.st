@@ -72,7 +72,8 @@ GtHomeLepiterDailyNotesElement >> initializeGroupedListElement [
 { #category : #initialization }
 GtHomeLepiterDailyNotesElement >> initializeUpdater [
 	updater := BrElementUpdater new
-			element: self selector: #updateElement
+			element: self selector: #updateElement;
+			postponedDuration: 300 milliSeconds
 ]
 
 { #category : #'api - ui model' }
