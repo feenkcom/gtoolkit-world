@@ -4,7 +4,11 @@ Class {
 	#instVars : [
 		'tabGroupElement',
 		'tocTab',
-		'tocPage'
+		'tocPage',
+		'isReloading',
+		'isUnloaded',
+		'dailyNotesTab',
+		'updater'
 	],
 	#category : #'GToolkit-World-Helpers'
 }
@@ -38,6 +42,14 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> createTableOfContentsTabElement [
 ]
 
 { #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> ensureDailyNotesTab [
+	dailyNotesTab ifNil: [ dailyNotesTab := self createDailyNotesTabElement ].
+	(tabGroupElement hasTab: dailyNotesTab) ifTrue: [ ^ self ].
+
+	tabGroupElement addTab: dailyNotesTab.
+]
+
+{ #category : #'private - updating' }
 GtHomeLepiterKnowledgeBaseTabGroupElement >> ensureTableOfContentsTab [
 	tocTab ifNil: [ tocTab := self createTableOfContentsTabElement ].
 	(tabGroupElement hasTab: tocTab) ifTrue: [ ^ self ].
@@ -54,7 +66,10 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> hasTableOfContents [
 { #category : #initialization }
 GtHomeLepiterKnowledgeBaseTabGroupElement >> initialize [
 	super initialize.
-
+	isReloading := false.
+	isUnloaded := true.
+	self initializeUpdater.
+	
 	self initializeTabGroupElement.
 	self addChild: tabGroupElement as: #group.
 
@@ -72,16 +87,52 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> initializeTabGroupElement [
 					yourself ]
 ]
 
+{ #category : #initialization }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> initializeUpdater [
+	updater := BrElementUpdater new
+			element: self selector: #updateElement;
+			postponedDuration: 300 milliSeconds
+]
+
+{ #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> isReloading [
+	^ isReloading ifNil: [ false ]
+]
+
+{ #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> isUnloaded [
+	^ isUnloaded ifNil: [ self hasContent not ]
+]
+
 { #category : #'api - ui model' }
 GtHomeLepiterKnowledgeBaseTabGroupElement >> onContentUIModelChanged [
 	super onContentUIModelChanged.
-
-	tabGroupElement tabs copy do: [ :eachTab | 
-		tabGroupElement removeTab: eachTab ].
-	tocTab := nil.
-	tabGroupElement addTab: self createDailyNotesTabElement.
+	isUnloaded := false.
+	self removeTableOfContentsTab.
+	self removeDailyNotesTab.
 	self onTableOfContentsPageUUIDChanged.
 	self updateElement
+]
+
+{ #category : #'event handling' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> onDatabaseAboutToReload: anAnnouncement [
+	isReloading := true.
+	updater ifNil: [ ^ self ].
+	updater requestUpdate
+]
+
+{ #category : #'event handling' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> onDatabaseReloaded: anAnnouncement [
+	isReloading := false.
+	updater ifNil: [ ^ self ].
+	updater requestUpdate
+]
+
+{ #category : #'event handling' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> onDatabaseUnloaded: anAnnouncement [
+	isUnloaded := true.
+	updater ifNil: [ ^ self ].
+	updater requestUpdate
 ]
 
 { #category : #'event handling' }
@@ -104,6 +155,13 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> onTableOfContentsPageUUIDChanged: a
 ]
 
 { #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseTabGroupElement >> removeDailyNotesTab [
+	dailyNotesTab ifNil: [ ^ self ].
+	tabGroupElement removeTab: dailyNotesTab.
+	dailyNotesTab := nil
+]
+
+{ #category : #'private - updating' }
 GtHomeLepiterKnowledgeBaseTabGroupElement >> removeTableOfContentsTab [
 	tocTab ifNil: [ ^ self ].
 	tabGroupElement removeTab: tocTab.
@@ -114,6 +172,8 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> removeTableOfContentsTab [
 GtHomeLepiterKnowledgeBaseTabGroupElement >> searchButton [
 	^ GtSpotterDropdownButtonStencil new
 		beSmallSize;
+		aptitude: [ BrGlamorousButtonWithIconAptitude 
+			- BrGlamorousButtonExteriorAptitude  ];
 		valuable: (GtHomeLepiterKnowledgeBaseSpotterStart new databaseProvider: self);
 		tooltip: 'Search Pages';
 		objectActOn: [ :anActOnEvent :anItem :theButton | 
@@ -146,7 +206,12 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> subscribeToContent [
 
 	super subscribeToContent.
 	self database weak
-		when: LeDatabaseTableOfContentsUUIDChanged send: #onTableOfContentsPageUUIDChanged: to: self
+		when: LeDatabaseTableOfContentsUUIDChanged send: #onTableOfContentsPageUUIDChanged: to: self;
+		when: LeDatabaseAboutToReload send: #onDatabaseAboutToReload: to: self;
+		when: LeDatabaseReloaded send: #onDatabaseReloaded: to: self;
+		when: LeLogicalDatabaseAboutToReload send: #onDatabaseAboutToReload: to: self;
+		when: LeLogicalDatabaseReloaded send: #onDatabaseReloaded: to: self;
+		when: LeDatabaseUnloadAnnouncement send: #onDatabaseUnloaded: to: self.
 ]
 
 { #category : #'private - subscriptions' }
@@ -162,6 +227,15 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> updateElement [
 
 { #category : #'private - updating' }
 GtHomeLepiterKnowledgeBaseTabGroupElement >> updateTabGroupElement [
+	(self isUnloaded or: [ self isReloading ]) ifTrue: [
+		self visibility: BlVisibility gone.
+		self removeTableOfContentsTab.
+		self removeDailyNotesTab.
+		^ self ].
+
+	self visibility: BlVisibility visible.
+	
+	self ensureDailyNotesTab.
 	self hasTableOfContents
 		ifTrue: [ self ensureTableOfContentsTab ]
 		ifFalse: [ self removeTableOfContentsTab ]

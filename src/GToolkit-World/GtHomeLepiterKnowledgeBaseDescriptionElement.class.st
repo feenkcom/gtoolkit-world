@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'descriptionElement',
 		'updater',
-		'details'
+		'details',
+		'isReloading',
+		'isUnloaded'
 	],
 	#category : #'GToolkit-World-Helpers'
 }
@@ -33,6 +35,8 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> details: aBlock [
 { #category : #initialization }
 GtHomeLepiterKnowledgeBaseDescriptionElement >> initialize [
 	super initialize.
+	isReloading := false.
+	isUnloaded := true.
 	self initializeUpdater.
 	
 	self initializeDescriptionElement.
@@ -58,10 +62,42 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> initializeUpdater [
 			postponedDuration: 300 milliSeconds
 ]
 
+{ #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseDescriptionElement >> isReloading [
+	^ isReloading ifNil: [ false ]
+]
+
+{ #category : #'private - updating' }
+GtHomeLepiterKnowledgeBaseDescriptionElement >> isUnloaded [
+	^ isUnloaded ifNil: [ self hasContent not ]
+]
+
 { #category : #'api - ui model' }
 GtHomeLepiterKnowledgeBaseDescriptionElement >> onContentUIModelChanged [
+	isUnloaded := false.
 	super onContentUIModelChanged.
 	self onDescriptionTextChanged
+]
+
+{ #category : #'event handling' }
+GtHomeLepiterKnowledgeBaseDescriptionElement >> onDatabaseAboutToReload: anAnnouncement [
+	isReloading := true.
+	updater ifNil: [ ^ self ].
+	updater requestUpdate
+]
+
+{ #category : #'event handling' }
+GtHomeLepiterKnowledgeBaseDescriptionElement >> onDatabaseReloaded: anAnnouncement [
+	isReloading := false.
+	updater ifNil: [ ^ self ].
+	updater requestUpdate
+]
+
+{ #category : #'event handling' }
+GtHomeLepiterKnowledgeBaseDescriptionElement >> onDatabaseUnloaded: anAnnouncement [
+	isUnloaded := true.
+	updater ifNil: [ ^ self ].
+	updater requestUpdate
 ]
 
 { #category : #'event handling' }
@@ -87,7 +123,12 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> subscribeToContent [
 		when: LeDatabasePageAdded send: #onDescriptionTextChanged: to: self;
 		when: LeDatabasePageRemoved send: #onDescriptionTextChanged: to: self;
 		when: LeContentTreeAdded send: #onDescriptionTextChanged: to: self;
-		when: LeContentTreeRemoved send: #onDescriptionTextChanged: to: self
+		when: LeContentTreeRemoved send: #onDescriptionTextChanged: to: self;
+		when: LeDatabaseAboutToReload send: #onDatabaseAboutToReload: to: self;
+		when: LeDatabaseReloaded send: #onDatabaseReloaded: to: self;
+		when: LeLogicalDatabaseAboutToReload send: #onDatabaseAboutToReload: to: self;
+		when: LeLogicalDatabaseReloaded send: #onDatabaseReloaded: to: self;
+		when: LeDatabaseUnloadAnnouncement send: #onDatabaseUnloaded: to: self.
 ]
 
 { #category : #'private - subscriptions' }
@@ -98,7 +139,17 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> unsubscribeFromContent [
 
 { #category : #'private - updating' }
 GtHomeLepiterKnowledgeBaseDescriptionElement >> updateDescriptionElement [
-	descriptionElement text: self descriptionText
+	self isUnloaded
+		ifTrue: [ descriptionElement
+				text: ('Knowledge base is not loaded.' asRopedText
+						foreground: self theme button disabledTextColor).
+			^ self ].
+
+	self isReloading
+		ifFalse: [ descriptionElement text: self descriptionText ]
+		ifTrue: [ descriptionElement
+				text: ('Reloading knowledge base...' asRopedText
+						foreground: self theme button disabledTextColor) ]
 ]
 
 { #category : #'private - updating' }
