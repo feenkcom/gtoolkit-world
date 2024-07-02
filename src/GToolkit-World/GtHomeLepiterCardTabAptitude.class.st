@@ -34,7 +34,7 @@ GtHomeLepiterCardTabAptitude >> initialize [
 							(BlInsets
 								top: 0
 								left: 3
-								bottom: 1
+								bottom: 3
 								right: 3) ]).
 	self
 		add:
