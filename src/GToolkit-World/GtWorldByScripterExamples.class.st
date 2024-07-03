@@ -51,7 +51,44 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 ]
 
 { #category : #'examples - lepiter' }
-GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter: aScripter [
+GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElement [
+	<gtExample>
+	| aScripter aPageHolder aPage |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new
+			page50OfDatabaseWithManyPagesOfDifferentCreateTimes.
+	aPage := aPageHolder page.
+	aScripter model: aPageHolder.
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: true.
+		
+	aScripter substeps: 'Assert sidebar' do: [ :aStep | 
+		aStep assert
+			label: 'Assert page is visible';
+			exists;
+			// LeDatabaseSidebarGroupedListElement;
+			// LePageTitleAndSummaryElement;
+			@ [ :anElement | anElement pageViewModel pageModel == aPage ];
+			play.
+			
+		aStep assert
+			label: 'Assert selected page';
+			satisfies: [ :aGroupedList | | aSelection |
+				aSelection := aGroupedList selectedItems.
+				aSelection size = 1 and: [ aSelection first == aPage ] ] 
+				description: [ '{1} must be selected' format: { aPage title } ];
+			// LeDatabaseSidebarGroupedListElement;
+			// BrGroupedList;
+			play
+	].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter: aScripter maximized: isMaximized [
 	<gtExample>
 	
 	aScripter
@@ -66,6 +103,7 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 							aTool := aLePage asLepiterPagePhlowTool.
 							aPageElement := aTool asElementDo: [ :anElement | anElement ].
 							aPager := GtPager createWrappedOn: aPageElement.
+							isMaximized ifTrue: [ aPager maximized ].
 							GtWorldUtility
 								showSpaceWithIcon: aTool icon
 								title: aTool name
@@ -105,7 +143,10 @@ GtWorldByScripterExamples >> addLepiterPageWithChangeAndDependentSnippets [
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageHavingChangeAndDependentSnippets.
 	aScripter model: aPageHolder.
-	self addLepiterPage: aPageHolder page intoTabElementUsingScripter: aScripter.
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
 
 	^ aScripter
 ]
@@ -117,8 +158,11 @@ GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
 	aScripter model: aPageHolder.
-	self addLepiterPage: aPageHolder page intoTabElementUsingScripter: aScripter.
-	
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+
 	^ aScripter
 ]
 
