@@ -51,7 +51,87 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 ]
 
 { #category : #'examples - lepiter' }
-GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter: aScripter [
+GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElementMaximized [
+	"Issue https://github.com/feenkcom/gtoolkit/issues/3859"
+	
+	<gtExample>
+	| aScripter aPageHolder aPage |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new
+			page50OfDatabaseWithManyPagesOfDifferentCreateTimes.
+	aPage := aPageHolder page.
+	aScripter model: aPageHolder.
+	
+	aScripter memoryLogger
+		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
+			, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+			, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+		during: [ :aStep | 
+			self
+				addLepiterPage: aPageHolder page
+				intoTabElementUsingScripter: aStep
+				maximized: true ].
+		
+	aScripter substeps: 'Assert sidebar' do: [ :aStep | 
+		aStep assert
+			label: 'Assert page is visible';
+			exists;
+			// LeDatabaseSidebarGroupedListElement;
+			// LePageTitleAndSummaryElement;
+			@ [ :anElement | anElement pageViewModel pageModel == aPage ];
+			play.
+			
+		aStep assert
+			label: 'Assert selected page';
+			satisfies: [ :aGroupedList | | aSelection |
+				aSelection := aGroupedList selectedItems.
+				aSelection size = 1 and: [ aSelection first == aPage ] ] 
+				description: [ '{1} must be selected' format: { aPage title } ];
+			// LeDatabaseSidebarGroupedListElement;
+			// BrGroupedList;
+			play
+	].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElementMinimized [
+	"Issue https://github.com/feenkcom/gtoolkit/issues/3859"
+	
+	<gtExample>
+	| aScripter aPageHolder aPage |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new
+			page50OfDatabaseWithManyPagesOfDifferentCreateTimes.
+	aPage := aPageHolder page.
+	aScripter model: aPageHolder.
+	
+	aScripter memoryLogger
+		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
+			, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+			, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+		during: [ :aStep | 
+			self
+				addLepiterPage: aPageHolder page
+				intoTabElementUsingScripter: aStep
+				maximized: false ].
+		
+	aScripter substeps: 'Assert sidebar' do: [ :aStep | 
+		aStep assert
+			label: 'Assert page is visible';
+			notExists;
+			// LeDatabaseSidebarGroupedListElement;
+			// LePageTitleAndSummaryElement;
+			@ [ :anElement | anElement pageViewModel pageModel == aPage ];
+			play.
+	].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter: aScripter maximized: isMaximized [
 	<gtExample>
 	
 	aScripter
@@ -66,6 +146,7 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 							aTool := aLePage asLepiterPagePhlowTool.
 							aPageElement := aTool asElementDo: [ :anElement | anElement ].
 							aPager := GtPager createWrappedOn: aPageElement.
+							isMaximized ifTrue: [ aPager maximized ].
 							GtWorldUtility
 								showSpaceWithIcon: aTool icon
 								title: aTool name
@@ -105,7 +186,10 @@ GtWorldByScripterExamples >> addLepiterPageWithChangeAndDependentSnippets [
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageHavingChangeAndDependentSnippets.
 	aScripter model: aPageHolder.
-	self addLepiterPage: aPageHolder page intoTabElementUsingScripter: aScripter.
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
 
 	^ aScripter
 ]
@@ -117,8 +201,11 @@ GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
 	aScripter model: aPageHolder.
-	self addLepiterPage: aPageHolder page intoTabElementUsingScripter: aScripter.
-	
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+
 	^ aScripter
 ]
 
@@ -1156,11 +1243,16 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 	aScripter
 		substep: 'Search BlElement>>#zIndex: using Spotter'
 		do: [ :aStep | 
-			aStep
-				clickStep: [ :s | 
-					s
-						label: 'Click on Spotter button';
-						id: GtWorldSpotterSearchElementId ].
+			aStep memoryLogger 
+				runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
+					, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+					, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+				during: [ :aLoggerStep | 
+					aLoggerStep
+						clickStep: [ :s | 
+							s
+								label: 'Click on Spotter button';
+								id: GtWorldSpotterSearchElementId ] ].
 
 			aStep
 				typeStep: [ :s | 
