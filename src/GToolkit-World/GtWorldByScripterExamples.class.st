@@ -59,10 +59,15 @@ GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentC
 			page50OfDatabaseWithManyPagesOfDifferentCreateTimes.
 	aPage := aPageHolder page.
 	aScripter model: aPageHolder.
-	self
-		addLepiterPage: aPageHolder page
-		intoTabElementUsingScripter: aScripter
-		maximized: true.
+	
+	aScripter memoryLogger
+		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
+			, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+		during: [ :aStep | 
+			self
+				addLepiterPage: aPageHolder page
+				intoTabElementUsingScripter: aStep
+				maximized: true ].
 		
 	aScripter substeps: 'Assert sidebar' do: [ :aStep | 
 		aStep assert
