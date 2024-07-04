@@ -7,6 +7,31 @@ Class {
 	#category : #'GToolkit-World-Search'
 }
 
+{ #category : #accessing }
+GtWorldSpotterSearchStart >> gtNewSnippetFor: aSearch [
+	<gtSearch>
+	self hasKnowledgeBase ifFalse: [ ^ aSearch empty ].
+	self hasChildren ifFalse: [ ^ aSearch empty ].
+
+	^ aSearch list
+		title: 'Add page with snippet';
+		priority: 1;
+		items: [ LeContextMenuSnippetItemsCollector new 
+			collectMenuItems ];
+		itemName: #title;
+		filterBySubstring;
+		withoutCategoryAction;
+		withoutItemsLimit;
+		wantsToDisplayOnEmptyQuery: false;
+		send: [ :aMenuItem :aStep :thisSearch |
+			| aSnippet aPage |
+			aSnippet := aMenuItem asSnippet.
+			aPage := LePage unnamedPage.
+			aPage addSnippet: aSnippet.
+			self knowledgeBase addPage: aPage.
+			aPage ]
+]
+
 { #category : #searches }
 GtWorldSpotterSearchStart >> gtSearchForToolsFor: aSearch [
 	<gtSearch>
