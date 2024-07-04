@@ -1,6 +1,15 @@
 Extension { #name : #AbstractFileReference }
 
 { #category : #'*GToolkit-Extensions' }
+AbstractFileReference >> contentsUtf8Lossy [
+	"Answer the receiver's contents assuming UTF-8 encoding, but allowing for invalid characters	(substituting in the unicode replacement character)"
+	| stream |
+
+	^ [ (stream := self readStreamEncoded: #utf8lossy) contents ]
+		ensure: [ stream close ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AbstractFileReference >> gtLepiterDuplicateJsonFor: aView [
 	<gtView>
 	(self isFile and: [ self extension = 'duplicate' ]) ifFalse: [ ^ aView empty ].
