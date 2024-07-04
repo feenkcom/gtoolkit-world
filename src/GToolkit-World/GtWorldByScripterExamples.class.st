@@ -51,7 +51,9 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 ]
 
 { #category : #'examples - lepiter' }
-GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElement [
+GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElementMaximized [
+	"Issue https://github.com/feenkcom/gtoolkit/issues/3859"
+	
 	<gtExample>
 	| aScripter aPageHolder aPage |
 	aScripter := self tabElementInScripter.
@@ -63,6 +65,7 @@ GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentC
 	aScripter memoryLogger
 		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
 			, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+			, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
 		during: [ :aStep | 
 			self
 				addLepiterPage: aPageHolder page
@@ -87,6 +90,41 @@ GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentC
 			// LeDatabaseSidebarGroupedListElement;
 			// BrGroupedList;
 			play
+	].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElementMinimized [
+	"Issue https://github.com/feenkcom/gtoolkit/issues/3859"
+	
+	<gtExample>
+	| aScripter aPageHolder aPage |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new
+			page50OfDatabaseWithManyPagesOfDifferentCreateTimes.
+	aPage := aPageHolder page.
+	aScripter model: aPageHolder.
+	
+	aScripter memoryLogger
+		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
+			, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+			, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+		during: [ :aStep | 
+			self
+				addLepiterPage: aPageHolder page
+				intoTabElementUsingScripter: aStep
+				maximized: false ].
+		
+	aScripter substeps: 'Assert sidebar' do: [ :aStep | 
+		aStep assert
+			label: 'Assert page is visible';
+			notExists;
+			// LeDatabaseSidebarGroupedListElement;
+			// LePageTitleAndSummaryElement;
+			@ [ :anElement | anElement pageViewModel pageModel == aPage ];
+			play.
 	].
 
 	^ aScripter
@@ -1205,11 +1243,16 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 	aScripter
 		substep: 'Search BlElement>>#zIndex: using Spotter'
 		do: [ :aStep | 
-			aStep
-				clickStep: [ :s | 
-					s
-						label: 'Click on Spotter button';
-						id: GtWorldSpotterSearchElementId ].
+			aStep memoryLogger 
+				runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
+					, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+					, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+				during: [ :aLoggerStep | 
+					aLoggerStep
+						clickStep: [ :s | 
+							s
+								label: 'Click on Spotter button';
+								id: GtWorldSpotterSearchElementId ] ].
 
 			aStep
 				typeStep: [ :s | 
