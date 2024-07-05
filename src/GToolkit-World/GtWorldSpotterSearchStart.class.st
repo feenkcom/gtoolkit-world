@@ -122,6 +122,18 @@ GtWorldSpotterSearchStart >> gtSpotterForOnlineWardleyMapFor: aSearch [
 ]
 
 { #category : #searches }
+GtWorldSpotterSearchStart >> gtSpotterForOnlineYouTubeVideoFor: aSearch [
+	<gtSearch>
+	self hasKnowledgeBase ifFalse: [ ^ aSearch empty ].
+	self hasChildren ifFalse: [ ^ aSearch empty ].
+
+	^ self
+		configureLepiterSnippetInPageFor: (LeContextMenuSpotterStart new
+				database: self knowledgeBase;
+				gtSpotterForOnlineYouTubeVideoFor: aSearch)
+]
+
+{ #category : #searches }
 GtWorldSpotterSearchStart >> gtSpotterForPictureFor: aSearch [
 	<gtSearch>
 	self hasKnowledgeBase ifFalse: [ ^ aSearch empty ].
