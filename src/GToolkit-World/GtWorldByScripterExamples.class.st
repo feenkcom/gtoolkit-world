@@ -180,6 +180,21 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod [
+	<gtExample>
+	| aScripter aPageHolder |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new pageOneHavingPharoSnippetWithNonExistentClassAndMethod.
+	aScripter model: aPageHolder.
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageWithChangeAndDependentSnippets [
 	<gtExample>
 	| aScripter aPageHolder |
@@ -1011,6 +1026,98 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 	^ aScripter
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass [
+	<gtExample>
+	<after: #removeNonExistentClass>
+	| aScripter aPageHolder |
+	aScripter := self addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod.
+	aPageHolder := aScripter model.
+
+	aScripter
+		substeps: 'Create non-existent class'
+		do: [ :aStep | 
+			aStep click
+				label: 'Click on class fixit button';
+				// (GtMethodAdviceElementId indexed: 1);
+				play.
+
+			aStep click
+				label: 'Click on create class';
+				onSpaceRoot;
+				// (GtDefineClassFixItActionElementId indexed: 1);
+				play.
+
+			aStep click
+				label: 'Click on package input field';
+				onSpaceRoot;
+				// (GtMagritteFieldElementId new
+						description: GtCreationForm new packageAndTagDescription);
+				// #package;
+				play.
+
+			aStep type
+				text: self temporaryPackageName;
+				play.
+
+			aStep click
+				label: 'Accept create class form';
+				onSpaceRoot;
+				// (GtMagritteActionElementId new
+						description: GtCreationForm new magritteAcceptAction);
+				play.
+
+			aStep assert
+				label: 'Assert class exists';
+				satisfies: [ :anObject | 
+					self class environment 
+						hasClassNamed: LeModelExamples new nonExistentClassName ];
+				onModel;
+				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
+	<gtExample>
+	| aScripter aPageHolder |
+	aScripter := self lepiterPageCreateNonExistentClass.
+	aPageHolder := aScripter model.
+
+	aScripter
+		substeps: 'Create non-existent method'
+		do: [ :aStep | 
+			aStep click
+				label: 'Click on method fixit button';
+				// (GtMethodAdviceElementId indexed: 1);
+				play.
+
+			aStep click
+				label: 'Click on create method';
+				onSpaceRoot;
+				// (GtDefineMethodFixItActionElementId indexed: 1);
+				play.
+				
+			aStep methodCoder
+				assertMethodExpandersCountIs: 2;
+				methodCoderExpander: 2 insideDo: [ :insideStep |
+					insideStep
+						assertTargetBehaviorIs: self nonExistentClass;
+						assertExplicitProviderClassIs: nil;
+						assertBinding: #anInteger is: 72;
+						assertBinding: #anInteger1 is: 144 ];
+				// GtSourceCoderEditorId;
+				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> nonExistentClass [
+	^ self class environment classNamed: LeModelExamples new nonExistentClassName
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> paneModelKeyAt: aPaneIndex [
 	^ 'paneModelAt', aPaneIndex asString
@@ -1222,6 +1329,15 @@ GtWorldByScripterExamples >> removeMethodAddedByEpiceaSnippet [
 		play.
 
 	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> removeNonExistentClass [
+	| aClass aPackage |
+	aClass := self nonExistentClass.
+	aPackage := aClass package.
+	aClass removeFromSystem.
+	aPackage removeFromSystem
 ]
 
 { #category : #'examples - lepiter' }
@@ -1684,6 +1800,11 @@ GtWorldByScripterExamples >> tabElementInScripter [
 	aScripter element: GtWorldTabElement new.
 
 	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> temporaryPackageName [
+	^ 'TemporaryDummyPackageName20240705'
 ]
 
 { #category : #'examples - playground' }
