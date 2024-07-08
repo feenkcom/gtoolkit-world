@@ -195,6 +195,21 @@ GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClas
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod2 [
+	<gtExample>
+	| aScripter aPageHolder |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new pageOneHavingPharoSnippetWithNonExistentClassAndMethod2.
+	aScripter model: aPageHolder.
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageWithChangeAndDependentSnippets [
 	<gtExample>
 	| aScripter aPageHolder |
@@ -1079,6 +1094,60 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass [
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass2 [
+	<gtExample>
+	<after: #removeNonExistentClass>
+	| aScripter aPageHolder aPage aFirstSnippetId |
+	aScripter := self
+			addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod2.
+	aPageHolder := aScripter model.
+	aPage := aPageHolder page.
+	aFirstSnippetId := LeSnippetId new uid: aPage children first uid.
+
+	aScripter
+		substeps: 'Create non-existent class'
+		do: [ :aStep | 
+			aStep click
+				label: 'Click on class fixit button';
+				// aFirstSnippetId;
+				// (GtMethodAdviceElementId indexed: 1);
+				play.
+
+			aStep click
+				label: 'Click on create class';
+				onSpaceRoot;
+				// (GtDefineClassFixItActionElementId indexed: 1);
+				play.
+
+			aStep click
+				label: 'Click on package input field';
+				onSpaceRoot;
+				// (GtMagritteFieldElementId new
+						description: GtCreationForm new packageAndTagDescription);
+				// #package;
+				play.
+
+			aStep type
+				text: self temporaryPackageName;
+				play.
+
+			aStep click
+				label: 'Accept create class form';
+				onSpaceRoot;
+				// (GtMagritteActionElementId new
+						description: GtCreationForm new magritteAcceptAction);
+				play.
+
+			aStep assert
+				label: 'Assert class exists';
+				satisfies: [ :anObject | self class environment hasClassNamed: LeModelExamples new nonExistentClassName ];
+				onModel;
+				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
 	<gtExample>
 	| aScripter aPageHolder |
@@ -1109,6 +1178,65 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
 						assertBinding: #anInteger1 is: 144 ];
 				// GtSourceCoderEditorId;
 				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
+	<gtExample>
+	| aScripter aPageHolder aPage aFirstSnippetId aSecondSnippetId |
+	aScripter := self lepiterPageCreateNonExistentClass2.
+	aPageHolder := aScripter model.
+	aPage := aPageHolder page.
+	aFirstSnippetId := LeSnippetId new uid: aPage children first uid.
+	aSecondSnippetId := LeSnippetId new uid: aPage children second uid.
+
+	aScripter
+		substeps: 'Create non-existent method'
+		do: [ :aStep | 
+			aStep click
+				label: 'Evaluate the first snippet';
+				// aFirstSnippetId;
+				// GtSourceCoderDoItActionId;
+				play.
+
+			aStep click
+				label: 'Click on method fixit button';
+				// aSecondSnippetId;
+				// (GtMethodAdviceElementId indexed: 1);
+				play.
+
+			aStep click
+				label: 'Click on create method';
+				onSpaceRoot;
+				// (GtDefineMethodFixItActionElementId indexed: 1);
+				play.
+
+			aStep methodCoder
+				assertMethodExpandersCountIs: 1;
+				methodCoderExpander: 1
+					insideDo: [ :insideStep | 
+						insideStep
+							assertTargetBehaviorIs: self nonExistentClass;
+							assertExplicitProviderClassIs: self nonExistentClass;
+							assertBinding: #arg1 is: 72;
+							assertBinding: #arg2 is: 144 ];
+				// aSecondSnippetId;
+				// GtSourceCoderEditorId;
+				play ].
+
+	aScripter methodCoder
+		methodCoderExpander: 1
+			insideDo: [ :insideStep | 
+				insideStep
+					label: 'Print the first method argument value';
+					select: 'arg1' from: 12 to: 16;
+					printIt;
+					assertPrintItString: '72' ];
+		// aSecondSnippetId;
+		// GtSourceCoderEditorId;
+		play.
 
 	^ aScripter
 ]
