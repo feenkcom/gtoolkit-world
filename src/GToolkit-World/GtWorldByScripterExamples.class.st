@@ -1226,6 +1226,18 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
 				// GtSourceCoderEditorId;
 				play ].
 
+	aScripter methodCoder
+		methodCoderExpander: 1
+			insideDo: [ :insideStep | 
+				insideStep
+					label: 'Print the first method argument value';
+					select: 'arg1' from: 12 to: 16;
+					printIt;
+					assertPrintItString: '72' ];
+		// aSecondSnippetId;
+		// GtSourceCoderEditorId;
+		play.
+
 	^ aScripter
 ]
 
