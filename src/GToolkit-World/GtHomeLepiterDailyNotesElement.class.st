@@ -13,13 +13,8 @@ GtHomeLepiterDailyNotesElement >> createDailyNoteGroupFor: aDailyNote [
 	^ BrGroup new
 		stream: aDailyNote children asAsyncStream;
 		domainObject: aDailyNote date;
-		itemStencil: [ :aNodeType | 
-			LePageTitleAndSummaryElement new
-				hMatchParent;
-				vFitContent;
-				addAptitude: GtHomeLepiterCardListItemAptitude;
-				margin: (BlInsets left: 3) ];
-		itemDataBinder: [ :anItemElement :aPage | anItemElement contentViewModel: aPage asContentUIModel ]
+		itemStencil: [ :aNodeType | GtHomeListItemWithSummaryElement new ];
+		itemDataBinder: [ :anItemElement :aPage | anItemElement item: aPage ]
 ]
 
 { #category : #accessing }
