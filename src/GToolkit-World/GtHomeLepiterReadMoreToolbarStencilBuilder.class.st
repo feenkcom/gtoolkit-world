@@ -9,6 +9,8 @@ Class {
 
 { #category : #'api - instantiation' }
 GtHomeLepiterReadMoreToolbarStencilBuilder >> buildDefault [
+	| aCard |
+	aCard := self card.
 	^ BrToolbar new
 		aptitude: (BrGlamorousToolbarAptitude new spacing: 5);
 		fitContent;
@@ -16,7 +18,7 @@ GtHomeLepiterReadMoreToolbarStencilBuilder >> buildDefault [
 				aptitude: BrGlamorousButtonWithIconAndLabelAptitude;
 				icon: LeIcons lepiterIcon;
 				label: 'Read more';
-				action: self card action)
+				action: [ :aButton :aModel :anEvent | aCard page ifNotNil: [ aCard spawnPage: aCard page from: aButton ] ])
 ]
 
 { #category : #accessing }
