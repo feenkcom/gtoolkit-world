@@ -78,29 +78,36 @@ GtHomeCard >> action: aBlock [
 ]
 
 { #category : #'view creation' }
-GtHomeCard >> cardButton [
+GtHomeCard >> cardElement [
 	| container |
-	container := BrButton new
+	container := BrFrame new
+			id: #'card-container';
 			size: self cardSize;
 			layout: BlLinearLayout vertical;
 			aptitude: (BrGlamorousButtonExteriorAptitude new
 					backgroundPaint: Color white;
 					borderPaint: Color transparent)
 					+ BrGlamorousButtonWithLabelTooltipAptitude new
-					+ BrShadowAptitude new beLarge;
-			label: self description;
+					+ BrShadowAptitude new beLarge
+					+ (BrGlamorousWithTooltipAptitude
+							content: [ BrLabel new
+									aptitude: BrGlamorousLabelAptitude new;
+									padding: (BlInsets all: 5);
+									text: self description;
+									alignCenter ]);
 			padding: (BlInsets all: 1);
 			margin: (BlInsets
 					top: self spaceGap
 					left: 2 * self spaceGap
 					bottom: 2 * self spaceGap
 					right: 2 * self spaceGap);
-			geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-			action: self action.
-	container addAptitude: (GtPhlowBrowseDefinitionAptitude new
-		definition: [ self definingMethod ]).
+			when: BlClickEvent do: self action;
+			geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
+	container
+		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ self definingMethod ]).
 
-	^ container addChild: self cardLabel asScalableElement preventMeAndChildrenMouseEvents
+	^ container
+		addChild: self cardLabel asScalableElement preventMeAndChildrenMouseEvents
 ]
 
 { #category : #'view creation' }
@@ -123,7 +130,7 @@ GtHomeCard >> cardSize [
 
 { #category : #'view creation' }
 GtHomeCard >> create [
-	^ self cardButton
+	^ self cardElement
 ]
 
 { #category : #accessing }

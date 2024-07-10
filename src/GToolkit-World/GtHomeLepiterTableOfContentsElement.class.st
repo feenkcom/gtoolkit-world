@@ -25,13 +25,13 @@ GtHomeLepiterTableOfContentsElement >> initialize [
 GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 	treeElement := BrSimpleTree new.
 	treeElement
-		padding: (BlInsets top: 3 right: 5 bottom: 3 left: 3);
-		nodeStencil: [ BrLabel new
-				hMatchParent;
-				beSmallSize;
-				aptitude: BrGlamorousLabelAptitude new;
-				addAptitude: GtHomeLepiterCardListItemAptitude new ];
-		nodeDataBinder: [ :aLabel :aNode | aLabel text: aNode page title ];
+		padding: (BlInsets
+				top: 3
+				right: 5
+				bottom: 3
+				left: 3);
+		nodeStencil: [ GtHomeListItemElement new ];
+		nodeDataBinder: [ :aLabel :aNode | aLabel item: aNode page ];
 		when: BrSelectionDoubleClicked
 			do: [ :e | 
 				e selection
@@ -39,8 +39,6 @@ GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 						| selectedObject |
 						selectedObject := e currentTarget viewModel itemAt: theIndices first.
 						self spawnPage: selectedObject value page from: e currentTarget ] ].
-						
-		"rowStencil: BrGlamorousSimpleTreeSelectableRowElementStencilBuilder new"
 
 	^ treeElement
 ]

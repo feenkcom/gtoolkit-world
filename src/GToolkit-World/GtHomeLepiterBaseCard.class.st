@@ -86,7 +86,7 @@ GtHomeLepiterBaseCard >> databaseSnippets [
 
 { #category : #initialization }
 GtHomeLepiterBaseCard >> defaultAction [
-	^ [ :aButton :aModel :anEvent | self page ifNotNil: [ self spawnPage: self page from: aButton ] ]
+	^ [  ]
 ]
 
 { #category : #initialization }
