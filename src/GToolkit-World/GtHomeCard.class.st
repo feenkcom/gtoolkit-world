@@ -101,7 +101,12 @@ GtHomeCard >> cardElement [
 					left: 2 * self spaceGap
 					bottom: 2 * self spaceGap
 					right: 2 * self spaceGap);
-			when: BlClickEvent do: self action;
+			when: BlClickEvent
+				do: [ :anEvent | 
+					self action
+						cull: container
+						cull: container viewModel
+						cull: anEvent ];
 			geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
 	container
 		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ self definingMethod ]).

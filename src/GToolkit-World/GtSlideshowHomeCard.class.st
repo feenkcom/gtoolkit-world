@@ -10,20 +10,6 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
-{ #category : #running }
-GtSlideshowHomeCard >> action [
-	^ [ :aButton :aModel :anEvent | 
-	self invariant
-		ifTrue: [ Smalltalk globals
-				at: self slideshowClassSymbol
-				ifPresent: [ self spawnSlideshowFor: aButton ]
-				ifAbsent: [ super action
-						value: aButton
-						value: aModel
-						value: anEvent ] ]
-		ifFalse: [ self reportInvariantFailed ] ]
-]
-
 { #category : #accessing }
 GtSlideshowHomeCard >> baseLineName [
 	^ baseLineName
@@ -41,6 +27,20 @@ GtSlideshowHomeCard >> block [
 			loadLepiterBaseline ifNotNil: [ loadLepiterBaseline asClass loadLepiter ] ].
 	self spawnSlideshowFor: aButton.
 	self updateGtWorld ]
+]
+
+{ #category : #running }
+GtSlideshowHomeCard >> defaultAction [
+	^ [ :aButton :aModel :anEvent | 
+	self invariant
+		ifTrue: [ Smalltalk globals
+				at: self slideshowClassSymbol
+				ifPresent: [ self spawnSlideshowFor: aButton ]
+				ifAbsent: [ super action
+						value: aButton
+						value: aModel
+						value: anEvent ] ]
+		ifFalse: [ self reportInvariantFailed ] ]
 ]
 
 { #category : #invariant }
