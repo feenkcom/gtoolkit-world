@@ -18,7 +18,7 @@ GtHomeListItemElement >> initialize [
 		hMatchParent;
 		vFitContent;
 		alignCenterLeft;
-		padding: (BlInsets top: 5 right: 10 bottom: 5 left: 10).
+		padding: (BlInsets all: 0).
 	
 	label := self newCandidateLabel.
 	actOnButton := self newActOnButton.

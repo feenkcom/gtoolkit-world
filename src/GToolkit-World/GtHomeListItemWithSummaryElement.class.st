@@ -10,7 +10,7 @@ GtHomeListItemWithSummaryElement >> newCandidateLabel [
 		hMatchParent;
 		vFitContent;
 		addAptitude: GtHomeLepiterCardListItemAptitude;
-		margin: (BlInsets left: 3)
+		margin: (BlInsets all: 0)
 ]
 
 { #category : #accessing }
