@@ -36,7 +36,7 @@ GtSlideshowHomeCard >> defaultAction [
 		ifTrue: [ Smalltalk globals
 				at: self slideshowClassSymbol
 				ifPresent: [ self spawnSlideshowFor: aButton ]
-				ifAbsent: [ super action
+				ifAbsent: [ self block
 						value: aButton
 						value: aModel
 						value: anEvent ] ]
