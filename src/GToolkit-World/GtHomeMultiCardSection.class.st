@@ -77,6 +77,11 @@ GtHomeMultiCardSection >> defaultPriority [
 	^ 30
 ]
 
+{ #category : #accessing }
+GtHomeMultiCardSection >> gtBookName [
+	^ 'Glamorous Toolkit Book'
+]
+
 { #category : #initialization }
 GtHomeMultiCardSection >> initialize [
 	super initialize.
