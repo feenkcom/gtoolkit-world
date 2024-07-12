@@ -18,7 +18,7 @@ GtHomeLepiterBasicCard >> createDailyNoteGroupFor: aDailyNote [
 				hMatchParent;
 				vFitContent;
 				addAptitude: GtHomeLepiterCardListItemAptitude;
-				margin: (BlInsets left: 3) ];
+				margin: (BlInsets all: 0) ];
 		itemDataBinder: [ :anItemElement :aPage | 
 			anItemElement contentViewModel: aPage asContentUIModel ]
 ]

@@ -15,8 +15,18 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
+{ #category : #accessing }
+GtJobHomeCard >> block [
+	^ block
+]
+
+{ #category : #accessing }
+GtJobHomeCard >> block: anObject [
+	block := anObject
+]
+
 { #category : #running }
-GtJobHomeCard >> action [
+GtJobHomeCard >> defaultAction [
 	^ [ :aButton :aModel :anEvent | 
 	mutex
 		critical: [ process
@@ -31,16 +41,6 @@ GtJobHomeCard >> action [
 									value: anEvent ].
 						mutex critical: [ process := nil ] ] asJob run ] fork ]
 				ifNotNil: [ self inform: 'A job is already running!' ] ] ]
-]
-
-{ #category : #accessing }
-GtJobHomeCard >> block [
-	^ block
-]
-
-{ #category : #accessing }
-GtJobHomeCard >> block: anObject [
-	block := anObject
 ]
 
 { #category : #initalization }

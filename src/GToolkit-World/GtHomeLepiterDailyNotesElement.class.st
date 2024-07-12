@@ -39,7 +39,7 @@ GtHomeLepiterDailyNotesElement >> initialize [
 	self addChild: groupedListElement as: #group.
 
 	self matchParent.
-	self padding: (BlInsets all: 3)
+	self padding: (BlInsets all: 0)
 ]
 
 { #category : #initialization }
@@ -52,7 +52,7 @@ GtHomeLepiterDailyNotesElement >> initializeGroupedListElement [
 					aptitude: (BrGlamorousLabelAptitude new foreground: Color gray);
 					hMatchParent;
 					vFitContent;
-					margin: (BlInsets top: 3 left: 3) ];
+					margin: (BlInsets top: 3 left: 0) ];
 			headerDataBinder: [ :aLabelElement :aGroup | 
 				aLabelElement text: aGroup domainObject asString ];
 			when: BrSelectionDoubleClicked
