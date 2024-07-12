@@ -57,11 +57,6 @@ GtHomeMultiCardGetStartedSection >> gtBookCardSection [
 	^ self
 ]
 
-{ #category : #accessing }
-GtHomeMultiCardGetStartedSection >> gtBookName [
-	^ 'Glamorous Toolkit Book'
-]
-
 { #category : #example }
 GtHomeMultiCardGetStartedSection >> gtTourCard [
 	<gtExample>
