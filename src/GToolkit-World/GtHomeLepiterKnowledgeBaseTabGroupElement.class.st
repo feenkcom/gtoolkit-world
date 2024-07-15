@@ -38,7 +38,8 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> createTableOfContentsTabElement [
 	^ BrTab new
 		aptitude: GtHomeLepiterCardTabAptitude new;
 		label: 'Table of contents';
-		stencil: [ self createTableOfContentsElement ]
+		stencil: [ self createTableOfContentsElement ];
+		selected: true
 ]
 
 { #category : #'private - updating' }
