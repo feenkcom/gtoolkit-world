@@ -31,12 +31,13 @@ GtSlideshowHomeCard >> block [
 
 { #category : #running }
 GtSlideshowHomeCard >> defaultAction [
+	"NB: if repo is missing load it using the parent defaultAction"
 	^ [ :aButton :aModel :anEvent | 
 	self invariant
 		ifTrue: [ Smalltalk globals
 				at: self slideshowClassSymbol
 				ifPresent: [ self spawnSlideshowFor: aButton ]
-				ifAbsent: [ self block
+				ifAbsent: [ super defaultAction
 						value: aButton
 						value: aModel
 						value: anEvent ] ]

@@ -29,7 +29,7 @@ GtHomeCardExamples >> gtDemosDbName [
 	^ 'feenkcom/gtoolkit-demos/lepiter'
 ]
 
-{ #category : #accessing }
+{ #category : #example }
 GtHomeCardExamples >> gtTourCard [
 	<gtExample>
 	^ GtHomeCard job
@@ -40,7 +40,7 @@ GtHomeCardExamples >> gtTourCard [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #example }
 GtHomeCardExamples >> jobCard [
 	"If you click multiple times on the button, this will trigger a warning that a job is still running."
 
@@ -101,6 +101,22 @@ GtHomeCardExamples >> primaryDbTocCard [
 GtHomeCardExamples >> registry [
 	<gtExample>
 	^ LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
+]
+
+{ #category : #example }
+GtHomeCardExamples >> slideshowCard [
+	"Demo of a slideshow that requires a repo to be loaded."
+	<gtExample>
+	<noTest>
+	^ GtHomeCard slideshow
+		title: 'VISSOFT (2022)';
+		description: 'VISSOFT Talk (2022)';
+		"setPriority;"
+		slideshowClassSymbol: #MakingSystemsExplainableSlideshow
+			baseLineName: 'PaperExplainableSystemsVissoft2022'
+			repo: 'github://feenkcom/paper-explainable-systems-vissoft2022:master/src'
+			loadLepiterBaseline: #BaselineOfPaperExplainableSystemsVissoft2022;
+		yourself
 ]
 
 { #category : #utility }
