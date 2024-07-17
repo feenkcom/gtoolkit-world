@@ -122,6 +122,6 @@ GtMonitoredScripterPulsersElement >> initialize [
 GtMonitoredScripterPulsersElement >> updateList [
 	pulserList
 		items: self class allScripters
-		immediate: [ :aNode | aNode children ].
+		immediate: [ :aNode | aNode ifNotNil: #children ifNil: [ #() ] ].
 	pulserList expandUpTo: 2.
 ]
