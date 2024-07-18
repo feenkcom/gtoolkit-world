@@ -183,7 +183,8 @@ GtWorldElement >> newSpotterButton [
 		spotterElementDo: [ :aSpotterElement |
 			aSpotterElement 
 				when: GtSpotterResizedEvent 
-				do: [ :anEvent | self class worldSpotterSize: anEvent target extent ] ];
+				do: [ :anEvent | 
+					self class worldSpotterSize: aSpotterElement extent ] ];
 		actOn: [ :anAnnouncement :aRawObject :aButton |
 			anAnnouncement beActed.
 			aButton phlow spawnTool: anAnnouncement toolToSend ];
