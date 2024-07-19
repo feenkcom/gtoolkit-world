@@ -26,6 +26,7 @@ AssertionFailure >> gtComparableTypesStateDiffFor: aView [
 AssertionFailure >> gtComparableTypesTextualDiffFor: aView [
 	<gtView>
 	<gtExceptionView>
+	<gtEmbeddedDebuggerView>
 	| assertionContext |
 	
 	self gtHasStack ifFalse: [ ^ aView empty ].
