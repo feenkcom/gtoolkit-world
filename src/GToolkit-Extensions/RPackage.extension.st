@@ -1,6 +1,18 @@
 Extension { #name : #RPackage }
 
 { #category : #'*GToolkit-Extensions' }
+RPackage >> definedClassesArray [
+	"Answer the defined classes in an Array (for performance).
+	#definedClasses collects the classes in to a Set, which is slow and unnecessary since classes is already a Set, so each class will only be added once."
+	
+	^ Array streamContents: [ :stream |
+		classes do: [:each |
+			Smalltalk globals
+				at: each
+				ifPresent: [:aClass| stream nextPut: aClass ] ] ].
+]
+
+{ #category : #'*GToolkit-Extensions' }
 RPackage >> gtClassHierarchyFor: aView [
 	<gtPackageView>
 	^ aView mondrian

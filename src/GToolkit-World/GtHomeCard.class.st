@@ -16,6 +16,7 @@ Class {
 
 { #category : #factory }
 GtHomeCard class >> empty [
+	self deprecated: 'Do not use this. You can''t implement an "empty" card this way.'.
 	^ GtEmptyHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]

@@ -28,7 +28,8 @@ GtHomeMultiCardSectionExamples >> defaultPriority [
 
 { #category : #example }
 GtHomeMultiCardSectionExamples >> emptyCard [
-	"This card should not appear in the section."
+	"This card should not appear in the section.
+	This is broken. It is not enough to have an empty implrmention of GtEmptyHomeCard>>#create"
 
 	<gtSectionCard>
 	<gtExample>

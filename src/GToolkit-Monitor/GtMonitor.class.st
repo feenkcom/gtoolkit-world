@@ -199,7 +199,12 @@ GtMonitor >> gtScriptersFor: aView [
 		title: 'Scripters';
 		priority: 47;
 		stencil: [ GtMonitoredScripterPulsersElement new ];
-		actionUpdateButtonTooltip: 'Update scripter list'
+		actionUpdateButtonTooltip: 'Update scripter list';
+		actionButtonIcon: BrGlamorousIcons trash 
+			tooltip: 'Remove all example and test caches' 
+			action: [ :aButton | 
+				CompiledMethod allInstancesDo: #clearExampleAndTestCaches.
+				Smalltalk garbageCollect ]
 ]
 
 { #category : #'gt-extension' }

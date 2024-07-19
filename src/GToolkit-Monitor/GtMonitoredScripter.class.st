@@ -82,6 +82,7 @@ GtMonitoredScripter >> pointers [
 
 { #category : #accessing }
 GtMonitoredScripter >> pulsers [
+	<return: #Collection of: #GtMonitoredScripterPulser>
 	^ pulsers
 		ifNotNil: [ :aWeak | 
 			Array

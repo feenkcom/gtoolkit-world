@@ -111,10 +111,7 @@ GtHomeLepiterDailyNotesElement >> subscribeToContent [
 	self flag: LeContentChangeSubscriber.
 	self database weak
 		when: LeDatabasePageAdded send: #onDailyNotesChanged: to: self;
-		when: LeDatabasePageRemoved send: #onDailyNotesChanged: to: self;
-		when: LePageTitleChanged send: #onDailyNotesChanged: to: self;
-		when: LeContentTreeChanged send: #onDailyNotesChanged: to: self;
-		when: LeSnippetContentChanged send: #onDailyNotesChanged: to: self.
+		when: LeDatabasePageRemoved send: #onDailyNotesChanged: to: self.
 ]
 
 { #category : #'private - subscriptions' }
