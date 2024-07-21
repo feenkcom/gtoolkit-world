@@ -52,18 +52,13 @@ AssertionFailure >> gtExceptionDebuggerSpecification [
 
 { #category : #'*GToolkit-Extensions' }
 AssertionFailure >> gtHasComparableTypes [
-	| assertionContext actualValue expectedValue |
+	| actualExpectedAssertionContext |
 	self gtHasStack ifFalse: [ ^ false ].
 	
-	assertionContext := self signalerContext findContextSuchThat: [ :ctx | 
+	actualExpectedAssertionContext := self signalerContext findContextSuchThat: [ :ctx | 
 		(ctx hasTemporaryVariableNamed: #actual) and: [ 
 			ctx hasTemporaryVariableNamed: #expected ] ].
-	assertionContext ifNil: [ ^ false ].
-	
-	^ true
-	"actualValue := assertionContext readVariableNamed: #actual.
-	expectedValue := assertionContext readVariableNamed: #expected.
-	^ actualValue isString and: [expectedValue isString]."
+	^ actualExpectedAssertionContext notNil
 ]
 
 { #category : #'*GToolkit-Extensions' }
