@@ -26,10 +26,12 @@ GtWorldSpotterSearchStart >> gtNewSnippetFor: aSearch [
 	self hasKnowledgeBase ifFalse: [ ^ aSearch empty ].
 	self hasChildren ifFalse: [ ^ aSearch empty ].
 
-	^ self
+	^ (self
 		configureLepiterSnippetInPageFor: (LeContextMenuSpotterStart new
 				database: self knowledgeBase;
-				gtNewSnippetFor: aSearch)
+				gtNewSnippetFor: aSearch))
+					wantsToDisplayOnEmptyQuery: true;
+					itemsLimit: 5
 ]
 
 { #category : #searches }
