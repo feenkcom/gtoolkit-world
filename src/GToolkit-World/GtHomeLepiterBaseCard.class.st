@@ -42,9 +42,6 @@ GtHomeLepiterBaseCard >> createContainer [
 				bottom: 2 * self spaceGap
 				right: 2 * self spaceGap);
 		action: self action;
-		addAptitude: (BrGlamorousButtonExteriorAptitude new
-				backgroundPaint: Color white;
-				borderPaint: Color transparent);
 		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ self definingMethod ])
 ]
 
