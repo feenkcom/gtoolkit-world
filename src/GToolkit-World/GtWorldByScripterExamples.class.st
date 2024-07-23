@@ -149,7 +149,7 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 							isMaximized ifTrue: [ aPager maximized ].
 							GtWorldUtility
 								showSpaceWithIcon: aTool icon
-								title: aTool name
+								title: aLePage title
 								with: aPager
 								from: aTabElement ] ].	
 								
@@ -205,6 +205,134 @@ GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClas
 		addLepiterPage: aPageHolder page
 		intoTabElementUsingScripter: aScripter
 		maximized: false.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet [
+	
+	<gtExample>
+	| aScripter aPageHolder |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new pageOneHavingWardleyMapSnippets.
+	aScripter model: aPageHolder.
+	
+	self 
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet_addNodeToPageExplicitLink [
+	
+	<gtExample>
+	| aScripter aPageOne aPageTwo |
+	aScripter := self addLepiterPageHavingWardleyMapSnippet.
+	aPageOne := aScripter model page.
+	aPageTwo := aPageOne database pageNamed: LeModelExamples new pageTwoTitle.
+		
+	aScripter 
+		substeps: 'Add node-to-page link' 
+		do: [ :aStep | 
+			aStep do
+				label: 'Store explicit links count';
+				block: [ :theScripter | 
+					theScripter userData 
+						at: #initialExplicitLinks 
+						put: theScripter model database explicitLinks size ];
+				onScripter;
+				play.
+		
+			aStep secondaryClick
+				label: 'Open Node A dropdown';
+				// (#node asBlocElementId indexed: 0);
+				play.
+				
+			aStep doubleClick
+				label: 'Enter page link edit mode';
+				onSpaceRoot;
+				// (GtWardleyMapContextMenuItemId  definingMethod: GtWardleyMapNodeModel>>#menuItemNodeToLepiterPageLinker);
+				play.
+				
+			aStep click
+				label: 'Extra click to get page link editor focus due to a bug';
+				onSpaceRoot;
+				// (GtWardleyMapContextMenuItemId  definingMethod: GtWardleyMapNodeModel>>#menuItemNodeToLepiterPageLinker);
+				play.
+				
+			aStep type
+				label: 'Type page title';
+				text: aPageTwo title;
+				play.
+				
+			aStep keyPress
+				label: 'Accept page title';
+				key: BlKeyboardKey return;
+				play.
+				
+			aStep do
+				label: 'Store explicit links count';
+				block: [ :theScripter | 
+					theScripter userData 
+						at: #afterExplicitLinks 
+						put: theScripter model database explicitLinks size ];
+				onScripter;
+				play.
+		
+			aStep assert
+				label: 'Assert an extra explicit link';
+				value: [ :theScripter | (theScripter userData at: #afterExplicitLinks) ]
+					equals: [ :theScripter | (theScripter userData at: #initialExplicitLinks) + 1 ];
+				onScripter;
+				play
+	].
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet_addNodeToPageExplicitLink_deleteNode [
+	
+	<gtExample>
+	| aScripter aPageOne aPageTwo |
+	aScripter := self addLepiterPageHavingWardleyMapSnippet_addNodeToPageExplicitLink.
+	aPageOne := aScripter model page.
+	aPageTwo := aPageOne database pageNamed: LeModelExamples new pageTwoTitle.
+		
+	aScripter 
+		substeps: 'Delete Node A' 
+		do: [ :aStep | 
+			aStep secondaryClick
+				label: 'Open Node A dropdown';
+				// (#node asBlocElementId indexed: 0);
+				play.
+				
+			aStep click
+				label: 'Click on delete node button';
+				onSpaceRoot;
+				// (GtWardleyMapContextMenuItemId  definingMethod: GtWardleyMapNodeModel>>#menuItemNodeDeleteButton);
+				play.
+				
+			aStep do
+				label: 'Store explicit links count';
+				block: [ :theScripter | 
+					theScripter userData 
+						at: #afterDeleteExplicitLinks 
+						put: theScripter model database explicitLinks size ];
+				onScripter;
+				play.
+		
+			aStep assert
+				label: 'Assert deleted explicit link';
+				value: [ :theScripter | (theScripter userData at: #afterDeleteExplicitLinks) ]
+					equals: [ :theScripter | (theScripter userData at: #initialExplicitLinks) ];
+				onScripter;
+				play
+	].
 
 	^ aScripter
 ]
