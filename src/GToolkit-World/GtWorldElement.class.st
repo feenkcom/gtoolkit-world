@@ -184,7 +184,7 @@ GtWorldElement >> newSpotterButton [
 			aSpotterElement 
 				when: GtSpotterResizedEvent 
 				do: [ :anEvent | 
-					self class worldSpotterSize: aSpotterElement extent ] ];
+					self onResizedSpotter: aSpotterElement event: anEvent ] ];
 		actOn: [ :anAnnouncement :aRawObject :aButton |
 			anAnnouncement beActed.
 			aButton phlow spawnTool: anAnnouncement toolToSend ];
@@ -269,6 +269,11 @@ GtWorldElement >> onAddedToSceneGraph [
 GtWorldElement >> onRemovedFromSceneGraph [
 	super onRemovedFromSceneGraph.
 	SystemAnnouncer uniqueInstance unsubscribe: self home
+]
+
+{ #category : #'private - instance creation' }
+GtWorldElement >> onResizedSpotter: aSpotterElement event: anEvent [
+	self class worldSpotterSize: aSpotterElement extent
 ]
 
 { #category : #updating }
