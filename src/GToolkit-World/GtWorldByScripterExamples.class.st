@@ -2104,3 +2104,74 @@ GtWorldByScripterExamples >> worldElementInScripter [
 	aScripter element: GtWorldElement new.
 	^ aScripter
 ]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> worldSpotter [
+	<gtExample>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+	
+	aScripter click
+		label: 'Open Spotter dropdown';
+		// GtWorldSpotterSearchElementId;
+		play.
+	
+	aScripter do
+		label: 'Store current Spotter extent';
+		block: [ aScripter userData 
+			at: #worldSpotterSize
+			put: GtWorldElement worldSpotterSize ];
+		play.
+	
+	aScripter
+		substeps: 'Resize Spotter'
+		before: [ :anElement :aUserData :theScripter |
+			| aCollection aLink aNode |
+			aCollection := OrderedCollection new.
+			aUserData at: #onResizedSpotter:event: put: aCollection.
+			aLink := MetaLink new 
+				metaObject: [ :aReceiver :anArguments | aCollection add: aReceiver -> anArguments ];
+					selector: #value:value:;
+					arguments: #(receiver arguments);
+					control: #instead.
+				aNode := (GtWorldElement>>#onResizedSpotter:event:) ast.
+			aNode link: aLink forObject: anElement.
+			aLink ]
+		play: [ :aStep | 
+			aStep mouseMoveOver
+				onSpaceRoot;
+				// GtStreamingSpotterElement;
+				/ BrResizer;
+				@ [ :aResizer | aResizer location isKindOf: BrResizerBottomLocation ].
+			aStep mouseDown.
+			aStep mouseMove by: 0 @ -200.
+			aStep mouseUp
+		]
+		ensure: [ :aLink | aLink uninstall ].
+		
+	aScripter assert
+		label: 'Assert one resized event';
+		value: [ (aScripter userData at: #onResizedSpotter:event:) size ] 
+			equals: 1;
+		play.
+		
+	aScripter assert
+		label: 'Assert resized event extent';
+		value: [ (aScripter userData at: #onResizedSpotter:event:) first value second extent ] 
+			equals: [ (aScripter userData at: #worldSpotterSize) + (0 @ -200)  ];
+		play.
+		
+	aScripter assert
+		label: 'Assert Spotter element extent';
+		value: [ (aScripter userData at: #onResizedSpotter:event:) first value first extent ] 
+			equals: [ (aScripter userData at: #worldSpotterSize) + (0 @ -200)  ];
+		play.
+		
+	aScripter assert
+		label: 'Assert default Spotter element extent is not changed';
+		value: [ GtWorldElement worldSpotterSize ] 
+			equals: [ (aScripter userData at: #worldSpotterSize) ];
+		play.
+
+	^ aScripter
+]
