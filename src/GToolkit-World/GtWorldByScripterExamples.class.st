@@ -491,6 +491,33 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 	^ aScripter
 ]
 
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> assertResizeSpotterInScripter: aScripter [
+	<gtExample>
+	aScripter assert
+		label: 'Assert resized event count';
+		value: [ (aScripter userData at: #onResizedSpotter:event:) size ] equals: 4;
+		play.
+
+	aScripter assert
+		label: 'Assert resized event extent';
+		value: [ (aScripter userData at: #onResizedSpotter:event:) last value second extent ]
+			equals: [ (aScripter userData at: #worldSpotterSize) + (0 @ -200) ];
+		play.
+
+	aScripter assert
+		label: 'Assert Spotter element extent';
+		value: [ (aScripter userData at: #onResizedSpotter:event:) last value first extent ]
+			equals: [ (aScripter userData at: #worldSpotterSize) + (0 @ -200) ];
+		play.
+
+	aScripter assert
+		label: 'Assert default Spotter element extent is not changed';
+		value: [ GtWorldElement worldSpotterSize ]
+			equals: [ aScripter userData at: #worldSpotterSize ];
+		play.
+]
+
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> browseImplementorsInTheSecondLepiterPagePane [
 	<gtExample>
@@ -1604,6 +1631,41 @@ GtWorldByScripterExamples >> removeOnDemandDummyClass [
 		ifAbsent: [  ]
 ]
 
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> resizeSpotterInScripter: aScripter [
+	<gtExample>
+	aScripter
+		substeps: 'Resize Spotter'
+		before: [ :anElement :aUserData :theScripter | 
+			| aCollection aLink aNode |
+			self assert: (anElement isKindOf: GtWorldElement).
+			aCollection := OrderedCollection new.
+			aUserData at: #onResizedSpotter:event: put: aCollection.
+			aLink := MetaLink new
+					metaObject: [ :aReceiver :anArguments | aCollection add: aReceiver -> anArguments ];
+					selector: #value:value:;
+					arguments: #(receiver arguments);
+					control: #instead.
+			aNode := (GtWorldElement >> #onResizedSpotter:event:) ast.
+			aNode link: aLink forObject: anElement.
+			aLink ]
+		play: [ :aStep | 
+			aStep mouseMoveOver
+				onSpaceRoot;
+				// GtStreamingSpotterElement;
+				/ BrResizer;
+				@ [ :aResizer | aResizer location isKindOf: BrResizerBottomLocation ].
+			aStep mouseDown.
+			aStep mouseMove by: 0 @ -50.
+			aStep mouseMove by: 0 @ -50.
+			aStep mouseUp.
+			aStep mouseDown.
+			aStep mouseMove by: 0 @ -50.
+			aStep mouseMove by: 0 @ -50.
+			aStep mouseUp ]
+		ensure: [ :aLink | aLink uninstall ]
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 	"Issue [feenkcom/gtoolkit#3168](https://github.com/feenkcom/gtoolkit/issues/3168)"
@@ -2102,5 +2164,71 @@ GtWorldByScripterExamples >> worldElementInScripter [
 	| aScripter |
 	aScripter := self scripter.
 	aScripter element: GtWorldElement new.
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> worldSpotter_ResizeVertically [
+	<gtExample>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+
+	aScripter click
+		label: 'Open Spotter dropdown';
+		// GtWorldSpotterSearchElementId;
+		play.
+
+	aScripter do
+		label: 'Store current Spotter extent';
+		block: [ aScripter userData at: #worldSpotterSize put: GtWorldElement worldSpotterSize ];
+		play.
+
+	self resizeSpotterInScripter: aScripter.
+	self assertResizeSpotterInScripter: aScripter.
+
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape [
+	<gtExample>
+	| aScripter |
+	aScripter := self worldSpotter_ResizeVertically.
+	
+	aScripter keyPress
+		label: 'Close Spotter pressing escape key';
+		key: BlKeyboardKey escape;
+		play.
+
+	aScripter assert
+		label: 'Assert Spotter resizers do not keep target elements';
+		satisfies: [ :aButton | 
+			| anAptitude |
+			anAptitude := (aButton aptitude findActor: BrGlamorousWithDropdownAptitude).
+			anAptitude resizerAptitudes withAllActorsDepthFirstDo: [ :eachAptitude |
+				eachAptitude resizerDo: [ :eachResizer | 
+					eachResizer target isNil ifFalse: [ 
+						AssertionFailure signal: 'Resizer must not have target' ] ] ].
+			true ];
+		// GtWorldSpotterSearchElementId;
+		play.
+		
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape_ResizeSecondTime [
+	<gtExample>
+	| aScripter |
+	aScripter := self worldSpotter_ResizeVertically_ClosePressingEscape.
+	
+	aScripter click
+		label: 'Open Spotter dropdown';
+		// GtWorldSpotterSearchElementId;
+		play.
+		
+	self resizeSpotterInScripter: aScripter.
+	self assertResizeSpotterInScripter: aScripter.
+
 	^ aScripter
 ]
