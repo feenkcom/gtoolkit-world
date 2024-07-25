@@ -7,6 +7,16 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
+{ #category : #'gt - extensions' }
+GtHomeToolsSection class >> gtAllButtonStencilsFor: aView [
+	<gtView>
+	<gtClassView>
+	^ aView forward
+		title: 'Tool buttons';
+		object: [ self new ];
+		view: #gtAllButtonStencilsFor:
+]
+
 { #category : #'private - accessing' }
 GtHomeToolsSection >> allButtonStencils [
 	"Answer the stencils to be displayed in the GT home tab.
@@ -56,6 +66,15 @@ GtHomeToolsSection >> create [
 	^ sectionContainer
 ]
 
+{ #category : #'gt - extensions' }
+GtHomeToolsSection >> gtAllButtonStencilsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Tool buttons';
+		object: [ #gtToolButton gtPragmas ];
+		view: #gtItemsFor:
+]
+
 { #category : #'private ' }
 GtHomeToolsSection >> handleButtonCreationException: anException [
 	"Answer a button stencil that opens an inspector on the supplied exception"
@@ -85,6 +104,26 @@ GtHomeToolsSection >> knowledgeBase [
 { #category : #accessing }
 GtHomeToolsSection >> knowledgeBaseComputation: aValuable [
 	knowledgeBaseComputation := aValuable
+]
+
+{ #category : #'tools creation' }
+GtHomeToolsSection >> newAddSnippetStencil [
+	<gtToolButton>
+
+	^ GtToolSpotterButtonStencil new 
+		title: 'Page';
+		priority: 9;
+		icon: (GtPlaygroundStencil playgroundClass defaultIcon);
+		valuable: (LeContextMenuSpotterStart new
+			database: self knowledgeBase);
+		extent: [ 300 @ 400 ];
+		spotterModelDo: [ :aSpotter | aSpotter hidePreview ];
+		objectActOn: [ :anActOnEvent :aMenuItem :theButton | 
+			self
+				pageWithSnippetRequested: aMenuItem asSnippet
+				button: theButton.
+			anActOnEvent beActed ];
+		description: 'Play with code. Live.'
 ]
 
 { #category : #accessing }
@@ -230,7 +269,7 @@ GtHomeToolsSection >> newMorphicWorldButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newNotesButtonStencil [
-	<gtToolButton>
+	"<gtToolButton>"
 
 	^ GtToolButtonStencil new 
 		title: 'Note';
@@ -248,7 +287,7 @@ GtHomeToolsSection >> newNotesButtonStencil [
 
 { #category : #'tools creation' }
 GtHomeToolsSection >> newPlaygroundButtonStencil [
-	<gtToolButton>
+	"<gtToolButton>"
 
 	^ GtToolButtonStencil new 
 		title: 'Playground';
@@ -291,4 +330,34 @@ GtHomeToolsSection >> newTranscriptButtonStencil [
 				with: GtTranscriptStencil new
 				from: card ];
 		description: 'Transcript is the place to see logs.'
+]
+
+{ #category : #'tools creation' }
+GtHomeToolsSection >> pageWithSnippetRequested: aSnippet button: aButton [
+	| aPage |
+	self knowledgeBase ifNil: [ ^ self ].
+	aPage := LePage unnamedPage.
+	aPage addSnippet: aSnippet.
+	self knowledgeBase addPage: aPage.
+	
+	BlTaskAction enqueueElement: aButton action: [
+		self spawnPage: aPage from: aButton.
+		aButton parent ifNotNil: [ :aParent | 
+			aParent fireEvent: BrDropdownHideWish new ] ]
+]
+
+{ #category : #'event handling' }
+GtHomeToolsSection >> spawnPage: aPage from: aButton [
+	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
+	
+	^ aButton
+		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
+		ifFound: [ :aParent | aButton phlow spawnTool: aPage asPhlowTool ]
+		ifNone: [ 
+			GtWorldUtility
+				showSpaceWithTitle: aPage title
+				icon: LeIcons lepiterPage
+				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
+						asStencil
+				from: aButton ]
 ]
