@@ -27,25 +27,36 @@ GtToolButtonStencil >> action: anObject [
 { #category : #'api - instantiation' }
 GtToolButtonStencil >> create [
 	<return: #BrButton>
+	| button |
+	button := self createBasicButton.
+	button 
+		margin: self margin;
+		action: self action;
+		aptitude: BrGlamorousButtonExteriorAptitude new;
+		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude new.
+	elementId ifNotNil: [ button id: elementId ].
+	^ button
+]
+
+{ #category : #'api - instantiation' }
+GtToolButtonStencil >> createBasicButton [
 	| iconElement labelElement button |
-	iconElement := (self icon asElement asScalableElement) size: self iconSize; margin: (BlInsets bottom: 5).
+	iconElement := (self icon asElement asScalableElement) 
+		size: self iconSize; 
+		margin: (BlInsets bottom: 5).
 	labelElement := BrLabel new 
 	    text: self title;
 	    aptitude: (BrGlamorousLabelAptitude new fontSize: 10).
 	button := BrButton new
+		label: self description;
 		constraintsDo:[ :c | 
 	        c horizontal exact: 80.
 	        c vertical exact: 80 ];
-		margin: self margin;
-		action: self action;
 		padding: (BlInsets all: 10);
-		label: self description;
-		aptitude: (BrGlamorousButtonExteriorAptitude new + BrGlamorousButtonWithLabelTooltipAptitude new);
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		layout: BlLinearLayout vertical alignCenter;
 		addChild: iconElement;
 		addChild: labelElement.
-	elementId ifNotNil: [ button id: elementId ].
 	^ button
 ]
 
