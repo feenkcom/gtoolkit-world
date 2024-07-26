@@ -14,7 +14,7 @@ Class {
 GtHomeMultiCardSectionExamples >> aboutThisBookCard [
 	<gtSectionCard>
 	<gtExample>
-	<notest>
+	<noTest>
 	^ GtHomeCard page
 		priority: 20;
 		page: (LeDatabase gtBook pageNamed: 'About this book');
@@ -27,15 +27,12 @@ GtHomeMultiCardSectionExamples >> defaultPriority [
 ]
 
 { #category : #example }
-GtHomeMultiCardSectionExamples >> emptyCard [
-	"This card should not appear in the section.
-	This is broken. It is not enough to have an empty implrmention of GtEmptyHomeCard>>#create"
-
+GtHomeMultiCardSectionExamples >> errorCard [
 	<gtSectionCard>
 	<gtExample>
-	<notest>
-	^ GtHomeCard empty
+	^ GtHomeCard errorCard
 		priority: 30;
+		targetError: Error new;
 		yourself
 ]
 
@@ -46,10 +43,10 @@ GtHomeMultiCardSectionExamples >> gtBook2CardSection [
 	with the <gtSectionCard> pragma."
 
 	<gtExample>
-	<notest>
+	<noTest>
 	| section |
 	section := self.
-	self assert: section cards size equals: 2.
+	self assert: section cards size equals: 3.
 	^ section
 ]
 
@@ -57,7 +54,7 @@ GtHomeMultiCardSectionExamples >> gtBook2CardSection [
 GtHomeMultiCardSectionExamples >> gtBookCard [
 	<gtSectionCard>
 	<gtExample>
-	<notest>
+	<noTest>
 	^ GtHomeCard page
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';

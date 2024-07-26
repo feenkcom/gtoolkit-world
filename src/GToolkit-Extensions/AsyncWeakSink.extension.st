@@ -2,7 +2,7 @@ Extension { #name : #AsyncWeakSink }
 
 { #category : #'*Gtoolkit-Extensions' }
 AsyncWeakSink >> gtCompositionChildren [
-	^ sink first ifNotNil: [ {sink} ] ifNil: [ #() ]
+	^ sink first ifNotNil: [ sink ] ifNil: [ #() ]
 ]
 
 { #category : #'*Gtoolkit-Extensions' }
