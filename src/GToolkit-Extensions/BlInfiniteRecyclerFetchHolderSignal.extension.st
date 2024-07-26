@@ -10,3 +10,14 @@ BlInfiniteRecyclerFetchHolderSignal >> gtFetcherStepsFor: aView [
 		object: [ fetcherResult ];
 		view: #gtFetcherStepsFor:
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+BlInfiniteRecyclerFetchHolderSignal >> gtItemElementFor: aView [
+	<gtView>
+	self fetcherResult ifNil: [ ^ aView empty ].
+
+	^ aView forward
+		title: 'Item element';
+		object: [ self fetcherResult ];
+		view: #gtItemElementFor:
+]
