@@ -14,7 +14,7 @@ Class {
 GtHomeMultiCardGetStartedSection >> aboutThisBookCard [
 	"<gtSectionCard>"
 	<gtExample>
-	<notest>
+	<noTest>
 	^ GtHomeCard page
 		priority: 20;
 		pageName: 'About this book';
@@ -31,7 +31,7 @@ GtHomeMultiCardGetStartedSection >> defaultPriority [
 GtHomeMultiCardGetStartedSection >> gtBookCard [
 	<gtSectionCard>
 	<gtExample>
-	<notest>
+	<noTest>
 	^ GtHomeCard lepiterBaseWithTableOfContents
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the extensive book';
@@ -53,7 +53,7 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 { #category : #example }
 GtHomeMultiCardGetStartedSection >> gtBookCardSection [
 	<gtExample>
-	<notest>
+	<noTest>
 	^ self
 ]
 
@@ -72,7 +72,7 @@ GtHomeMultiCardGetStartedSection >> gtTourCard [
 GtHomeMultiCardGetStartedSection >> gtUsedKnowledgeBaseCard [
 	<gtSectionCard>
 	<gtExample>
-	<notest>
+	<noTest>
 	^ GtHomeCard lepiterBaseWithTableOfContents
 		title: 'Local knowledge base';
 		description: 'Explore your local knowledge base';
