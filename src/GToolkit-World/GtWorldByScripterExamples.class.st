@@ -933,6 +933,45 @@ GtWorldByScripterExamples >> coderStencil [
 ]
 
 { #category : #'examples - playground' }
+GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
+	<gtExample>
+	| aScripter |
+	aScripter := self addPlaygroundIntoTabElement.
+	
+	aScripter methodCoder
+		selectAll;
+		type: GtPharoDummyOneObject name;
+		type: ' new';
+		playAndInspect;
+		play.
+		
+	aScripter pager
+		assertPageCountIs: 2;
+		clickOnInspectorInspectButtonAtPage: 2;
+		assertPageCountIs: 3;
+		dragInspectorPlaygroundAtPage: 2 verticallyBy: -150;
+		dragInspectorPlaygroundAtPage: 3 verticallyBy: -150;
+		play.
+		
+	aScripter methodCoder
+		click;
+		assertHasFocus;
+		selectAll;
+		type: Object name;
+		browseBehavior;
+		// (GtPagerPageElementId indexed: 3);
+		// #playground;
+		// GtSourceCoderEditorId;
+		play.
+		
+	aScripter pager
+		assertPageCountIs: 4;
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - playground' }
 GtWorldByScripterExamples >> executePlaygroundSnippet [
 	<gtExample>
 	| aScripter |
