@@ -256,18 +256,6 @@ GtHomeToolsSection >> newMonitorButtonStencil [
 ]
 
 { #category : #'tools creation' }
-GtHomeToolsSection >> newMorphicWorldButtonStencil [
-	<gtToolButton>
-
-	^ GtToolButtonStencil new 
-		title: 'Morphic World';
-		priority: 60;
-		icon: BrGlamorousVectorIcons largeWindow;
-		action: [ :card | card space host openMorphicWorld ];
-		description: 'The legacy Morphic World interface and tools.'
-]
-
-{ #category : #'tools creation' }
 GtHomeToolsSection >> newNotesButtonStencil [
 	"<gtToolButton>"
 
