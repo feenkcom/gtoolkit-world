@@ -75,12 +75,33 @@ GtSearchFilter >> gtHierarchyFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtItemsByPackageFor: aView [
+	<gtView>
+	<gtToolView>
+
+	^ aView columnedList
+		title: 'By Package';
+		priority: 40;
+		items: [ 
+			(self result asyncSimilarCopy toArray wait 
+				groupedBy: [ :aCompiledMethod | aCompiledMethod package ])
+				associations sorted: [ :assoc | assoc key name ] ascending ];
+		column: 'Package' text: [ :assoc | assoc key name ];
+		column: 'Items' text: [ :assoc | assoc value size ];
+		send: [ :assoc |
+			(GtSearchFixedMethodsFilter new 
+				methods: assoc value)
+					labeled: self gtDisplayString, ' & ', assoc key name, ' package' ] 
+]
+
+{ #category : #'*GToolkit-Extensions' }
 GtSearchFilter >> gtItemsFor: aView [
 	"this is a view that is polymorphic with the one defined in ${method:Collection>>#gtItemsFor:}$"
 	<gtView>
+	<gtToolView>
 
 	^ aView forward
-		title: 'Live';
+		title: 'Results';
 		priority: 10;
 		object: [ self result ];
 		view: #gtItemsFor:
