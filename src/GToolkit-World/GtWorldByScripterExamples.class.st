@@ -934,6 +934,8 @@ GtWorldByScripterExamples >> coderStencil [
 
 { #category : #'examples - embedded debugger' }
 GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
+	"See https://github.com/feenkcom/gtoolkit/issues/3960"
+
 	<gtExample>
 	| aScripter aSourceCode aSourceInterval |
 	self
@@ -961,7 +963,8 @@ GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 					selector: #value;
 					arguments: #();
 					control: #instead.
-			aNode := (GtCoderEmbeddedDebuggerDropdownConfiguration class>>#userExtent) ast.
+			aNode := (GtCoderEmbeddedDebuggerDropdownConfiguration class >> #userExtent)
+					ast.
 			aNode link: aLink.
 			aLink ]
 		play: [ :aStep | 
