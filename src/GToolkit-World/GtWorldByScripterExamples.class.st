@@ -1,8 +1,8 @@
 Class {
 	#name : #GtWorldByScripterExamples,
 	#superclass : #Object,
-	#traits : 'TBlDevScripterExamples',
-	#classTraits : 'TBlDevScripterExamples classTrait',
+	#traits : 'TBlDevScripterExamples + TGtScripterDebuggerExamples',
+	#classTraits : 'TBlDevScripterExamples classTrait + TGtScripterDebuggerExamples classTrait',
 	#category : #'GToolkit-World-Examples'
 }
 
@@ -930,6 +930,57 @@ GtWorldByScripterExamples >> clickOnWorldHomeCoderIcon [
 GtWorldByScripterExamples >> coderStencil [
 	<gtExample>
 	^ GtCoderStencil new
+]
+
+{ #category : #'examples - embedded debugger' }
+GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
+	"See https://github.com/feenkcom/gtoolkit/issues/3960"
+
+	<gtExample>
+	| aScripter aSourceCode aSourceInterval |
+	self
+		assert: (GtPharoDummyOneObject respondsTo: #nonExistentMethod) not
+		description: [ 'Method must not be implemented: {1} >> #{2}'
+				format: {GtPharoDummyOneObject class.
+						#nonExistentMethod} ].
+
+	aScripter := self addPlaygroundIntoTabElement.
+
+	aScripter do
+		block: [ :aSpace | aSpace extent: 600 @ 470 ];
+		onSpace;
+		play.
+
+	aSourceCode := GtPharoDummyOneObject name , String space , #nonExistentMethod.
+	aSourceInterval := 1 to: aSourceCode size.
+
+	aScripter
+		substeps: 'Embedded debugger with default extent'
+		before: [ | aLink aNode |
+			"We need to ensure a specific dropdow extent during the example execution"
+			aLink := MetaLink new
+					metaObject: [ 400 @ 250 ];
+					selector: #value;
+					arguments: #();
+					control: #instead.
+			aNode := (GtCoderEmbeddedDebuggerDropdownConfiguration class >> #userExtent)
+					ast.
+			aNode link: aLink.
+			aLink ]
+		play: [ :aStep | 
+			aStep methodCoder
+				selectAll;
+				type: aSourceCode;
+				debugSessionWithException: MessageNotUnderstood
+					do: [ :aSubStep | 
+						aSubStep methodCoder
+							assertEmbeddedDebuggerExists;
+							assertEmbeddedDebuggerDropdownIsDisplayed;
+							assertEmbeddedDebuggerDropdownDebugButtonIsDisplayed ];
+				// GtSourceCoderEditorId ]
+		ensure: [ :aLink | aLink uninstall ].
+
+	^ aScripter
 ]
 
 { #category : #'examples - playground' }
