@@ -26,7 +26,7 @@ GtHomeToolsSection >> allButtonStencils [
 		fromObject: self;
 		pragmaName: #gtToolButton;
 		collectAllPragmas)
-			collect: [ :aPragma | [ self perform: aPragma methodSelector ]
+			collect: [ :aPragma | [ (self perform: aPragma methodSelector) definingMethod: aPragma method ]
 				on: Error
 				do: [ :ex | self handleButtonCreationException: ex ] ])
 					sorted: #priority ascending
@@ -164,46 +164,6 @@ GtHomeToolsSection >> newCoderButtonStencil [
 ]
 
 { #category : #'tools creation' }
-GtHomeToolsSection >> newExamplesButtonStencil [
-	<gtToolButton>
-
-	^ GtToolButtonStencil new 
-		title: 'Exemplifier';
-		priority: 45;
-		icon: BrGlamorousVectorIcons largeEg;
-		action: [ :card | 
-			self
-				showSpaceWithIcon: BrGlamorousVectorIcons emphasizedInspect
-				title: 'Exemplifier'
-				with:
-					(GtInspector
-						createOn: GtRlGToolkitExamplesExplorer buildForGToolkitProject) maximized
-				from: card ];
-		description: 'Units of tests and of documentation. In one.'
-]
-
-{ #category : #'tools creation' }
-GtHomeToolsSection >> newFileSystemButtonStencil [
-	<gtToolButton>
-
-	^ GtToolButtonStencil new 
-		title: 'File system';
-		priority: 55;
-		icon: BrGlamorousVectorIcons folder;
-		action: [ :card | 
-			(GtPhlowCompositeTool new
-				addTool: (GtFileBrowserFolderTool forFolder: '.');
-				addTool: (GtInspectorTool forObject: '.' asFileReference))
-					asElementDo: [ :anElement |
-						self
-							showSpaceWithIcon: BrGlamorousVectorIcons folder
-							title: 'File system'
-							with: (GtPager createWrappedOn: anElement) maximized
-							from: card ] ];
-		description: 'Browse the file system.'
-]
-
-{ #category : #'tools creation' }
 GtHomeToolsSection >> newGitButtonStencil [
 	<gtToolButton>
 
@@ -289,18 +249,6 @@ GtHomeToolsSection >> newPlaygroundButtonStencil [
 					knowledgeBase: self knowledgeBase)
 				from: card ];
 		description: 'Play with code. Live.'
-]
-
-{ #category : #'tools creation' }
-GtHomeToolsSection >> newSpotterButtonStencil [
-	<gtToolButton>
-
-	^ GtToolButtonStencil new 
-		title: 'Spotter';
-		priority: 65;
-		icon: BrGlamorousVectorIcons largeSearch;
-		action: [ :card | card fireEvent: GtSpawnSpotter new ];
-		description: 'Search anything. Really anything.'
 ]
 
 { #category : #'tools creation' }
