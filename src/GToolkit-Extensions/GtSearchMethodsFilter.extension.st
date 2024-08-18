@@ -20,9 +20,10 @@ GtSearchMethodsFilter >> gtItemsByClassFor: aView [
 					anElement updateForClass: assoc key ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
 		send: [ :assoc |
-			(GtSearchFixedMethodsFilter new 
-				methods: assoc value)
-					labeled: self gtDisplayString, ' & ', assoc key name, ' class' ] 
+			GtSearchFixedMethodsFilter new 
+				methods: assoc value;
+				highlighter: self highlighter;
+				label: self gtDisplayString, ' & ', assoc key name, ' class'  ] 
 ]
 
 { #category : #'*Gtoolkit-Extensions' }
@@ -53,12 +54,13 @@ GtSearchMethodsFilter >> gtItemsByPackageFor: aView [
 							ifNotNil: [:aPackage | aPackage name ] ) ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
 		send: [ :assoc |
-			(GtSearchFixedMethodsFilter new 
-				methods: assoc value)
-					labeled: (self gtDisplayString
-						, ' & '
-						, (assoc key 
-							ifNil: [ '<Obsolete>' ] 
-							ifNotNil: [:aPackage | aPackage name ])
-						, ' package') ] 
+			GtSearchFixedMethodsFilter new 
+				methods: assoc value;
+				highlighter: self highlighter;
+				label: (self gtDisplayString
+					, ' & '
+					, (assoc key 
+						ifNil: [ '<Obsolete>' ] 
+						ifNotNil: [:aPackage | aPackage name ])
+					, ' package') ] 
 ]
