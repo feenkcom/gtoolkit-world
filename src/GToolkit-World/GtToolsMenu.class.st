@@ -87,7 +87,7 @@ GtToolsMenu >> dropDownAptitude: anAptitude [
 
 { #category : #initialization }
 GtToolsMenu >> iconSize [
-	^ 75 asPoint
+	^ 80 @ 80
 ]
 
 { #category : #initialization }
