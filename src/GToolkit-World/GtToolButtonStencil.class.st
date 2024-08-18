@@ -9,7 +9,8 @@ Class {
 		'iconSize',
 		'margin',
 		'priority',
-		'elementId'
+		'elementId',
+		'definingMethod'
 	],
 	#category : #'GToolkit-World-Stencils'
 }
@@ -33,7 +34,8 @@ GtToolButtonStencil >> create [
 		margin: self margin;
 		action: self action;
 		aptitude: BrGlamorousButtonExteriorAptitude new;
-		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude new.
+		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude new;
+		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ definingMethod ]).
 	elementId ifNotNil: [ button id: elementId ].
 	^ button
 ]
@@ -58,6 +60,11 @@ GtToolButtonStencil >> createBasicButton [
 		addChild: iconElement;
 		addChild: labelElement.
 	^ button
+]
+
+{ #category : #accessing }
+GtToolButtonStencil >> definingMethod: aMethod [
+	definingMethod := aMethod
 ]
 
 { #category : #accessing }

@@ -26,7 +26,7 @@ GtHomeToolsSection >> allButtonStencils [
 		fromObject: self;
 		pragmaName: #gtToolButton;
 		collectAllPragmas)
-			collect: [ :aPragma | [ self perform: aPragma methodSelector ]
+			collect: [ :aPragma | [ (self perform: aPragma methodSelector) definingMethod: aPragma method ]
 				on: Error
 				do: [ :ex | self handleButtonCreationException: ex ] ])
 					sorted: #priority ascending
