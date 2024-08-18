@@ -12,7 +12,12 @@ GtSearchMethodsFilter >> gtItemsByClassFor: aView [
 			(self result asyncSimilarCopy toArray wait 
 				groupedBy: [ :aCompiledMethod | aCompiledMethod methodClass ])
 				associations sorted: [ :assoc | assoc key name ] ascending ];
-		column: 'Class' text: [ :assoc | assoc key name ];
+		column: 'Class' do: [ :aColumn |
+			aColumn
+				cellStencil: [ 
+					GtPhlowLabelWithIcon new ];
+				dataBinder: [ :anElement :assoc | 
+					anElement updateForClass: assoc key ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
 		send: [ :assoc |
 			(GtSearchFixedMethodsFilter new 
@@ -35,10 +40,17 @@ GtSearchMethodsFilter >> gtItemsByPackageFor: aView [
 					assoc key 
 						ifNil: [ '' ] 
 						ifNotNil: [:aPackage | aPackage name] ] ascending ];
-		column: 'Package' text: [ :assoc | 
-			assoc key 
-				ifNil: [ '<Obsolete>' ] 
-				ifNotNil: [:aPackage | aPackage name ] ];
+		column: 'Package' do: [ :aColumn |
+			aColumn
+				cellStencil: [ 
+					GtPhlowLabelWithIcon new ];
+				dataBinder: [ :anElement :assoc | 
+					anElement 
+						initializeWithIcon: (self 
+							gtSafeIconNamed: #package)
+						label: (assoc key 
+							ifNil: [ '<Obsolete>' ] 
+							ifNotNil: [:aPackage | aPackage name ] ) ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
 		send: [ :assoc |
 			(GtSearchFixedMethodsFilter new 
