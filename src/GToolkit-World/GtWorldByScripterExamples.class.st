@@ -933,6 +933,64 @@ GtWorldByScripterExamples >> coderStencil [
 ]
 
 { #category : #'examples - playground' }
+GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
+	"See https://github.com/feenkcom/gtoolkit/issues/3947"
+
+	<gtExample>
+	<noTest>
+	| aScripter |
+	aScripter := self addPlaygroundIntoTabElement.
+
+	aScripter memoryLogger
+		runFor: GtJustContextStackSignal 
+			, GtPhlowForwarderFutureElementSignal
+			, GtPhlowApplyToolSelectionSignal
+			, GtPhlowStoreToolSelectionSignal
+		during: [ :aStep |
+			aStep methodCoder
+				selectAll;
+				type: GtInspectorSampleB name;
+				type: ' new';
+				playAndInspect;
+				play.
+				
+			"aStep assert
+				value: [ aStep recordings size ] equals: 1;
+				play" ].
+
+	aScripter pager
+		assertPageCountIs: 2;
+		play.
+		
+	aScripter click
+		// (GtPagerPageElementId indexed: 2);
+		// GtPhlowCompositeViewElementId;
+		// BrTab;
+		@ [ :aTab | aTab label asString = 'Two' ];
+		play.
+		
+	aScripter memoryLogger
+		runFor: GtJustContextStackSignal
+			, GtPhlowForwarderFutureElementSignal
+			, GtPhlowApplyToolSelectionSignal
+			, GtPhlowStoreToolSelectionSignal
+		during: [ :aStep |
+			aStep methodCoder
+				playAndInspect;
+				play.
+				
+			aStep inspectorStep
+				assertSelectedTabWithName: 'Two';
+				play.
+				
+			"aStep assert
+				value: [ aStep recordings size ] equals: 1;
+				play" ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - playground' }
 GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 	<gtExample>
 	| aScripter |
