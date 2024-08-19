@@ -230,7 +230,7 @@ GtWorldElement >> newSubSpaceButton [
 						content: [ 
 							BrScrollPane new
 								aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
-								hExact: 400;
+								hExact: 420;
 								vMatchParent;
 								content: (GtToolsMenu new
 									knowledgeBase: self knowledgeBase;

@@ -78,9 +78,10 @@ GtSearchFilter >> gtHierarchyFor: aView [
 GtSearchFilter >> gtItemsFor: aView [
 	"this is a view that is polymorphic with the one defined in ${method:Collection>>#gtItemsFor:}$"
 	<gtView>
+	<gtToolView>
 
 	^ aView forward
-		title: 'Live';
+		title: 'Results';
 		priority: 10;
 		object: [ self result ];
 		view: #gtItemsFor:
