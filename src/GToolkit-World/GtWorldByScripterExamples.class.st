@@ -937,14 +937,15 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	"See https://github.com/feenkcom/gtoolkit/issues/3947"
 
 	<gtExample>
-	<noTest>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
 
 	aScripter memoryLogger
-		runFor: GtInspectorSampleBOneForwardObjectSignal , GtPhlowForwarderFutureElementSignal
-				, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
-				, GtInspectorSelectTabSignal
+		runFor: GtInspectorSampleBOneForwardObjectSignal 
+			, GtPhlowForwarderFutureElementSignal
+			, GtPhlowApplyToolSelectionSignal 
+			, GtPhlowStoreToolSelectionSignal
+			, GtInspectorSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				selectAll;
@@ -952,7 +953,6 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 				type: ' new';
 				playAndInspect;
 				play.
-
 			(aStep
 				assertSignalsOfKind: GtInspectorSampleBOneForwardObjectSignal
 				countIs: 1) play ].
@@ -970,17 +970,16 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	aScripter memoryLogger
 		runFor: GtInspectorSampleBOneForwardObjectSignal 
 			, GtPhlowForwarderFutureElementSignal
-			, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
+			, GtPhlowApplyToolSelectionSignal 
+			, GtPhlowStoreToolSelectionSignal
 			, GtInspectorSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				playAndInspect;
 				play.
-
 			aStep inspectorStep
 				assertSelectedTabWithName: 'Two';
 				play.
-
 			(aStep
 				assertSignalsOfKind: GtInspectorSampleBOneForwardObjectSignal
 				countIs: 0) play ].
