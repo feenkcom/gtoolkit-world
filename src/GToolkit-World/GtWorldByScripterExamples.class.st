@@ -937,55 +937,52 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	"See https://github.com/feenkcom/gtoolkit/issues/3947"
 
 	<gtExample>
-	<noTest>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
 
 	aScripter memoryLogger
-		runFor: GtJustContextStackSignal 
+		runFor: GtInspectorSampleBOneForwardObjectSignal 
 			, GtPhlowForwarderFutureElementSignal
-			, GtPhlowApplyToolSelectionSignal
+			, GtPhlowApplyToolSelectionSignal 
 			, GtPhlowStoreToolSelectionSignal
-		during: [ :aStep |
+			, GtInspectorSelectTabSignal
+		during: [ :aStep | 
 			aStep methodCoder
 				selectAll;
 				type: GtInspectorSampleB name;
 				type: ' new';
 				playAndInspect;
 				play.
-				
-			"aStep assert
-				value: [ aStep recordings size ] equals: 1;
-				play" ].
+			(aStep
+				assertSignalsOfKind: GtInspectorSampleBOneForwardObjectSignal
+				countIs: 1) play ].
 
 	aScripter pager
 		assertPageCountIs: 2;
 		play.
-		
-	aScripter click
+
+	aScripter inspectorStep
+		clickOnTabWithName: 'Two';
+		assertSelectedTabWithName: 'Two';
 		// (GtPagerPageElementId indexed: 2);
-		// GtPhlowCompositeViewElementId;
-		// BrTab;
-		@ [ :aTab | aTab label asString = 'Two' ];
 		play.
-		
+
 	aScripter memoryLogger
-		runFor: GtJustContextStackSignal
+		runFor: GtInspectorSampleBOneForwardObjectSignal 
 			, GtPhlowForwarderFutureElementSignal
-			, GtPhlowApplyToolSelectionSignal
+			, GtPhlowApplyToolSelectionSignal 
 			, GtPhlowStoreToolSelectionSignal
-		during: [ :aStep |
+			, GtInspectorSelectTabSignal
+		during: [ :aStep | 
 			aStep methodCoder
 				playAndInspect;
 				play.
-				
 			aStep inspectorStep
 				assertSelectedTabWithName: 'Two';
 				play.
-				
-			"aStep assert
-				value: [ aStep recordings size ] equals: 1;
-				play" ].
+			(aStep
+				assertSignalsOfKind: GtInspectorSampleBOneForwardObjectSignal
+				countIs: 0) play ].
 
 	^ aScripter
 ]
