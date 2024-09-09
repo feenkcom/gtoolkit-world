@@ -57,6 +57,7 @@ String >> gtJSONFor: aView context: aContext [
 String >> gtXMLFor: aView [
 	<gtView>
 	self ifEmpty: [ ^ aView empty ].
+	self size > 1 ifFalse: [ ^ aView empty ].
 	((self at: 1) = $< or: [ (self at: 2) = $? ]) ifFalse: [ ^ aView empty ].
 
 	^ aView textEditor
