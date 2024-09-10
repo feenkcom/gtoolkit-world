@@ -93,3 +93,18 @@ Class >> gtExamplesMapFor: aView context: aPhlowContext [
 		view: #gtMapFor:;
 		addAutoUpdate: GtPhlowUpdateViewOnAddedToScene
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+Class >> gtReferencesInSnippetsFor: aView [
+	<gtView>
+	<gtClassView>
+	
+	(self name beginsWith: ConfigurationOf name) ifTrue: [ ^ aView empty ].
+	
+	^ aView forward
+		title: 'References in snippets';
+		tooltip: 'References of the class in knowledge bases';
+		priority: 40;
+		object: [ self leReferences ];
+		view: #gtItemsFor:
+]
