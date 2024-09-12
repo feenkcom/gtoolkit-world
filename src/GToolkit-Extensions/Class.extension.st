@@ -104,7 +104,7 @@ Class >> gtReferencesInSnippetsFor: aView [
 	^ aView forward
 		title: 'References in snippets';
 		tooltip: 'References of the class in knowledge bases';
-		priority: 40;
+		priority: 40.1;
 		object: [ self leReferences ];
 		view: #gtItemsFor:
 ]
