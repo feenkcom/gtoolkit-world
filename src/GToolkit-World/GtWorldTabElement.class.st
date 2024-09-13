@@ -34,6 +34,47 @@ GtWorldTabElement >> aptitudeForSpaceTab: aTab [
 ]
 
 { #category : #accessing }
+GtWorldTabElement >> closeAllTabs [
+	[ tabs tabs size = 1 ] whileFalse: [ tabs viewModel removeTab: tabs tabs last ]
+]
+
+{ #category : #accessing }
+GtWorldTabElement >> closeButtonFor: aTabModel [
+	^ BrButton new
+		icon: BrGlamorousVectorIcons close;
+		exact: 16 @ 16;
+		aptitude: GtWorldTabToolbarButtonAptitude;
+		label: 'Close';
+		model: aTabModel;
+		containerName: self class spaceCloseButtonName;
+		action: [ :aButtonElement | tabs viewModel removeTab: aButtonElement model ];
+		addAptitude: (BrGlamorousWithContextMenuAptitude
+				content: [ BrGlamorousSimpleContextMenuContent new
+						items: {'Close tabs to the left'
+									-> [ :aButtonElement | self closeTabsLeftTo: aButtonElement model ].
+								'Close tabs to the right'
+									-> [ :aButtonElement | self closeTabsRightTo: aButtonElement model ].
+								'Close all but this'
+									-> [ :aButtonElement | 
+										self closeTabsLeftTo: aButtonElement model.
+										self closeTabsRightTo: aButtonElement model ].
+								'Close all tabs' -> [ :aButtonElement | self closeAllTabs ]};
+						yourself ])
+]
+
+{ #category : #accessing }
+GtWorldTabElement >> closeTabsLeftTo: tab [
+	[ tab == tabs tabs second ]
+		whileFalse: [ tabs viewModel removeTab: tabs tabs second ]
+]
+
+{ #category : #accessing }
+GtWorldTabElement >> closeTabsRightTo: tab [
+	[ tab == tabs tabs last ]
+		whileFalse: [ tabs viewModel removeTab: tabs tabs last ]
+]
+
+{ #category : #accessing }
 GtWorldTabElement >> createBaseTab: aSpace [
 	| aTab |
 	aTab := BrTab new.
@@ -141,6 +182,40 @@ GtWorldTabElement >> initializeTabs [
 	tabs addTab: self defaultHomeTab
 ]
 
+{ #category : #accessing }
+GtWorldTabElement >> maximizeButtonFor: aTabModel [
+	^ BrButton new
+		icon: BrGlamorousIcons maximize;
+		exact: 16 @ 16;
+		aptitude: GtWorldTabToolbarButtonAptitude;
+		model: aTabModel;
+		label: 'Open in a new window';
+		action: [ :aButtonElement | 
+			tabs viewModel removeTab: aButtonElement model.
+			self space class
+				openWithSpaces: {aButtonElement model model}
+				from: self space ];
+		addAptitude: (BrGlamorousWithContextMenuAptitude
+				content: [ BrGlamorousSimpleContextMenuContent new
+						items: self moveOptions;
+						yourself ])
+]
+
+{ #category : #accessing }
+GtWorldTabElement >> moveOptions [
+	| gtWorlds |
+	gtWorlds := GtWorld allInstances
+			select: [ :e | e isOpened and: [ (tabs == e tabGroup) not ] ].
+	^ gtWorlds
+		collect: [ :e | 
+			e tabGroup viewModel selectedTab tabLabel text
+				-> [ :aButtonElement | 
+					| myTab |
+					myTab := aButtonElement model.
+					tabs viewModel removeTab: myTab.
+					e showSpace: myTab model ] ]
+]
+
 { #category : #'private - instance creation' }
 GtWorldTabElement >> newActionItemsInto: anActionbar [
 	"Subclasses may add action items into the World toolbar"
@@ -213,26 +288,8 @@ GtWorldTabElement >> newToolbarForTabModel: aTabModel [
 	^ BrToolbar new
 		aptitude: (BrGlamorousToolbarAptitude new spacing: 0);
 		margin: (BlInsets left: 6);
-		addItems:
-			{(BrButton new
-				icon: BrGlamorousIcons maximize;
-				exact: 16 @ 16;
-				aptitude: GtWorldTabToolbarButtonAptitude;
-				model: aTabModel;
-				label: 'Open in a new window';
-				action: [ :aButtonElement |
-					tabs viewModel removeTab: aButtonElement model.
-					self space class
-						openWithSpaces: {aButtonElement model model}
-						from: self space ]).
-			(BrButton new
-				icon: BrGlamorousVectorIcons close;
-				exact: 16 @ 16;
-				aptitude: GtWorldTabToolbarButtonAptitude;
-				label: 'Close';
-				model: aTabModel;
-				containerName: self class spaceCloseButtonName;
-				action: [ :aButtonElement | tabs viewModel removeTab: aButtonElement model ])}
+		addItems: {self maximizeButtonFor: aTabModel.
+				self closeButtonFor: aTabModel}
 ]
 
 { #category : #releasing }
