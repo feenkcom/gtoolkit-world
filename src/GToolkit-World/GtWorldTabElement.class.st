@@ -48,6 +48,7 @@ GtWorldTabElement >> createBaseTab: aSpace [
 { #category : #'api - opening' }
 GtWorldTabElement >> createTabDragHandler [
 	^ BlDragHandler new
+		restrictDragToHorizontal;
 		liftItem: [ :aSourceElement | 
 			BlDragItem new
 				sourceElement: aSourceElement;
