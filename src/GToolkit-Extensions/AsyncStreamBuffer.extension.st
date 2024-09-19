@@ -13,3 +13,14 @@ AsyncStreamBuffer >> gtBufferedItemsFor: aView [
 		updateWhen: Announcement in: (announcer ifNil: [ announcer := Announcer new ]);
 		actionUpdateButton
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+AsyncStreamBuffer >> gtCompositionChildren [
+
+	^ { bufferSink. stream }
+]
+
+{ #category : #'*GToolkit-Extensions' }
+AsyncStreamBuffer >> gtCompositionDescription [
+	^ self printString asRopedText
+]
