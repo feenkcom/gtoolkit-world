@@ -62,6 +62,11 @@ AsyncFutureThreadPoolWorker >> gtPendingQueueFor: aView [
 		priority: 12;
 		object: [ pendingQueue ];
 		view: #gtItemsFor:;
+		actionButtonIcon: BrGlamorousVectorIcons left 
+			tooltip: 'Wake all items up: Push all pending tasks to local queue' 
+			action: [ :aButton :aTab |
+				localQueue pushBackAll: (pendingQueue popAll collect: #task).
+				aTab viewContentElement phlow update ];
 		actionButtonIcon: BrGlamorousVectorIcons cancel
 			tooltip: 'Cancel pending tasks'
 			action: [ :aButton :aTab |
