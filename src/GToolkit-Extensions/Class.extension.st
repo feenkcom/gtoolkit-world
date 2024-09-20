@@ -51,8 +51,8 @@ Class >> gtExamplesFor: aView context: aPhlowContext [
 			| aCollection aGroup aGroupView anElement |
 			
 			"If it is an abstract class, collect examples of its subclasses."
-			aCollection := self isAbstract
-				ifTrue: [ (self allSubclasses reject: #isAbstract)
+			aCollection := self exampleClass isAbstract
+				ifTrue: [ (self exampleClass allSubclasses reject: #isAbstract)
 					flatCollect: #gtExamplesAll ]
 				ifFalse: [ self gtExamplesAll ].
 				
@@ -82,8 +82,8 @@ Class >> gtExamplesMapFor: aView context: aPhlowContext [
 			| aCollection |
 			
 			"If it is an abstract class, collect examples of its subclasses."
-			aCollection := self isAbstract
-				ifTrue: [ (self allSubclasses reject: #isAbstract)
+			aCollection := self exampleClass isAbstract
+				ifTrue: [ (self exampleClass allSubclasses reject: #isAbstract)
 					flatCollect: #gtExamplesAll ]
 				ifFalse: [ self gtExamplesAll ].
 				
