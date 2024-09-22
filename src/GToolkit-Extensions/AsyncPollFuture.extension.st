@@ -2,11 +2,17 @@ Extension { #name : #AsyncPollFuture }
 
 { #category : #'*GToolkit-Extensions' }
 AsyncPollFuture >> gtCompositionDescription [
+	| aText anExtraText |
+	aText := self printString asRopedText append: ': ' asRopedText.
 
-	^ self printString asRopedText
-		  append: ': ' asRopedText;
-		  append: ((pollBlock ifNil: [ executedBlock ]) printString asRopedText foreground:
-					   BrGlamorousColors disabledButtonTextColor)
+	anExtraText := executedBlock 
+		ifNil: [ 'pending, ' asRopedText ] 
+		ifNotNil: [ 'executed, ' asRopedText ].
+	anExtraText
+		append: (pollBlock ifNil: [ executedBlock ]) printString asRopedText.
+	anExtraText foreground: BrGlamorousColors disabledButtonTextColor.
+	aText append: anExtraText.
+	^ aText
 ]
 
 { #category : #'*GToolkit-Extensions' }

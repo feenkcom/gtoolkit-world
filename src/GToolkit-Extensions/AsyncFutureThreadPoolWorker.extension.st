@@ -17,6 +17,43 @@ AsyncFutureThreadPoolWorker >> gtLocalQueueFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+AsyncFutureThreadPoolWorker >> gtOverview [
+	^ {
+		GtPhlowOverviewItem new
+			name: 'Group'; description: self group label; value: self group.
+		GtPhlowOverviewItem new
+			name: 'Priority'; value: self priority.
+		GtPhlowOverviewItem new
+			name: 'Is running'; boolean: self isRunning.
+		GtPhlowOverviewItem new
+			name: 'Is busy'; boolean: self isBusy.
+		GtPhlowOverviewItem new
+			name: 'Is shutting down'; boolean: self isShuttingDown.
+		GtPhlowOverviewItem new
+			name: 'Is waiting on semaphore'; boolean: self isWaitingOnSemaphore.
+		GtPhlowOverviewItem new
+			name: 'Local queue'; value: localQueue.
+		GtPhlowOverviewItem new
+			name: 'Pending queue'; value: pendingQueue.
+		GtPhlowOverviewItem new
+			name: 'Current task'; value: currentTask
+	}
+]
+
+{ #category : #'*GToolkit-Extensions' }
+AsyncFutureThreadPoolWorker >> gtOverviewFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Overview';
+		priority: 60;
+		items: [ self gtOverview ];
+		column: 'Name' text: #name;
+		column: 'Description' text: #description;
+		send: #value;
+		actionUpdateButton
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AsyncFutureThreadPoolWorker >> gtPendingQueueFor: aView [
 	<gtView>
 
@@ -25,6 +62,11 @@ AsyncFutureThreadPoolWorker >> gtPendingQueueFor: aView [
 		priority: 12;
 		object: [ pendingQueue ];
 		view: #gtItemsFor:;
+		actionButtonIcon: BrGlamorousVectorIcons left 
+			tooltip: 'Wake all items up: Push all pending tasks to local queue' 
+			action: [ :aButton :aTab |
+				localQueue pushBackAll: (pendingQueue popAll collect: #task).
+				aTab viewContentElement phlow update ];
 		actionButtonIcon: BrGlamorousVectorIcons cancel
 			tooltip: 'Cancel pending tasks'
 			action: [ :aButton :aTab |
