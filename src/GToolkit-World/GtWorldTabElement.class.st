@@ -19,6 +19,74 @@ GtWorldTabElement class >> tabNameForSpaceId: aNumber [
 ]
 
 { #category : #'api - opening' }
+GtWorldTabElement >> addContextMenuTabActionsTo: contextMenu [
+	contextMenu
+		addChild: (BrGlamorousSimpleContextMenuContent new
+				items: {'Close tabs to the left'
+							-> [ :aButtonElement | self closeTabsLeftTo: aButtonElement viewModel ].
+						'Close tabs to the right'
+							-> [ :aButtonElement | self closeTabsRightTo: aButtonElement viewModel ].
+						'Close all but this'
+							-> [ :aButtonElement | 
+								self closeTabsLeftTo: aButtonElement viewModel.
+								self closeTabsRightTo: aButtonElement viewModel ].
+						'Close all tabs' -> [ :aButtonElement | self closeAllTabs ]};
+				constraintsDo: [ :c | c horizontal matchParent ];
+				hMatchParent;
+				yourself)
+]
+
+{ #category : #'api - opening' }
+GtWorldTabElement >> addContextMoveActionsTo: contextMenu [
+	| options |
+	options := self moveOptions.
+	options
+		ifNotEmpty: [ | gray |
+			gray := Color gray alpha: 0.2.
+			contextMenu
+				addChild: (BlElement new
+						addChild: (BlElement new
+								background: gray;
+								margin: (BlInsets
+										top: 12
+										right: 2
+										bottom: 12
+										left: 5);
+								constraintsDo: [ :c | 
+									c vertical exact: 1.
+									c horizontal exact: 10 ]);
+						addChild: (BrLabel new
+								text: 'move to window:';
+								aptitude: (BrGlamorousLabelAptitude new
+										glamorousRegularFontAndSize;
+										foreground: Color lightGray;
+										yourself);
+								alignCenter;
+								constraintsDo: [ :c | c vertical exact: 25 ]);
+						addChild: (BlElement new
+								background: gray;
+								margin: (BlInsets
+										top: 12
+										right: 5
+										bottom: 12
+										left: 2);
+								constraintsDo: [ :c | 
+									c vertical exact: 1.
+									c horizontal matchParent ]);
+						layout: BlLinearLayout new alignCenter;
+						constraintsDo: [ :c | 
+							c horizontal matchParent.
+							c vertical exact: 25 ];
+						yourself).
+
+			contextMenu
+				addChild: (BrGlamorousSimpleContextMenuContent new
+						items: options;
+						hMatchParent;
+						yourself) ]
+]
+
+{ #category : #'api - opening' }
 GtWorldTabElement >> aptitudeForSpaceTab: aTab [ 
 	| aTabViewModel |
 	aTabViewModel := aTab viewModel.
@@ -47,19 +115,7 @@ GtWorldTabElement >> closeButtonFor: aTabModel [
 		label: 'Close';
 		model: aTabModel;
 		containerName: self class spaceCloseButtonName;
-		action: [ :aButtonElement | tabs viewModel removeTab: aButtonElement model ];
-		addAptitude: (BrGlamorousWithContextMenuAptitude
-				content: [ BrGlamorousSimpleContextMenuContent new
-						items: {'Close tabs to the left'
-									-> [ :aButtonElement | self closeTabsLeftTo: aButtonElement model ].
-								'Close tabs to the right'
-									-> [ :aButtonElement | self closeTabsRightTo: aButtonElement model ].
-								'Close all but this'
-									-> [ :aButtonElement | 
-										self closeTabsLeftTo: aButtonElement model.
-										self closeTabsRightTo: aButtonElement model ].
-								'Close all tabs' -> [ :aButtonElement | self closeAllTabs ]};
-						yourself ])
+		action: [ :aButtonElement | tabs viewModel removeTab: aButtonElement model ]
 ]
 
 { #category : #accessing }
@@ -194,11 +250,7 @@ GtWorldTabElement >> maximizeButtonFor: aTabModel [
 			tabs viewModel removeTab: aButtonElement model.
 			self space class
 				openWithSpaces: {aButtonElement model model}
-				from: self space ];
-		addAptitude: (BrGlamorousWithContextMenuAptitude
-				content: [ BrGlamorousSimpleContextMenuContent new
-						items: self moveOptions;
-						yourself ])
+				from: self space ]
 ]
 
 { #category : #accessing }
@@ -211,7 +263,7 @@ GtWorldTabElement >> moveOptions [
 			e tabGroup viewModel selectedTab tabLabel text
 				-> [ :aButtonElement | 
 					| myTab |
-					myTab := aButtonElement model.
+					myTab := aButtonElement viewModel.
 					tabs viewModel removeTab: myTab.
 					e showSpace: myTab model ] ]
 ]
@@ -351,9 +403,30 @@ GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
 				when: BlElementDraggingState uniqueInstance
 				style: [ :aStyle | aStyle background: (Color white alpha: 0.25) ]).
 
+
+	aTab
+		addAptitude: (BrGlamorousWithContextMenuAptitude content: [ self tabContextMenu ]).
 	aTab selected: shouldBeSelected.
 	tabs addTab: aTab.
 	aTab := nil
+]
+
+{ #category : #'api - opening' }
+GtWorldTabElement >> tabContextMenu [
+	| contextMenu |
+	contextMenu := BlElement new.
+	contextMenu
+		layout: (BlLinearLayout new
+				alignCenterLeft;
+				beVertical;
+				yourself).
+	contextMenu
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+	self addContextMenuTabActionsTo: contextMenu.
+	self addContextMoveActionsTo: contextMenu.
+	^ contextMenu
 ]
 
 { #category : #'private - accessing' }
