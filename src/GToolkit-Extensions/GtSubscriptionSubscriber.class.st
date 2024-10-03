@@ -15,11 +15,15 @@ Class {
 
 { #category : #'api - factory' }
 GtSubscriptionSubscriber class >> fromAnnouncer: anAnnouncer [
-	| anArray aGroup |
+	| anArray aGroup aCollection aClassGroup aClassCollection |
 	anArray := anAnnouncer subscriptions subscriptions asArray.
 	aGroup := anArray groupedBy: #subscriber.
-	^ aGroup associations collect: [ :e | 
-		GtSubscriptionSubscriber subscriber: e key subscriptions: e value ]
+	aCollection := aGroup associations collect: [ :anAssoc | 
+		GtSubscriptionSubscriber subscriber: anAssoc key subscriptions: anAssoc value ].
+	aClassGroup := aCollection groupedBy: [ :each | each subscriber class ].
+	aClassCollection := aClassGroup associations collect: [ :anAssoc |
+		GtSubscriptionSubscriberType type: anAssoc key subscribers: anAssoc value ].
+	^ aClassCollection sort: [ :a :b | a type name < b type name ]
 ]
 
 { #category : #'api - instance creation' }
