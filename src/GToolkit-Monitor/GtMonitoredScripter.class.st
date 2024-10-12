@@ -121,7 +121,9 @@ GtMonitoredScripter >> startTime [
 
 { #category : #accessing }
 GtMonitoredScripter >> status [
-	^ '{1} pulsers' format: {self pulsers size}
+	| aSize | 
+	aSize := self pulsers size.
+	^ '{1} {2}' format: {aSize. 'pulser' asPluralBasedOn: aSize}
 ]
 
 { #category : #accessing }
