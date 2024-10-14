@@ -77,7 +77,7 @@ GtMonitoredScripterPulsersElement >> initialize [
 		stencil: [ :aNode | 
 			| aTitle |
 			aTitle := aNode status
-					ifEmpty: [ '~Garbage collected~' asRopedText italic foreground: Color gray ].
+					ifEmpty: [ '-' asRopedText italic foreground: Color gray ].
 
 			BrLabel new
 				aptitude: BrGlamorousLabelAptitude;
@@ -90,7 +90,7 @@ GtMonitoredScripterPulsersElement >> initialize [
 		stencil: [ :aNode | 
 			| aText |
 			aText := aNode startTime
-					ifNil: [ '~Garbage collected~' asRopedText italic foreground: Color gray ]
+					ifNil: [ '-' asRopedText italic foreground: Color gray ]
 					ifNotNil: [ :aTime | 'Started {1} ago' format: {(DateAndTime now - aTime) gtHumanReadableString} ].
 
 			BrLabel new
@@ -104,14 +104,16 @@ GtMonitoredScripterPulsersElement >> initialize [
 		stencil: [ :aNode | 
 			| aText |
 			aText := aNode example
-					ifNil: [ '~Garbage collected~' asRopedText italic foreground: Color gray ]
-					ifNotNil: [ :anExampleWithResult | anExampleWithResult methodClass asRopedText ].
+					ifNil: [ 'not example result' asRopedText italic foreground: Color gray ]
+					ifNotNil: [ :anExampleWithResult |  'example result' asRopedText ].
 
 			BrLabel new
 				aptitude: BrGlamorousLabelAptitude;
 				text: aText;
 				hMatchParent ];
 		width: 150.
+		
+	"pulserList addAptitude: BrColumnedListHeaderAptitude."
 
 	self addChild: pulserList.
 
