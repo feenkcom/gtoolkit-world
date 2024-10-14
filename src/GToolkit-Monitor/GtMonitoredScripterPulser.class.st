@@ -43,6 +43,15 @@ GtMonitoredScripterPulser >> example: anExampleWithResultOrNil [
 ]
 
 { #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtActionStopFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousVectorIcons stop;
+		tooltip: 'Stop a pulsing Scripter pulser';
+		action: [ :aButton | self pulserDo: #stop ]
+]
+
+{ #category : #'gt-extension' }
 GtMonitoredScripterPulser >> gtAllPathsToFor: aView [
 	<gtView>
 	
@@ -138,6 +147,11 @@ GtMonitoredScripterPulser >> pulser [
 { #category : #accessing }
 GtMonitoredScripterPulser >> pulser: aBlDevScripterPulseUntilReady [
 	pulser := aBlDevScripterPulseUntilReady asWeakReference
+]
+
+{ #category : #accessing }
+GtMonitoredScripterPulser >> pulserDo: aBlock [
+	self pulser ifNotNil: aBlock
 ]
 
 { #category : #accessing }
