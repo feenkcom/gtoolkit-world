@@ -5,6 +5,8 @@ AsyncSomeValue >> gtCompositionChildren [
 
 	(self value class isComposedBy: TAsyncFuture) ifTrue: [ 
 		^ { self value } ].
+	(self value class isComposedBy: TAsyncPromise) ifTrue: [ 
+		^ { self value } ].
 	(self value class isComposedBy: TAsyncStream) ifTrue: [ 
 		^ { self value } ].
 	(self value class isComposedBy: TAsyncSink) ifTrue: [ 
@@ -14,6 +16,10 @@ AsyncSomeValue >> gtCompositionChildren [
 			 (anElement class isComposedBy: TAsyncFuture) or: [ 
 				 anElement class isComposedBy: TAsyncStream ] ] ]) ifTrue: [ 
 		^ self value ].
+		
+	(self value respondsTo: #gtCompositionChildren)
+		ifTrue: [ ^ { self value } ].
+
 	^ #(  )
 ]
 
