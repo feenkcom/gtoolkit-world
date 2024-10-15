@@ -7,13 +7,16 @@ Class {
 { #category : #example }
 GtBaselinesShouldProperlySpecifyDependencies class >> blocSpartaPackageAnalysisExample [
 	<gtExample>
+
 	| analyzer packageAnalyzers blocSpartaPackageAnaluser |
-	analyzer :=GtDependencyAnalyzerEasy analyzeBaseline: BaselineOfBloc.
+	analyzer := GtDependencyAnalyzerEasy analyzeBaseline: BaselineOfBloc.
 
-	packageAnalyzers := analyzer directlyDefinedPackagesWithContext: GtDependencyAnalyzerContext new.
+	packageAnalyzers := analyzer
+			directlyDefinedPackagesWithContext: GtDependencyAnalyzerContext new.
 
-	blocSpartaPackageAnaluser := packageAnalyzers detect: [ :aPackageAnalyser | aPackageAnalyser name = 'Bloc-Sparta' ].
-	
+	blocSpartaPackageAnaluser := packageAnalyzers
+			detect: [ :aPackageAnalyser | aPackageAnalyser name = #'Bloc-Sparta' ].
+
 	^ blocSpartaPackageAnaluser
 ]
 
