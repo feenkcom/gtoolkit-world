@@ -17,3 +17,9 @@ AsyncWithoutDuplicatesStream >> gtCompositionDescription [
 				 BrGlamorousColors disabledButtonTextColor) ].
 	^ aString
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+AsyncWithoutDuplicatesStream >> useContentComparison [
+	setClass := GtStringContentSet.
+	seenItems ifNotNil: [ seenItems := setClass withAll: seenItems ]
+]
