@@ -120,6 +120,12 @@ GtImageSetup class >> notRegisteredSystemFFIMethods [
 	^ allFFIMethods difference: allRegisteredMethods.
 ]
 
+{ #category : #actions }
+GtImageSetup class >> patchForStringSymbolStringComparison [
+	GtStrictSymbolInstallation new
+		patchIcebergRepositories
+]
+
 { #category : #api }
 GtImageSetup class >> performLocalSetup [
 	"Perform a setup for images that should be used locally for development."
@@ -133,7 +139,8 @@ GtImageSetup class >> performLocalSetup [
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
 	self installGtSessionManager.
-	self recordSpaceTallyAtEnd
+	self patchForStringSymbolStringComparison.
+	self recordSpaceTallyAtEnd.
 ]
 
 { #category : #api }
@@ -166,6 +173,7 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self installGtSessionManager.
 	self recordSpaceTallyAtEnd.
 	self resetFFIMethods.
+	self patchForStringSymbolStringComparison.
 	
 	self printNotRegisteredFFIMethods.
 ]
