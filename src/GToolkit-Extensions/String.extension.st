@@ -14,6 +14,38 @@ String >> firstLineWithEllipsis [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+String >> gtGetUrlFor: aView [
+	<gtView>
+	self ifEmpty: [ ^ aView empty ].
+	((self beginsWith: 'http://') or: [ self beginsWith: 'https://' ])
+		ifFalse: [ ^ aView empty ].
+
+	^ aView textEditor
+		title: 'Get URL';
+		priority: 19;
+		text: [ ZnClient new get: self ];
+		aptitude: BrGlamorousCodeEditorAptitude
+]
+
+{ #category : #'*GToolkit-Extensions' }
+String >> gtItemsFor: aView [
+	"override"
+	^ aView columnedList
+		title: 'Items';
+		priority: 16;
+		items: [ self ];
+		actionUpdateButtonTooltip: 'Update item list';
+		column: 'Index' 
+			text: [ :eachItem :eachIndex | 
+				eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Character' 
+			text: [ :eachItem | eachItem gtDisplayString gtRemovePrefix: 'Character '];
+		column: 'ASCII' 
+			text: [ :eachItem | eachItem asciiValue ].
+]
+
+{ #category : #'*GToolkit-Extensions' }
 String >> gtJSONDataFor: aView context: aContext [
 
 	<gtView>
@@ -38,7 +70,7 @@ String >> gtJSONDataFor: aView context: aContext [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-String >> gtJSONFor: aView context: aContext [
+String >> gtJSONFor: aView [
 
 	<gtView>
 	self ifEmpty: [ ^ aView empty ].
@@ -51,6 +83,82 @@ String >> gtJSONFor: aView context: aContext [
 		  text: [ self ];
 		  styler: JSONParser gtStyler;
 		  aptitude: BrGlamorousCodeEditorAptitude
+]
+
+{ #category : #'*GToolkit-Extensions' }
+String >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live';
+		priority: 15;
+		stencil: [
+		| container list editor |
+		container := BlElement new
+			constraintsDo: [:c | 
+				c vertical matchParent. 
+				c horizontal matchParent];
+			margin: (BlInsets top: 10 bottom: 10);
+			layout: (BlLinearLayout horizontal cellSpacing: 10).
+		editor := BrEditorElement new
+				constraintsDo: [ :c | 
+					c vertical matchParent. 
+					c horizontal matchParent.
+					c linear weight: 4 ];
+				editor: (BrTextEditorModel new
+				text: (self asRopedText glamorousCodeFont);
+				when: BrTextEditorCursorMovedEvent do: [:e | 
+					list selectOne: (e newIndex max: 1).
+					list children first scrollToPosition: (e newIndex max: 1) ];
+				when: BrTextEditorCursorAddedEvent do: [:e | 
+					list selectOne: (e cursor position max: 1).
+					list children first scrollToPosition: (e cursor position max: 1) ]).
+		container addChild: editor.
+		
+		list := BrColumnedList new
+			rowStencil: (BrGlamorousColumnedListSelectableRowElementStencilBuilder new);
+			constraintsDo: [:c | 
+				c vertical matchParent. 
+				c horizontal matchParent ];
+			
+			items: (self asOrderedCollection collectWithIndex: [ :char :index | char -> index ]);
+			when: BrSelectionChanged do: [ :event | 
+				event selectedInterval ifNotNil: [ 
+					editor editor text clearAttributes: [ :each | each isKindOf: BlTextHighlightAttribute ].
+					(editor editor text from: event selectedInterval first to: event selectedInterval last)
+						attribute: (BlTextHighlightAttribute new paint: BrGlamorousColors textHighlightColor "result: (editor editor text at: event selectedInterval first)")] ].
+		list column 
+			title: 'Index';
+			stencil: [ :assoc | BrColumnCellLabelStencil new text: (assoc value asString asRopedText glamorousRegularFont; foreground: Color gray; fontSize: 12)].
+		list column 
+			title: 'Char';
+			stencil: [ :assoc | BrColumnCellLabelStencil new text: ((assoc key gtDisplayString gtRemovePrefix: 'Character ') asRopedText glamorousRegularFont; fontSize: 12)].
+		list column 
+			title: 'ASCII';
+			stencil: [ :assoc | BrColumnCellLabelStencil new text: ((assoc key asciiValue asString) asRopedText glamorousRegularFont; fontSize: 12)].
+		container addChild: list.
+		
+		container 
+		]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+String >> gtTreeFor: aView context: aContext [
+	"override"
+	^ aView empty
+]
+
+{ #category : #'*GToolkit-Extensions' }
+String >> gtWebpageFor: aView [
+	<gtView>
+	self ifEmpty: [ ^ aView empty ].
+	((self beginsWith: 'http://') or: [ self beginsWith: 'https://' ])
+		ifFalse: [ ^ aView empty ].
+
+	^ aView forward
+		title: 'Webpage';
+		priority: 20;
+		object: [ self asZnUrl ];
+		view: #gtWebpageFor:
 ]
 
 { #category : #'*GToolkit-Extensions' }
