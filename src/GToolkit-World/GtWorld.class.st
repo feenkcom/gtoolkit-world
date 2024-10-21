@@ -108,6 +108,8 @@ GtWorld class >> openWithSpaces: aCollectionOfSpaces [
 
 	aCollectionOfSpaces do: [ :eachSpace |
 		aSpace root showSpace: eachSpace ].
+	aSpace knowledgeBase: LeDatabasesRegistry uniqueInstance 
+		currentLoadedDefaultLogicalDatabase.
 
 	aSpace show.
 	^ aSpace
