@@ -123,7 +123,8 @@ GtImageSetup class >> notRegisteredSystemFFIMethods [
 { #category : #actions }
 GtImageSetup class >> patchForStringSymbolStringComparison [
 	GtStrictSymbolInstallation new
-		patchIcebergRepositories
+		patchIcebergRepositories;
+		refactorOCAbstractMethodScope
 ]
 
 { #category : #api }
