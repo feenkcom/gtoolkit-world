@@ -1,7 +1,7 @@
 Extension { #name : #GtSearchScopedMethodsScope }
 
 { #category : #'*GToolkit-Extensions' }
-GtSearchScopedMethodsScope classSide >> gtScopesFor: aView [
+GtSearchScopedMethodsScope class >> gtScopesFor: aView [
 	<gtClassView>
 	^ aView columnedList
 		title: 'Scopes';

@@ -22,15 +22,23 @@ Class >> gtAllConfigurationReferencesFor: aView [
 Class >> gtAllReferencesFor: aView [
 	<gtView>
 	<gtClassView>
-	
 	(self name beginsWith: ConfigurationOf name) ifTrue: [ ^ aView empty ].
-	
+
 	^ aView forward
 		title: 'References';
 		tooltip: 'Class references';
 		priority: 40;
-		object: [ self gtReferences ];
-		view: #gtItemsFor:
+		object: [ self gtReferences
+				requesterContext: (GtSearchMethodCoderFilterContext new behavior: self) ];
+		view: #gtItemsFor:;
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			label: 'Filter'
+			tooltip: 'Inspect the current search filter'
+			action: [ :aButton | 
+				aButton phlow
+					spawnObject: (aButton phlow firstParentWithView content phlow firstChildWithView phlow
+							element query // GtPharoStreamingMethodsCoderElement) anyOne
+							streamingCodersViewModel streamingCodersModel compositeFilter ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
