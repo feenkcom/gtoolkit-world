@@ -22,14 +22,14 @@ Class >> gtAllConfigurationReferencesFor: aView [
 Class >> gtAllReferencesFor: aView [
 	<gtView>
 	<gtClassView>
-	
 	(self name beginsWith: ConfigurationOf name) ifTrue: [ ^ aView empty ].
-	
+
 	^ aView forward
 		title: 'References';
 		tooltip: 'Class references';
 		priority: 40;
-		object: [ self gtReferences ];
+		object: [ self gtReferences
+				requesterContext: (GtSearchMethodCoderFilterContext new behavior: self) ];
 		view: #gtItemsFor:
 ]
 

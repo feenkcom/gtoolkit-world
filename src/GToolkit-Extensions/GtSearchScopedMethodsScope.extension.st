@@ -5,7 +5,7 @@ GtSearchScopedMethodsScope class >> gtScopesFor: aView [
 	<gtClassView>
 	^ aView columnedList
 		title: 'Scopes';
-		items: [ self allSubclasses sort: [ :a :b | a order < b order ] ];
+		items: [ GtSearchScopedMethodsScope allSubclasses sort: [ :a :b | a order < b order ] ];
 		column: 'Order' text: [ :each | each order ] width: 50;
 		column: 'Icon' icon: [ :each | each new icon ];
 		column: 'Label' text: [ :each | each new label ];
