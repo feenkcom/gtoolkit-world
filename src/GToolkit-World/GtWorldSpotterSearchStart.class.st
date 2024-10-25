@@ -39,8 +39,7 @@ GtWorldSpotterSearchStart >> gtSearchForToolsFor: aSearch [
 	<gtSearch>
 	^ aSearch list
 		priority: 1;
-		items: [ {GtPlaygroundStencil new knowledgeBase: self knowledgeBase.
-				LeNotePlaygroundStencil new knowledgeBase: self knowledgeBase.
+		items: [ {
 				LeLepiterToolStencil new knowledgeBase: self knowledgeBase.
 				GtCoderStencil new.
 				GtMonitorStencil new.
