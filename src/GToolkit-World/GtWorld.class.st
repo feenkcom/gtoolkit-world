@@ -124,6 +124,12 @@ GtWorld class >> openWithSpaces: aCollectionOfSpaces from: aSpace [
 	^ aNewSpace
 ]
 
+{ #category : #updating }
+GtWorld class >> requestAllInstancesHomeUpdate [
+	self allInstances do: [ :aGtWorld |
+		aGtWorld requestHomeUpdate ]
+]
+
 { #category : #'api - notification' }
 GtWorld class >> showNotification: aNotification [
 	BlSpace
@@ -215,6 +221,11 @@ GtWorld >> refreshContent [
 { #category : #accessing }
 GtWorld >> removeShutdownListener [
 	self removeEventHandlersSuchThat: [ :eachHandler | eachHandler isKindOf: BlSpaceShutdownOnCloseListener ]
+]
+
+{ #category : #updating }
+GtWorld >> requestHomeUpdate [
+	self root children first home requestWidgetUpdate
 ]
 
 { #category : #actions }

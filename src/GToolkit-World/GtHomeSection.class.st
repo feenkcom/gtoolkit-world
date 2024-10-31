@@ -16,18 +16,12 @@ GtHomeSection class >> gtUpdateGtWorldActionFor: anAction [
 		priority: 20;
 		icon: BrGlamorousVectorIcons refresh;
 		action: [ :aButton | 
-			self updateGtWorld]
+			GtWorld requestAllInstancesHomeUpdate]
 ]
 
 { #category : #testing }
 GtHomeSection class >> isAbstract [ 
 	^ self name = #GtHomeSection 
-]
-
-{ #category : #utility }
-GtHomeSection class >> updateGtWorld [
-	^ GtWorld allInstances
-		do: [ :aGtWorld | aGtWorld root children first home updateWidget ]
 ]
 
 { #category : #'instance creation' }
