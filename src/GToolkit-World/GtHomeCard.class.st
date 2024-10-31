@@ -295,6 +295,5 @@ GtHomeCard >> title: aString [
 
 { #category : #utility }
 GtHomeCard >> updateGtWorld [
-	^ GtWorld allInstances
-		do: [ :aGtWorld | aGtWorld root children first home updateWidget ]
+	GtWorld requestAllInstancesHomeUpdate
 ]

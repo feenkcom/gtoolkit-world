@@ -161,6 +161,12 @@ GtHome >> refreshNotifications [
 	self updateFeed.
 ]
 
+{ #category : #updating }
+GtHome >> requestWidgetUpdate [
+	self enqueueTask: (BlTaskAction new 
+		action: [ self updateWidget ])
+]
+
 { #category : #accessing }
 GtHome >> spaceGap [
 	^ 10
