@@ -18,6 +18,11 @@ Class {
 	#category : #'GToolkit-World-Sections'
 }
 
+{ #category : #utility }
+GtHomeMultiCardSection class >> updateGtWorld [
+	GtWorld requestAllInstancesHomeUpdate
+]
+
 { #category : #accessing }
 GtHomeMultiCardSection >> cardMethods [
 	^ self class methods select: [ :m | m hasPragmaNamed: 'gtSectionCard' ]
