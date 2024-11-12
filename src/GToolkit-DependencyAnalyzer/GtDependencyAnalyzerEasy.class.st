@@ -41,5 +41,6 @@ GtDependencyAnalyzerEasy class >> preloadedBaselines [
 		BaselineOfBasicTools.
 		BaselineOfRing.
 		BaselineOfEpicea.
-		BaselineOfGeneralTests }
+		BaselineOfGeneralTests.
+		BaselineOfGToolkitPrerequisites }
 ]
