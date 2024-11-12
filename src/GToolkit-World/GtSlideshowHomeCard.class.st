@@ -1,3 +1,6 @@
+"
+I am a special kind of GtJobHomeCard that can be used to inspect a slideshow.
+"
 Class {
 	#name : #GtSlideshowHomeCard,
 	#superclass : #GtJobHomeCard,
