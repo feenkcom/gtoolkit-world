@@ -35,12 +35,16 @@ GtHomeCard class >> explicit [
 
 { #category : #factory }
 GtHomeCard class >> job [
+	"I am a card that runs a block as an asynchronous job.
+	I store the process id and warning the user if a job is already running."
 	^ GtJobHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 
 { #category : #factory }
 GtHomeCard class >> lazy [
+	"I am a kind of GtHomeCard for a page in a database that might not yet be loaded.
+For an example, see {{gtMethod:name=GtHomeCardExamples>>#lazyGtDemosCard}}."
 	^ GtLazyHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
@@ -64,6 +68,8 @@ GtHomeCard class >> page [
 
 { #category : #factory }
 GtHomeCard class >> slideshow [
+	"I am a special kind of GtJobHomeCard that can be used to inspect a slideshow.
+	I assume there is just a baseline and a lepiter database to load."
 	^ GtSlideshowHomeCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
