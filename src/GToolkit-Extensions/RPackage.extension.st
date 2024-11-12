@@ -208,7 +208,7 @@ RPackage >> gtPackageCoderFor: aView [
 		priority: 110;
 		stencil: [ | coder |
 			coder := GtCoderElement forPackage: self.
-			coder sidebarElement collapse.
+			"coder sidebarElement collapse."
 			coder ]
 ]
 
