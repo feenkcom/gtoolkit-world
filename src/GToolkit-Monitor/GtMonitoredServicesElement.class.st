@@ -50,6 +50,7 @@ GtMonitoredServicesElement >> updateList [
 		enqueueTask:
 			(BlEnqueuedFutureAction new
 				name: self updateTaskName;
+				futureConfiguration: GtMonitorConfiguration defaultFutureConfiguration;
 				action: [ self retreiveNewServiceList ];
 				element: self;
 				onFailureEnqueueAction: [ :anException | 

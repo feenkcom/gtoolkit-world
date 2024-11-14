@@ -49,6 +49,7 @@ GtMonitoredProcessElement >> updateList [
 		enqueueTask:
 			(BlEnqueuedFutureAction new
 				name: '[Monitor] Process Stack Update';
+				futureConfiguration: GtMonitorConfiguration defaultFutureConfiguration;
 				action: [ self stack ];
 				element: self;
 				onFailureEnqueueAction: [ :anException | 
