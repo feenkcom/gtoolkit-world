@@ -184,6 +184,15 @@ GtMonitoredBlocSpace >> gtAllPathsToFor: aView [
 ]
 
 { #category : #'gt-extension' }
+GtMonitoredBlocSpace >> gtLiveFor: aView [
+	<gtView>
+	| aSpace |
+	aSpace := self space ifNil: [ ^ aView empty ].
+	^ (aSpace root gtLiveFor: aView)
+		priority: 1.8
+]
+
+{ #category : #'gt-extension' }
 GtMonitoredBlocSpace >> gtPathToFor: aView [
 	<gtView>
 	
