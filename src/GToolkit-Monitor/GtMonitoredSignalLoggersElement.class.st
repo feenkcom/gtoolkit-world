@@ -69,6 +69,7 @@ GtMonitoredSignalLoggersElement >> updateList [
 		enqueueTask:
 			(BlEnqueuedFutureAction new
 				name: '[Monitor] Signal Loggers';
+				futureConfiguration: GtMonitorConfiguration defaultFutureConfiguration;
 				element: self;
 				action: [ | allLoggers |
 					allLoggers := SignalLogger allSubInstances

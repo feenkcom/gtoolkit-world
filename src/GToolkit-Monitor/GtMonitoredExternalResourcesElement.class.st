@@ -58,6 +58,7 @@ GtMonitoredExternalResourcesElement >> updateList [
 		enqueueTask:
 			(BlEnqueuedFutureAction new
 				name: '[Monitor] External resources';
+				futureConfiguration: GtMonitorConfiguration defaultFutureConfiguration;
 				element: self;
 				action: [ self class allExternalResources ];
 				onFailureEnqueueAction: [ 'Failed to update External resources list' traceCr ];
