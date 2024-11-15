@@ -106,3 +106,8 @@ TestResult >> gtSkippedFor: aView [
 			  GtPharoMethodsCoder forItems:
 					  (self gtAllCompiledMethodsForTestCases: self skipped) ]
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+TestResult >> isSuccess [
+	^self hasPassed
+]
