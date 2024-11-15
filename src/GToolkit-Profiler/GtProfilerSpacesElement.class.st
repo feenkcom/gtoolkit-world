@@ -83,6 +83,7 @@ GtProfilerSpacesElement >> updateList [
 		enqueueTask:
 			(BlEnqueuedFutureAction new
 				name: '[Monitor] Bloc spaces';
+				futureConfiguration: GtMonitorConfiguration defaultFutureConfiguration;
 				element: self;
 				action: [ self allOpenedSpaces ];
 				onFailureEnqueueAction: [ 'Failed to update Spaces list' traceCr ];

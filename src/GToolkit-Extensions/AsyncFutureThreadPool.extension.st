@@ -78,6 +78,11 @@ AsyncFutureThreadPool >> gtWorkersFor: aView [
 		actionButtonIcon: BrGlamorousVectorIcons cancel
 			tooltip: 'Reset telemetry'
 			action: [ self telemetryDo: #reset ];
+		actionButtonIcon: BrGlamorousVectorIcons left 
+			tooltip: 'Wake all items up: Push all pending tasks to local queue' 
+			action: [ :aButton :aTab |
+				workers do: #gtPushPendingTasksToLocalQueue.
+				aTab viewContentElement phlow update ];
 		actionButtonIcon: BrGlamorousVectorIcons right 
 			tooltip: 'Monitor pending tasks' 
 			action: [ :aButton | 

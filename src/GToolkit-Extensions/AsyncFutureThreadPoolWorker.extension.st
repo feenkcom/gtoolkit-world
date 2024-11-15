@@ -65,13 +65,18 @@ AsyncFutureThreadPoolWorker >> gtPendingQueueFor: aView [
 		actionButtonIcon: BrGlamorousVectorIcons left 
 			tooltip: 'Wake all items up: Push all pending tasks to local queue' 
 			action: [ :aButton :aTab |
-				localQueue pushBackAll: (pendingQueue popAll collect: #task).
+				self gtPushPendingTasksToLocalQueue.
 				aTab viewContentElement phlow update ];
 		actionButtonIcon: BrGlamorousVectorIcons cancel
 			tooltip: 'Cancel pending tasks'
 			action: [ :aButton :aTab |
 				pendingQueue itemArray do: [ :each | each task cancelSoft ].
 				aTab viewContentElement phlow update ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+AsyncFutureThreadPoolWorker >> gtPushPendingTasksToLocalQueue [
+	localQueue pushBackAll: (pendingQueue popAll collect: #task)
 ]
 
 { #category : #'*GToolkit-Extensions' }

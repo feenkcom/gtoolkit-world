@@ -86,6 +86,7 @@ GtMonitoredBlocSpacesElement >> updateList [
 		enqueueTask:
 			(BlEnqueuedFutureAction new
 				name: '[Monitor] Bloc spaces';
+				futureConfiguration: GtMonitorConfiguration defaultFutureConfiguration;
 				element: self;
 				action: [ | allSpaces |
 					allSpaces := BlSpace allSubInstances

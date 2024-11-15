@@ -140,16 +140,21 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> unsubscribeFromContent [
 { #category : #'private - updating' }
 GtHomeLepiterKnowledgeBaseDescriptionElement >> updateDescriptionElement [
 	self isUnloaded
-		ifTrue: [ descriptionElement
-				text: ('Knowledge base is not loaded.' asRopedText
-						foreground: self theme button disabledTextColor).
+		ifTrue: [ 
+			descriptionElement text: 'Contents not yet loaded.'.
+			descriptionElement aptitude
+				foreground: self theme button disabledTextColor.
 			^ self ].
 
 	self isReloading
-		ifFalse: [ descriptionElement text: self descriptionText ]
-		ifTrue: [ descriptionElement
-				text: ('Reloading knowledge base...' asRopedText
-						foreground: self theme button disabledTextColor) ]
+		ifFalse: [ 
+			descriptionElement text: self descriptionText.
+			descriptionElement aptitude
+				foreground: Color black. ]
+		ifTrue: [ 
+			descriptionElement text: 'Reloading...'.
+			descriptionElement aptitude
+				foreground: self theme button disabledTextColor. ]
 ]
 
 { #category : #'private - updating' }

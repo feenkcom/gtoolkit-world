@@ -31,6 +31,7 @@ GtWorldSpotterSearchStart >> gtNewSnippetFor: aSearch [
 				database: self knowledgeBase;
 				gtNewSnippetFor: aSearch))
 					wantsToDisplayOnEmptyQuery: true;
+					priority: 0;
 					itemsLimit: 5
 ]
 
