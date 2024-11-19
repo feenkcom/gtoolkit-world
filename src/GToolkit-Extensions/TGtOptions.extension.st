@@ -33,7 +33,7 @@ TGtOptions >> gtOptionsFor: aView [
 						   label: 'Remove ' , assoc key asString;
 						   action: [ :aButton | 
 							   self clearOption: assoc key ifAbsent: [ "ignore" ].
-							   aButton phlow firstParentWithView
+							   aButton phlow firstParentWithViewContent
 								   ifNotNil: [ :anElement | anElement phlow update ]
 								   ifNil: [ aButton phlow fireToolUpdateWish ] ];
 						   constraintsDo: [ :c | c linear vertical alignCenter ]);
