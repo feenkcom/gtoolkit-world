@@ -20,6 +20,9 @@ GtSlideshowHomeCard >> baseLineName [
 
 { #category : #running }
 GtSlideshowHomeCard >> block [
+	"Load the package if the slideshow class is missing.
+	Attempt to load any lepiter database or dependencies."
+
 	^ [ :aButton :aModel :anEvent | 
 	Smalltalk globals
 		at: self slideshowClassSymbol
@@ -27,7 +30,9 @@ GtSlideshowHomeCard >> block [
 				baseline: self baseLineName;
 				repository: self repo;
 				load.
-			loadLepiterBaseline ifNotNil: [ loadLepiterBaseline asClass loadLepiter ] ].
+			loadLepiterBaseline
+				ifNotNil: [ [ loadLepiterBaseline asClass loadLepiter ] onErrorDo: [  ].
+					[ loadLepiterBaseline asClass loadDependencies ] onErrorDo: [  ] ] ].
 	self spawnSlideshowFor: aButton.
 	self updateGtWorld ]
 ]
