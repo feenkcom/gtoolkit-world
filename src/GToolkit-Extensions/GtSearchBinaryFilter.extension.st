@@ -4,3 +4,9 @@ Extension { #name : #GtSearchBinaryFilter }
 GtSearchBinaryFilter >> children [
 	^ { self leftFilter. self rightFilter }
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchBinaryFilter >> gtAreAllGtSearchMethodsFilterKind [
+	^ self leftFilter gtAreAllGtSearchMethodsFilterKind
+		and: [ self rightFilter gtAreAllGtSearchMethodsFilterKind ]
+]
