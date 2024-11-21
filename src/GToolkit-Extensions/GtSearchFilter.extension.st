@@ -7,6 +7,11 @@ GtSearchFilter >> children [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtAreAllGtSearchMethodsFilterKind [
+	^ false
+]
+
+{ #category : #'*GToolkit-Extensions' }
 GtSearchFilter class >> gtHierarchyFor: aView [
 	<gtView>
 	<gtClassView>
@@ -72,6 +77,75 @@ GtSearchFilter >> gtHierarchyFor: aView [
 		items: [ { self } ];
 		children: [ :aFilter | aFilter children ];
 		expandUpTo: 2
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtItemsByClassFor: aView [
+	<gtView>
+	<gtToolView>
+
+	self gtAreAllGtSearchMethodsFilterKind ifFalse: [ ^ aView empty ].
+	
+	^ aView columnedList
+		title: 'By Class';
+		priority: 43;
+		items: [ 
+			(self result asyncSimilarCopy toArray wait 
+				groupedBy: [ :aCompiledMethod | aCompiledMethod methodClass ])
+				associations sorted: [ :assoc | assoc key name ] ascending ];
+		column: 'Class' do: [ :aColumn |
+			aColumn
+				cellStencil: [ 
+					GtPhlowLabelWithIcon new ];
+				dataBinder: [ :anElement :assoc | 
+					anElement updateForClass: assoc key ] ];
+		column: 'Items' text: [ :assoc | assoc value size ];
+		send: [ :assoc |
+			GtSearchFixedMethodsFilter new 
+				methods: assoc value;
+				highlighter: self highlighter;
+				label: self gtDisplayString, ' & ', assoc key name, ' class'  ] 
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtItemsByPackageFor: aView [
+	<gtView>
+	<gtToolView>
+
+	self gtAreAllGtSearchMethodsFilterKind ifFalse: [ ^ aView empty ].
+	
+	^ aView columnedList
+		title: 'By Package';
+		priority: 43;
+		items: [ 
+			(self result asyncSimilarCopy toArray wait 
+				groupedBy: [ :aCompiledMethod | aCompiledMethod package ])
+				associations sorted: [ :assoc | 
+					assoc key 
+						ifNil: [ '' ] 
+						ifNotNil: [:aPackage | aPackage name] ] ascending ];
+		column: 'Package' do: [ :aColumn |
+			aColumn
+				cellStencil: [ 
+					GtPhlowLabelWithIcon new ];
+				dataBinder: [ :anElement :assoc | 
+					anElement 
+						initializeWithIcon: (self 
+							gtSafeIconNamed: #package)
+						label: (assoc key 
+							ifNil: [ '<Obsolete>' ] 
+							ifNotNil: [:aPackage | aPackage name ] ) ] ];
+		column: 'Items' text: [ :assoc | assoc value size ];
+		send: [ :assoc |
+			GtSearchFixedMethodsFilter new 
+				methods: assoc value;
+				highlighter: self highlighter;
+				label: (self gtDisplayString
+					, ' & '
+					, (assoc key 
+						ifNil: [ '<Obsolete>' ] 
+						ifNotNil: [:aPackage | aPackage name ])
+					, ' package') ] 
 ]
 
 { #category : #'*GToolkit-Extensions' }
