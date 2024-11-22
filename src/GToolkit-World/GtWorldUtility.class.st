@@ -70,7 +70,9 @@ GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon with: aStencil 
 	
 	anotherElement 
 		ifNil: [ aSpace show ] 
-		ifNotNil: [ anotherElement showSpace: aSpace ].
+		ifNotNil: [ BlTaskAction 
+			enqueueElement: anotherElement 
+			action: [ anotherElement showSpace: aSpace ] ].
 	
 	^ aSpace
 ]
