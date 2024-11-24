@@ -18,6 +18,9 @@ BlSpace >> withScreenshotHandler [
 		do: [ :anEvent | 
 			| fileReference |
 			anEvent consumed: true.
-			fileReference := self root exportAsPNG.
+			fileReference := BlExporter png
+					scaled: 2;
+					element: self root;
+					export.
 			Clipboard clipboardText: fileReference fullName ]
 ]
