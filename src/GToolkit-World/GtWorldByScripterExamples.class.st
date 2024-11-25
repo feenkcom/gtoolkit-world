@@ -21,11 +21,11 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 						block: [ :aTabElement | 
 							| aStencil |
 							aStencil := self coderStencil.
-							GtWorldUtility
-								showSpaceWithIcon: aStencil icon
-								title: aStencil name
-								with: aStencil
-								from: aTabElement ] ].
+							aTabElement phlow spaceBuilder
+								icon: aStencil icon;
+								title: aStencil name;
+								stencil: aStencil;
+								show ] ].
 
 			aStep
 				checkStep: [ :s | 
@@ -133,7 +133,6 @@ GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentC
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter: aScripter maximized: isMaximized [
 	<gtExample>
-	
 	aScripter
 		substep: 'Add lepiter page into a World tab'
 		do: [ :aStep | 
@@ -147,12 +146,12 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 							aPageElement := aTool asElementDo: [ :anElement | anElement ].
 							aPager := GtPager createWrappedOn: aPageElement.
 							isMaximized ifTrue: [ aPager maximized ].
-							GtWorldUtility
-								showSpaceWithIcon: aTool icon
-								title: aLePage title
-								with: aPager
-								from: aTabElement ] ].	
-								
+							aTabElement phlow spaceBuilder
+								icon: aTool icon;
+								title: aLePage title;
+								stencil: aPager;
+								show ] ].
+
 			aStep
 				checkStep: [ :s | 
 					s
@@ -383,11 +382,11 @@ GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 						block: [ :aTabElement | 
 							| aStencil |
 							aStencil := self playgroundStencil.
-							GtWorldUtility
-								showSpaceWithIcon: aStencil icon
-								title: aStencil name
-								with: aStencil
-								from: aTabElement ] ].	"aStep wait forEmptySpaceTaskQueue."
+							aTabElement phlow spaceBuilder
+								icon: aStencil icon;
+								title: aStencil name;
+								stencil: aStencil;
+								show ] ].
 
 			aStep
 				checkStep: [ :s | 

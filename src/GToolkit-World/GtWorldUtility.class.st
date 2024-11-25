@@ -6,92 +6,112 @@ Class {
 	#category : #'GToolkit-World-Utilities'
 }
 
+{ #category : #testing }
+GtWorldUtility class >> isDeprecated [
+	"Replaced by GtPhlowShowSpaceAction"
+
+	^ true
+]
+
 { #category : #'instance creation' }
 GtWorldUtility class >> showObject: anObject from: anotherElement [
-	self 
-		showSpaceWithTitle:  (GtPhlowTitleLabelBuilder longLabel: [
-			anObject gtInspectorTitleString ]) build
-		inPagerWith: [ 
-			anObject gtDefaultInspectorTool asElementDo: [ :e | e ] ] asStencil
-		from: anotherElement.
+	self
+		deprecated: 'Use `anotherElement phlow showObject: anObject` instead'
+		transformWith: '`@receiver showObject: `@object from: `@element'
+				-> '`@element phlow showObject: `@object'.
+
+	^ anotherElement phlow showObject: anObject
 ]
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithIcon: anIcon title: aString with: aStencil from: anotherElement [
-	| aSpace |
-	aSpace := BlSpace new.
-	aSpace title: aString.
-	aSpace icon: anIcon.
-	aSpace extent: 1200@600.
-	aSpace root background: Color transparent.
-	aSpace addChild: aStencil asElement.
-	aSpace withHalos.
-	
-	anotherElement 
-		ifNil: [ aSpace show ] 
-		ifNotNil: [
-			anotherElement showSpace: aSpace.
-			anotherElement fireEvent: BrDropdownHideWish new ].
-	
-	^ aSpace
+	self
+		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
+		transformWith: '`@receiver showSpaceWithIcon: `@icon title: `@string with: `@stencil from: `@element'
+				-> '`@element phlow spaceBuilder icon: `@icon; title: `@string; stencil: `@stencil; show'.
+	^ anotherElement phlow spaceBuilder
+		icon: anIcon;
+		title: aString;
+		stencil: aStencil;
+		show
 ]
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon inPager: aPagerConfiguration with: aStencil from: anotherElement [
-	| anElement aPager |
-	anElement := aStencil asElement.
-	aPager := GtPager createWrappedOn: anElement.
-	aPager maximized.
-	aPagerConfiguration applyOn: aPager.
-	^ self showSpaceWithTitle: aString with: aPager from: anotherElement.
+	self
+		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
+		transformWith: '`@receiver showSpaceWithTitle: `@string icon: `@icon inPager: `@pagerConfiguration with: `@stencil from: `@element'
+				-> '`@element phlow spaceBuilder icon: `@icon; title: `@string; inPager: `@stencil configured: `@pagerConfiguration; show'.
+	^ anotherElement phlow spaceBuilder
+		icon: anIcon;
+		title: aString;
+		inPager: aStencil configured: aPagerConfiguration;
+		show
 ]
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon inPagerWith: aStencil from: anotherElement [
-	^ self 
-		showSpaceWithTitle: aString 
-		icon: anIcon
-		inPager: GtWorldPagerConfiguration new
-		with: aStencil 
-		from: anotherElement
+	self
+		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
+		transformWith: '`@receiver showSpaceWithTitle: `@aString icon: `@anIcon inPagerWith: `@aStencil from: `@anotherElement'
+				-> '`@anotherElement phlow spaceBuilder icon: `@anIcon; title: `@aString; inPager: `@aStencil configured: GtWorldPagerConfiguration new; show'.
+	^ anotherElement phlow spaceBuilder
+		fromElement: anotherElement;
+		icon: anIcon;
+		title: aString;
+		inPager: aStencil configured: GtWorldPagerConfiguration new;
+		show
 ]
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon with: aStencil from: anotherElement [
-	| aSpace |
-	aSpace := BlSpace new.
-	aSpace title: aString.
-	anIcon ifNotNil: [
-		aSpace icon: anIcon ].
-	aSpace extent: 1200@600.
-	aSpace root background: Color transparent.
-	aSpace addChild: aStencil asElement.
-	aSpace withHalos.
-	
-	anotherElement 
-		ifNil: [ aSpace show ] 
-		ifNotNil: [ BlTaskAction 
-			enqueueElement: anotherElement 
-			action: [ anotherElement showSpace: aSpace ] ].
-	
-	^ aSpace
+	self
+		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
+		transformWith: '`@receiver showSpaceWithTitle: `@aString icon: `@anIcon with: `@aStencil from: `@anotherElement'
+				-> '`@anotherElement phlow spaceBuilder icon: `@anIcon; title: `@aString; stencil: `@aStencil; show'.
+	^ anotherElement phlow spaceBuilder
+		fromElement: anotherElement;
+		icon: anIcon;
+		title: aString;
+		stencil: aStencil;
+		show
 ]
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithTitle: aString inPager: aPagerConfiguration with: aStencil from: anotherElement [
-	^ self showSpaceWithTitle: aString icon: nil inPager: aPagerConfiguration with: aStencil from: anotherElement
+	self
+		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
+		transformWith: '`@receiver showSpaceWithTitle: `@aString inPager: `@aPagerConfiguration with: `@aStencil from: `@anotherElement'
+				-> '`@anotherElement phlow spaceBuilder title: `@aString; inPager: `@aStencil configured: `@aPagerConfiguration; show'.
+	^ anotherElement phlow spaceBuilder
+		fromElement: anotherElement;
+		title: aString;
+		inPager: aStencil configured: aPagerConfiguration;
+		show
 ]
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithTitle: aString inPagerWith: aStencil from: anotherElement [
-	^ self 
-		showSpaceWithTitle: aString 
-		inPager: GtWorldPagerConfiguration new
-		with: aStencil 
-		from: anotherElement
+	self
+		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
+		transformWith: '`@receiver showSpaceWithTitle: `@aString inPagerWith: `@aStencil from: `@anotherElement'
+				-> '`@anotherElement phlow spaceBuilder title: `@aString; inPager: `@aStencil configured: GtWorldPagerConfiguration new; show'.
+	^ anotherElement phlow spaceBuilder
+		fromElement: anotherElement;
+		title: aString;
+		inPager: aStencil configured: GtWorldPagerConfiguration new;
+		show
 ]
 
 { #category : #'instance creation' }
 GtWorldUtility class >> showSpaceWithTitle: aString with: aStencil from: anotherElement [
-	^ self showSpaceWithTitle: aString icon: nil with: aStencil from: anotherElement
+	self
+		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
+		transformWith: '`@receiver showSpaceWithTitle: `@aString with: `@aStencil from: `@anotherElement'
+				-> '`@anotherElement phlow spaceBuilder title: `@aString; stencil: `@aStencil; show'.
+	^ anotherElement phlow spaceBuilder
+		fromElement: anotherElement;
+		title: aString;
+		stencil: aStencil;
+		show
 ]

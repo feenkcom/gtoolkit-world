@@ -34,7 +34,7 @@ GtWorldPagerConfiguration >> contentElementAction: aValuable [
 GtWorldPagerConfiguration >> contentElementDo: aBlock in: aPager [
 	| aContentElement |
 	aPager pages ifEmpty: [ ^ self ].
-	aContentElement :=  aPager pages last contentElement..
+	aContentElement :=  aPager pages last contentElement.
 	aBlock value: aContentElement
 ]
 
