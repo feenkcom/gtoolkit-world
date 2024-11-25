@@ -37,7 +37,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				spec repository: 'github://feenkcom/gt4changes:v0.6.949/src' ].
 		spec
 			baseline: 'GToolkit4Git' with: [
-				spec repository: 'github://feenkcom/gt4git:v0.8.1282/src' ].
+				spec repository: 'github://feenkcom/gt4git:v0.8.1283/src' ].
 		spec
 			baseline: 'GToolkit4GraphQL' with: [
 				spec repository: 'github://feenkcom/gt4graphql:v0.6.1714/src' ].
