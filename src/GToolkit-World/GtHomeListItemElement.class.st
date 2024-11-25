@@ -60,11 +60,12 @@ GtHomeListItemElement >> newActOnButton [
 		icon: BrGlamorousVectorIcons accept;
 		label: 'Show page';
 		action: [ :aButton | 
-			GtWorldUtility
-				showSpaceWithTitle: self item title
-				icon: LeIcons lepiterPage
-				inPagerWith: [ self item asPhlowTool asElementDo: [ :e | e ] ] asStencil
-				from: self ];
+			self phlow spaceBuilder
+				icon: LeIcons lepiterPage;
+				title: self item title;
+				inPager: [ self item asPhlowTool asElementDo: [ :e | e ] ] asStencil
+					configured: GtWorldPagerConfiguration new;
+				show ];
 		beTinySize;
 		yourself
 ]

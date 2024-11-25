@@ -21,11 +21,11 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 						block: [ :aTabElement | 
 							| aStencil |
 							aStencil := self coderStencil.
-							GtWorldUtility
-								showSpaceWithIcon: aStencil icon
-								title: aStencil name
-								with: aStencil
-								from: aTabElement ] ].
+							aTabElement phlow spaceBuilder
+								icon: aStencil icon;
+								title: aStencil name;
+								stencil: aStencil;
+								show ] ].
 
 			aStep
 				checkStep: [ :s | 
@@ -383,11 +383,11 @@ GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 						block: [ :aTabElement | 
 							| aStencil |
 							aStencil := self playgroundStencil.
-							GtWorldUtility
-								showSpaceWithIcon: aStencil icon
-								title: aStencil name
-								with: aStencil
-								from: aTabElement ] ].	"aStep wait forEmptySpaceTaskQueue."
+							aTabElement phlow spaceBuilder
+								icon: aStencil icon;
+								title: aStencil name;
+								stencil: aStencil;
+								show ] ].
 
 			aStep
 				checkStep: [ :s | 

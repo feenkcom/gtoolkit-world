@@ -268,10 +268,7 @@ GtHomeCard >> spaceGap [
 GtHomeCard >> spawnObject: anObject from: aButton [
 	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
 
-	^ aButton
-		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
-		ifFound: [ :aParent | aButton phlow spawnObject: anObject ]
-		ifNone: [ GtWorldUtility showObject: anObject from: aButton ]
+	^ aButton phlow spawnOrShowObject: anObject
 ]
 
 { #category : #utility }
