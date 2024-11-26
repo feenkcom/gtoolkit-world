@@ -25,7 +25,7 @@ GtHomeMultiCardSection class >> updateGtWorld [
 
 { #category : #accessing }
 GtHomeMultiCardSection >> cardMethods [
-	^ self class methods select: [ :m | m hasPragmaNamed: 'gtSectionCard' ]
+	^ self class methods select: [ :m | m hasPragmaNamed: #gtSectionCard ]
 ]
 
 { #category : #priority }
