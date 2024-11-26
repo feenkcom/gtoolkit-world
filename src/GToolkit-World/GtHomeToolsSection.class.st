@@ -285,15 +285,6 @@ GtHomeToolsSection >> pageWithSnippetRequested: aSnippet button: aButton [
 { #category : #'event handling' }
 GtHomeToolsSection >> spawnPage: aPage from: aButton [
 	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
-	
-	^ aButton
-		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
-		ifFound: [ :aParent | aButton phlow spawnTool: aPage asPhlowTool ]
-		ifNone: [ 
-			GtWorldUtility
-				showSpaceWithTitle: aPage title
-				icon: LeIcons lepiterPage
-				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
-						asStencil
-				from: aButton ]
+
+	^ aButton phlow spaceBuilder spawnPage: aPage
 ]

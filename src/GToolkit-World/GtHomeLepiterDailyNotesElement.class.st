@@ -90,14 +90,7 @@ GtHomeLepiterDailyNotesElement >> onDailyNotesChanged: anAnnouncement [
 GtHomeLepiterDailyNotesElement >> spawnPage: aPage from: aButton [
 	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
 
-	^ aButton
-		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
-		ifFound: [ :aParent | aButton phlow spawnTool: aPage asPhlowTool ]
-		ifNone: [ aButton phlow spaceBuilder
-				title: aPage title;
-				inPager: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ] asStencil
-					configured: GtWorldPagerConfiguration new;
-				show ]
+	^ aButton phlow spaceBuilder spawnPage: aPage
 ]
 
 { #category : #'private - subscriptions' }
