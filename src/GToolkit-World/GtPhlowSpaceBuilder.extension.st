@@ -1,6 +1,19 @@
 Extension { #name : #GtPhlowSpaceBuilder }
 
 { #category : #'*GToolkit-World' }
+GtPhlowSpaceBuilder >> showInGtWorld [
+	<return: #GtWorld>
+	| aSpace aWorldSpace |
+	aSpace := self create.
+
+	aWorldSpace := GtWorld openWithSpaces: {aSpace}.
+	self extent ifNotNil: [ :aPoint | 
+		aWorldSpace extent: aPoint ].
+
+	^ aWorldSpace
+]
+
+{ #category : #'*GToolkit-World' }
 GtPhlowSpaceBuilder >> spawnPage: aLePage [
 	"A lepiter page phlow tool is either:
 	- spawned to the next GtPager pane, or
