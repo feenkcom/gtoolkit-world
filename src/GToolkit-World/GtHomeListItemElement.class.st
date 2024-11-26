@@ -63,8 +63,7 @@ GtHomeListItemElement >> newActOnButton [
 			self phlow spaceBuilder
 				icon: LeIcons lepiterPage;
 				title: self item title;
-				inPager: [ self item asPhlowTool asElementDo: [ :e | e ] ] asStencil
-					configured: GtWorldPagerConfiguration new;
+				inPager: [ self item asPhlowTool asElementDo: [ :e | e ] ] asStencil;
 				show ];
 		beTinySize;
 		yourself

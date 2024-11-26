@@ -67,14 +67,14 @@ GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon inPagerWith: aS
 	self
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@aString icon: `@anIcon inPagerWith: `@aStencil from: `@anotherElement'
-				-> '`@anotherElement phlow spaceBuilder icon: `@anIcon; title: `@aString; inPager: `@aStencil configured: GtWorldPagerConfiguration new; show'
+				-> '`@anotherElement phlow spaceBuilder icon: `@anIcon; title: `@aString; inPager: `@aStencil; show'
 		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
 		icon: anIcon;
 		title: aString;
-		inPager: aStencil configured: GtWorldPagerConfiguration new;
+		inPager: aStencil;
 		show
 ]
 
@@ -114,13 +114,13 @@ GtWorldUtility class >> showSpaceWithTitle: aString inPagerWith: aStencil from: 
 	self
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@aString inPagerWith: `@aStencil from: `@anotherElement'
-				-> '`@anotherElement phlow spaceBuilder title: `@aString; inPager: `@aStencil configured: GtWorldPagerConfiguration new; show'
+				-> '`@anotherElement phlow spaceBuilder title: `@aString; inPager: `@aStencil; show'
 		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
 		title: aString;
-		inPager: aStencil configured: GtWorldPagerConfiguration new;
+		inPager: aStencil;
 		show
 ]
 
