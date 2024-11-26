@@ -19,7 +19,7 @@ GtWorldUtility class >> showObject: anObject from: anotherElement [
 		deprecated: 'Use `anotherElement phlow showObject: anObject` instead'
 		transformWith: '`@receiver showObject: `@object from: `@element'
 				-> '`@element phlow showObject: `@object'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
@@ -33,7 +33,7 @@ GtWorldUtility class >> showSpaceWithIcon: anIcon title: aString with: aStencil 
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithIcon: `@icon title: `@string with: `@stencil from: `@element'
 				-> '`@element phlow spaceBuilder icon: `@icon; title: `@string; stencil: `@stencil; show'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
@@ -49,7 +49,7 @@ GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon inPager: aPager
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@string icon: `@icon inPager: `@pagerConfiguration with: `@stencil from: `@element'
 				-> '`@element phlow spaceBuilder icon: `@icon; title: `@string; inPager: `@stencil configured: `@pagerConfiguration; show'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
@@ -65,7 +65,7 @@ GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon inPagerWith: aS
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@aString icon: `@anIcon inPagerWith: `@aStencil from: `@anotherElement'
 				-> '`@anotherElement phlow spaceBuilder icon: `@anIcon; title: `@aString; inPager: `@aStencil configured: GtWorldPagerConfiguration new; show'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
@@ -81,7 +81,7 @@ GtWorldUtility class >> showSpaceWithTitle: aString icon: anIcon with: aStencil 
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@aString icon: `@anIcon with: `@aStencil from: `@anotherElement'
 				-> '`@anotherElement phlow spaceBuilder icon: `@anIcon; title: `@aString; stencil: `@aStencil; show'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
@@ -97,7 +97,7 @@ GtWorldUtility class >> showSpaceWithTitle: aString inPager: aPagerConfiguration
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@aString inPager: `@aPagerConfiguration with: `@aStencil from: `@anotherElement'
 				-> '`@anotherElement phlow spaceBuilder title: `@aString; inPager: `@aStencil configured: `@aPagerConfiguration; show'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
@@ -112,7 +112,7 @@ GtWorldUtility class >> showSpaceWithTitle: aString inPagerWith: aStencil from: 
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@aString inPagerWith: `@aStencil from: `@anotherElement'
 				-> '`@anotherElement phlow spaceBuilder title: `@aString; inPager: `@aStencil configured: GtWorldPagerConfiguration new; show'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
@@ -127,7 +127,7 @@ GtWorldUtility class >> showSpaceWithTitle: aString with: aStencil from: another
 		deprecated: 'Use `anotherElement phlow spaceBuilder ...; show` instead'
 		transformWith: '`@receiver showSpaceWithTitle: `@aString with: `@aStencil from: `@anotherElement'
 				-> '`@anotherElement phlow spaceBuilder title: `@aString; stencil: `@aStencil; show'
-		when: anotherElement isNotNil.
+		when: [ anotherElement isNotNil ].
 	
 	^ GtPhlowSpaceBuilder new
 		fromElement: anotherElement;
