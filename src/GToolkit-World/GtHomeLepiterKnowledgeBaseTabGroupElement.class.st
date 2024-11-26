@@ -191,12 +191,11 @@ GtHomeLepiterKnowledgeBaseTabGroupElement >> spawnPage: aPage from: aButton [
 	^ aButton
 		allParentsDetect: [ :aParent | aParent isKindOf: GtPager ]
 		ifFound: [ :aParent | aButton phlow spawnTool: aPage asPhlowTool ]
-		ifNone: [ 
-			GtWorldUtility
-				showSpaceWithTitle: aPage title
-				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
-						asStencil
-				from: aButton ]
+		ifNone: [ aButton phlow spaceBuilder
+				title: aPage title;
+				inPager: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ] asStencil
+					configured: GtWorldPagerConfiguration new;
+				show ]
 ]
 
 { #category : #'private - subscriptions' }
