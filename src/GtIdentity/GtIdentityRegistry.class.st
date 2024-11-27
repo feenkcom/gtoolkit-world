@@ -35,6 +35,11 @@ GtIdentityRegistry >> allOfType: aClass [
 ]
 
 { #category : #accessing }
+GtIdentityRegistry >> clearCredentials [
+	self credentials removeAll
+]
+
+{ #category : #accessing }
 GtIdentityRegistry >> credentialKey [
 	^ #credential
 ]
