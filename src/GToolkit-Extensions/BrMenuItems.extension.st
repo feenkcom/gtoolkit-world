@@ -15,3 +15,27 @@ BrMenuItems >> gtLiveFor: aView [
 				addChild: (BrMenuSteppedElement new
 					addChild: self asElement) ]
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+BrMenuItems >> gtPlaygroundFor: aView [
+	<gtView>
+	self class isAbstract ifTrue: [ ^ aView empty ].
+
+	^ aView explicit
+		title: 'Playground';
+		priority: 2;
+		stencil: [ 
+			BlElement new
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ];
+				addChild: (BlElement new
+						size: 25 @ 25;
+						relocate: 30@30;
+						geometry: BlCircleGeometry new;
+						background: (Color red alpha: 0.5);
+						addEventHandler: BlPullHandler new 
+							disallowOutOfBounds;
+						addAptitude: (BrWithExplicitMenuAptitude new
+							stencil: [ self ])) ]
+]
