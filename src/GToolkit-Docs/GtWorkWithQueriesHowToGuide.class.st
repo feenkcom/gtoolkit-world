@@ -93,7 +93,7 @@ for both instance and class side methods,
 
 or for methods that use a certain instance variable.
 
-{{gtExample:GtMethodsCoderExamples>>#instanceVariableFilter}}
+{{gtExample:GtMethodsCoderExamples>>#instanceSlotsFilter}}
 
 Through these method filters we can search different patterns. For example, we can search for methods that have a certain pattern in the source code,
 
