@@ -13,7 +13,7 @@ BrMenuItems >> gtLiveFor: aView [
 				matchParent;
 				padding: (BlInsets all: 10);
 				addChild: (BrMenuSteppedElement new
-					addChild: self asElement) ]
+					menuModel: self) ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
