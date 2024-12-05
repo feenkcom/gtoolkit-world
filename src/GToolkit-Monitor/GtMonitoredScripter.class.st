@@ -115,7 +115,13 @@ GtMonitoredScripter >> scripter: aScripter [
 { #category : #accessing }
 GtMonitoredScripter >> startTime [
 	^ self pulsers
-		ifNotEmpty: [ :aCollection | aCollection min: #startTime ]
+		ifNotEmpty: [ :aCollection | 
+			(aCollection 
+				collect: #startTime 
+				thenSelect: #isNotNil) 
+					ifNotEmpty: [ :aTimeCollection |
+						aTimeCollection min ]
+					ifEmpty: [ nil ] ]
 		ifEmpty: [ nil ]
 ]
 
