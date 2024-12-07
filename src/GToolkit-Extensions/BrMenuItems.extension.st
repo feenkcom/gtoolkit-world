@@ -37,5 +37,6 @@ BrMenuItems >> gtPlaygroundFor: aView [
 						addEventHandler: BlPullHandler new 
 							disallowOutOfBounds;
 						addAptitude: (BrWithExplicitMenuAptitude new
+							beClickPositionRelocator;
 							stencil: [ self ])) ]
 ]
