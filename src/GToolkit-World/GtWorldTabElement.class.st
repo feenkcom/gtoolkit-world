@@ -435,8 +435,3 @@ GtWorldTabElement >> tabs [
 	<return: #BrTabGroup>
 	^ tabs
 ]
-
-{ #category : #'children accessing' }
-GtWorldTabElement >> topMostParent [
-	^ self
-]
