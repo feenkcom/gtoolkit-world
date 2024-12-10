@@ -436,7 +436,11 @@ GtWorldTabElement >> tabs [
 	^ tabs
 ]
 
-{ #category : #'children accessing' }
+{ #category : #'children - accessing' }
 GtWorldTabElement >> topMostParent [
+	"This method exists due to Driller.
+	Driller places the world in another element,
+	But popups still should appear in the world not in Driller."
+
 	^ self
 ]
