@@ -24,6 +24,11 @@ GtHomeSection class >> isAbstract [
 	^ self name = #GtHomeSection 
 ]
 
+{ #category : #testing }
+GtHomeSection >> isEmptySection [
+	^ false
+]
+
 { #category : #'instance creation' }
 GtHomeSection >> newAddCardWithTooltip: aTooltip size: aPoint action: aBlock [
 	| anAddButton |
