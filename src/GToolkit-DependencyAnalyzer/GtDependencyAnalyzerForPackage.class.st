@@ -16,11 +16,20 @@ GtDependencyAnalyzerForPackage class >> baselinesForPackage: aPackageOrName [
 	<return: #Collection of: #'BaselineOf class'>
 	| aPackageName |
 
+	aPackageOrName ifNil: [ ^ #() ].
+	
 	aPackageName := aPackageOrName isString
 		ifTrue: [ aPackageOrName ]
 		ifFalse: [ aPackageOrName name ].
 
-	^ BaselineOf allSubclasses select: [ :eachBaseline | eachBaseline allPackageNames includes: aPackageName ]
+	^ BaselineOf allSubclasses select: [ :eachBaseline | 
+		([ eachBaseline allPackageNames ]
+			onErrorDo: [ :anError | 
+				GtDependencyAnalyzerBrokenBaselineSignal new
+					exception: anError;
+					baseline: eachBaseline;
+					emit.
+				anError return: #() ]) includes: aPackageName ]
 ]
 
 { #category : #dependencies }
