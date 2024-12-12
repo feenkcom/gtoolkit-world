@@ -116,7 +116,7 @@ GtDependencyAnalyzerForPackage >> gtIssuesFor: aView [
 ]
 
 { #category : #'gt-extensions' }
-GtDependencyAnalyzerForPackage >> gtPackageDependenciesFor: aView [
+GtDependencyAnalyzerForPackage >> gtPackageDependenciesFor: aView context: aPhlowContext [
 	<gtView>
 
 	^ aView list
