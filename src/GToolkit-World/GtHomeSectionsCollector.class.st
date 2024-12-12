@@ -21,8 +21,8 @@ GtHomeSectionsCollector class >> homeSectionCollectorAnnotation [
 GtHomeSectionsCollector >> collect [
 	<return: #Array of: #GtPhlowView>
 	<gtCollector>
-	| sectionStencils |
-	sectionStencils := self collectPragmas
+	| allSectionStencils filteredSectionStencils |
+	allSectionStencils := self collectPragmas
 		flatCollect: [ :eachPragma | 
 			"Add error handling"
 			(thisContext
@@ -30,8 +30,10 @@ GtHomeSectionsCollector >> collect [
 				perform: eachPragma methodSelector
 				withArguments: {}
 				inClass: self object class) asCollection ].
-	self sortByPriority: sectionStencils.
-	^ sectionStencils
+	filteredSectionStencils := allSectionStencils reject: [ :aSectionStencil |
+		aSectionStencil isEmptySection ].
+	self sortByPriority: filteredSectionStencils.
+	^ filteredSectionStencils
 ]
 
 { #category : #initialization }
