@@ -129,7 +129,7 @@ RPackage >> gtDependencyAnalyzerFor: aView [
 		stencil: [ 
 			| anObjectHolder |
 			anAnalyzer := GtDependencyAnalyzerEasy analyzePackageNamed: self name.
-			anObjectHolder := GtInspectorObject new object: anAnalyzer; viewSelector: #gtPackageDependenciesFor:.
+			anObjectHolder := GtInspectorObject new object: anAnalyzer; viewSelector: #gtPackageDependenciesFor:context:.
 			GtInspector new objectHolder: anObjectHolder ];
 		actionButtonIcon: BrGlamorousVectorIcons refresh 
 			tooltip: 'Update dependency analysis' 
