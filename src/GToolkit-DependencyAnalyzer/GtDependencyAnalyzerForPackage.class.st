@@ -20,7 +20,16 @@ GtDependencyAnalyzerForPackage class >> baselinesForPackage: aPackageOrName [
 		ifTrue: [ aPackageOrName ]
 		ifFalse: [ aPackageOrName name ].
 
-	^ BaselineOf allSubclasses select: [ :eachBaseline | eachBaseline allPackageNames includes: aPackageName ]
+	^ BaselineOf allSubclasses select: [ :eachBaseline | 
+		| somePackageNames |
+		somePackageNames := [ eachBaseline allPackageNames ] 
+			onErrorDo: [ :anError | 
+				GtDependencyAnalyzerBrokenBaselineSignal new
+					exception: anError;
+					baseline: eachBaseline;
+					emit.
+				anError return: #() ].
+		somePackageNames includes: aPackageName ]
 ]
 
 { #category : #dependencies }
@@ -107,7 +116,7 @@ GtDependencyAnalyzerForPackage >> gtIssuesFor: aView [
 ]
 
 { #category : #'gt-extensions' }
-GtDependencyAnalyzerForPackage >> gtPackageDependenciesFor: aView [
+GtDependencyAnalyzerForPackage >> gtPackageDependenciesFor: aView context: aPhlowContext [
 	<gtView>
 
 	^ aView list

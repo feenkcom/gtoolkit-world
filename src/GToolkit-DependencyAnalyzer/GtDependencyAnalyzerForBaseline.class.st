@@ -41,7 +41,16 @@ GtDependencyAnalyzerForBaseline >> directlyDefinedPackagesWithContext: aGtDepend
 	cachedDirectlyDefinedPackages := aGtDependencyAnalyzerContext
 		visitBaseline: self
 		during: [
-			(self baseline project version packages
+			| somePackages |
+			somePackages := [ self baseline project version packages ]
+				onErrorDo: [ :anError | 
+					GtDependencyAnalyzerBrokenBaselineSignal new
+					exception: anError;
+					baseline: self baseline;
+					emit.
+					anError return: #() ].
+		
+			(somePackages
 				select: [  :eachPackageSpec | RPackageOrganizer default includesPackageNamed: eachPackageSpec name ]
 				thenCollect: [ :eachPackageSpec |
 					aGtDependencyAnalyzerContext
@@ -169,7 +178,15 @@ GtDependencyAnalyzerForBaseline >> indirectlyDefinedPackagesWithContext: aGtDepe
 	aGtDependencyAnalyzerContext
 		visitBaseline: self
 		during: [
-			self baseline project version projects
+			| someProjects |
+			someProjects := [ self baseline project version projects ]
+				onErrorDo: [ :anError | 
+					GtDependencyAnalyzerBrokenBaselineSignal new
+						exception: anError;
+						baseline: self baseline;
+						emit.
+					anError return: #() ].
+			someProjects
 				reject: [ :eachProjectSpec | theDirectlyDefinedPackages anySatisfy: [ :eachPackage | 
 					(eachPackage packageRequirementsWithContext: aGtDependencyAnalyzerContext) 
 						anySatisfy: [ :eachPackageRequirement | 
