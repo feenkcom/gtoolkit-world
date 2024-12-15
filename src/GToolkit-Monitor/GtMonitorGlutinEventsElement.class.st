@@ -12,7 +12,8 @@ Class {
 		'isPaused',
 		'disabledEvents',
 		'eventTypes',
-		'eventTypesList'
+		'eventTypesList',
+		'inspectButton'
 	],
 	#category : #'GToolkit-Monitor-Glutin Events Logger'
 }
@@ -95,6 +96,13 @@ GtMonitorGlutinEventsElement >> initialize [
 		label: 'Reset';
 		action: [ self reset ].
 	
+	inspectButton := BrButton new
+		aptitude: BrGlamorousButtonWithLabelAptitude new;
+		beSmallSize;
+		label: 'Inspect';
+		action: [ :aButton | aButton phlow spawnObject: logger ].
+
+	
 	eventTypesList := BrSimpleList new
 		matchParent;
 		items: eventTypes associations;
@@ -163,7 +171,7 @@ GtMonitorGlutinEventsElement >> initialize [
 				alignTopCenter;
 				cellSpacing: 5;
 				addChildren: {
-					startButton . stopButton . resetButton
+					startButton . stopButton . resetButton . inspectButton
 				}.
 			
 			eventsList
@@ -250,7 +258,7 @@ GtMonitorGlutinEventsElement >> start [
 
 { #category : #private }
 GtMonitorGlutinEventsElement >> startLogger [
-	logger start
+	logger startFor: GlutinEventSignal
 ]
 
 { #category : #'api - logger' }
