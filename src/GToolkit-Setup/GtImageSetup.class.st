@@ -70,6 +70,7 @@ GtImageSetup class >> copyDataAndDocsFolders [
 	self addFoldersIn: icebergRepositories named: #('doc' 'data') into: docFolders.
 	docFolders 
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit' / 'lepiter');
+		add: (gtoolkitRepoFolders asFileReference / 'gt4llm' / 'lepiter');
 		add: (gtoolkitRepoFolders asFileReference / 'lepiter' / 'test-data');
 		add: (gtoolkitRepoFolders asFileReference / 'JSLink' / 'js');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests').
