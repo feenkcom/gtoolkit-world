@@ -228,12 +228,17 @@ GtWorld >> requestHomeUpdate [
 	self root children first home requestWidgetUpdate
 ]
 
+{ #category : #'api - displaying' }
+GtWorld >> showInGtWorld [
+	self show
+]
+
 { #category : #actions }
 GtWorld >> showShutdownPrompt [
 	worldElement showShutdownPrompt
 ]
 
-{ #category : #initialization }
+{ #category : #'api - displaying' }
 GtWorld >> showSpace: aSpace [
 	worldElement showSpace: aSpace
 ]

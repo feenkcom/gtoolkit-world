@@ -90,7 +90,7 @@ GtHomeLepiterTableOfContentsElement >> onTableOfContentsPageUUIDChanged: anAnnou
 GtHomeLepiterTableOfContentsElement >> spawnPage: aPage from: aButton [
 	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
 
-	^ aButton phlow spaceBuilder spawnPage: aPage
+	^ BlSpace spawnPage: aPage from: aButton
 ]
 
 { #category : #'private - subscriptions' }
