@@ -378,11 +378,12 @@ GtHomeSection >> sectionPaddingLeftInsets [
 
 { #category : #'instance creation' }
 GtHomeSection >> showSpaceWithIcon: anIcon title: aString with: aStencil from: anotherElement [
-	^ anotherElement phlow spaceBuilder
+	^ BlSpace new
 		icon: anIcon;
 		title: aString;
-		stencil: aStencil;
-		show
+		addChild: aStencil asElement;
+		withSceneDriller;
+		showFrom: anotherElement
 ]
 
 { #category : #'instance creation' }

@@ -10,5 +10,7 @@ GtPhlowSpaceBuilder >> showInGtWorld [
 	self extent ifNotNil: [ :aPoint | 
 		aWorldSpace extent: aPoint ].
 
+	aWorldSpace show.
+		
 	^ aWorldSpace
 ]

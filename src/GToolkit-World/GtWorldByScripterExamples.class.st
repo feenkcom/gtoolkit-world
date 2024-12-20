@@ -21,11 +21,11 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 						block: [ :aTabElement | 
 							| aStencil |
 							aStencil := self coderStencil.
-							aTabElement phlow spaceBuilder
+							BlSpace new
 								icon: aStencil icon;
 								title: aStencil name;
-								stencil: aStencil;
-								show ] ].
+								addChild: aStencil asElement;
+								showFrom: aTabElement ] ].
 
 			aStep
 				checkStep: [ :s | 
@@ -146,11 +146,11 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 							aPageElement := aTool asElementDo: [ :anElement | anElement ].
 							aPager := GtPager createWrappedOn: aPageElement.
 							isMaximized ifTrue: [ aPager maximized ].
-							aTabElement phlow spaceBuilder
+							BlSpace new
 								icon: aTool icon;
 								title: aLePage title;
-								stencil: aPager;
-								show ] ].
+								addChild: aPager;
+								showFrom: aTabElement ] ].
 
 			aStep
 				checkStep: [ :s | 
@@ -382,11 +382,11 @@ GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 						block: [ :aTabElement | 
 							| aStencil |
 							aStencil := self playgroundStencil.
-							aTabElement phlow spaceBuilder
+							BlSpace new
 								icon: aStencil icon;
 								title: aStencil name;
-								stencil: aStencil;
-								show ] ].
+								addChild: aStencil asElement;
+								showFrom: aTabElement ] ].
 
 			aStep
 				checkStep: [ :s | 
