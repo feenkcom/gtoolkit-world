@@ -36,11 +36,16 @@ GtImageSetup class >> cleanUpChangeSets [
 { #category : #actions }
 GtImageSetup class >> cleanUpImageAfterLoad [
 	self cleanUpMonticelloCaches.
-	self cleanUpChangeSets.
+	
+	self 
+		forPharo12: [] 
+		forPharo11AndPharo10: [
+			self cleanUpChangeSets.
+			Smalltalk organization sortCategories. ].
 
-	Smalltalk organization sortCategories.
 	3
-		timesRepeat: [ Smalltalk garbageCollect.
+		timesRepeat: [ 
+			Smalltalk garbageCollect.
 			Symbol rehash ].
 
 	Smalltalk garbageCollect
@@ -141,7 +146,12 @@ GtImageSetup class >> performLocalSetup [
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
 	self installGtSessionManager.
-	self patchForStringSymbolStringComparison.
+	
+	self 
+		forPharo12: [] 
+		forPharo11AndPharo10: [
+			self patchForStringSymbolStringComparison ].
+	
 	self recordSpaceTallyAtEnd.
 ]
 
