@@ -141,7 +141,12 @@ GtImageSetup class >> performLocalSetup [
 	self preparePharoCompletionCache.
 	self registerGTNamespace.
 	self installGtSessionManager.
-	self patchForStringSymbolStringComparison.
+	
+	self 
+		forPharo12: [] 
+		forPharo11AndPharo10: [
+			self patchForStringSymbolStringComparison ].
+	
 	self recordSpaceTallyAtEnd.
 ]
 
