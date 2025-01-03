@@ -44,22 +44,24 @@ GtHome >> createSectionsHolder [
 
 { #category : #building }
 GtHome >> createVersionLabel [
-	^ BrButton new 
-		label: 'Glamorous Toolkit ', GtImage instance version versionString; 
+	^ BrButton new
+		label: 'Glamorous Toolkit ' , GtImage instance version versionString;
 		beSmallSize;
-		aptitude: (BrGlamorousButtonWithLabelAptitude new + (BrGlamorousButtonExteriorAptitude new borderPaint: Color transparent; backgroundPaint: Color transparent));
+		aptitude: BrGlamorousButtonWithLabelAptitude new
+				+ (BrGlamorousButtonExteriorAptitude new
+						borderPaint: Color transparent;
+						backgroundPaint: Color transparent);
 		margin: (BlInsets all: 5);
 		constraintsDo: [ :c | c linear horizontal alignRight ];
 		action: [ :button | 
 			| database startPage |
-			database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase 
-				databaseNamed: 'Glamorous Toolkit Book'.
+			database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
+					databaseNamed: 'Glamorous Toolkit Book'.
 			startPage := database pageNamed: 'About this version of Glamorous Toolkit'.
-			GtWorldUtility 
-				showSpaceWithTitle: startPage title
-				inPagerWith: [ startPage
-					asLepiterPagePhlowTool asElementDo: [ :e | e ] ] asStencil
-				from: button ]
+			BlSpace new
+				title: startPage title;
+				inPager: [ startPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ] asStencil;
+				showFrom: button ]
 ]
 
 { #category : #sections }
