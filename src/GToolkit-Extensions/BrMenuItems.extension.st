@@ -13,6 +13,7 @@ BrMenuItems >> gtLiveFor: aView [
 				matchParent;
 				padding: (BlInsets all: 10);
 				addChild: (BrMenuSteppedElement new
+					addAptitude: BrMenuContainerAptitude new;
 					menuModel: self) ]
 ]
 
@@ -38,5 +39,5 @@ BrMenuItems >> gtPlaygroundFor: aView [
 							disallowOutOfBounds;
 						addAptitude: (BrWithExplicitMenuAptitude new
 							beClickPositionRelocator;
-							stencil: [ self ])) ]
+							withHandleSubmenu: [ self ])) ]
 ]
