@@ -159,7 +159,7 @@ GtImageSetup class >> performLocalSetup [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self installGtSessionManager.
-	self installOmbuFileStore.
+	"self installOmbuFileStore."
 	
 	self 
 		forPharo12: [] 
@@ -189,6 +189,9 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	 - major"
 	
 	self recordSpaceTallyAtBeginning.
+	
+	"self installOmbuFileStore."
+	
 	self copyDataAndDocsFolders.
 	self captureRepositoryRegistryHistory.
 	self installLogo.
@@ -201,7 +204,6 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self recordSpaceTallyAtEnd.
 	self resetFFIMethods.
 	self patchForStringSymbolStringComparison.
-	self installOmbuFileStore.
 	
 	self printNotRegisteredFFIMethods.
 ]
