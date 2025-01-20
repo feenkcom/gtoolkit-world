@@ -113,6 +113,20 @@ GtImageSetup class >> installLogo [
 	GtWorldMenu setGtDesktopLogo.
 ]
 
+{ #category : #actions }
+GtImageSetup class >> installOmbuFileStore [
+	"For now only change the file store if the epicea monitor is disabled"
+	self assert: EpMonitor current isEnabled not.
+	
+	EpMonitor reset.
+	OmStoreFactory 
+		compile: 'newStoreNamed: aGlobalName in: aDirectory
+	^ OmFileStore
+		named: aGlobalName
+		inDirectory: aDirectory'
+		classified: 'private'.
+]
+
 { #category : #accessing }
 GtImageSetup class >> notRegisteredSystemFFIMethods [
 	| allFFIMethods allRegisteredMethods |
@@ -145,6 +159,7 @@ GtImageSetup class >> performLocalSetup [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self installGtSessionManager.
+	self installOmbuFileStore.
 	
 	self 
 		forPharo12: [] 
@@ -186,6 +201,7 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self recordSpaceTallyAtEnd.
 	self resetFFIMethods.
 	self patchForStringSymbolStringComparison.
+	self installOmbuFileStore.
 	
 	self printNotRegisteredFFIMethods.
 ]
