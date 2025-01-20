@@ -121,7 +121,6 @@ GtImageSetup class >> installOmbuFileStore [
 
 	EpMonitor current 
 		disableDuring: [ 
-			| sessionStore storeName |
 		
 			OmStoreFactory 
 				compile: 'newStoreNamed: aGlobalName in: aDirectory
@@ -131,10 +130,8 @@ GtImageSetup class >> installOmbuFileStore [
 		inDirectory: aDirectory'
 				classified: 'gt-pharo-patch'.
 			
-			sessionStore := EpMonitor current sessionStore .
-			"storeName := sessionStore gtNextStoreNameBasedOnCurrentImage."
-			storeName := sessionStore nextStoreName.
-			sessionStore resetWithStoreNamed: storeName ]
+			EpMonitor current sessionStore 
+				resetWithNextStoreName. ]
 ]
 
 { #category : #accessing }
