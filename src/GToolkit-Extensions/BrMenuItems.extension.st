@@ -20,9 +20,8 @@ BrMenuItems >> gtContextMenuFor: aView [
 						background: (Color red alpha: 0.5);
 						addEventHandler: BlPullHandler new 
 							disallowOutOfBounds;
-						addAptitude: (BrWithExplicitMenuAptitude new
-							beContextMenu
-							handleSubmenu: [ self ])) ]
+						addAptitude: (BrWithExplicitContextMenuAptitude 
+							menu: self)) ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -50,24 +49,5 @@ BrMenuItems >> gtDropdownFor: aView [
 										aptitude: BrGlamorousButtonWithLabelAptitude 
 											- BrGlamorousButtonExteriorAptitude;
 										label: 'Dropdown' ] 
-								submenu: [ self ])) ]
-]
-
-{ #category : #'*GToolkit-Extensions' }
-BrMenuItems >> gtLiveFor: aView [
-	<gtView>
-	self class isAbstract ifTrue: [ ^ aView empty ].
-
-	^ aView explicit
-		title: 'Live';
-		priority: 1;
-		stencil: [
-			BrFrame new 
-				matchParent;
-				addChild: (BrFrame new
-					matchParent;
-					margin: (BlInsets all: 10);
-					addChild: (BrMenuSteppedElement new
-						addAptitude: BrMenuContainerAptitude new;
-						menuModel: self)) ]
+								submenu: self)) ]
 ]
