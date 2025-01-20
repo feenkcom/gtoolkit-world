@@ -115,21 +115,26 @@ GtImageSetup class >> installLogo [
 
 { #category : #actions }
 GtImageSetup class >> installOmbuFileStore [
+	
 	"Force a new Ombu store for epicea changes of type OmFileStore.
 	We change this as OmBlockFileStore is slown with large compiled methods."
 
-	EpMonitor current disable.
-	EpMonitor reset.
-	
-	OmStoreFactory 
-		compile: 'newStoreNamed: aGlobalName in: aDirectory
+	EpMonitor current 
+		disableDuring: [ 
+			| sessionStore storeName |
+		
+			OmStoreFactory 
+				compile: 'newStoreNamed: aGlobalName in: aDirectory
 	<gtPharoPatch: #Pharo>
 	^ OmFileStore
 		named: aGlobalName
 		inDirectory: aDirectory'
-		classified: 'gt-pharo-patch'.
-	
-	EpMonitor current enable
+				classified: 'gt-pharo-patch'.
+			
+			sessionStore := EpMonitor current sessionStore .
+			"storeName := sessionStore gtNextStoreNameBasedOnCurrentImage."
+			storeName := sessionStore nextStoreName.
+			sessionStore resetWithStoreNamed: storeName ]
 ]
 
 { #category : #accessing }
