@@ -117,7 +117,7 @@ GtImageSetup class >> installLogo [
 GtImageSetup class >> installOmbuFileStore [
 	
 	"Force a new Ombu store for epicea changes of type OmFileStore.
-	We change this as OmBlockFileStore is slown with large compiled methods."
+	We change this as OmBlockFileStore is slow with large compiled methods."
 
 	EpMonitor current 
 		disableDuring: [ 
