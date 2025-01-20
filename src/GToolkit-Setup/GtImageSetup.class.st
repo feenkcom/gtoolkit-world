@@ -115,16 +115,21 @@ GtImageSetup class >> installLogo [
 
 { #category : #actions }
 GtImageSetup class >> installOmbuFileStore [
-	"For now only change the file store if the epicea monitor is disabled"
-	self assert: EpMonitor current isEnabled not.
-	
-	EpMonitor reset.
-	OmStoreFactory 
-		compile: 'newStoreNamed: aGlobalName in: aDirectory
+	"Force a new Ombu store for epicea changes of type OmFileStore.
+	We change this as OmBlockFileStore is slown with large compiled methods."
+
+	EpMonitor current 
+		disableDuring: [ 
+			OmStoreFactory 
+				compile: 'newStoreNamed: aGlobalName in: aDirectory
+	<gtPharoPatch: #Pharo>
 	^ OmFileStore
 		named: aGlobalName
 		inDirectory: aDirectory'
-		classified: 'private'.
+				classified: 'gt-pharo-patch'.
+	
+			EpMonitor current sessionStore
+				resetWithNextStoreName ]
 ]
 
 { #category : #accessing }
@@ -152,6 +157,9 @@ GtImageSetup class >> performLocalSetup [
 	"Perform a setup for images that should be used locally for development."
 	
 	self recordSpaceTallyAtBeginning.
+	
+	self installOmbuFileStore.
+
 	self installLogo.
 	self registerTools.
 	self updateLocalVersion.
@@ -159,7 +167,6 @@ GtImageSetup class >> performLocalSetup [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self installGtSessionManager.
-	"self installOmbuFileStore."
 	
 	self 
 		forPharo12: [] 
@@ -190,7 +197,7 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	
 	self recordSpaceTallyAtBeginning.
 	
-	"self installOmbuFileStore."
+	self installOmbuFileStore.
 	
 	self copyDataAndDocsFolders.
 	self captureRepositoryRegistryHistory.
