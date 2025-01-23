@@ -35,7 +35,7 @@ GtHomeFileDocumentCardElement >> description [
 								hasCharacters := true ] ].
 				eachCharacter isLineBreak
 					ifTrue: [ reachedSecondLine := true ] ] ]
-		limitedTo: self maxDescriptionLenght.
+		limitedTo: self maxDescriptionLength.
 	^ aDescription
 ]
 
@@ -77,7 +77,7 @@ GtHomeFileDocumentCardElement >> limitedFileContent [
 			aFileRefernece readStreamEncoded: #utf8 do: [ :aFileStream | 
 				[ aFileStream atEnd ] whileFalse: [ 
 					aStringStream nextPut: aFileStream next ] ] ]
-		limitedTo: self maxTitleLenght + self maxDescriptionLenght + 10.
+		limitedTo: self maxTitleLength + self maxDescriptionLength + 10.
 ]
 
 { #category : #'private - hooks' }
