@@ -41,7 +41,7 @@ GtHomeFileDocumentCardElementExamples >> elementWithFilledFile [
 	
 	self
 		assert: anElement titleElement text size
-		equals: anElement maxTitleLenght.
+		equals: anElement maxTitleLength.
 	self 
 		assert: anElement titleElement text asString 
 		equals: 'Lorem ipsum dolor sit amet, co'.
@@ -50,7 +50,7 @@ GtHomeFileDocumentCardElementExamples >> elementWithFilledFile [
 		assert: anElement descriptionElement text isNotEmpty
 		description: 'Description must be non-empty'.
 	self 
-		assert: anElement descriptionElement text size <= anElement maxDescriptionLenght.
+		assert: anElement descriptionElement text size <= anElement maxDescriptionLength.
 	^ anElement
 ]
 

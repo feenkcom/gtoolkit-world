@@ -86,12 +86,12 @@ GtHomeDocumentCardElement >> initializeTitleElement [
 ]
 
 { #category : #defaults }
-GtHomeDocumentCardElement >> maxDescriptionLenght [
+GtHomeDocumentCardElement >> maxDescriptionLength [
 	^ 400
 ]
 
 { #category : #defaults }
-GtHomeDocumentCardElement >> maxTitleLenght [
+GtHomeDocumentCardElement >> maxTitleLength [
 	^ 30
 ]
 
@@ -130,7 +130,7 @@ GtHomeDocumentCardElement >> titleWithoutHeadingsFrom: aComment [
 							ifFalse: [ 
 								aStream nextPut: eachCharacter.
 								hasCharacters := true ] ] ] ] ]
-		limitedTo: self maxTitleLenght.
+		limitedTo: self maxTitleLength.
 ]
 
 { #category : #'private - subscriptions' }
