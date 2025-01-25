@@ -10,3 +10,17 @@ BrWithExplicitMenuAptitude >> gtMenuContainerFor: aView [
 		object: [ menuContainer ];
 		view: #gtElementCacheFor:
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+BrWithExplicitMenuAptitude >> gtSubmenusFor: aView [
+	<gtView>
+	submenus ifNil: [ ^ aView empty ].
+	^ aView columnedList
+		title: 'Submenus';
+		tooltip: 'Submenus that were opened from this context menu or dropdown';
+		items: [ self submenus ];
+		column: 'Index'
+			text: [ :each :index | index asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ]
+]
