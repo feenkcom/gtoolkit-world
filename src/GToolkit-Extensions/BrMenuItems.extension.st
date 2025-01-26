@@ -20,7 +20,7 @@ BrMenuItems >> gtContextMenuFor: aView [
 						background: (Color red alpha: 0.5);
 						addEventHandler: BlPullHandler new 
 							disallowOutOfBounds;
-						addAptitude: (BrWithExplicitContextMenuAptitude 
+						addAptitude: (BrGlamorousWithExplicitContextMenuAptitude 
 							menu: self)) ]
 ]
 
@@ -43,11 +43,30 @@ BrMenuItems >> gtDropdownFor: aView [
 						relocate: 30@30;
 						addEventHandler: BlPullHandler new 
 							disallowOutOfBounds;
-						addAptitude: (BrWithExplicitMenuAptitude new
-							beDropdown;
+						addAptitude: (BrGlamorousWithExplicitDropdownAptitude new
 							handle: [ BrButton new
 										aptitude: BrGlamorousButtonWithLabelAptitude 
 											- BrGlamorousButtonExteriorAptitude;
 										label: 'Dropdown' ] 
 								submenu: self)) ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+BrMenuItems >> gtGroupsFor: aView [
+	<gtView>
+	^ aView columnedTree
+		title: 'Grouped menu items';
+		priority: 10;
+		items: [ self groups ifNil: [ #() ] ];
+		children: #gtItemChildren;
+		expandAll;
+		column: 'Label' text: [ :anItem | anItem gtItemLabel ];
+		column: 'Selection'
+			text: #gtItemSelection
+			weight: 0.2;
+		column: 'Depth'
+			text: #gtItemDepth
+			weight: 0.2;
+		column: 'Type' text: #class weight: 0.5;
+		actionUpdateButton
 ]
