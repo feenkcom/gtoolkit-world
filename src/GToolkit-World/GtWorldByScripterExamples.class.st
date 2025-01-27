@@ -2338,7 +2338,7 @@ GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape [
 	<gtExample>
 	| aScripter |
 	aScripter := self worldSpotter_ResizeVertically.
-	
+
 	aScripter keyPress
 		label: 'Close Spotter pressing escape key';
 		key: BlKeyboardKey escape;
@@ -2347,16 +2347,25 @@ GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape [
 	aScripter assert
 		label: 'Assert Spotter resizers do not keep target elements';
 		satisfies: [ :aButton | 
-			| anAptitude |
-			anAptitude := (aButton aptitude findActor: BrGlamorousWithDropdownAptitude).
-			anAptitude resizerAptitudes withAllActorsDepthFirstDo: [ :eachAptitude |
-				eachAptitude resizerDo: [ :eachResizer | 
-					eachResizer target isNil ifFalse: [ 
-						AssertionFailure signal: 'Resizer must not have target' ] ] ].
+			aButton aptitude
+				findActor: BrGlamorousWithDropdownAptitude
+				ifFound: [ :anAptitude | 
+					anAptitude resizerAptitudes
+						withAllActorsDepthFirstDo: [ :eachAptitude | 
+							eachAptitude
+								resizerDo: [ :eachResizer | 
+									eachResizer target isNil
+										ifFalse: [ AssertionFailure signal: 'Resizer must not have target' ] ] ] ]
+				ifNone: [ aButton aptitude
+						findActor: BrGlamorousWithExplicitDropdownAptitude
+						ifFound: [ :anAptitude | 
+							anAptitude menuContainer elementCache isEmpty
+								ifFalse: [ AssertionFailure signal: 'Dropdown cache is not empty' ] ]
+						ifNone: [ AssertionFailure signal: 'Dropdown not found' ] ].
 			true ];
 		// GtWorldSpotterSearchElementId;
 		play.
-		
+
 	^ aScripter
 ]
 

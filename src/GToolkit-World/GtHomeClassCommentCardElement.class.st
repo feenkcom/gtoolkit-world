@@ -27,7 +27,7 @@ GtHomeClassCommentCardElement >> description [
 					aStream nextPut: eachCharacter ].
 				eachCharacter isLineBreak
 					ifTrue: [ reachedSecondLine := true ] ] ]
-		limitedTo: self maxDescriptionLenght.
+		limitedTo: self maxDescriptionLength.
 	^ aDescription
 ]
 

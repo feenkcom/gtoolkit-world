@@ -113,6 +113,27 @@ GtImageSetup class >> installLogo [
 	GtWorldMenu setGtDesktopLogo.
 ]
 
+{ #category : #actions }
+GtImageSetup class >> installOmbuFileStore [
+	
+	"Force a new Ombu store for epicea changes of type OmFileStore.
+	We change this as OmBlockFileStore is slow with large compiled methods."
+
+	EpMonitor current 
+		disableDuring: [ 
+		
+			OmStoreFactory 
+				compile: 'newStoreNamed: aGlobalName in: aDirectory
+	<gtPharoPatch: #Pharo>
+	^ OmFileStore
+		named: aGlobalName
+		inDirectory: aDirectory'
+				classified: 'gt-pharo-patch'.
+			
+			EpMonitor current sessionStore 
+				resetWithNextStoreName. ]
+]
+
 { #category : #accessing }
 GtImageSetup class >> notRegisteredSystemFFIMethods [
 	| allFFIMethods allRegisteredMethods |
@@ -138,6 +159,9 @@ GtImageSetup class >> performLocalSetup [
 	"Perform a setup for images that should be used locally for development."
 	
 	self recordSpaceTallyAtBeginning.
+	
+	self installOmbuFileStore.
+
 	self installLogo.
 	self registerTools.
 	self updateLocalVersion.
@@ -174,6 +198,9 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	 - major"
 	
 	self recordSpaceTallyAtBeginning.
+	
+	self installOmbuFileStore.
+	
 	self copyDataAndDocsFolders.
 	self captureRepositoryRegistryHistory.
 	self installLogo.

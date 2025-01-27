@@ -1,28 +1,12 @@
 Extension { #name : #BrMenuItems }
 
 { #category : #'*GToolkit-Extensions' }
-BrMenuItems >> gtLiveFor: aView [
+BrMenuItems >> gtContextMenuFor: aView [
 	<gtView>
 	self class isAbstract ifTrue: [ ^ aView empty ].
 
 	^ aView explicit
-		title: 'Live';
-		priority: 1;
-		stencil: [
-			BrFrame new
-				matchParent;
-				padding: (BlInsets all: 10);
-				addChild: (BrMenuSteppedElement new
-					menuModel: self) ]
-]
-
-{ #category : #'*GToolkit-Extensions' }
-BrMenuItems >> gtPlaygroundFor: aView [
-	<gtView>
-	self class isAbstract ifTrue: [ ^ aView empty ].
-
-	^ aView explicit
-		title: 'Playground';
+		title: 'Context menu';
 		priority: 2;
 		stencil: [ 
 			BlElement new
@@ -36,7 +20,53 @@ BrMenuItems >> gtPlaygroundFor: aView [
 						background: (Color red alpha: 0.5);
 						addEventHandler: BlPullHandler new 
 							disallowOutOfBounds;
-						addAptitude: (BrWithExplicitMenuAptitude new
-							beClickPositionRelocator;
-							stencil: [ self ])) ]
+						addAptitude: (BrGlamorousWithExplicitContextMenuAptitude 
+							menu: self)) ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+BrMenuItems >> gtDropdownFor: aView [
+	<gtView>
+	self class isAbstract ifTrue: [ ^ aView empty ].
+
+	^ aView explicit
+		title: 'Dropdown';
+		priority: 5;
+		stencil: [ 
+			BlElement new
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ];
+				addChild: (BrButton new
+						aptitude: BrGlamorousButtonWithLabelAptitude ;
+						label: 'Dropdown';
+						relocate: 30@30;
+						addEventHandler: BlPullHandler new 
+							disallowOutOfBounds;
+						addAptitude: (BrGlamorousWithExplicitDropdownAptitude new
+							handle: [ BrButton new
+										aptitude: BrGlamorousButtonWithLabelAptitude 
+											- BrGlamorousButtonExteriorAptitude;
+										label: 'Dropdown' ] 
+								submenu: self)) ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+BrMenuItems >> gtGroupsFor: aView [
+	<gtView>
+	^ aView columnedTree
+		title: 'Grouped menu items';
+		priority: 10;
+		items: [ self groups ifNil: [ #() ] ];
+		children: #gtItemChildren;
+		expandAll;
+		column: 'Label' text: [ :anItem | anItem gtItemLabel ];
+		column: 'Selection'
+			text: #gtItemSelection
+			weight: 0.2;
+		column: 'Depth'
+			text: #gtItemDepth
+			weight: 0.2;
+		column: 'Type' text: #class weight: 0.5;
+		actionUpdateButton
 ]

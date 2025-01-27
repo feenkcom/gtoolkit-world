@@ -232,7 +232,7 @@ GtMonitor >> gtSpacesFor: aView [
 				label: 'Refresh';
 				action:  [
 					Smalltalk garbageCollect.
-					aTab viewContentElement children first updateList ] ];
+					aTab viewContentElement updateList ] ];
 		actionStencil: [ 
 			BrButton new 
 				aptitude: BrGlamorousButtonWithIconAptitude;
