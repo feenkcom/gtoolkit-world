@@ -14,7 +14,11 @@ Class {
 		'hideAxisLabels',
 		'labelWidth',
 		'leftPadding',
-		'selectionTransformation'
+		'selectionTransformation',
+		'shouldShowGridlines',
+		'executionGeometryComputation',
+		'barStyleComputation',
+		'labelFontSize'
 	],
 	#category : #'GToolkit-Monitor-Future Workers'
 }
@@ -27,6 +31,21 @@ GtMonitorFutureWorkerHorizontalChartStencil >> amountOfTicks [
 { #category : #accessing }
 GtMonitorFutureWorkerHorizontalChartStencil >> barHeight [
 	^ barHeight
+]
+
+{ #category : #accessing }
+GtMonitorFutureWorkerHorizontalChartStencil >> barHeight: aNumber [
+	barHeight := aNumber
+]
+
+{ #category : #accessing }
+GtMonitorFutureWorkerHorizontalChartStencil >> barStyleComputation [
+	^ barStyleComputation
+]
+
+{ #category : #accessing }
+GtMonitorFutureWorkerHorizontalChartStencil >> barStyleComputation: anObject [
+	barStyleComputation := anObject
 ]
 
 { #category : #'api - configuration' }
@@ -99,10 +118,15 @@ GtMonitorFutureWorkerHorizontalChartStencil >> createHorizontalThicksLabelsEleme
 
 { #category : #'private - instance creation' }
 GtMonitorFutureWorkerHorizontalChartStencil >> createLabel: aString [
+	| anAptitude |
+	
+	anAptitude := BrGlamorousLabelAptitude new.
+	anAptitude foreground: self labelColor.
+	labelFontSize
+		ifNotNil: [ :aFontSize | anAptitude fontSize: aFontSize ].
+
 	^ BrLabel new
-		aptitude:
-			(BrGlamorousLabelAptitude new
-				foreground: self labelColor);
+		aptitude: anAptitude;
 		padding: (BlInsets right: 5);
 		text: aString
 ]
@@ -151,7 +175,10 @@ GtMonitorFutureWorkerHorizontalChartStencil >> createPlotterScrollableElementFor
 						c frame horizontal 
 							alignLeftAt: (timeScale 
 								map: (startTimeComputation 
-									value: aGtScaleContext originalValue)) ] ];
+									value: aGtScaleContext originalValue)) ].
+					barStyleComputation ifNotNil: [
+						barStyleComputation value: anElement value: aGtScaleContext originalValue ].
+					anElement ];
 				scale: barWidthScale;
 				scaleData: [ :each | each duration ];
 				values: (rowValuesComputation cull: anExecutionDetails).
@@ -161,7 +188,10 @@ GtMonitorFutureWorkerHorizontalChartStencil >> createPlotterScrollableElementFor
 	scrollableContent items: self executions.
 	
 	scrollableContainer addChild: scrollableContent.
-	scrollableContainer addChild: (self createGridlines: timeScale). 
+	
+	shouldShowGridlines
+		ifTrue: [ scrollableContainer addChild: (self createGridlines: timeScale) ].
+	
 	scrollableContainer padding: (BlInsets left: self leftPadding).
 	
 	^ scrollableContainer
@@ -189,6 +219,12 @@ GtMonitorFutureWorkerHorizontalChartStencil >> enabledGroupsInRow [
 GtMonitorFutureWorkerHorizontalChartStencil >> endTimeComputation: anObject [
 
 	endTimeComputation := anObject
+]
+
+{ #category : #'api - configuration' }
+GtMonitorFutureWorkerHorizontalChartStencil >> executionGeometryComputation: anObject [
+
+	executionGeometryComputation := anObject
 ]
 
 { #category : #accessing }
@@ -241,10 +277,12 @@ GtMonitorFutureWorkerHorizontalChartStencil >> initialize [
 	hideRowLabels := false.
 	hideAxisLabels := false.
 	leftPadding := 0.
+	shouldShowGridlines := true.
 	
 	startTimeComputation := [ :anExecution | anExecution startTime ].
 	endTimeComputation :=  [ :anExecution | anExecution endTime ].
 	rowLabelComputation := [ :anExecution | anExecution label ].
+	executionGeometryComputation := [ :anExecution | BlStadiumGeometry new ].
 	colorComputation := [ self defaultBarColor ].
 	rowValuesComputation := [ :anExecution | {anExecution} ].
 	selectionTransformation := [ :each | each ]
@@ -253,6 +291,16 @@ GtMonitorFutureWorkerHorizontalChartStencil >> initialize [
 { #category : #accessing }
 GtMonitorFutureWorkerHorizontalChartStencil >> labelColor [
 	^ Color gray
+]
+
+{ #category : #'private - instance creation' }
+GtMonitorFutureWorkerHorizontalChartStencil >> labelFontSize [
+	^ labelFontSize
+]
+
+{ #category : #'as yet unclassified' }
+GtMonitorFutureWorkerHorizontalChartStencil >> labelFontSize: anInteger [ 
+	labelFontSize := anInteger
 ]
 
 { #category : #accessing }
@@ -324,9 +372,9 @@ GtMonitorFutureWorkerHorizontalChartStencil >> startTimeComputation: anObject [
 { #category : #accessing }
 GtMonitorFutureWorkerHorizontalChartStencil >> styleBar: anElement execution: anObject [ 
 	^ anElement
-		geometry: BlStadiumGeometry new;
+		geometry: (executionGeometryComputation cull: anObject);
 		background: ((colorComputation cull: anObject) ifNil: [
-			self defaultBarColor ]) 
+			self defaultBarColor ])
 ]
 
 { #category : #'api - configuration' }
@@ -345,4 +393,19 @@ GtMonitorFutureWorkerHorizontalChartStencil >> withDescriptionAsLabel [
 { #category : #'api - configuration' }
 GtMonitorFutureWorkerHorizontalChartStencil >> withDissplayStringAsLabel [
 	rowLabelComputation := [ :anExecution | anExecution gtDisplayString ]
+]
+
+{ #category : #'as yet unclassified' }
+GtMonitorFutureWorkerHorizontalChartStencil >> withoutGridlines [
+	shouldShowGridlines := false
+]
+
+{ #category : #'as yet unclassified' }
+GtMonitorFutureWorkerHorizontalChartStencil >> withoutRowLabels [
+	hideRowLabels := true
+]
+
+{ #category : #'as yet unclassified' }
+GtMonitorFutureWorkerHorizontalChartStencil >> withoutTickLabels [
+	hideAxisLabels := true
 ]
