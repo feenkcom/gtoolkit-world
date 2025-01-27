@@ -70,11 +70,18 @@ AsyncFutureThreadPool >> gtWorkersFor: aView [
 			text: [ :each | each key isRunning ifFalse: [ '' ] ifTrue: [ 'true' ] ];
 		send: [ :each | each key ];
 		actionUpdateButton;
-		actionButtonIcon: BrGlamorousVectorIcons signal
+		actionButtonIcon: BrGlamorousVectorIcons play
 			tooltip: 'Enable telemetry'
 			action: [ self
 					telemetryDo: #yourself
 					ifNone: [ self telemetry: (aTelemetry := AsyncFutureThreadPoolTelemetry new) ] ];
+		actionButtonIcon: BrGlamorousVectorIcons stop
+			tooltip: 'Stop telemetry'
+			action: [ :aButton |				
+				self telemetryDo: [ :aPreviousTelemetry |
+					telemetry := nil.
+					aButton phlow spawnObject: aPreviousTelemetry
+				] ];
 		actionButtonIcon: BrGlamorousVectorIcons cancel
 			tooltip: 'Reset telemetry'
 			action: [ self telemetryDo: #reset ];
