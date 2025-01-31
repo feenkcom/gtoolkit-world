@@ -16,7 +16,7 @@ RPackage >> definedClassesArray [
 RPackage >> gtClassHierarchyFor: aView [
 	<gtPackageView>
 	^ aView mondrian
-		title: 'Classes dependencies';
+		title: 'Class dependencies';
 		priority: 10.6;
 		tooltip: 'Classes: black, Traits: orange, Extended classes: gray';
 		painting: [ :aMondrian | self paintClassHierarchyWith: aMondrian ];
