@@ -101,14 +101,14 @@ PositionableStream >> gtStreamStateFor: aView [
 				title: 'Char';
 				stencil: [ :assoc | 
 					BrColumnCellLabelStencil new
-						text: ((assoc key gtDisplayString gtRemovePrefix: 'Character ') asRopedText
+						text: ((assoc key printString gtRemovePrefix: 'Character ') asRopedText
 								glamorousRegularFont;
 								glamorousRegularSmallSize) ].
 			list column
 				title: 'ASCII';
 				stencil: [ :assoc | 
 					BrColumnCellLabelStencil new
-						text: (assoc key asciiValue asString asRopedText
+						text: (([assoc key asciiValue] on: Error do: [ '' ]) asString asRopedText
 								glamorousRegularFont;
 								glamorousRegularSmallSize) ].
 			container addChild: list.
