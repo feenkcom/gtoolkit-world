@@ -94,6 +94,11 @@ GtDependencyAnalyzerForPackage >> definingBaselinesWithContext: aContext [
 	^ definingBaselines ifNil: [ definingBaselines := self computeDefiningBaselinesWithContext: aContext ]
 ]
 
+{ #category : #'as yet unclassified' }
+GtDependencyAnalyzerForPackage >> directlyRequiredPackagesWithContext: anAnalyzerContext [
+	^ {}
+]
+
 { #category : #'gt-extensions' }
 GtDependencyAnalyzerForPackage >> gtDefiningBaselinesFor: aView [
 	<gtView>
@@ -175,6 +180,11 @@ GtDependencyAnalyzerForPackage >> hash [
 	^ package hash
 ]
 
+{ #category : #'as yet unclassified' }
+GtDependencyAnalyzerForPackage >> indirectlyRequiredPackagesWithContext: anAnalyzerContext [
+	^ {}
+]
+
 { #category : #initialization }
 GtDependencyAnalyzerForPackage >> initialize [
 	super initialize.
@@ -232,6 +242,21 @@ GtDependencyAnalyzerForPackage >> preloadedBaselines [
 { #category : #accessing }
 GtDependencyAnalyzerForPackage >> preloadedBaselines: anObject [
 	preloadedBaselines := anObject
+]
+
+{ #category : #'as yet unclassified' }
+GtDependencyAnalyzerForPackage >> preloadedPackagesWithContext: aGtDependencyAnalyzerContext [
+	<return: #Array of: #GtDependencyAnalyzerForPackageFromBaseline>
+	| thePreloadedPackages |
+	
+	thePreloadedPackages := Set new.
+	self preloadedBaselines do: [ :eachClass |
+		thePreloadedPackages addAll: ((aGtDependencyAnalyzerContext dependencyAnalyzerForBaseline: eachClass)
+			indirectlyDefinedPackagesWithContext: aGtDependencyAnalyzerContext) ].
+
+	thePreloadedPackages do: [ :eachPackage | eachPackage preloadedBaselines: self preloadedBaselines ].
+
+	^ thePreloadedPackages asArray
 ]
 
 { #category : #printing }
