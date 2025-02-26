@@ -56,6 +56,8 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> gtViewSendersOfHaltFor:aView [
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> haltSelectors [ 
+	<gtIgnoreConstraint: #GtSendersOfHaltSelectorsInGtPackagesConstraint>
+	
 	^ #(#halt #halt: #haltIf: #haltOnce #haltIfNil #haltOnCount:).
 ]
 
@@ -72,17 +74,13 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> haltSendersFilter [
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> issues [
-	^ self wrongSendersInGt contents
+	^ self ignoreIssuesInMethodsBasedOnPragmas:self wrongSendersInGt contents
 ]
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> methodsAllowedToSendHalt [
-	^ {
-		self class >>#haltSelectors.
-		GtGemStonePostMortemDebugger>>#defaultFrameOrdinalFrom:.
-		GtRrSampleExample>>#haltExample.
-		GtPharoMethodExample>>#exampleWithNumber:.
-		GtHaltAdvice>>#haltSelectors}
+	"Ignored methods where we do not use gtIgnoreConstraint:"
+	^ {GtPharoMethodExample>>#exampleWithNumber:.}
 ]
 
 { #category : #accessing }
