@@ -77,12 +77,15 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> issues [
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> methodsAllowedToSendHalt [
-	^ #()
+	^ {
+		self class >>#haltSelectors.
+		GtGemStonePostMortemDebugger>>#defaultFrameOrdinalFrom:.
+		GtRrSampleExample>>#haltExample}
 ]
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> name [
-	^ 'Classes with comments containing missing references'
+	^ 'Methods sending halt'
 ]
 
 { #category : #accessing }
