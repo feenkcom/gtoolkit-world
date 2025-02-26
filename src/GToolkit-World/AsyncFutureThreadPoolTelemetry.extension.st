@@ -16,7 +16,7 @@ AsyncFutureThreadPoolTelemetry >> gtOverviewListFor: aView [
 					put: (Color transparent);
 				yourself.
 			
-			GtMonitorFutureWorkerHorizontalChartStencil new
+			GtPlotterHorizontalCompositeBarChartStencil new
 				leftPadding: 20;
 				labelWidth: 250;
 				rowHeight: 20;
