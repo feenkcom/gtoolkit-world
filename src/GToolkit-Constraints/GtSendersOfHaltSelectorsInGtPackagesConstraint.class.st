@@ -80,7 +80,9 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> methodsAllowedToSendHalt [
 	^ {
 		self class >>#haltSelectors.
 		GtGemStonePostMortemDebugger>>#defaultFrameOrdinalFrom:.
-		GtRrSampleExample>>#haltExample}
+		GtRrSampleExample>>#haltExample.
+		GtPharoMethodExample>>#exampleWithNumber:.
+		GtHaltAdvice>>#haltSelectors}
 ]
 
 { #category : #accessing }
