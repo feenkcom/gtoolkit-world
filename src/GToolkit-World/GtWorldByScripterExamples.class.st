@@ -991,7 +991,6 @@ GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	"See https://github.com/feenkcom/gtoolkit/issues/3960"
 
 	<gtExample>
-	<noTest>
 	| aScripter aSourceCode aSourceInterval |
 	self
 		assert: (GtPharoDummyOneObject respondsTo: #nonExistentMethod) not
