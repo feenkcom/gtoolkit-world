@@ -1,20 +1,6 @@
 Extension { #name : #AsyncFutureThreadPool }
 
 { #category : #'*GToolkit-Extensions' }
-AsyncFutureThreadPool >> gtEnableTelemetryActionFor: anAction [
-	<gtAction>
-	| aTelemetry |
-	
-	aTelemetry := self telemetryDo: #yourself.
- 
-	^ anAction button
-		tooltip: 'Enable telemetry';
-		priority: 30;
-		icon: BrGlamorousVectorIcons signal;
-		action: [ self telemetryDo: #yourself ifNone: [ self telemetry: (aTelemetry := AsyncFutureThreadPoolTelemetry new) ] ]
-]
-
-{ #category : #'*GToolkit-Extensions' }
 AsyncFutureThreadPool >> gtWorkersFor: aView [
 	<gtView>
 	| aTelemetry aMemoryLogger |

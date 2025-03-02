@@ -990,7 +990,7 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	"See https://github.com/feenkcom/gtoolkit/issues/3960"
 
-	"<gtExample>"
+	<gtExample>
 	| aScripter aSourceCode aSourceInterval |
 	self
 		assert: (GtPharoDummyOneObject respondsTo: #nonExistentMethod) not

@@ -49,5 +49,6 @@ GtGtoolkitArchitecturalReport >> build: aComposite [
 		addConstraint: GtHashMethodsShouldReturnAValueConstraint new;
 		addConstraint: GtClassesImplementingEqualsShouldAlsoHaveHashConstraint new;
 		addConstraint: GtClassesShouldNotOverrideGtDisplayStringConstraint new;
-		addConstraint: GtMethodsWithUndeclaredVariablesConstraint new
+		addConstraint: GtMethodsWithUndeclaredVariablesConstraint new;
+		addConstraint: GtSendersOfHaltSelectorsInGtPackagesConstraint new
 ]

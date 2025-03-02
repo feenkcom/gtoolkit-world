@@ -18,7 +18,7 @@ BrWithExplicitMenuAptitude >> gtSubmenusFor: aView [
 	^ aView columnedList
 		title: 'Submenus';
 		tooltip: 'Submenus that were opened from this context menu or dropdown';
-		items: [ self submenus ];
+		items: [ self submenus asOrderedCollection ];
 		column: 'Index'
 			text: [ :each :index | index asRopedText foreground: Color gray ]
 			width: 45;
