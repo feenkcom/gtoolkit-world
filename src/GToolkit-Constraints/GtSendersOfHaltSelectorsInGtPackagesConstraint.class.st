@@ -47,7 +47,7 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> allSendersOfHaltInGt [
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> classesAllowedToSendHalt [
-	^ #()
+	^ { TDAPProtocolVisitor . GtEpImageModelHasImpactVisitor }
 ]
 
 { #category : #accessing }
@@ -121,7 +121,11 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> issues [
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> methodsAllowedToSendHalt [
 	"Ignored methods where we do not use gtIgnoreConstraint:"
-	^ {GtPharoMethodExample>>#exampleWithNumber:.}
+	^ {
+		GtPharoMethodExample>>#exampleWithNumber:.
+		PP2AllNodesVisitor>>#children.
+		PP2EventsTrace>>#filterEvents:.
+		PP2WrappingStrategy>>#changeStrategy:}
 ]
 
 { #category : #accessing }
