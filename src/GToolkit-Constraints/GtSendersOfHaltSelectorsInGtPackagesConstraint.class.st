@@ -5,14 +5,44 @@ Class {
 }
 
 { #category : #views }
-GtSendersOfHaltSelectorsInGtPackagesConstraint class >> gtViewSendersOfHaltFor: aView [
+GtSendersOfHaltSelectorsInGtPackagesConstraint class >> gtViewWrongSendersOfHaltFor: aView [
 	<gtView>
 	<gtClassView>
 	^ aView forward
-		title: 'Senders of halt (by package)';
+		title: 'Wrong Senders of halt (by package)';
 		priority: 25;
 		object: [ self new ];
-		view: #gtViewSendersOfHaltFor:
+		view: #gtViewWrongSendersOfHaltFor:
+]
+
+{ #category : #accessing }
+GtSendersOfHaltSelectorsInGtPackagesConstraint class >> haltSelectors [ 
+	<gtIgnoreConstraint: #GtSendersOfHaltSelectorsInGtPackagesConstraint>
+	
+	^ #(#halt #halt: #haltIf: #haltIfTest #haltIfNotTest #haltOnce #haltFromCount: #haltOnCount: #haltIfNil).
+]
+
+{ #category : #accessing }
+GtSendersOfHaltSelectorsInGtPackagesConstraint class >> haltSendersFilter [
+	| haltFilters |
+	haltFilters := self haltSelectors collect: [ :aSelector |
+		aSelector gtSenders ].
+	^ haltFilters copyWithoutFirst
+		inject: haltFilters first
+		into: [ :compinedFilter :aFilter |
+			compinedFilter | aFilter ].
+]
+
+{ #category : #accessing }
+GtSendersOfHaltSelectorsInGtPackagesConstraint >> allSendersOfHaltInGt [
+	| gtPackages  |
+	gtPackages := BaselineOfGToolkit gtRlAllValidRPackages.
+	
+	^self 
+		wrapInExplicitFilter: (self class haltSendersFilter 
+			select: [ :aMethod |
+				gtPackages includes: aMethod package ])
+		labeled: 'Wrong halt senders in GT'
 ]
 
 { #category : #accessing }
@@ -26,7 +56,36 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> description [
 ]
 
 { #category : #accessing }
-GtSendersOfHaltSelectorsInGtPackagesConstraint >> gtViewSendersOfHaltFor:aView [ 
+GtSendersOfHaltSelectorsInGtPackagesConstraint >> gtViewAllSendersOfHaltFor:aView [ 
+	<gtView>
+	^ aView tree
+		title: 'All halt senders in GT (by package)';
+		priority: 25;
+		items: [ (self allSendersOfHaltInGt contents groupedBy: #package) associations
+				sort: [ :a :b | a key name < b key name ] ];
+		children: [ :anObject | (anObject isKindOf: Association) ifTrue: [ anObject value ] ifFalse: [ #() ] ];
+		itemText: [ :anObject | 
+			(anObject isKindOf: Association)
+				ifTrue: [ anObject key name asRopedText
+						append: ((' {1} issues' format: {anObject value size}) asRopedText
+								foreground: BrGlamorousColors disabledButtonTextColor) ]
+				ifFalse: [ anObject ] ];
+		send: [ :anObject | 
+			(anObject isKindOf: Association)
+				ifTrue: [ anObject value size = 1
+						ifTrue: [ anObject value first ]
+						ifFalse: [ anObject value ] ]
+				ifFalse: [ anObject ] ];
+		actionUpdateButton;
+		actionButtonIcon: BrGlamorousVectorIcons inspect 
+			label: 'Filters' 
+			tooltip: 'Inspect the filters objects'
+			action: [ :aButton |
+				aButton phlow spawnObject: self allSendersOfHaltInGt ]
+]
+
+{ #category : #accessing }
+GtSendersOfHaltSelectorsInGtPackagesConstraint >> gtViewWrongSendersOfHaltFor:aView [ 
 	<gtView>
 	^ aView tree
 		title: 'Issues per package';
@@ -51,30 +110,12 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> gtViewSendersOfHaltFor:aView [
 			label: 'Filters' 
 			tooltip: 'Inspect the filters objects'
 			action: [ :aButton |
-				aButton phlow spawnObject: self wrongSendersInGt ]
-]
-
-{ #category : #accessing }
-GtSendersOfHaltSelectorsInGtPackagesConstraint >> haltSelectors [ 
-	<gtIgnoreConstraint: #GtSendersOfHaltSelectorsInGtPackagesConstraint>
-	
-	^ #(#halt #halt: #haltIf: #haltOnce #haltIfNil #haltOnCount:).
-]
-
-{ #category : #accessing }
-GtSendersOfHaltSelectorsInGtPackagesConstraint >> haltSendersFilter [
-	| haltFilters |
-	haltFilters := self haltSelectors collect: [ :aSelector |
-		aSelector gtSenders ].
-	^ haltFilters copyWithoutFirst
-		inject: haltFilters first
-		into: [ :compinedFilter :aFilter |
-			compinedFilter | aFilter ].
+				aButton phlow spawnObject: self wrongSendersOfHaltInGt ]
 ]
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> issues [
-	^ self ignoreIssuesInMethodsBasedOnPragmas:self wrongSendersInGt contents
+	^ self ignoreIssuesInMethodsBasedOnPragmas:self wrongSendersOfHaltInGt contents
 ]
 
 { #category : #accessing }
@@ -99,25 +140,25 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> status [
 ]
 
 { #category : #accessing }
-GtSendersOfHaltSelectorsInGtPackagesConstraint >> wrapInExplicitFilter: aFilter [
+GtSendersOfHaltSelectorsInGtPackagesConstraint >> wrapInExplicitFilter: aFilter labeled: aFilterLabel [
 
 	^ GtSearchFixedMethodsFilter new 
 		methods: aFilter contents;
 		highlighter: aFilter highlighter;
-		label: 'Wrong halt senders in GT'
+		label: aFilterLabel 
 ]
 
 { #category : #accessing }
-GtSendersOfHaltSelectorsInGtPackagesConstraint >> wrongSendersInGt [
-	| gtPackages allowedClasses allowedMethods |
-	gtPackages := BaselineOfGToolkit gtRlAllValidRPackages.
+GtSendersOfHaltSelectorsInGtPackagesConstraint >> wrongSendersOfHaltInGt [
+	| allowedClasses allowedMethods |
+
 	allowedClasses := self classesAllowedToSendHalt.
 	allowedMethods := self methodsAllowedToSendHalt.
 	
-	^self wrapInExplicitFilter: ((self haltSendersFilter 
-		select: [ :aMethod |
-			gtPackages includes: aMethod package ]) 
-		select: [ :aMethod |
+	^self 
+		wrapInExplicitFilter: (self allSendersOfHaltInGt 
+			select: [ :aMethod |
 			(allowedClasses includes: aMethod methodClass) not and: [
 				(allowedMethods includes: aMethod) not ] ])
+		labeled: 'Wrong halt senders in GT'
 ]
