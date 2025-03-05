@@ -27,21 +27,21 @@ GtToolSpotterButtonStencil >> create [
 
 { #category : #accessing }
 GtToolSpotterButtonStencil >> createDropdownAptitudeForButton: aButton [
-	^ (BrGlamorousWithDropdownAptitude
+	^ BrGlamorousWithExplicitDropdownAptitude
 		handle: [ self createHandleButton ]
-		content: [ self spotterElementFor: aButton ]
-		aptitudeDo: [ :aDropdownLook | 
-			aDropdownLook background: BrGlamorousColors secondaryHeaderBackgroundColor ])
-		preferredExtent: self extent  value
-			+ (0@24); "Handle height - this fixed value is fine
-			for now as we place dropdowns either below and above 
-			the handle element. If we include also left and right
-			dropdown placements, we will have to rework this part."
-		whenResizedDo: [ :anEvent | 
-			anEvent resizeTarget ifNotNil: [ :anElement |
-				anElement fireEvent: (GtSpotterResizedEvent new
-					extent: anEvent extent;
-					resizeTarget: anElement) ] ]
+		content: [ | aSpotterElement |
+			aSpotterElement := self spotterElementFor: aButton.
+			aSpotterElement
+				addAptitude: (BrGlamorousMenuResizableAptitude new
+						whenResizedDo: [ :anEvent | 
+							anEvent resizeTarget
+								ifNotNil: [ :anElement | 
+									anElement
+										fireEvent: (GtSpotterResizedEvent new
+												extent: anEvent extent;
+												resizeTarget: anElement) ] ]) ]
+		containerDo: [ :aMenuContainer | 
+			aMenuContainer background: BrGlamorousColors secondaryHeaderBackgroundColor ]
 ]
 
 { #category : #accessing }

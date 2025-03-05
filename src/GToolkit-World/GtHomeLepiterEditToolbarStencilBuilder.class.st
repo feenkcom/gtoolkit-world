@@ -38,7 +38,7 @@ GtHomeLepiterEditToolbarStencilBuilder >> newAddSnippetButtonWithDropdownAptitud
 	| aButton anAptitude |
 	aButton := self newAddSnippetButton.
 	aButton userData at: #gtHomeLepiterBaseCard put: self card.
-	anAptitude := BrGlamorousWithDropdownAptitude
+	anAptitude := BrGlamorousWithExplicitDropdownAptitude
 			handle: [ | aHandle |
 				aHandle := self newAddSnippetButton.
 				aHandle aptitude - BrGlamorousButtonExteriorAptitude.
@@ -57,7 +57,8 @@ GtHomeLepiterEditToolbarStencilBuilder >> newAddSnippetButtonWithDropdownAptitud
 							button: aButton.
 						anActOnEvent beActed ];
 					spotterElementFor: aButton ]
-			aptitudeDo: [ :anAnchoredLook | anAnchoredLook background: BrGlamorousColors secondaryHeaderBackgroundColor ].
+			containerDo: [ :aMenuContainer | 
+				aMenuContainer background: BrGlamorousColors secondaryHeaderBackgroundColor ].
 
 	aButton addAptitude: anAptitude.
 	^ aButton
