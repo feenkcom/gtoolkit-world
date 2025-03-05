@@ -52,8 +52,8 @@ GtToolButtonStencil >> createBasicButton [
 	button := BrButton new
 		label: self description;
 		constraintsDo:[ :c | 
-	        c horizontal exact: 100.
-	        c vertical exact: 70 ];
+	        c horizontal exact: 80.
+	        c vertical exact: 80 ];
 		padding: (BlInsets all: 10);
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		layout: BlLinearLayout vertical alignCenter;
