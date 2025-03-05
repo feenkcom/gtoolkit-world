@@ -117,6 +117,17 @@ GtImageSetup class >> installOmbuFileStore [
 	
 	"Force a new Ombu store for epicea changes of type OmFileStore.
 	We change this as OmBlockFileStore is slow with large compiled methods."
+	
+	"We reset here the store whithout reseting it first (just disabling it,
+	without calling 'EpMonitor reset'). We do this as we want to keep the same
+	naming convention for ombu files. The new name is determines based on the
+	previous name. Reseting the store will result in a new naming convention
+	based on the image name. Did not do that as we'll need to test more to
+	make sure all works and, see how globalName is used by the store and
+	if construct all changes from a branch if it is not the final leaf node
+	will still work.
+	
+	https://github.com/feenkcom/gtoolkit/issues/4275"
 
 	EpMonitor current 
 		disableDuring: [ 
@@ -128,6 +139,7 @@ GtImageSetup class >> installOmbuFileStore [
 		named: aGlobalName
 		inDirectory: aDirectory'
 				classified: 'gt-pharo-patch'.
+			
 			
 			EpMonitor current sessionStore 
 				resetWithNextStoreName. ]
