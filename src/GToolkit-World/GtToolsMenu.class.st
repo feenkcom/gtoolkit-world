@@ -4,8 +4,7 @@ Class {
 	#traits : 'TBrLayoutResizable',
 	#classTraits : 'TBrLayoutResizable classTrait',
 	#instVars : [
-		'knowledgeBase',
-		'dropDownAptitude'
+		'knowledgeBase'
 	],
 	#classInstVars : [
 		'world'
@@ -80,9 +79,9 @@ GtToolsMenu >> addSections [
 			do: [ :ex | (homeToolsSection handleButtonCreationException: ex) create size: iconSize ] ]).
 ]
 
-{ #category : #accessing }
-GtToolsMenu >> dropDownAptitude: anAptitude [
-	dropDownAptitude := anAptitude
+{ #category : #deprecated }
+GtToolsMenu >> dropDownAptitude: aBrGlamorousWithDropdownAptitude [ 
+	"ignore"
 ]
 
 { #category : #initialization }
@@ -150,7 +149,7 @@ GtToolsMenu >> renameButton [
 	button := BrButton new.
 	button
 		aptitude: BrGlamorousButtonWithLabelAptitude
-					+ (BrGlamorousWithDropdownAptitude handle: [
+					+ (BrGlamorousWithExplicitDropdownAptitude handle: [
 							(BrButton new)
 								aptitude: BrGlamorousButtonRectangularAptitude
 										+ BrGlamorousButtonLabelAptitude;
@@ -181,7 +180,7 @@ GtToolsMenu >> renameFrom: aButton [
 							aButton
 								label: 'Rename';
 								enable.
-							dropDownAptitude hide])].
+							aButton fireEvent: BrDropdownHideWish new ])].
 	container := (BlElement new)
 				layout: BlLinearLayout vertical;
 				constraintsDo: 
@@ -225,7 +224,7 @@ GtToolsMenu >> saveFrom: aButton [
 	aButton disable.
 	aButton space universe snapshot: true andQuit: false.
 	aButton space universe postpone: [
-		dropDownAptitude hide.
+		aButton fireEvent: BrDropdownHideWish new.
 		aButton enqueueTask: (BlTaskAction new action: [
 			aButton label: 'Save'; enable ]) ].
 ]
