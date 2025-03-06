@@ -198,7 +198,7 @@ GtHome >> update: anAnnouncement [
 	anAnnouncement classAffected == self class
 		ifFalse: [ ^ self ].
 
-	self updateWidget.
+	self requestWidgetUpdate.
 ]
 
 { #category : #updating }
