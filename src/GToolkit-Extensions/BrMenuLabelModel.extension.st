@@ -12,5 +12,5 @@ BrMenuLabelModel >> gtLiveFor: aView [
 			BrFrame new 
 				matchParent;
 				padding: (BlInsets all: 20);
-				addChild: (self acceptVisitor: BrGlamorousMenuElementBuilder new) ]
+				addChild: (BrGlamorousMenuElementBuilder new visitGivenModel: self) ]
 ]
