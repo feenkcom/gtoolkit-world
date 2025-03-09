@@ -54,17 +54,16 @@ GtHomeNotifications >> takeATourNotification [
 			database := LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
 					databases detect: [ :each | each databaseName = 'Glamorous Toolkit Book' ].
 			aPage := database pages
-					detect: [ :each | each title = 'A tour of the environment' ].
-			GtWorldUtility
-				showSpaceWithTitle: aPage title
-				inPagerWith: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ]
-						asStencil
-				from: cardElement ];
+					detect: [ :each | each title = 'Get started' ].
+			BlSpace new
+				title: aPage title;
+				inPager: [ aPage asLepiterPagePhlowTool asElementDo: [ :e | e ] ] asStencil;
+				showFrom: cardElement ];
 		refreshAction: [ self updateWidget ];
 		cardStencil: (GtNotificationCardStencil new
 				headerText: 'New to Glamorous Toolkit?';
-				actionText: 'Take a tour';
-				tooltipText: 'Take an interactive tour through the environment')
+				actionText: 'Get started';
+				tooltipText: 'Get started with the steps from the Glamorous Toolkit book')
 ]
 
 { #category : #updating }
