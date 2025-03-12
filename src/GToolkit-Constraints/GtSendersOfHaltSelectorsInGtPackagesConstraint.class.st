@@ -190,11 +190,6 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> name [
 ]
 
 { #category : #accessing }
-GtSendersOfHaltSelectorsInGtPackagesConstraint >> packagesToAnalyse [
-	^ BaselineOfGToolkit gtRlAllValidRPackages
-]
-
-{ #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> status [ 
 	^ GtNeutralConstraintStatus new
 ]
