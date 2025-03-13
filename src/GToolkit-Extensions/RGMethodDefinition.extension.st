@@ -67,3 +67,8 @@ RGMethodDefinition >> isClassSide [
 	"For compatibility with CompiledMethod"
 	^self isMetaSide
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> isGtSlide [
+	^ self method isGtSlide
+]
