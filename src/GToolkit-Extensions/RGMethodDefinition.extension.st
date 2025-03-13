@@ -20,8 +20,21 @@ RGMethodDefinition >> gtImplementorsFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Implementors';
-		priority: 11;
+		priority: 25;
 		stencil: [ self selector gtImplementors ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> gtLocalVersionsFor: aView [
+	<gtView>
+	
+	self isDefined ifFalse: [ ^aView empty].
+	
+	^aView forward 
+		title: 'Local versions';
+		object: [ self compiledMethod ];
+		priority: 10;
+		view: #gtLocalVersionsFor:
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -29,7 +42,7 @@ RGMethodDefinition >> gtSendersFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Senders';
-		priority: 10;
+		priority: 22;
 		stencil: [ self selector gtSenders ]
 ]
 
@@ -47,4 +60,15 @@ RGMethodDefinition >> gtSourceFor: aView [
 			 ((GtPharoMethodCoder forMethod: self) 
 				subscribeToSystem;
 				asExpandedOnlyElement) vFitContentLimited ].
+]
+
+{ #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> isClassSide [
+	"For compatibility with CompiledMethod"
+	^self isMetaSide
+]
+
+{ #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> isGtSlide [
+	^ self method isGtSlide
 ]
