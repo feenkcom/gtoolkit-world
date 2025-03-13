@@ -20,21 +20,8 @@ RGMethodDefinition >> gtImplementorsFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Implementors';
-		priority: 25;
+		priority: 23;
 		stencil: [ self selector gtImplementors ]
-]
-
-{ #category : #'*GToolkit-Extensions' }
-RGMethodDefinition >> gtLocalVersionsFor: aView [
-	<gtView>
-	
-	self isDefined ifFalse: [ ^aView empty].
-	
-	^aView forward 
-		title: 'Local versions';
-		object: [ self compiledMethod ];
-		priority: 10;
-		view: #gtLocalVersionsFor:
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -44,22 +31,6 @@ RGMethodDefinition >> gtSendersFor: aView [
 		title: 'Senders';
 		priority: 22;
 		stencil: [ self selector gtSenders ]
-]
-
-{ #category : #'*GToolkit-Extensions' }
-RGMethodDefinition >> gtSourceFor: aView [
-	<gtView>
-	^ aView explicit
-		title: 'Source';
-		priority: 5;
-		actionButtonIcon: BrGlamorousVectorIcons browse 
-			tooltip: 'Browse method'
-			action: [ :aButton | aButton phlow spawnTool: 
-				(GtMethodCoderTool compiledMethod: self compiledMethod) ];
-		stencil: [ 
-			 ((GtPharoMethodCoder forMethod: self) 
-				subscribeToSystem;
-				asExpandedOnlyElement) vFitContentLimited ].
 ]
 
 { #category : #'*GToolkit-Extensions' }
