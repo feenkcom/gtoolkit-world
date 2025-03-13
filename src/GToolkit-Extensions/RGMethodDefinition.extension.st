@@ -20,7 +20,7 @@ RGMethodDefinition >> gtImplementorsFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Implementors';
-		priority: 11;
+		priority: 25;
 		stencil: [ self selector gtImplementors ]
 ]
 
@@ -42,7 +42,7 @@ RGMethodDefinition >> gtSendersFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Senders';
-		priority: 10;
+		priority: 22;
 		stencil: [ self selector gtSenders ]
 ]
 
