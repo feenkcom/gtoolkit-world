@@ -18,19 +18,38 @@ RGMethodDefinition >> gtBasicSourceFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtImplementorsFor: aView [
 	<gtView>
-	^ aView explicit
+	^ aView forward
 		title: 'Implementors';
 		priority: 23;
-		stencil: [ self selector gtImplementors ]
+		object: [ 
+			| searchContext |
+			searchContext := nil.
+			self isDefined ifTrue: [
+				searchContext := GtSearchMethodCoderFilterContext new 
+					behavior: self methodClass;
+					selectorInPosition: self selector ].
+			self selector gtImplementors
+				requesterContext: searchContext ];
+		view: #gtItemsFor: 
 ]
 
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtSendersFor: aView [
 	<gtView>
-	^ aView explicit
+	^ aView forward
 		title: 'Senders';
 		priority: 22;
-		stencil: [ self selector gtSenders ]
+		object: [ 
+			| searchContext |
+			searchContext := nil.
+			self isDefined ifTrue: [
+				searchContext := GtSearchMethodCoderFilterContext new 
+					behavior: self methodClass;
+					nodeInPosition: self method ast;
+					selectorInPosition: self selector ].
+			self selector gtSenders
+				requesterContext: searchContext ];
+		view: #gtItemsFor: 
 ]
 
 { #category : #'*GToolkit-Extensions' }
