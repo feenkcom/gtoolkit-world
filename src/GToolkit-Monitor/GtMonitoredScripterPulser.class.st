@@ -90,11 +90,21 @@ GtMonitoredScripterPulser >> gtPointersFor: aView [
 ]
 
 { #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtPulserPulseMethodFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Source code';
+		priority: 5;
+		object: [ self pulser ifNil: [ BlDevScripterPulseUntilReady new ] ];
+		view: #gtPulseMethodFor:
+]
+
+{ #category : #'gt-extension' }
 GtMonitoredScripterPulser >> gtScripterExampleFor: aView [
 	<gtView>
 	^ aView forward
 		title: 'Example';
-		priority: 5;
+		priority: 7;
 		object: [ self example ifNil: [ GtExampleWithResult new ] ];
 		view: #gtSourceFor:;
 		actionButtonIcon: BrGlamorousVectorIcons inspect
@@ -103,6 +113,14 @@ GtMonitoredScripterPulser >> gtScripterExampleFor: aView [
 			action: [ :aButton | 
 				self example
 					ifNotNil: [ :anExampleWithResult | aButton phlow spawnObject: anExampleWithResult example ] ]
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtScripterPreviewFor: aView [
+	<gtView>
+	^ self pulser
+		ifNil: [ aView empty ]
+		ifNotNil: [ :aPulser | aPulser gtStepsMondrianTreeFor: aView ]
 ]
 
 { #category : #'gt-extension' }
@@ -117,7 +135,31 @@ GtMonitoredScripterPulser >> gtScripterSpacePreview: aView [
 		actionButtonIcon: BrGlamorousVectorIcons inspect
 			label: 'Scripter'
 			tooltip: 'Inspect scripter'
-			action: [ :aButton | self pulser ifNotNil: [ :aPulser | aButton phlow spawnObject: aPulser scripter ] ]
+			action: [ :aButton | self pulser ifNotNil: [ :aPulser | aButton phlow spawnObject: aPulser scripter ] ];
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			label: 'Pulser'
+			tooltip: 'Inspect scripter pulser'
+			action: [ :aButton | self pulser ifNotNil: [ :aPulser | aButton phlow spawnObject: aPulser ] ]
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtSpaceActiveTasksFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Active space tasks';
+		priority: 4;
+		object: [ self pulser ifNil: [ BlDevScripterPulseUntilReady new ] ];
+		view: #gtSpaceActiveTasksFor:
+]
+
+{ #category : #'gt-extension' }
+GtMonitoredScripterPulser >> gtSpacePendingTasksFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Pending space tasks';
+		priority: 3;
+		object: [ self pulser ifNil: [ BlDevScripterPulseUntilReady new ] ];
+		view: #gtSpacePendingTasksFor:
 ]
 
 { #category : #accessing }
