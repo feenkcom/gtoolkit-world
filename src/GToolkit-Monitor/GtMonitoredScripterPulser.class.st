@@ -231,6 +231,9 @@ GtMonitoredScripterPulser >> status [
 		aPulser isLikelyLockedUp
 			ifTrue: [ aText foreground: BrGlamorousColors errorBackgroundColor ]
 			ifFalse: [ aText foreground: BrGlamorousColors failureBackgroundColor ] ].
+			
+	aPulser isProcessTerminatedOrTerminating ifTrue: [
+		^ 'terminated' asRopedText foreground: BrGlamorousColors disabledButtonTextColor ].
 	
 	^ 'running' asRopedText foreground: BrGlamorousColors failureBackgroundColor
 ]
