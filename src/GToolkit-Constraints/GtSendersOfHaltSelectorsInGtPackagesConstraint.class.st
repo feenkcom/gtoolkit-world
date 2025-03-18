@@ -192,11 +192,6 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> name [
 ]
 
 { #category : #accessing }
-GtSendersOfHaltSelectorsInGtPackagesConstraint >> status [ 
-	^ GtNeutralConstraintStatus new
-]
-
-{ #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> wrapInExplicitFilter: aFilter labeled: aFilterLabel [
 
 	^ GtSearchFixedMethodsFilter new 
