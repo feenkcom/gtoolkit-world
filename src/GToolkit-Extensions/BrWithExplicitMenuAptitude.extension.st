@@ -12,6 +12,18 @@ BrWithExplicitMenuAptitude >> gtMenuContainerFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+BrWithExplicitMenuAptitude >> gtSourceCodeFor: aView [
+	<gtView>
+	(menuStencil respondsTo: #gtSourceCodeFor:)
+		ifFalse: [ ^ aView empty ].
+	
+	^ aView forward
+		title: 'Source code';
+		object: [ menuStencil ];
+		view: #gtSourceCodeFor:
+]
+
+{ #category : #'*GToolkit-Extensions' }
 BrWithExplicitMenuAptitude >> gtSubmenusFor: aView [
 	<gtView>
 	submenus ifNil: [ ^ aView empty ].
