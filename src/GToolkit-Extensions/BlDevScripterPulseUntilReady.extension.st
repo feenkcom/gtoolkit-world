@@ -5,6 +5,7 @@ BlDevScripterPulseUntilReady >> gtPulseMethodFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Source code';
+		priority: 46;
 		stencil: [ GtCoder forMethod: BlDevScripterPulseUntilReady >> #pulse ]
 ]
 
