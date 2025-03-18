@@ -1,6 +1,14 @@
 Extension { #name : #BlDevScripterPulseUntilReady }
 
 { #category : #'*GToolkit-Extensions' }
+BlDevScripterPulseUntilReady >> gtPulseMethodFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Source code';
+		stencil: [ GtCoder forMethod: BlDevScripterPulseUntilReady >> #pulse ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 BlDevScripterPulseUntilReady >> gtScripterPreviewFor: aView [
 	<gtView>
 	scripter ifNil: [ ^ aView empty ].
