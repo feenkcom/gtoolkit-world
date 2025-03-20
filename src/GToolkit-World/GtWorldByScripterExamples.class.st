@@ -989,16 +989,30 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 	"See https://github.com/feenkcom/gtoolkit/issues/4374"
-	
+
 	<gtExample>
 	| aScripter |
 	aScripter := self selectClassInSecondPane.
+
+	aScripter do
+		label: 'Set space extent';
+		block: [ :aSpace | aSpace extent: aSpace extent + (200 @ 200) ];
+		onSpace;
+		play.
+
 	aScripter
-		clickStep: [ :s | 
-			s
+		substeps: 'Ensure default dropdown size'
+		before: [ | anInitialValue |
+			anInitialValue := GtPharoCoderHierarchyDropdownConfiguration
+					preferredExtentOrNil.
+			GtPharoCoderHierarchyDropdownConfiguration preferredExtent: 600 @ 400.
+			anInitialValue ]
+		play: [ :aStep | 
+			aStep click
 				label: 'Click on a class hierarchy button';
 				id: GtPagerPageElementId index: 2;
-				id: GtCoderClassHierarchyButtonId ].
+				id: GtCoderClassHierarchyButtonId ]
+		ensure: [ :anInitialValue | GtPharoCoderHierarchyDropdownConfiguration preferredExtent: anInitialValue ].
 
 	aScripter
 		checkStep: [ :s | 
