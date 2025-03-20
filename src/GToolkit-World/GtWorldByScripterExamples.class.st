@@ -986,6 +986,142 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	^ aScripter
 ]
 
+{ #category : #'examples - coder' }
+GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
+	"See https://github.com/feenkcom/gtoolkit/issues/4374"
+
+	<gtExample>
+	| aScripter |
+	aScripter := self selectClassInSecondPane.
+
+	aScripter do
+		label: 'Set space extent';
+		block: [ :aSpace | aSpace extent: aSpace extent + (200 @ 200) ];
+		onSpace;
+		play.
+
+	aScripter
+		substeps: 'Ensure default dropdown size'
+		before: [ | anInitialValue |
+			anInitialValue := GtPharoCoderHierarchyDropdownConfiguration
+					preferredExtentOrNil.
+			GtPharoCoderHierarchyDropdownConfiguration preferredExtent: 600 @ 400.
+			anInitialValue ]
+		play: [ :aStep | 
+			aStep click
+				label: 'Click on a class hierarchy button';
+				id: GtPagerPageElementId index: 2;
+				id: GtCoderClassHierarchyButtonId ]
+		ensure: [ :anInitialValue | GtPharoCoderHierarchyDropdownConfiguration preferredExtent: anInitialValue ].
+
+	aScripter
+		checkStep: [ :s | 
+			s
+				label: 'Assert menu handle exists';
+				exists;
+				onSpaceRoot;
+				// BrMenuPinnedHandleId ].
+
+	aScripter mouseMoveOver
+		onSpaceRoot;
+		// BrMenuPinnedHandleId;
+		play.
+
+	(aScripter mouseDragBy: 20 @ 20)
+		onSpaceRoot;
+		// BrMenuPinnedHandleId;
+		play.
+
+	aScripter assert
+		label: 'Assert dropdown does not exist';
+		notExists;
+		onSpaceRoot;
+		onDropdown: true;
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - coder' }
+GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAnotherClass [
+	"See https://github.com/feenkcom/gtoolkit/issues/4374"
+	
+	<gtExample>
+	| aScripter aSelectedClass aNewSelectedClass |
+	aScripter := self displayClassHierarchyDropdownInSecondPane.
+	
+	aSelectedClass := nil.
+	aNewSelectedClass := nil.
+	
+	aScripter do 
+		label: 'Get selected coder class';
+		block: [ :aCoder | aCoder navigationModel selectedClassDo: [ :aClass | aSelectedClass := aClass ] ];
+		id: GtPagerPageElementId index: 2;
+		// GtCoderElement;
+		play.
+		
+	self assert: aSelectedClass isNotNil.
+	
+	aScripter
+		clickStep: [ :s | 
+			s
+				label: 'Select new class in the class hierarchy view';
+				onSpaceRoot;
+				// GtCoderClassesTreeElement;
+				// GtCoderClassesTreeItemElement;
+				@ [ :eachElement | 
+					| aResult |
+					aResult := eachElement theClass ~= aSelectedClass.
+					(aResult and: [ aNewSelectedClass isNil ]) 
+						ifTrue: [ aNewSelectedClass := eachElement theClass ].
+					aResult ];
+				@ 1 ].
+
+	self assert: aNewSelectedClass isNotNil.
+
+	aScripter assert 
+		label: 'Assert new selected coder class';
+		value: [ :aCoder | aCoder navigationModel selectedClass ]
+			equals: aNewSelectedClass;
+		id: GtPagerPageElementId index: 2;
+		// GtCoderElement;
+		play.
+		
+	aScripter assert
+		label: 'Assert class hierarchy view exists';
+		exists;
+		onSpaceRoot;
+		// GtCoderClassesTreeElement;
+		play.
+	
+	^ aScripter
+]
+
+{ #category : #'examples - coder' }
+GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAnotherClass_closePinnedMenu [
+	"See https://github.com/feenkcom/gtoolkit/issues/4374"
+	
+	<gtExample>
+	| aScripter |
+	aScripter := self displayClassHierarchyDropdownInSecondPane_SelectAnotherClass.
+	
+	aScripter
+		clickStep: [ :s | 
+			s
+				label: 'Close the class hierarchy view';
+				onSpaceRoot;
+				// BrMenuPinnedCloseButtonId ].
+
+	aScripter assert
+		label: 'Assert class hierarchy view is closed';
+		notExists;
+		onSpaceRoot;
+		// GtCoderClassesTreeElement;
+		play.
+	
+	^ aScripter
+]
+
 { #category : #'examples - embedded debugger' }
 GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	"See https://github.com/feenkcom/gtoolkit/issues/3960"
