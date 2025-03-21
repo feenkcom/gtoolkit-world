@@ -86,7 +86,7 @@ GtGlamorousToolkitBookPagesContainingMissingReferences >> issues [
 
 { #category : #accessing }
 GtGlamorousToolkitBookPagesContainingMissingReferences >> knowledgebasesToAnalyse [
-	^ { LeDatabasesRegistry defaultLogicalDatabase databaseNamed: 'Glamorous Toolkit Book' }
+	^ { LeDatabasesRegistry defaultLogicalDatabase databaseNamed: LeDatabase gtBookName }
 ]
 
 { #category : #accessing }

@@ -52,7 +52,7 @@ GtHomeNotifications >> takeATourNotification [
 		openAction: [ :cardElement | 
 			| aPage |
 			database := LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
-					databases detect: [ :each | each databaseName = 'Glamorous Toolkit Book' ].
+					databases detect: [ :each | each databaseName = LeDatabase gtBookName ].
 			aPage := database pages
 					detect: [ :each | each title = 'Get started' ].
 			BlSpace new

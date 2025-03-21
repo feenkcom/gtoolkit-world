@@ -20,7 +20,7 @@ GtHomeCardExamples >> gtBookCard [
 		description: 'Read the Glamorous Toolkit book';
 		priority: 10;
 		pageName: 'Glamorous Toolkit';
-		databaseName: 'Glamorous Toolkit Book';
+		databaseName: LeDatabase gtBookName;
 		yourself
 ]
 

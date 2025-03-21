@@ -84,7 +84,7 @@ GtHomeMultiCardSection >> defaultPriority [
 
 { #category : #accessing }
 GtHomeMultiCardSection >> gtBookName [
-	^ 'Glamorous Toolkit Book'
+	^ LeDatabase gtBookName
 ]
 
 { #category : #initialization }
