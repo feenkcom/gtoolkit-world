@@ -56,7 +56,7 @@ GtHome >> createVersionLabel [
 		action: [ :button | 
 			| database startPage |
 			database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
-					databaseNamed: 'Glamorous Toolkit Book'.
+					databaseNamed: LeDatabase gtBookName.
 			startPage := database pageNamed: 'About this version of Glamorous Toolkit'.
 			BlSpace new
 				title: startPage title;
