@@ -4,99 +4,97 @@ Extension { #name : #GtExampleGroup }
 GtExampleGroup >> buildListViewFor: aView [
 	| aListView |
 	aListView := aView columnedList
-		title: 'Examples List';
-		priority: 11;
-		items: [ self examples sorted: GtMethodsSortFunction new ];
-		column: '' translated do: [ :aColumn | 
-			aColumn
-				width: 24;
-				cellStencil: [ 
-					BlElement new
-						size: 14@14;
-						padding: (BlInsets top: 3 bottom: 3);
-						margin: (BlInsets top: 3 bottom: 3);
-						addAptitude: (GtPhlowLabelTooltipAptitude new 
-							text: 'Click to run example');
-						when: BlClickEvent
-							do: [ :anEvent |
-								anEvent currentTarget userData
-									at: #example
-									ifPresent: [ :anExample |
-										anEvent consumed: true.
-										[
-										anExample run.
-										anEvent currentTarget phlow 
-											selectObject: anExample result returnValue ] asAsyncPromise ]
-									ifAbsent: [ "do nothing" ] ] ];
-			dataBinder: [ :aLabel :anExample :aRowIndex :aRowHolder :aCellIndex |
-					| aHandler |
-			
-					aLabel userData 
-						at: #exampleAnnouncementHandler_buildListViewFor_Status
-						ifPresent: [ :anOldHandler | 
+			title: 'Examples List';
+			priority: 11;
+			items: [ self examples sorted: GtMethodsSortFunction new ];
+			column: '' translated
+				do: [ :aColumn | 
+					aColumn
+						width: 24;
+						cellStencil: [ BlElement new
+								size: 14 @ 14;
+								padding: (BlInsets top: 3 bottom: 3);
+								margin: (BlInsets top: 3 bottom: 3);
+								addAptitude: (GtPhlowLabelTooltipAptitude2 text: 'Click to run example');
+								when: BlClickEvent
+									do: [ :anEvent | 
+										anEvent currentTarget userData
+											at: #example
+											ifPresent: [ :anExample | 
+												anEvent consumed: true.
+												[ anExample run.
+												anEvent currentTarget phlow
+													selectObject: anExample result returnValue ] asAsyncPromise ]
+											ifAbsent: [  "do nothing" ] ] ];
+						dataBinder: [ :aLabel :anExample :aRowIndex :aRowHolder :aCellIndex | 
+							| aHandler |
 							aLabel userData
-								at: #example
-								ifPresent: [ :anOldExample | anOldExample announcer unsubscribe: anOldHandler ]
-								ifAbsent: [ "do nothing" ] ]
-						ifAbsent: [ "do nothing" ].
-						
-					aHandler := GtExampleColorHandler new element: aLabel.
-					aLabel userData at: #exampleAnnouncementHandler_buildListViewFor_Status put: aHandler.	
-						
-					anExample announcer weak
-						when: GtExampleExecuted
-						send: #onAnnouncement:
-						to: aHandler.
-						
-					aLabel background: anExample color.
-					aLabel userData at: #example put: anExample ] ];
-		column: 'Class' translated 
-			text: [ :eachExample :anIndex | 
-				eachExample example classLabel ];
-		column: 'Selector' translated 
-			text: [ :eachExample :anIndex | 
-				eachExample example selector asString ];
-		column: 'Result' translated do: [ :aColumn | 
-			aColumn
-				cellStencil: [
-					BrLabel new
-						aptitude: BrGlamorousListLabelAptitude;
-						addAptitude: (GtPhlowLabelTooltipAptitude new 
-							text: 'Click to display result details');
-						fitContent;
-						when: BlClickEvent
-						do: [ :anEvent |
-							anEvent currentTarget userData
-								at: #example
-								ifPresent: [ :anExample |
-									anExample hasResult ifTrue: [ | aResult |
-										aResult := anExample result returnValue.
-										(aResult isKindOf: BlElement) ifTrue: [ 
-											aResult removeFromParent ].
-										anEvent currentTarget phlow spawnObject: aResult.
-										anEvent consumed: true ] ]
-								ifAbsent: [ "do nothing" ] ] ];
-				dataBinder: [ :aLabel :anExample :aRowIndex :aRowHolder :aCellIndex |
-					| aHandler |
-					aLabel userData 
-						at: #exampleAnnouncementHandler_buildListViewFor_Result 
-						ifPresent: [ :anOldHandler |
+								at: #exampleAnnouncementHandler_buildListViewFor_Status
+								ifPresent: [ :anOldHandler | 
+									aLabel userData
+										at: #example
+										ifPresent: [ :anOldExample | anOldExample announcer unsubscribe: anOldHandler ]
+										ifAbsent: [  "do nothing" ] ]
+								ifAbsent: [  "do nothing" ].
+
+							aHandler := GtExampleColorHandler new element: aLabel.
 							aLabel userData
-								at: #example
-								ifPresent: [ :anOldExample | anOldExample announcer unsubscribe: anOldHandler ]
-								ifAbsent: [ "do nothing" ] ]
-						ifAbsent: [ "do nothing" ].
-					
-					aHandler := GtExampleLabelTextHandler new element: aLabel.
-					aLabel userData at: #exampleAnnouncementHandler_buildListViewFor_Result put: aHandler.	
-											
-					anExample announcer weak
-						when: GtExampleExecuted
-						send: #onAnnouncement:
-						to: aHandler.
-					
-					aLabel text: anExample resultOrErrorName asRopedText.
-					aLabel userData at: #example put: anExample ] ].
+								at: #exampleAnnouncementHandler_buildListViewFor_Status
+								put: aHandler.
+
+							anExample announcer weak
+								when: GtExampleExecuted
+								send: #onAnnouncement:
+								to: aHandler.
+
+							aLabel background: anExample color.
+							aLabel userData at: #example put: anExample ] ];
+			column: 'Class' translated
+				text: [ :eachExample :anIndex | eachExample example classLabel ];
+			column: 'Selector' translated
+				text: [ :eachExample :anIndex | eachExample example selector asString ];
+			column: 'Result' translated
+				do: [ :aColumn | 
+					aColumn
+						cellStencil: [ BrLabel new
+								aptitude: BrGlamorousListLabelAptitude;
+								addAptitude: (GtPhlowLabelTooltipAptitude2 text: 'Click to display result details');
+								fitContent;
+								when: BlClickEvent
+									do: [ :anEvent | 
+										anEvent currentTarget userData
+											at: #example
+											ifPresent: [ :anExample | 
+												anExample hasResult
+													ifTrue: [ | aResult |
+														aResult := anExample result returnValue.
+														(aResult isKindOf: BlElement) ifTrue: [ aResult removeFromParent ].
+														anEvent currentTarget phlow spawnObject: aResult.
+														anEvent consumed: true ] ]
+											ifAbsent: [  "do nothing" ] ] ];
+						dataBinder: [ :aLabel :anExample :aRowIndex :aRowHolder :aCellIndex | 
+							| aHandler |
+							aLabel userData
+								at: #exampleAnnouncementHandler_buildListViewFor_Result
+								ifPresent: [ :anOldHandler | 
+									aLabel userData
+										at: #example
+										ifPresent: [ :anOldExample | anOldExample announcer unsubscribe: anOldHandler ]
+										ifAbsent: [  "do nothing" ] ]
+								ifAbsent: [  "do nothing" ].
+
+							aHandler := GtExampleLabelTextHandler new element: aLabel.
+							aLabel userData
+								at: #exampleAnnouncementHandler_buildListViewFor_Result
+								put: aHandler.
+
+							anExample announcer weak
+								when: GtExampleExecuted
+								send: #onAnnouncement:
+								to: aHandler.
+
+							aLabel text: anExample resultOrErrorName asRopedText.
+							aLabel userData at: #example put: anExample ] ].
 	^ aListView
 ]
 

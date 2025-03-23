@@ -141,52 +141,63 @@ GtHomeSection >> newDocCardForClass: aClass [
 { #category : #'instance creation' }
 GtHomeSection >> newHeaderCardWithTitle: aTitle description: aDescription size: aPoint content: anElement action: aBlock [
 	| container |
-
 	container := BrButton new
-		size: aPoint;
-		layout: BlLinearLayout vertical;
-		aptitude: ((BrGlamorousButtonExteriorAptitude new 
-			backgroundPaint: Color white;
-			borderPaint: (Color transparent)) + BrGlamorousButtonWithLabelTooltipAptitude new + (BrShadowAptitude new beLarge));
-		label: aDescription;
-		padding: (BlInsets all: 1);
-		margin: (BlInsets top: self spaceGap left: 2 * self spaceGap bottom: 2 * self spaceGap right: 2 * self spaceGap);
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-		action: aBlock.
+			size: aPoint;
+			layout: BlLinearLayout vertical;
+			aptitude: (BrGlamorousButtonExteriorAptitude new
+					backgroundPaint: Color white;
+					borderPaint: Color transparent)
+					+ BrGlamorousButtonWithLabelTooltipAptitude2 new
+					+ BrShadowAptitude new beLarge;
+			label: aDescription;
+			padding: (BlInsets all: 1);
+			margin: (BlInsets
+					top: self spaceGap
+					left: 2 * self spaceGap
+					bottom: 2 * self spaceGap
+					right: 2 * self spaceGap);
+			geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+			action: aBlock.
 
-	^ container
-		addChild: (anElement preventMeAndChildrenMouseEvents).
+	^ container addChild: anElement preventMeAndChildrenMouseEvents
 ]
 
 { #category : #'instance creation' }
 GtHomeSection >> newHeaderCardWithTitle: aTitle description: aDescription width: aWidth content: anElement action: aBlock [
 	| container headerContainer |
-
 	container := BrButton new
-		constraintsDo: [:c | 
-			c vertical fitContent.
-			c horizontal exact: aWidth ]; 
-		layout: BlLinearLayout vertical;
-		background: Color red;
-		aptitude: ((BrGlamorousButtonExteriorAptitude new
-			backgroundPaint: Color white; 
-			borderPaint: Color transparent) + BrGlamorousButtonWithLabelTooltipAptitude new + (BrShadowAptitude new beLarge));
-		label: aDescription;
-		padding: (BlInsets all: 1);
-		margin: (BlInsets top: self spaceGap left: 2 * self spaceGap bottom: self spaceGap * 2 right: 2 * self spaceGap);
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-		action: aBlock.
+			constraintsDo: [ :c | 
+				c vertical fitContent.
+				c horizontal exact: aWidth ];
+			layout: BlLinearLayout vertical;
+			background: Color red;
+			aptitude: (BrGlamorousButtonExteriorAptitude new
+					backgroundPaint: Color white;
+					borderPaint: Color transparent)
+					+ BrGlamorousButtonWithLabelTooltipAptitude2 new
+					+ BrShadowAptitude new beLarge;
+			label: aDescription;
+			padding: (BlInsets all: 1);
+			margin: (BlInsets
+					top: self spaceGap
+					left: 2 * self spaceGap
+					bottom: self spaceGap * 2
+					right: 2 * self spaceGap);
+			geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+			action: aBlock.
 
 	headerContainer := BlElement new
-		constraintsDo: [:c | c horizontal fitContent. c vertical fitContent ];
-		layout: BlLinearLayout vertical;
-		background: BrGlamorousColors defaultButtonBorderColor;
-		addChild: (BrLabel new aptitude: (BrGlamorousLabelAptitude new fontSize: 10);
-		text: aTitle).
-	
-	^ container"
+			constraintsDo: [ :c | 
+				c horizontal fitContent.
+				c vertical fitContent ];
+			layout: BlLinearLayout vertical;
+			background: BrGlamorousColors defaultButtonBorderColor;
+			addChild: (BrLabel new
+					aptitude: (BrGlamorousLabelAptitude new fontSize: 10);
+					text: aTitle).
+
+	^ container addChild: anElement preventMeAndChildrenMouseEvents	"
 		addChild: headerContainer preventMeAndChildrenMouseEvents; "
-		addChild: (anElement preventMeAndChildrenMouseEvents).
 ]
 
 { #category : #'instance creation' }
@@ -317,22 +328,35 @@ GtHomeSection >> newShowCardWithTitle: aString slideshow: aSlideShowBlock descri
 GtHomeSection >> newToolCardWithTitle: aString icon: anElement action: aBlock description: aDescriptionString [
 	| iconElement labelElement |
 	iconElement := anElement margin: (BlInsets bottom: 5).
-	labelElement := BrLabel new 
-	    text: aString;
-	    aptitude: (BrGlamorousLabelAptitude new fontSize: 14).
+	labelElement := BrLabel new
+			text: aString;
+			aptitude: (BrGlamorousLabelAptitude new fontSize: 14).
 	^ BrButton new
-		constraintsDo:[ :c | 
-	        c horizontal exact: 120.
-	        c vertical exact: 120 ];
-		margin: (BlInsets top: 10 left: 20 bottom: 10 right: 20);
+		constraintsDo: [ :c | 
+			c horizontal exact: 120.
+			c vertical exact: 120 ];
+		margin: (BlInsets
+				top: 10
+				left: 20
+				bottom: 10
+				right: 20);
 		action: aBlock;
 		padding: (BlInsets all: 10);
 		label: aDescriptionString;
-		aptitude: (BrGlamorousButtonExteriorAptitude new + BrGlamorousButtonWithLabelTooltipAptitude new +(BrShadowAptitude new width: 8; offset: 1@1; color: (Color r: 200 g: 200 b: 200 range: 255)));
+		aptitude: BrGlamorousButtonExteriorAptitude new
+				+ BrGlamorousButtonWithLabelTooltipAptitude2 new
+				+ (BrShadowAptitude new
+						width: 8;
+						offset: 1 @ 1;
+						color: (Color
+								r: 200
+								g: 200
+								b: 200
+								range: 255));
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		layout: BlLinearLayout vertical alignCenter;
 		addChild: iconElement;
-		addChild: labelElement.
+		addChild: labelElement
 ]
 
 { #category : #'instance creation' }

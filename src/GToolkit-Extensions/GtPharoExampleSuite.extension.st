@@ -30,7 +30,7 @@ GtPharoExampleSuite >> gtExamplesWithResultCacheFor: aView [
 					background: (isLatest
 							ifTrue: [ BrGlamorousColors successBackgroundColor ]
 							ifFalse: [ BrGlamorousColors errorBackgroundColor ]);
-					aptitude: (BrGlamorousWithLabelTooltipAptitude new
+					aptitude: (BrGlamorousWithExplicitTooltipAptitude
 							text: (isLatest ifTrue: [ 'The current method' ] ifFalse: [ 'An old method version' ])) ]
 			width: 20;
 		column: ''
@@ -50,7 +50,7 @@ GtPharoExampleSuite >> gtExamplesWithResultCacheFor: aView [
 					size: 13 @ 13;
 					geometry: BlCircleGeometry new;
 					background: anAssoc value color;
-					aptitude: (BrGlamorousWithLabelTooltipAptitude new text: 'Example execution result') ]
+					aptitude: (BrGlamorousWithExplicitTooltipAptitude text: 'Example execution result') ]
 			width: 20;
 		column: ''
 			stencil: [ :anAssoc | 
@@ -85,7 +85,7 @@ GtPharoExampleSuite >> gtExamplesWithResultStreamFor: aView [
 					size: 13 @ 13;
 					geometry: BlCircleGeometry new;
 					background: anExample color;
-					aptitude: (BrGlamorousWithLabelTooltipAptitude new text: 'Example execution result') ]
+					aptitude: (BrGlamorousWithExplicitTooltipAptitude text: 'Example execution result') ]
 			width: 40;
 		actionUpdateButton
 ]

@@ -30,12 +30,16 @@ GtHomeLepiterBaseCard >> create [
 { #category : #'private - widgets' }
 GtHomeLepiterBaseCard >> createContainer [
 	^ BrButton new
-		layout: (BlLinearLayout horizontal );
+		layout: BlLinearLayout horizontal;
 		exact: 500 @ 250;
 		background: Color white;
-		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude new;
+		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude2 new;
 		label: self description;
-		padding: (BlInsets top: 10 left: 10 bottom: 10 right: 0 );
+		padding: (BlInsets
+				top: 10
+				left: 10
+				bottom: 10
+				right: 0);
 		margin: (BlInsets
 				top: self spaceGap
 				left: 2 * self spaceGap
