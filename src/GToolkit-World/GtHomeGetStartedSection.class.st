@@ -17,7 +17,7 @@ GtHomeGetStartedSection >> create [
 	cardsContainer
 		addChild: (self
 				newLepiterPageCardForPageNamed: 'Glamorous Toolkit'
-				inDatabaseNamed: 'Glamorous Toolkit Book'
+				inDatabaseNamed: LeDatabase gtBookName
 				withTitle: 'Glamorous Toolkit Book'
 				andDescription: 'Read the Glamorous Toolkit book').
 
