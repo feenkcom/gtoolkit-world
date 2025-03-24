@@ -26,8 +26,8 @@ GtHomeCardByScripterExamples >> displayTooltip [
 		label: 'Assert tooltip text';
 		value: [ :aLabel | aLabel text asString ] equals: [ aCard description ];
 		onSpaceRoot;
-		// BrAnchoredElement;
-		// BrLabel;
+		onDropdown: true;
+		// #'menu--label';
 		play.
 
 	aScripter assert

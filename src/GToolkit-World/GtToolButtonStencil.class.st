@@ -30,11 +30,11 @@ GtToolButtonStencil >> create [
 	<return: #BrButton>
 	| button |
 	button := self createBasicButton.
-	button 
+	button
 		margin: self margin;
 		action: self action;
 		aptitude: BrGlamorousButtonExteriorAptitude new;
-		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude new;
+		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude2 new;
 		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ definingMethod ]).
 	elementId ifNotNil: [ button id: elementId ].
 	^ button

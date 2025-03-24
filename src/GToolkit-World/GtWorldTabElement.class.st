@@ -91,7 +91,7 @@ GtWorldTabElement >> aptitudeForSpaceTab: aTab [
 	| aTabViewModel |
 	aTabViewModel := aTab viewModel.
 	^ BrGlamorousSpaceTabWithIconAndLabelAptitude new
-		+ ((BrGlamorousWithTooltipAptitude
+		+ ((BrGlamorousWithExplicitTooltipAptitude
 				content: [ BrElementAsFormPreview
 					forElement: (aTabViewModel
 					cachedContentElementDo: [ :anElement | anElement ]

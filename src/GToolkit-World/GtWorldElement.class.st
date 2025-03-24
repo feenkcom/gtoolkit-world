@@ -155,14 +155,14 @@ GtWorldElement >> newActionItemsInto: anActionbar [
 
 { #category : #'private - instance creation' }
 GtWorldElement >> newNotificationsBadge [
-	self 
+	self
 		assert: [ notificationsDropdown isNil ]
 		description: [ 'Notifications dropdown is already created!' ].
-	
+
 	notificationsDropdown := GtNotificationsBadgeElement new
-		addAptitude: (BrGlamorousWithLabelTooltipAptitude new text: 'Notifications');
-		hide.
-	
+			addAptitude: (BrGlamorousWithExplicitTooltipAptitude text: 'Notifications');
+			hide.
+
 	^ notificationsDropdown
 ]
 
@@ -214,29 +214,24 @@ GtWorldElement >> newSubSpaceButton [
 		assert: [ subSpaceDropdown isNil ]
 		description: [ 'Sub-space dropdown is already created!' ].
 	subSpaceDropdown := BrButton new
-		aptitude:
-			BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude
-				+
-					(BrGlamorousWithExplicitDropdownAptitude
-						handle: [ BrButton new
-								aptitude:
-									BrGlamorousButtonWithIconAptitude
-										- BrGlamorousButtonWithLabelTooltipAptitude
-										- BrGlamorousButtonExteriorAptitude;
-								icon: BrGlamorousIcons hamburger;
-								label: 'Menu';
-								yourself ]
-						content: [ 
-							BrScrollPane new
-								aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
-								hExact: 420;
-								vMatchParent;
-								content: (GtToolsMenu new
-									knowledgeBase: self knowledgeBase;
-									yourself) ]);
-		icon: BrGlamorousIcons hamburger;
-		label: 'Menu';
-		yourself.
+			aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude
+					+ (BrGlamorousWithExplicitDropdownAptitude
+							handle: [ BrButton new
+									aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonWithLabelTooltipAptitude2
+											- BrGlamorousButtonExteriorAptitude;
+									icon: BrGlamorousIcons hamburger;
+									label: 'Menu';
+									yourself ]
+							content: [ BrScrollPane new
+									aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
+									hExact: 420;
+									vMatchParent;
+									content: (GtToolsMenu new
+											knowledgeBase: self knowledgeBase;
+											yourself) ]);
+			icon: BrGlamorousIcons hamburger;
+			label: 'Menu';
+			yourself.
 	^ subSpaceDropdown
 ]
 
