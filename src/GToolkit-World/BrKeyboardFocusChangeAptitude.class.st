@@ -52,7 +52,9 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 							nextFocusDo: #requestFocus ifNone: [  ] ].
 				key isReturn
 					ifTrue: [ self widget aptitude actors
-							detect: [ :each | each isKindOf: BrWithExplicitMenuAptitude ]
+							detect: [ :each | 
+								(each isKindOf: BrWithExplicitMenuAptitude)
+									and: [ (each isKindOf: BrGlamorousWithExplicitTooltipAptitude) not ] ]
 							ifFound: [ :dropdown | dropdown show ]
 							ifNone: [ self widget loseFocus.
 								self widget anchor
@@ -74,8 +76,10 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 				anEvent consumed: true.
 				self widget loseFocus.
 				self widget aptitude actors
-					detect: [ :each | each isKindOf: BrWithExplicitMenuAptitude ]
-					ifFound: [ :dropdown | ]
+					detect: [ :each | 
+						(each isKindOf: BrWithExplicitMenuAptitude)
+							and: [ (each isKindOf: BrGlamorousWithExplicitTooltipAptitude) not ] ]
+					ifFound: [ :dropdown |  ]
 					ifNone: [ self widget anchor
 							ifNotNil: [ :notNil | 
 								self widget
