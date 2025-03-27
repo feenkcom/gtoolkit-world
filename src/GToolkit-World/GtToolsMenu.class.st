@@ -77,6 +77,7 @@ GtToolsMenu >> addSections [
 		[ each smallIcon smallMargin create size: iconSize]
 			on: Error
 			do: [ :ex | (homeToolsSection handleButtonCreationException: ex) create size: iconSize ] ]).
+	self children first requestFocus
 ]
 
 { #category : #deprecated }
@@ -127,7 +128,7 @@ GtToolsMenu >> onAddedToSceneGraph [
 { #category : #initialization }
 GtToolsMenu >> quitButton [
 	^(BrButton new)
-		aptitude: BrGlamorousButtonWithLabelAptitude new;
+		aptitude: BrGlamorousButtonWithLabelAptitude + BrGlamorousToolsDropdownKeyboardFocusChangeAptitude;
 		label: 'Quit';
 		hMatchParent;
 		action: [:aButton | self quitFrom: aButton]
@@ -148,7 +149,7 @@ GtToolsMenu >> renameButton [
 	| button |
 	button := BrButton new.
 	button
-		aptitude: BrGlamorousButtonWithLabelAptitude
+		aptitude: BrGlamorousButtonWithLabelAptitude + BrGlamorousToolsDropdownKeyboardFocusChangeAptitude
 					+ (BrGlamorousWithExplicitDropdownAptitude handle: [
 							(BrButton new)
 								aptitude: BrGlamorousButtonRectangularAptitude
@@ -212,7 +213,7 @@ GtToolsMenu >> renameImageTo: aFilename [
 { #category : #initialization }
 GtToolsMenu >> saveButton [
 	^(BrButton new)
-		aptitude: BrGlamorousButtonWithLabelAptitude new;
+		aptitude: BrGlamorousButtonWithLabelAptitude + BrGlamorousToolsDropdownKeyboardFocusChangeAptitude;
 		label: 'Save';
 		hMatchParent;
 		action: [:aButton | self saveFrom: aButton]
