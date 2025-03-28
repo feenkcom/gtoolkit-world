@@ -35,7 +35,8 @@ GtToolButtonStencil >> create [
 		action: self action;
 		aptitude: BrGlamorousButtonExteriorAptitude new;
 		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude2 new;
-		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ definingMethod ]).
+		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ definingMethod ]);
+		addAptitude: BrGlamorousToolsDropdownKeyboardFocusChangeAptitude new.
 	elementId ifNotNil: [ button id: elementId ].
 	^ button
 ]
