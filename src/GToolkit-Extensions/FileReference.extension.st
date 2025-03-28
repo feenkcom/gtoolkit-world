@@ -3,7 +3,9 @@ Extension { #name : #FileReference }
 { #category : #'*GToolkit-Extensions' }
 FileReference >> gtOpenWebBrowserActionFor: anAction [
 	<gtAction>
-	(self isDirectory and: [ (self filesMatching: 'index.html;index.htm') size isZero not ])
+
+	(self path isNetworkPath not and:
+	[ (self isDirectory and: [ (self filesMatching: 'index.html;index.htm') size isZero not ]) ])
 		ifFalse: [ ^ anAction noAction ].
 
 	^ anAction button
