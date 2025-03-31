@@ -29,13 +29,13 @@ GtMonitorGlutinEventsElement >> defaultEventTypes [
 
 	theEventTypes := OrderedDictionary new.
 	self allGlutinEventTypes do: [ :eachEventType |
-		theEventTypes at: eachEventType put: true ].
-	
-	GlutinCommonEvent allSubclasses do: [ :eachEventType |
 		theEventTypes at: eachEventType put: false ].
+
 	
-	theEventTypes at: GlutinMouseWheelEvent put: false.
-	theEventTypes at: GlutinCursorMovedEvent put: false.
+	theEventTypes at: GlutinKeyboardInputEvent put: true.
+	theEventTypes at: GlutinDeviceEventModifiersChangedEvent put: true.
+	theEventTypes at: Winit30WindowEventKeyboardInput put: true.
+	theEventTypes at: Winit30WindowEventModifiersChanged put: true.
 	
 	^ theEventTypes
 ]
@@ -304,24 +304,24 @@ GtMonitorGlutinEventsElement >> visitKeyboardInputEvent: anEvent [
 		hMatchParent;
 		vFitContent;
 		alignCenterLeft;
-		addChildren: { 
-			BrLabel new
-				aptitude: BrGlamorousLabelAptitude new;
-				text: ('Key {1}' format: {
-					anEvent state = WinitEventInputElementState Pressed
-						ifTrue: [ 'pressed' ]
-						ifFalse: [ 'released' ] }).
-			BlElement new
-				width: 2;
-				height: 0.
-
-			anEvent state = WinitEventInputElementState Pressed
-				ifTrue: [ BrGlamorousVectorIcons downwards asElement ]
-				ifFalse: [ BrGlamorousVectorIcons upwards asElement ].
-			
-			self newButtonElement: (anEvent has_virtual_keycode
-				ifTrue: [ anEvent virtual_keycode item asString ]
-				ifFalse: [ anEvent scan_code asString ]). }
+		addChildren: {BrLabel new
+					aptitude: BrGlamorousLabelAptitude new;
+					text: ('Key {1}'
+							format: {anEvent state = WinitEventInputElementState Pressed
+										ifTrue: [ 'pressed' ]
+										ifFalse: [ 'released' ]}).
+				BlElement new
+					width: 2;
+					height: 0.
+				anEvent state = WinitEventInputElementState Pressed
+					ifTrue: [ BrGlamorousVectorIcons downwards asElement ]
+					ifFalse: [ BrGlamorousVectorIcons upwards asElement ].
+				(anEvent isKindOf: Winit30WindowEventKeyboardInput)
+					ifTrue: [ self newButtonElement: anEvent key gtDisplayText ]
+					ifFalse: [ self
+							newButtonElement: (anEvent has_virtual_keycode
+									ifTrue: [ anEvent virtual_keycode item asString ]
+									ifFalse: [ anEvent scan_code asString ]) ]}
 ]
 
 { #category : #'event - visiting' }
