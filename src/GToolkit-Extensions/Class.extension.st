@@ -90,8 +90,7 @@ Class >> gtExamplesMapFor: aView context: aPhlowContext [
 			aCollection := aCollection collect: #asCachedExampleWithResult.
 		
 			GtExampleGroup withAll: aCollection ];
-		view: #gtMapFor:;
-		addAutoUpdate: GtPhlowUpdateViewOnAddedToScene
+		view: #gtMapFor:
 ]
 
 { #category : #'*GToolkit-Extensions' }
