@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'rootValuable'
 	],
-	#category : #'GToolkit-World'
+	#category : #'GToolkit-World-UI'
 }
 
 { #category : #accessing }

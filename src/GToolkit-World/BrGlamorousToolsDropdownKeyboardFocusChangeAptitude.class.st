@@ -1,7 +1,7 @@
 Class {
 	#name : #BrGlamorousToolsDropdownKeyboardFocusChangeAptitude,
 	#superclass : #BrKeyboardFocusChangeAptitude,
-	#category : #'GToolkit-World'
+	#category : #'GToolkit-World-UI'
 }
 
 { #category : #initialization }
