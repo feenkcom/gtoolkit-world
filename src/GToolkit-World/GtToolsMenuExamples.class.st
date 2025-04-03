@@ -24,7 +24,13 @@ GtToolsMenuExamples >> newPageCreatedWithReturn [
 		key: BlKeyboardKey return;
 		play.
 
-	self flag: #TODO.	"Scripter behaving differently than in reality. Page not created/spawned yet page creation dropdown dissapears"
+	self flag: #BUG.	"Scripter behaving differently than in reality. Page not created/spawned yet page creation dropdown dissapears."
+	
+	"Still not working with all the waiting below."
+	(Delay forMilliseconds: 500) wait.
+	aScripter pulse.
+	aScripter wait forEmptySpaceTaskQueue; play.
+	
 	aScripter assert
 		label: 'Assert Tools Menu is not part of scene graph anymore';
 		satisfies: [ :aWorldElement | 
