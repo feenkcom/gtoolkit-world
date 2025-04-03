@@ -73,11 +73,17 @@ GtToolsMenuExamples >> spotterChangeFocusAndPressReturn [
 				noneSatisfy: [ :anElement | anElement isKindOf: BrMenuSteppedElement ] ];
 		play.
 
-	self flag: #TODO.	"Tool is being spawned in a different window sometimes"
-	"aScripter assert
+	self flag: #TODO.	"Test is flaky because Tool is being spawned in a different window sometimes"
+	aScripter assert
 		label: 'Assert Tab with focus is a knowledge base tool';
-		satisfies: [ :aWorldElement |  ];
-		play."
+		satisfies: [ :aWorldElement | 
+			| tabs |
+			tabs := (aWorldElement query // #tabbar) result first.
+			self assert: tabs children size = 2.
+			(tabs children last query // BlAttributedTextElement) result first text
+				asString = 'Knowledge bases' ];
+		play.
+
 	^ aScripter
 ]
 
