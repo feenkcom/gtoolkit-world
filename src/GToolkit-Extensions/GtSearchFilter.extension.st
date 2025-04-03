@@ -102,7 +102,7 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 		column: 'Items' text: [ :assoc | assoc value size ];
 		send: [ :assoc |
 			GtSearchFixedMethodsFilter new 
-				methods: assoc value;
+				withDefinedMethodsFrom: assoc value ;
 				highlighter: self highlighter;
 				label: self gtDisplayString, ' & ', assoc key name, ' class'  ] 
 ]
@@ -138,7 +138,7 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 		column: 'Items' text: [ :assoc | assoc value size ];
 		send: [ :assoc |
 			GtSearchFixedMethodsFilter new 
-				methods: assoc value;
+				withDefinedMethodsFrom: assoc value ;
 				highlighter: self highlighter;
 				label: (self gtDisplayString
 					, ' & '
