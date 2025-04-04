@@ -50,6 +50,18 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 							root: self rootElement;
 							referenceElement: self widget;
 							nextFocusDo: #requestFocus ifNone: [  ] ].
+				key = BlKeyboardKey tab
+					ifTrue: [ anEvent modifiers = BlKeyModifiers shift
+							ifTrue: [ BlFocusFinder new
+									direction: BlFocusSearchDirectionBackward new;
+									root: self rootElement;
+									referenceElement: self widget;
+									nextFocusDo: #requestFocus ifNone: [  ] ]
+							ifFalse: [ BlFocusFinder new
+									direction: BlFocusSearchDirectionForward new;
+									root: self rootElement;
+									referenceElement: self widget;
+									nextFocusDo: #requestFocus ifNone: [  ] ] ].
 				key isReturn
 					ifTrue: [ self widget aptitude actors
 							detect: [ :each | 
