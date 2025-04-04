@@ -60,9 +60,10 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 								self widget anchor
 									ifNotNil: [ :notNil | 
 										self widget
-											fireEvent: (BrDropdownHideWish new
-													anchor: notNil;
-													yourself) ] ] ] ];
+											enqueueTask: [ self widget
+													fireEvent: (BrDropdownHideWish new
+															anchor: notNil;
+															yourself) ] asBlTask ] ] ] ];
 		when: BlMouseEnterEvent
 			do: [ :anEvent | 
 				anEvent consumed: true.
@@ -83,9 +84,10 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 					ifNone: [ self widget anchor
 							ifNotNil: [ :notNil | 
 								self widget
-									fireEvent: (BrDropdownHideWish new
-											anchor: notNil;
-											yourself) ] ] ]
+									enqueueTask: [ self widget
+											fireEvent: (BrDropdownHideWish new
+													anchor: notNil;
+													yourself) ] asBlTask ] ] ]
 ]
 
 { #category : #'api - hooks' }
