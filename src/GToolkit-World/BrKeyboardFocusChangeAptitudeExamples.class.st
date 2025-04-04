@@ -110,6 +110,30 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirst [
 ]
 
 { #category : #examples }
+BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirstWithShiftTab [
+	<gtExample>
+	| aScripter |
+	aScripter := self fortyTwoButtonsFocusOnLastWithTab.
+
+	self flag: #BUG.	"Scripter does NOT work well with the key combination below. If you inspect the element from the previous test you can see that Shift + Tab works"
+	41
+		timesRepeat: [ aScripter shortcut
+				label: 'Press Shift + Tab Combination';
+				combination: BlKeyCombination builder shift tab build;
+				play ].
+
+	aScripter assert
+		label: 'Assert First button has focus';
+		satisfies: [ :aGrid | 
+			| button |
+			button := aGrid children first.
+			self assert: button label asString = 'Test1'.
+			button hasFocus ];
+		play.
+	^ aScripter
+]
+
+{ #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLast [
 	<gtExample>
 	| aScripter grid |
@@ -130,6 +154,29 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLast [
 		label: 'Press right arrow';
 		key: BlKeyboardKey arrowRight;
 		play.
+	aScripter assert
+		label: 'Assert Last button has focus';
+		satisfies: [ :aGrid | 
+			| button |
+			button := aGrid children last.
+			self assert: button label asString = 'Test42'.
+			button hasFocus ];
+		play.
+	^ aScripter
+]
+
+{ #category : #examples }
+BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLastWithTab [
+	<gtExample>
+	| aScripter grid |
+	grid := self fortyTwoButtons.
+	aScripter := BlScripter new.
+	aScripter element: grid.
+	41
+		timesRepeat: [ aScripter keyPress
+				label: 'Press tab key';
+				key: BlKeyboardKey tab;
+				play ].
 	aScripter assert
 		label: 'Assert Last button has focus';
 		satisfies: [ :aGrid | 
