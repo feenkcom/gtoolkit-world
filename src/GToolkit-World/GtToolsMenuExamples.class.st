@@ -74,9 +74,9 @@ GtToolsMenuExamples >> spotterChangeFocusAndPressReturn [
 
 	aScripter assert
 		label: 'Assert Tools Menu is not part of scene graph anymore';
-		satisfies: [ :aWorldElement | 
-			aWorldElement children
-				noneSatisfy: [ :anElement | anElement isKindOf: BrMenuSteppedElement ] ];
+		notExists;
+		onSpaceRoot;
+		// GtToolsMenu;
 		play.
 
 	aScripter assert
@@ -101,6 +101,13 @@ GtToolsMenuExamples >> spotterWithFocus [
 	aScripter shortcut
 		label: 'Press shortcut that spawns Tool''s Menu';
 		combination: BlKeyCombination builder control t build;
+		play.
+
+	aScripter assert
+		label: 'Assert Tools Menu is added to scene graph';
+		exists;
+		onSpaceRoot;
+		// GtToolsMenu;
 		play.
 
 	aScripter assert
