@@ -402,6 +402,7 @@ GtHomeSection >> sectionPaddingLeftInsets [
 
 { #category : #'instance creation' }
 GtHomeSection >> showSpaceWithIcon: anIcon title: aString with: aStencil from: anotherElement [
+	anotherElement enqueueTask: [anotherElement fireEvent: BrDropdownHideWish new] asBlTask.
 	^ BlSpace new
 		icon: anIcon;
 		title: aString;

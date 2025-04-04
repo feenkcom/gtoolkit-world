@@ -55,15 +55,7 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 							detect: [ :each | 
 								(each isKindOf: BrWithExplicitMenuAptitude)
 									and: [ (each isKindOf: BrGlamorousWithExplicitTooltipAptitude) not ] ]
-							ifFound: [ :dropdown | dropdown show ]
-							ifNone: [ self widget loseFocus.
-								self widget anchor
-									ifNotNil: [ :notNil | 
-										self widget
-											enqueueTask: [ self widget
-													fireEvent: (BrDropdownHideWish new
-															anchor: notNil;
-															yourself) ] asBlTask ] ] ] ];
+							ifFound: [ :dropdown | dropdown show ] ] ];
 		when: BlMouseEnterEvent
 			do: [ :anEvent | 
 				anEvent consumed: true.
@@ -71,23 +63,7 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 		when: BlMouseLeaveEvent
 			do: [ :anEvent | 
 				anEvent consumed: true.
-				self widget loseFocus ];
-		when: BlClickEvent
-			do: [ :anEvent | 
-				anEvent consumed: true.
-				self widget loseFocus.
-				self widget aptitude actors
-					detect: [ :each | 
-						(each isKindOf: BrWithExplicitMenuAptitude)
-							and: [ (each isKindOf: BrGlamorousWithExplicitTooltipAptitude) not ] ]
-					ifFound: [ :dropdown |  ]
-					ifNone: [ self widget anchor
-							ifNotNil: [ :notNil | 
-								self widget
-									enqueueTask: [ self widget
-											fireEvent: (BrDropdownHideWish new
-													anchor: notNil;
-													yourself) ] asBlTask ] ] ]
+				self widget loseFocus ]
 ]
 
 { #category : #'api - hooks' }

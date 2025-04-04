@@ -199,11 +199,6 @@ BrKeyboardFocusChangeAptitudeExamples >> twoButtonsChangeFocusAndPressEnter [
 		key: BlKeyboardKey return;
 		play.
 
-	aScripter assert
-		label: 'Assert button lost focus after action was performed';
-		satisfies: [ :aGrid | aGrid children second hasFocus not ];
-		play.
-
 	self assert: aCollection last = 42.
 	self assert: aCollection size = 1.
 
