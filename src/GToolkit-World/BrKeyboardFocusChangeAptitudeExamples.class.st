@@ -138,6 +138,28 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirstWithShif
 ]
 
 { #category : #examples }
+BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnFirstWithTabWrapAround [
+	<gtExample>
+	| aScripter  |
+	aScripter := self fortyTwoButtonsFocusOnLastWithTab.
+
+	"Pressing tab one more time will change focus from the last to the first element"
+	aScripter keyPress
+				label: 'Press tab key';
+				key: BlKeyboardKey tab;
+				play .
+	aScripter assert
+		label: 'Assert First button has focus.';
+		satisfies: [ :aGrid | 
+			| button |
+			button := aGrid children first.
+			self assert: button label asString = 'Test1'.
+			button hasFocus ];
+		play.
+	^ aScripter
+]
+
+{ #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLast [
 	<gtExample>
 	| aScripter grid |
