@@ -2,7 +2,8 @@ Class {
 	#name : #BrKeyboardFocusChangeAptitude,
 	#superclass : #BrAptitude,
 	#instVars : [
-		'rootValuable'
+		'rootValuable',
+		'onReturnKeyPressDo'
 	],
 	#category : #'GToolkit-World-UI'
 }
@@ -58,7 +59,7 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 									referenceElement: self widget;
 									nextFocusDo: #requestFocus ifNone: [  ] ]
 							ifFalse: [ BlFocusFinder new
-									direction: BlFocusSearchDirectionForward new;
+									forward;
 									root: self rootElement;
 									referenceElement: self widget;
 									nextFocusDo: #requestFocus ifNone: [  ] ] ].
@@ -67,7 +68,9 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 							detect: [ :each | 
 								(each isKindOf: BrWithExplicitMenuAptitude)
 									and: [ (each isKindOf: BrGlamorousWithExplicitTooltipAptitude) not ] ]
-							ifFound: [ :dropdown | dropdown show ] ] ];
+							ifFound: [ :dropdown | dropdown show ]
+							ifNone: [ self onReturnKeyPressDo
+									ifNotNil: [ :aValuable | aValuable value: anEvent ] ] ] ];
 		when: BlMouseEnterEvent
 			do: [ :anEvent | 
 				anEvent consumed: true.
@@ -82,6 +85,16 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 BrKeyboardFocusChangeAptitude >> onAttachedTo: anElement [
 	super onAttachedTo: anElement.
 	self widget beFocusable
+]
+
+{ #category : #accessing }
+BrKeyboardFocusChangeAptitude >> onReturnKeyPressDo [
+	^ onReturnKeyPressDo
+]
+
+{ #category : #accessing }
+BrKeyboardFocusChangeAptitude >> onReturnKeyPressDo: anObject [
+	onReturnKeyPressDo := anObject
 ]
 
 { #category : #accessing }
