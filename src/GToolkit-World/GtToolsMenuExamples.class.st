@@ -9,7 +9,7 @@ GtToolsMenuExamples >> gtWorld [
 	<gtExample>
 	| aScripter |
 	aScripter := BlScripter new.
-	aScripter element: GtWorldElement new.
+	aScripter element: (GtWorldElement new knowledgeBase: LeDatabase new).
 	^ aScripter
 ]
 
@@ -23,13 +23,6 @@ GtToolsMenuExamples >> newPageCreatedWithReturn [
 		label: 'Press return key';
 		key: BlKeyboardKey return;
 		play.
-
-	self flag: #BUG.	"Scripter behaving differently than in reality. Page not created/spawned yet page creation dropdown dissapears."
-	
-	"Still not working with all the waiting below."
-	(Delay forMilliseconds: 500) wait.
-	aScripter pulse.
-	aScripter wait forEmptySpaceTaskQueue; play.
 	
 	aScripter assert
 		label: 'Assert Tools Menu is not part of scene graph anymore';
@@ -100,7 +93,7 @@ GtToolsMenuExamples >> spotterWithFocus [
 
 	aScripter shortcut
 		label: 'Press shortcut that spawns Tool''s Menu';
-		combination: BlKeyCombination builder control t build;
+		combination: BlKeyCombination builder primary t build;
 		play.
 
 	aScripter assert
@@ -130,6 +123,26 @@ GtToolsMenuExamples >> spotterWithFocusOnPageDropdown [
 	aScripter keyPress
 		label: 'Press return key';
 		key: BlKeyboardKey return;
+		play.
+
+	aScripter assert
+		label: 'Assert Second dropdown has focus';
+		satisfies: [ :aWorldElement | 
+			aWorldElement deepestFocusedChild anchor aptitude actors
+				anySatisfy: [ :anAptitude | anAptitude isKindOf: BrWithExplicitMenuAptitude ] ];
+		play.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtToolsMenuExamples >> spotterWithFocusOnPageDropdown_escape [
+	<gtExample>
+	| aScripter |
+	aScripter := self spotterWithFocusOnPageDropdown.
+
+	aScripter keyPress
+		label: 'Press return key';
+		key: BlKeyboardKey escape;
 		play.
 
 	aScripter assert
