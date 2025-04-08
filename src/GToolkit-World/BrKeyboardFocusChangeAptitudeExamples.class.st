@@ -115,15 +115,12 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirstWithShif
 	| aScripter |
 	aScripter := self fortyTwoButtonsFocusOnLastWithTab.
 
-	self flag: #BUG.	"Scripter does NOT work well with the key combination below. If you inspect the element from the previous test you can see that Shift + Tab works"
-
 	41
-		timesRepeat: [ BlSpace
-				simulateEvent: (BlKeyDownEvent new
-						key: BlKeyboardKey tab;
-						modifiers: BlKeyModifiers shift)
-				on: aScripter element.
-			aScripter pulse  ].
+		timesRepeat: [ aScripter keyPress
+				label: 'Press tab key';
+				key: BlKeyboardKey tab;
+				modifiers: BlKeyModifiers shift;
+				play ].
 			
 	aScripter assert
 		label: 'Assert First button has focus';
