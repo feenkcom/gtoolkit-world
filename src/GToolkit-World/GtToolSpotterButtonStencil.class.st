@@ -10,7 +10,8 @@ Class {
 		'valuable',
 		'extent',
 		'spotterModelDo',
-		'objectActOn'
+		'objectActOn',
+		'espaceActOn'
 	],
 	#category : #'GToolkit-World-Stencils'
 }
@@ -52,6 +53,16 @@ GtToolSpotterButtonStencil >> createHandleButton [
 ]
 
 { #category : #accessing }
+GtToolSpotterButtonStencil >> espaceActOn [
+	^ espaceActOn
+]
+
+{ #category : #accessing }
+GtToolSpotterButtonStencil >> espaceActOn: anObject [
+	espaceActOn := anObject
+]
+
+{ #category : #accessing }
 GtToolSpotterButtonStencil >> extent [
 	^ extent ifNil: [ extent := 400@600 ]
 ]
@@ -80,6 +91,7 @@ GtToolSpotterButtonStencil >> spotterElementFor: aButton [
 			self extent ifNotNil: [ :anObject | theStencil extent: anObject ].
 			self spotterModelDo ifNotNil: [ :anObject | theStencil spotterModelDo: anObject ].
 			self objectActOn ifNotNil: [ :anObject | theStencil objectActOn: anObject ].
+			self espaceActOn ifNotNil: [ :aBlock | theStencil escapeActOn: aBlock ].
 		];
 		spotterElementFor: aButton
 ]
