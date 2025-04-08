@@ -123,6 +123,7 @@ GtHomeToolsSection >> newAddSnippetStencil [
 				pageWithSnippetRequested: aMenuItem asSnippet
 				button: theButton.
 			anActOnEvent beActed ];
+		espaceActOn: [ :anAnchorElement | anAnchorElement requestFocus ];
 		description: 'Play with code. Live.'
 ]
 
