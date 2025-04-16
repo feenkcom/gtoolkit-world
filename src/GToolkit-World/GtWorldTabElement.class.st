@@ -90,7 +90,7 @@ GtWorldTabElement >> addContextMoveActionsTo: contextMenu [
 GtWorldTabElement >> aptitudeForSpaceTab: aTab [ 
 	| aTabViewModel |
 	aTabViewModel := aTab viewModel.
-	^ BrGlamorousSpaceTabWithIconAndLabelAptitude new"
+	^ BrGlamorousSpaceTabWithIconAndLabelAptitude new
 		+ ((BrGlamorousWithExplicitTooltipAptitude
 				content: [ BrElementAsFormPreview
 					forElement: (aTabViewModel
@@ -98,7 +98,7 @@ GtWorldTabElement >> aptitudeForSpaceTab: aTab [
 										ifAbsent: [ BlElement new ])
 					preferredExtent: 400 @ 400 ])
 				hideDelay: 50 milliSeconds;
-				showDelay: 100 milliSeconds)"
+				showDelay: 100 milliSeconds)
 ]
 
 { #category : #accessing }
