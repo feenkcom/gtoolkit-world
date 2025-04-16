@@ -1128,15 +1128,15 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 	| aScripter |
 	aScripter := self inspectRustRemoteObject.
 
-	aScripter
-		substep: 'Display Phlow view context menu'
-		do: [ :aStep | 
-			aStep secondaryClick
-				// (GtPagerPageElementId indexed: 3);
-				// GtPhlowCompositeViewElementId;
-				// BrTab;
-				@ [ :aTab | aTab label asString = 'Info' ];
-				play. ].
+	aScripter menuStep
+		label: 'Display Phlow view context menu';
+		openContextMenu;
+		assertMenuContainerExist;
+		// (GtPagerPageElementId indexed: 3);
+		// GtPhlowCompositeViewElementId;
+		// BrTab;
+		@ [ :aTab | aTab label asString = 'Info' ];
+		play.
 
 	^ aScripter
 ]
@@ -1145,17 +1145,13 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDefiningMethod [
 	<gtExample>
 	| aScripter |
-	aScripter := self inspectRustRemoteObject.
+	aScripter := self displayRustObjectDefiningMethodContextMenu.
 
-	aScripter
-		substep: 'Display Phlow view context menu'
-		do: [ :aStep | 
-			aStep secondaryClick
-				// (GtPagerPageElementId indexed: 3);
-				// GtPhlowCompositeViewElementId;
-				// BrTab;
-				@ [ :aTab | aTab label asString = 'Info' ];
-				play. ].
+	aScripter menuStep
+		label: 'Display defining method submenu';
+		hoverMenuItemWithId: #'menu--defining-method';
+		assertMenuContainerExist;
+		play.
 
 	^ aScripter
 ]
@@ -1166,9 +1162,22 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_inspectD
 	| aScripter |
 	aScripter := self displayRustObjectDefiningMethodContextMenu.
 
-	aScripter menuStep
-		clickMenuItemWithId: #'menu--inspect-defining-method';
-		play.
+	aScripter
+		substep: 'Inspect defining method'
+		do: [ :aStep | 
+			aStep menuStep
+				clickMenuItemWithId: #'menu--inspect-defining-method';
+				play.
+
+			aStep assert
+				label: 'Assert pane with rust source code';
+				satisfies: [ :anEditor | anEditor text asString includesSubstring: '.title("Info")' caseSensitive: true ]
+					description: [ :anEditor | 
+						'Editor does not include `.title("Info")` substring: {1}'
+							format: {anEditor text asString} ];
+				// (GtPagerPageElementId indexed: 4);
+				// #editor;
+				play ].
 
 	^ aScripter
 ]
@@ -1540,15 +1549,16 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 		play.
 
 	aScripter
-		substep: 'Display editor'
+		substep: 'Display text editor'
 		do: [ :aStep | 
 			aStep do
+				label: 'Set snippet code';
 				block: [ :anElement | anElement snippetViewModel snippetModel code: self sourceCodeWithEditor ];
 				// LeSnippetElementId;
 				play.
 
 			aStep assert
-				label: 'Check Playground content';
+				label: 'Assert snippet code';
 				id: GtPagerPageElementId index: 1;
 				id: GtSourceCoderEditorId;
 				value: [ :anElement | anElement text asString ]
@@ -1556,6 +1566,7 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 				play.
 
 			aStep click
+				label: 'Inspect result';
 				// GtSourceCoderDoItAndGoActionId;
 				play ].
 
@@ -1563,12 +1574,14 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 		substep: 'Create next snippet'
 		do: [ :aStep | 
 			aStep shortcut
+				label: 'Move cursor to the end of the snippet';
 				combination: BlKeyCombination builder primary end build;
 				id: GtPagerPageElementId index: 1;
 				id: GtSourceCoderEditorId;
 				play.
 
 			aStep shortcut
+				label: 'Create new snippet';
 				combination: BlKeyCombination builder primary return build;
 				id: GtPagerPageElementId index: 1;
 				id: GtSourceCoderEditorId;
@@ -1578,6 +1591,7 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 		substep: 'Display rust object'
 		do: [ :aStep | 
 			aStep do
+				label: 'Set snippet code';
 				block: [ :anElement | 
 					anElement snippetViewModel snippetModel
 						code: self sourceCodeWInspectingRustObject ];
@@ -1586,11 +1600,13 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 				play.
 
 			aStep click
+				label: 'Inspect result';
 				// GtSourceCoderDoItAndGoActionId;
 				@ 2;
 				play.
 			
 			aStep click 
+				label: 'Inspect rust object';
 				// #'phlow--inspect-rust-object';
 				play ].
 
