@@ -1020,16 +1020,16 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 				label: 'Assert menu handle exists';
 				exists;
 				onSpaceRoot;
-				// BrMenuPinnedHandleId ].
+				// BrPopoverPinnedHandleId ].
 
 	aScripter mouseMoveOver
 		onSpaceRoot;
-		// BrMenuPinnedHandleId;
+		// BrPopoverPinnedHandleId;
 		play.
 
 	(aScripter mouseDragBy: 20 @ 20)
 		onSpaceRoot;
-		// BrMenuPinnedHandleId;
+		// BrPopoverPinnedHandleId;
 		play.
 
 	aScripter assert
@@ -1110,7 +1110,7 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 			s
 				label: 'Close the class hierarchy view';
 				onSpaceRoot;
-				// BrMenuPinnedCloseButtonId ].
+				// BrPopoverPinnedCloseButtonId ].
 
 	aScripter assert
 		label: 'Assert class hierarchy view is closed';

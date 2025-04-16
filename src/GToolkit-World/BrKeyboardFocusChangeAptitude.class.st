@@ -66,7 +66,7 @@ BrKeyboardFocusChangeAptitude >> initializeListeners [
 				key isReturn
 					ifTrue: [ self widget aptitude actors
 							detect: [ :each | 
-								(each isKindOf: BrWithExplicitMenuAptitude)
+								(each isKindOf: BrWithExplicitPopoverAptitude)
 									and: [ (each isKindOf: BrGlamorousWithExplicitTooltipAptitude) not ] ]
 							ifFound: [ :dropdown | dropdown show ]
 							ifNone: [ self onReturnKeyPressDo

@@ -22,7 +22,7 @@ BrMenuModel >> gtLiveFor: aView [
 					margin: (BlInsets all: 20);
 					addChild: (BrMenuSteppedElement new
 						elementBuilder: BrGlamorousMenuElementBuilder new;
-						addAptitude: BrMenuContainerAptitude new;
+						addAptitude: BrPopoverContainerAptitude new;
 						menuModel: self)) ]
 ]
 

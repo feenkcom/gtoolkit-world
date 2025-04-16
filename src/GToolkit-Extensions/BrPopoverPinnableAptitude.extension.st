@@ -1,7 +1,7 @@
-Extension { #name : #BrMenuPinnableAptitude }
+Extension { #name : #BrPopoverPinnableAptitude }
 
 { #category : #'*GToolkit-Extensions' }
-BrMenuPinnableAptitude >> gtPinningActionsFor: aView [
+BrPopoverPinnableAptitude >> gtPinningActionsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Pin actions';
