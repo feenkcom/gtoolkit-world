@@ -1122,6 +1122,66 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 	^ aScripter
 ]
 
+{ #category : #'examples - remote objects' }
+GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
+	<gtExample>
+	| aScripter |
+	aScripter := self inspectRustRemoteObject.
+
+	aScripter menuStep
+		label: 'Display Phlow view context menu';
+		openContextMenu;
+		assertMenuContainerExist;
+		// (GtPagerPageElementId indexed: 3);
+		// GtPhlowCompositeViewElementId;
+		// BrTab;
+		@ [ :aTab | aTab label asString = 'Info' ];
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - remote objects' }
+GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDefiningMethod [
+	<gtExample>
+	| aScripter |
+	aScripter := self displayRustObjectDefiningMethodContextMenu.
+
+	aScripter menuStep
+		label: 'Display defining method submenu';
+		hoverMenuItemWithId: #'menu--defining-method';
+		assertMenuContainerExist;
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - remote objects' }
+GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_inspectDefiningMethod [
+	<gtExample>
+	| aScripter |
+	aScripter := self displayRustObjectDefiningMethodContextMenu.
+
+	aScripter
+		substep: 'Inspect defining method'
+		do: [ :aStep | 
+			aStep menuStep
+				clickMenuItemWithId: #'menu--inspect-defining-method';
+				play.
+
+			aStep assert
+				label: 'Assert pane with rust source code';
+				satisfies: [ :anEditor | anEditor text asString includesSubstring: '.title("Info")' caseSensitive: true ]
+					description: [ :anEditor | 
+						'Editor does not include `.title("Info")` substring: {1}'
+							format: {anEditor text asString} ];
+				// (GtPagerPageElementId indexed: 4);
+				// #editor;
+				play ].
+
+	^ aScripter
+]
+
 { #category : #'examples - embedded debugger' }
 GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	"See https://github.com/feenkcom/gtoolkit/issues/3960"
@@ -1472,6 +1532,83 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId;
 						// GtSourceCoderErrorButtonElementId ] ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - remote objects' }
+GtWorldByScripterExamples >> inspectRustRemoteObject [
+	<gtExample>
+	| aScripter |
+	aScripter := self addPlaygroundIntoTabElement.
+
+	aScripter do
+		label: 'Set window size';
+		block: [ :aSpace | aSpace extent: 1200 @ 800 ];
+		onSpace;
+		play.
+
+	aScripter
+		substep: 'Display text editor'
+		do: [ :aStep | 
+			aStep do
+				label: 'Set snippet code';
+				block: [ :anElement | anElement snippetViewModel snippetModel code: self sourceCodeWithEditor ];
+				// LeSnippetElementId;
+				play.
+
+			aStep assert
+				label: 'Assert snippet code';
+				id: GtPagerPageElementId index: 1;
+				id: GtSourceCoderEditorId;
+				value: [ :anElement | anElement text asString ]
+					equals: self sourceCodeWithEditor;
+				play.
+
+			aStep click
+				label: 'Inspect result';
+				// GtSourceCoderDoItAndGoActionId;
+				play ].
+
+	aScripter
+		substep: 'Create next snippet'
+		do: [ :aStep | 
+			aStep shortcut
+				label: 'Move cursor to the end of the snippet';
+				combination: BlKeyCombination builder primary end build;
+				id: GtPagerPageElementId index: 1;
+				id: GtSourceCoderEditorId;
+				play.
+
+			aStep shortcut
+				label: 'Create new snippet';
+				combination: BlKeyCombination builder primary return build;
+				id: GtPagerPageElementId index: 1;
+				id: GtSourceCoderEditorId;
+				play ].
+
+	aScripter
+		substep: 'Display rust object'
+		do: [ :aStep | 
+			aStep do
+				label: 'Set snippet code';
+				block: [ :anElement | 
+					anElement snippetViewModel snippetModel
+						code: self sourceCodeWInspectingRustObject ];
+				// LeSnippetElementId;
+				@ 2;
+				play.
+
+			aStep click
+				label: 'Inspect result';
+				// GtSourceCoderDoItAndGoActionId;
+				@ 2;
+				play.
+			
+			aStep click 
+				label: 'Inspect rust object';
+				// #'phlow--inspect-rust-object';
+				play ].
 
 	^ aScripter
 ]
@@ -2252,6 +2389,33 @@ GtWorldByScripterExamples >> setupExpectedTabLabel: aBlock at: aPaneIndex step: 
 				onBreadthFirstChildOfClass: GtPager;
 				onChildFromBlock: [ :aPager | (aPager pages at: aPaneIndex) widget ];
 				onBreadthFirstChildOfClass: GtCoderElement ]
+]
+
+{ #category : #'examples - remote objects' }
+GtWorldByScripterExamples >> sourceCodeWInspectingRustObject [
+	^ 'editor children first buildParagraph layoutWithWidth: 400'
+]
+
+{ #category : #'examples - remote objects' }
+GtWorldByScripterExamples >> sourceCodeWithEditor [
+	^ 'stream := BlTextStream new.
+stream glamorousRegularFont fontSize: 40.
+stream next
+	putAll: ''This is a piece of text in an editor. The editor is made out of ''.
+stream next
+	foreground: Color blue;
+	bold;
+	putAll: ''Pharo''.
+stream next
+	putAll: '' paragraph objects. These paragraph objects have correspondent objects in the ''.
+stream next
+	foreground: Color red;
+	bold;
+	putAll: ''Rust''.
+stream next putAll: '' world which can be inspected seamlessly, too.''.
+editor := BrEditor new
+		text: stream contents;
+		aptitude: BrGlamorousRegularEditorAptitude new'
 ]
 
 { #category : #'examples - lepiter' }
