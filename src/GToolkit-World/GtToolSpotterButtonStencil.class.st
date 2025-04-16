@@ -33,7 +33,7 @@ GtToolSpotterButtonStencil >> createDropdownAptitudeForButton: aButton [
 		content: [ | aSpotterElement |
 			aSpotterElement := self spotterElementFor: aButton.
 			aSpotterElement
-				addAptitude: (BrGlamorousMenuResizableAptitude new
+				addAptitude: (BrGlamorousPopoverResizableAptitude new
 						whenResizedDo: [ :anEvent | 
 							anEvent resizeTarget
 								ifNotNil: [ :anElement | 

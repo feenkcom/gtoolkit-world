@@ -129,7 +129,7 @@ GtToolsMenuExamples >> spotterWithFocusOnPageDropdown [
 		label: 'Assert Second dropdown has focus';
 		satisfies: [ :aWorldElement | 
 			aWorldElement deepestFocusedChild anchor aptitude actors
-				anySatisfy: [ :anAptitude | anAptitude isKindOf: BrWithExplicitMenuAptitude ] ];
+				anySatisfy: [ :anAptitude | anAptitude isKindOf: BrWithExplicitPopoverAptitude ] ];
 		play.
 	^ aScripter
 ]
@@ -149,7 +149,7 @@ GtToolsMenuExamples >> spotterWithFocusOnPageDropdown_escape [
 		label: 'Assert Second dropdown has focus';
 		satisfies: [ :aWorldElement | 
 			aWorldElement deepestFocusedChild anchor aptitude actors
-				anySatisfy: [ :anAptitude | anAptitude isKindOf: BrWithExplicitMenuAptitude ] ];
+				anySatisfy: [ :anAptitude | anAptitude isKindOf: BrWithExplicitPopoverAptitude ] ];
 		play.
 	^ aScripter
 ]

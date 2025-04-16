@@ -1,7 +1,7 @@
-Extension { #name : #BrWithExplicitMenuAptitude }
+Extension { #name : #BrWithExplicitPopoverAptitude }
 
 { #category : #'*GToolkit-Extensions' }
-BrWithExplicitMenuAptitude >> gtMenuContainerFor: aView [
+BrWithExplicitPopoverAptitude >> gtMenuContainerFor: aView [
 	<gtView>
 	menuContainer ifNil: [ ^ aView empty ].
 	
@@ -12,7 +12,7 @@ BrWithExplicitMenuAptitude >> gtMenuContainerFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-BrWithExplicitMenuAptitude >> gtSourceCodeFor: aView [
+BrWithExplicitPopoverAptitude >> gtSourceCodeFor: aView [
 	<gtView>
 	(menuStencil respondsTo: #gtSourceCodeFor:)
 		ifFalse: [ ^ aView empty ].
@@ -24,7 +24,7 @@ BrWithExplicitMenuAptitude >> gtSourceCodeFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-BrWithExplicitMenuAptitude >> gtSubmenusFor: aView [
+BrWithExplicitPopoverAptitude >> gtSubmenusFor: aView [
 	<gtView>
 	submenus ifNil: [ ^ aView empty ].
 	^ aView columnedList
