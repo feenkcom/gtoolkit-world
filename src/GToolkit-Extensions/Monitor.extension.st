@@ -25,8 +25,10 @@ Monitor >> critical: aBlock [
 		nestingLevel := 1.
 	].
 
-	blockValue := aBlock value ]
-		ensure: [ (caught and: [ requestingProcess == ownerProcess ])
-			ifTrue: [ self exit ] ].
+	blockValue := aBlock value ] ensure:
+		[ caught ifTrue: [ requestingProcess == ownerProcess
+			ifTrue: [ self exit ]
+			ifFalse: [ (ownerProcess == nil and: [ nestingLevel = 0 ])
+				ifTrue: [ mutex signal ] ] ] ].
 	^ blockValue
 ]
