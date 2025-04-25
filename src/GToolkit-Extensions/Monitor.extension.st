@@ -19,6 +19,16 @@ Monitor >> assertNotNested [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+Monitor >> copyLinkedList: aLinkedList to: listContents [
+	"Safely copy the elements from the supplied linked list to the supplied OrderedCollection.
+	If an error occurs while copying, presumably because a higher priority process has modified the list during traversal, simply return the elements so far."
+
+	[ aLinkedList do: [ :each | listContents add: each ] ]
+		on: Error
+		do: [ "nothing" ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 Monitor >> critical: aBlock [
 	"Critical section.
 	Executes aBlock as a critical section. At any time, only one process can be executing code
@@ -60,9 +70,11 @@ Monitor >> critical: aBlock [
 Monitor >> stateString [
 	"Answer a string that details the internal state of the receiver,
 	e.g. for when reporting errors.
-	Note that this method may be called when the receiver is in a broken state, i.e. there are two processes within the critical section, so must deal with the state changing while within this method."
+	Note:
+	- This method may be called when the receiver is in a broken state, i.e. there are two processes within the critical section, so must deal with the state changing while within this method.
+	- The list of processes waiting on the receiver may change while the string is being constructed.  The queue of processes is a best effort attempt, but may be missing entries."
 
-	^ String streamContents: [ :stream |
+	^ String streamContents: [ :stream | | listContents |
 		stream
 			<< 'Mutex:';
 			tab; << 'Excess Signals: ';
@@ -70,10 +82,11 @@ Monitor >> stateString [
 			tab; << 'Size: ';
 				print: mutex size; lf;
 			tab; << 'Queue:'; lf.
-		mutex asArray do: [ :proc |
+		listContents := OrderedCollection new.
+		self copyLinkedList: mutex to: listContents.
+		listContents do: [ :proc |
 			stream
-				tab; tab; print: proc name; lf;
-				tab; tab; print: proc id; lf.
+				tab; tab; print: { proc name. proc priority. proc identityHash. }; lf.
 			proc suspendedContext printDebugOn: stream.
 			stream lf; tab; tab; << '------'; lf ].
 		stream tab; << '------'; lf.
@@ -84,8 +97,8 @@ Monitor >> stateString [
 			stream lf
 				tab; << 'name: ';
 					print: proc name; lf;
-				tab; << 'id: ';
-					print: proc id; lf.
+				tab; << 'priority, identityHash: ';
+					print: { proc priority. proc identityHash. }; lf.
 			proc suspendedContext printDebugOn: stream.
 			stream lf; << '-----'; lf. ].
 		stream
@@ -98,10 +111,11 @@ Monitor >> stateString [
 			[ stream lf.
 			defaultQueue do: [ :semaphore |
 				stream tab; << 'Entry: '; print: semaphore; lf.
-				semaphore asArray do: [ :proc |
+				listContents := OrderedCollection new.
+				self copyLinkedList: semaphore to: listContents.
+				listContents do: [ :proc |
 					stream
-						tab; tab; print: proc name; lf;
-						tab; tab; print: proc id; lf.
+						tab; tab; print: { proc name. proc priority. proc identityHash. }; lf.
 					proc suspendedContext printDebugOn: stream.
 					stream lf; tab; tab; << '------'; lf ] ].
 			stream tab; << '------'; lf ].

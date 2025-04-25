@@ -1,15 +1,23 @@
-Extension { #name : #MonitorTest }
+Class {
+	#name : #GtMonitorTest,
+	#superclass : #TestCase,
+	#instVars : [
+		'forkedProcesses',
+		'monitor'
+	],
+	#category : #'GToolkit-Extensions-Processes'
+}
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> fork: aBlock [
+{ #category : #'private - helpers' }
+GtMonitorTest >> fork: aBlock [
 	| newProcess |
 	newProcess := aBlock forkNamed: testSelector.
 	forkedProcesses add: newProcess.
 	^newProcess
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> fork: aBlock at: priority [
+{ #category : #'private - helpers' }
+GtMonitorTest >> fork: aBlock at: priority [
 	| newProcess |
 
 	newProcess := aBlock forkAt: priority named: testSelector.
@@ -17,8 +25,8 @@ MonitorTest >> fork: aBlock at: priority [
 	^newProcess
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> fork: aBlock at: priority named: aString [
+{ #category : #'private - helpers' }
+GtMonitorTest >> fork: aBlock at: priority named: aString [
 	| newProcess |
 
 	newProcess := aBlock forkAt: priority named: aString, '-', testSelector.
@@ -26,30 +34,30 @@ MonitorTest >> fork: aBlock at: priority named: aString [
 	^newProcess
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> fork: aBlock named: aString [
+{ #category : #'private - helpers' }
+GtMonitorTest >> fork: aBlock named: aString [
 	| newProcess |
 	newProcess := aBlock forkNamed: aString, '-', testSelector.
 	forkedProcesses add: newProcess.
 	^newProcess
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> setUp [
+{ #category : #running }
+GtMonitorTest >> setUp [
 	super setUp.
 
 	forkedProcesses := OrderedCollection new.
 	monitor := Monitor new.
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> tearDown [
+{ #category : #running }
+GtMonitorTest >> tearDown [
 	forkedProcesses do: #terminate.
 	super tearDown
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> testFailedCriticalSectionShouldUnblockWaitingOne [
+{ #category : #tests }
+GtMonitorTest >> testFailedCriticalSectionShouldUnblockWaitingOne [
 	| lastCriticalExecuted semaphoreToHoldMutex |
 	lastCriticalExecuted := false.
 	semaphoreToHoldMutex := Semaphore new.
@@ -68,8 +76,30 @@ MonitorTest >> testFailedCriticalSectionShouldUnblockWaitingOne [
 	self assert: lastCriticalExecuted
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> testTerminatedCriticalSectionShouldUnblockWaitingOne [
+{ #category : #tests }
+GtMonitorTest >> testStateString [
+	| semaphoreToHoldMutex stateString |
+
+	semaphoreToHoldMutex := Semaphore new.
+	self fork: [ monitor critical: [ semaphoreToHoldMutex wait ] ] named: 'P1'.
+	self waitLastProcessLock.
+	self fork: [monitor critical: [ ] ] named: 'P2'.
+	self waitLastProcessLock.
+	self fork: [ monitor critical: [ ] ] named: 'P3'.
+	self waitLastProcessLock.
+	stateString := monitor stateString.
+	semaphoreToHoldMutex signal.
+	self waitLastProcessTerminate.
+	self assert: (stateString includesSubstring: 'P1-testStateString')
+		description: '"P1-testStateString" missing'.
+	self assert: (stateString includesSubstring: 'P2-testStateString')
+		description: '"P2-testStateString" missing'.
+	self assert: (stateString includesSubstring: 'P3-testStateString')
+		description: '"P3-testStateString" missing'.
+]
+
+{ #category : #tests }
+GtMonitorTest >> testTerminatedCriticalSectionShouldUnblockWaitingOne [
 	| lastCriticalExecuted semaphoreToHoldMutex processHoldingMutex |
 	lastCriticalExecuted := false.
 	semaphoreToHoldMutex := Semaphore new.
@@ -87,8 +117,8 @@ MonitorTest >> testTerminatedCriticalSectionShouldUnblockWaitingOne [
 	self assert: lastCriticalExecuted
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> testTerminatingBlockedCriticalSectionShouldNotUnblockAnotherWaitingSection [
+{ #category : #tests }
+GtMonitorTest >> testTerminatingBlockedCriticalSectionShouldNotUnblockAnotherWaitingSection [
 	| semaphoreToHoldMutex holdingCriticalExecutedFirst firstWaitingProcess lastCriticalExecuted |
 	holdingCriticalExecutedFirst := false.
 	semaphoreToHoldMutex := Semaphore new.
@@ -110,8 +140,8 @@ MonitorTest >> testTerminatingBlockedCriticalSectionShouldNotUnblockAnotherWaiti
 	self assert: lastCriticalExecuted
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> testTerminatingBlockedCriticalWhichWasSignalledButNotResumedYet [
+{ #category : #tests }
+GtMonitorTest >> testTerminatingBlockedCriticalWhichWasSignalledButNotResumedYet [
 	| processWaitingForMutex firstCriticalExecuted lastCriticalExecuted semaphoreToHoldMutex |
 	firstCriticalExecuted := false.
 	lastCriticalExecuted := false.
@@ -138,44 +168,44 @@ MonitorTest >> testTerminatingBlockedCriticalWhichWasSignalledButNotResumedYet [
 	self assert: lastCriticalExecuted description: 'consequent last critical should be executed'
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> waitFor: aBlock [
+{ #category : #'private - helpers' }
+GtMonitorTest >> waitFor: aBlock [
 
 	[ 10 milliSeconds wait. aBlock value ] whileFalse
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> waitLastProcessLock [
+{ #category : #'private - helpers' }
+GtMonitorTest >> waitLastProcessLock [
 
 	self waitProcessLock: forkedProcesses last
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> waitLastProcessSuspend [
+{ #category : #'private - helpers' }
+GtMonitorTest >> waitLastProcessSuspend [
 
 	self waitProcessSuspend: forkedProcesses last
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> waitLastProcessTerminate [
+{ #category : #'private - helpers' }
+GtMonitorTest >> waitLastProcessTerminate [
 
 	self waitProcessTermination: forkedProcesses last
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> waitProcessLock: aProcess [
+{ #category : #'private - helpers' }
+GtMonitorTest >> waitProcessLock: aProcess [
 
 	self waitFor: [ aProcess suspendingList isEmptyOrNil not ]
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> waitProcessSuspend: aProcess [
+{ #category : #'private - helpers' }
+GtMonitorTest >> waitProcessSuspend: aProcess [
 
 	self waitFor: [ aProcess isSuspended ]
 ]
 
-{ #category : #'*GToolkit-Extensions' }
-MonitorTest >> waitProcessTermination: aProcess [
+{ #category : #'private - helpers' }
+GtMonitorTest >> waitProcessTermination: aProcess [
 
 	self waitFor: [ aProcess isTerminated ]
 ]
