@@ -36,9 +36,14 @@ Monitor >> critical: aBlock [
 		caught := true.
 		nestingLevel := nestingLevel + 1.
 	] ifFalse: [
-		"Set caught immediately before the mutex wait to ensure the process isn't interrupted"
+		"This is something of a hack, and likely still has holes...
+		Only one process should be able to enter the critical: section at a time,
+		however there is obviously a window where terminating a process can allow two
+		processes in at the same time (even with the improvements to the ensure: block below).
+		Partially protect against this by rewaiting if someone else owns the monitor."
+		[ "Set caught immediately before the mutex wait to ensure the process isn't interrupted"
 		caught := true.
-		mutex wait.
+		mutex wait ] doWhileFalse: [ ownerProcess isNil ].
 		ownerProcess := requestingProcess.
 		nestingLevel := 1.
 	].
