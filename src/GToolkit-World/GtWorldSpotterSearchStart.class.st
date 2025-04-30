@@ -65,11 +65,12 @@ GtWorldSpotterSearchStart >> gtSearchPagesByTitleFor: aSearch [
 		title: 'Named pages';
 		priority: 22;
 		search: [ :aContext | self knowledgeBase asyncPagesForWord: aContext searchQuery ];
+		previewElement: [:each| each type defaultPhlowTool asElement ];
 		itemName: #title;
 		wantsToDisplayOnEmptyQuery: false
 ]
 
-{ #category : #spotter }
+{ #category : #searches }
 GtWorldSpotterSearchStart >> gtSpotterContainingSubPartsFor: aSearch [
 	<gtSearch>
 	self hasKnowledgeBase
@@ -96,6 +97,7 @@ GtWorldSpotterSearchStart >> gtSpotterContainingSubPartsFor: aSearch [
 			results asAsyncStream
 			] asAsyncFuture asAsyncStream flatten
 		];
+		previewElement: [:each| each type defaultPhlowTool asElement ];
 		itemName: #spotterItemName
 ]
 
