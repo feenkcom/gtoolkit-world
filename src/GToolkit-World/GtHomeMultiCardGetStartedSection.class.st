@@ -30,26 +30,31 @@ GtHomeMultiCardGetStartedSection >> defaultPriority [
 { #category : #example }
 GtHomeMultiCardGetStartedSection >> gemStoneSessionsCard [
 	"<gtSectionCard>"
+
 	<gtExample>
-	
+	<return: #GtExplicitHomeCard>
 	^ GtHomeCard explicit
 		priority: 50;
-		stencil: [BrFrame new
-			background: Color white;
-			aptitude: BrShadowAptitude new beLarge;
-			geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-			padding: (BlInsets top: 0 bottom: 10 left: 10 right: 10);
-			margin: (BlInsets
-				top: self spaceGap
-				left: 2 * self spaceGap
-				bottom: 2 * self spaceGap
-				right: 2 * self spaceGap);
-			size: 325 @ 150;
-			addChild: (GtGemStoneSessionsCardWidget new
-				matchParent;
-				constraintsDo: [ :c | 
-					c frame horizontal alignLeft.
-					c frame vertical alignCenter ])]
+		stencil: [ BrFrame new
+				background: Color white;
+				aptitude: BrShadowAptitude new beLarge;
+				geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+				padding: (BlInsets
+						top: 0
+						bottom: 10
+						left: 10
+						right: 10);
+				margin: (BlInsets
+						top: self spaceGap
+						left: 2 * self spaceGap
+						bottom: 2 * self spaceGap
+						right: 2 * self spaceGap);
+				size: 325 @ 150;
+				addChild: (GtGemStoneSessionsCardWidget new
+						matchParent;
+						constraintsDo: [ :c | 
+							c frame horizontal alignLeft.
+							c frame vertical alignCenter ]) ]
 ]
 
 { #category : #example }
@@ -85,6 +90,7 @@ GtHomeMultiCardGetStartedSection >> gtBookCardSection [
 { #category : #example }
 GtHomeMultiCardGetStartedSection >> gtTourCard [
 	<gtExample>
+	<return: #GtJobHomeCard>
 	^ GtHomeCard job
 		title: 'GtTour';
 		description: 'Open the GtTour slideshow';

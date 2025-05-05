@@ -141,56 +141,56 @@ Class {
 { #category : #'as yet unclassified' }
 GtWorkWithQueriesHowToGuide >> exampleMethodsFromGToolkitPackages [
 	<gtExample>
-	
-	^ #gtExample gtPragmas select: [ :method | 
-		method package name beginsWith: 'GToolkit'].
+	<return: #GtSearchIntersectionFilter>
+	^ #gtExample gtPragmas
+		select: [ :method | method package name beginsWith: 'GToolkit' ]
 ]
 
 { #category : #accessing }
 GtWorkWithQueriesHowToGuide >> searchAllFilters [
 	<gtExample>
-	^ GtSearchFilter allSubclasses
-		reject: [ :each | each gtReferences size = 0 ].
+	<return: #OrderedCollection>
+	^ GtSearchFilter allSubclasses reject: [ :each | each gtReferences size = 0 ]
 ]
 
 { #category : #'as yet unclassified' }
 GtWorkWithQueriesHowToGuide >> searchFiltersDiagram [
 	<gtExample>
-	
-	^ GtSearchFilter.
+	<return: #'GtSearchFilter class'>
+	^ GtSearchFilter
 ]
 
 { #category : #'as yet unclassified' }
 GtWorkWithQueriesHowToGuide >> searchForGtExampleReferences [
 	<gtExample>
-	
-	^ #gtExample gtReferences.
+	<return: #GtCachedSearchReferencesFilter>
+	^ #gtExample gtReferences
 ]
 
 { #category : #'as yet unclassified' }
 GtWorkWithQueriesHowToGuide >> searchForGtViewPragmaMethods [
 	<gtExample>
-	
-	^ #gtView gtPragmas.
+	<return: #GtSearchPragmasFilter>
+	^ #gtView gtPragmas
 ]
 
 { #category : #'as yet unclassified' }
 GtWorkWithQueriesHowToGuide >> searchForGtViewTreeAndColumnedTreeMethods [
 	<gtExample>
-	
-	^ #gtView gtPragmas & (#tree gtReferences | #columnedTree gtReferences).
+	<return: #GtSearchIntersectionFilter>
+	^ #gtView gtPragmas & (#tree gtReferences | #columnedTree gtReferences)
 ]
 
 { #category : #'as yet unclassified' }
 GtWorkWithQueriesHowToGuide >> searchForGtViewTreeMethods [
 	<gtExample>
-	
-	^ #gtView gtPragmas & #tree gtReferences.
+	<return: #GtSearchIntersectionFilter>
+	^ #gtView gtPragmas & #tree gtReferences
 ]
 
 { #category : #'as yet unclassified' }
 GtWorkWithQueriesHowToGuide >> searchInCertainPackage [
 	<gtExample>
-	
-	^ #todo gtReferences & 'Bloc' gtPackageMatches.
+	<return: #GtSearchIntersectionFilter>
+	^ #todo gtReferences & 'Bloc' gtPackageMatches
 ]

@@ -9,6 +9,7 @@ Class {
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> addCoderIntoTabElement [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self tabElementInScripter.
 	aScripter
@@ -53,44 +54,47 @@ GtWorldByScripterExamples >> addCoderIntoTabElement [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElementMaximized [
 	"Issue https://github.com/feenkcom/gtoolkit/issues/3859"
-	
+
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageHolder aPage |
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new
 			page50OfDatabaseWithManyPagesOfDifferentCreateTimes.
 	aPage := aPageHolder page.
 	aScripter model: aPageHolder.
-	
+
 	aScripter memoryLogger
-		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
-			, LeDatabaseSidebarGroupedListScrolledToIndexSignal
-			, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal
+				, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+				, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
 		during: [ :aStep | 
 			self
 				addLepiterPage: aPageHolder page
 				intoTabElementUsingScripter: aStep
 				maximized: true ].
-		
-	aScripter substeps: 'Assert sidebar' do: [ :aStep | 
-		aStep assert
-			label: 'Assert page is visible';
-			exists;
-			// LeDatabaseSidebarGroupedListElement;
-			// LePageTitleAndSummaryElement;
-			@ [ :anElement | anElement pageViewModel pageModel == aPage ];
-			play.
-			
-		aStep assert
-			label: 'Assert selected page';
-			satisfies: [ :aGroupedList | | aSelection |
-				aSelection := aGroupedList selectedItems.
-				aSelection size = 1 and: [ aSelection first == aPage ] ] 
-				description: [ '{1} must be selected' format: { aPage title } ];
-			// LeDatabaseSidebarGroupedListElement;
-			// BrGroupedList;
-			play
-	].
+
+	aScripter
+		substeps: 'Assert sidebar'
+		do: [ :aStep | 
+			aStep assert
+				label: 'Assert page is visible';
+				exists;
+				// LeDatabaseSidebarGroupedListElement;
+				// LePageTitleAndSummaryElement;
+				@ [ :anElement | anElement pageViewModel pageModel == aPage ];
+				play.
+
+			aStep assert
+				label: 'Assert selected page';
+				satisfies: [ :aGroupedList | 
+						| aSelection |
+						aSelection := aGroupedList selectedItems.
+						aSelection size = 1 and: [ aSelection first == aPage ] ]
+					description: [ '{1} must be selected' format: {aPage title} ];
+				// LeDatabaseSidebarGroupedListElement;
+				// BrGroupedList;
+				play ].
 
 	^ aScripter
 ]
@@ -98,34 +102,36 @@ GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentC
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPage50OfDatabaseWithManyPagesOfDifferentCreateTimesIntoTabElementMinimized [
 	"Issue https://github.com/feenkcom/gtoolkit/issues/3859"
-	
+
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageHolder aPage |
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new
 			page50OfDatabaseWithManyPagesOfDifferentCreateTimes.
 	aPage := aPageHolder page.
 	aScripter model: aPageHolder.
-	
+
 	aScripter memoryLogger
-		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
-			, LeDatabaseSidebarGroupedListScrolledToIndexSignal
-			, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+		runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal
+				, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+				, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
 		during: [ :aStep | 
 			self
 				addLepiterPage: aPageHolder page
 				intoTabElementUsingScripter: aStep
 				maximized: false ].
-		
-	aScripter substeps: 'Assert sidebar' do: [ :aStep | 
-		aStep assert
-			label: 'Assert page is visible';
-			notExists;
-			// LeDatabaseSidebarGroupedListElement;
-			// LePageTitleAndSummaryElement;
-			@ [ :anElement | anElement pageViewModel pageModel == aPage ];
-			play.
-	].
+
+	aScripter
+		substeps: 'Assert sidebar'
+		do: [ :aStep | 
+			aStep assert
+				label: 'Assert page is visible';
+				notExists;
+				// LeDatabaseSidebarGroupedListElement;
+				// LePageTitleAndSummaryElement;
+				@ [ :anElement | anElement pageViewModel pageModel == aPage ];
+				play ].
 
 	^ aScripter
 ]
@@ -181,9 +187,11 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageHolder |
 	aScripter := self tabElementInScripter.
-	aPageHolder := LeModelExamples new pageOneHavingPharoSnippetWithNonExistentClassAndMethod.
+	aPageHolder := LeModelExamples new
+			pageOneHavingPharoSnippetWithNonExistentClassAndMethod.
 	aScripter model: aPageHolder.
 	self
 		addLepiterPage: aPageHolder page
@@ -196,9 +204,11 @@ GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClas
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod2 [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageHolder |
 	aScripter := self tabElementInScripter.
-	aPageHolder := LeModelExamples new pageOneHavingPharoSnippetWithNonExistentClassAndMethod2.
+	aPageHolder := LeModelExamples new
+			pageOneHavingPharoSnippetWithNonExistentClassAndMethod2.
 	aScripter model: aPageHolder.
 	self
 		addLepiterPage: aPageHolder page
@@ -210,14 +220,14 @@ GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClas
 
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet [
-	
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageHolder |
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageOneHavingWardleyMapSnippets.
 	aScripter model: aPageHolder.
-	
-	self 
+
+	self
 		addLepiterPage: aPageHolder page
 		intoTabElementUsingScripter: aScripter
 		maximized: false.
@@ -227,111 +237,113 @@ GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet [
 
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet_addNodeToPageExplicitLink [
-	
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageOne aPageTwo |
 	aScripter := self addLepiterPageHavingWardleyMapSnippet.
 	aPageOne := aScripter model page.
 	aPageTwo := aPageOne database pageNamed: LeModelExamples new pageTwoTitle.
-		
-	aScripter 
-		substeps: 'Add node-to-page link' 
+
+	aScripter
+		substeps: 'Add node-to-page link'
 		do: [ :aStep | 
 			aStep do
 				label: 'Store explicit links count';
 				block: [ :theScripter | 
-					theScripter userData 
-						at: #initialExplicitLinks 
+					theScripter userData
+						at: #initialExplicitLinks
 						put: theScripter model database explicitLinks size ];
 				onScripter;
 				play.
-		
+
 			aStep secondaryClick
 				label: 'Open Node A dropdown';
 				// (#node asBlocElementId indexed: 0);
 				play.
-				
+
 			aStep doubleClick
 				label: 'Enter page link edit mode';
 				onSpaceRoot;
-				// (GtWardleyMapContextMenuItemId  definingMethod: GtWardleyMapNodeModel>>#menuItemNodeToLepiterPageLinker);
+				// (GtWardleyMapContextMenuItemId
+						definingMethod: GtWardleyMapNodeModel >> #menuItemNodeToLepiterPageLinker);
 				play.
-				
+
 			aStep click
 				label: 'Extra click to get page link editor focus due to a bug';
 				onSpaceRoot;
-				// (GtWardleyMapContextMenuItemId  definingMethod: GtWardleyMapNodeModel>>#menuItemNodeToLepiterPageLinker);
+				// (GtWardleyMapContextMenuItemId
+						definingMethod: GtWardleyMapNodeModel >> #menuItemNodeToLepiterPageLinker);
 				play.
-				
+
 			aStep type
 				label: 'Type page title';
 				text: aPageTwo title;
 				play.
-				
+
 			aStep keyPress
 				label: 'Accept page title';
 				key: BlKeyboardKey return;
 				play.
-				
+
 			aStep do
 				label: 'Store explicit links count';
 				block: [ :theScripter | 
-					theScripter userData 
-						at: #afterExplicitLinks 
+					theScripter userData
+						at: #afterExplicitLinks
 						put: theScripter model database explicitLinks size ];
 				onScripter;
 				play.
-		
+
 			aStep assert
 				label: 'Assert an extra explicit link';
-				value: [ :theScripter | (theScripter userData at: #afterExplicitLinks) ]
+				value: [ :theScripter | theScripter userData at: #afterExplicitLinks ]
 					equals: [ :theScripter | (theScripter userData at: #initialExplicitLinks) + 1 ];
 				onScripter;
-				play
-	].
+				play ].
 
 	^ aScripter
 ]
 
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet_addNodeToPageExplicitLink_deleteNode [
-	
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageOne aPageTwo |
-	aScripter := self addLepiterPageHavingWardleyMapSnippet_addNodeToPageExplicitLink.
+	aScripter := self
+			addLepiterPageHavingWardleyMapSnippet_addNodeToPageExplicitLink.
 	aPageOne := aScripter model page.
 	aPageTwo := aPageOne database pageNamed: LeModelExamples new pageTwoTitle.
-		
-	aScripter 
-		substeps: 'Delete Node A' 
+
+	aScripter
+		substeps: 'Delete Node A'
 		do: [ :aStep | 
 			aStep secondaryClick
 				label: 'Open Node A dropdown';
 				// (#node asBlocElementId indexed: 0);
 				play.
-				
+
 			aStep click
 				label: 'Click on delete node button';
 				onSpaceRoot;
-				// (GtWardleyMapContextMenuItemId  definingMethod: GtWardleyMapNodeModel>>#menuItemNodeDeleteButton);
+				// (GtWardleyMapContextMenuItemId
+						definingMethod: GtWardleyMapNodeModel >> #menuItemNodeDeleteButton);
 				play.
-				
+
 			aStep do
 				label: 'Store explicit links count';
 				block: [ :theScripter | 
-					theScripter userData 
-						at: #afterDeleteExplicitLinks 
+					theScripter userData
+						at: #afterDeleteExplicitLinks
 						put: theScripter model database explicitLinks size ];
 				onScripter;
 				play.
-		
+
 			aStep assert
 				label: 'Assert deleted explicit link';
-				value: [ :theScripter | (theScripter userData at: #afterDeleteExplicitLinks) ]
-					equals: [ :theScripter | (theScripter userData at: #initialExplicitLinks) ];
+				value: [ :theScripter | theScripter userData at: #afterDeleteExplicitLinks ]
+					equals: [ :theScripter | theScripter userData at: #initialExplicitLinks ];
 				onScripter;
-				play
-	].
+				play ].
 
 	^ aScripter
 ]
@@ -339,6 +351,7 @@ GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet_addNodeToPage
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageWithChangeAndDependentSnippets [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageHolder |
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageHavingChangeAndDependentSnippets.
@@ -354,6 +367,7 @@ GtWorldByScripterExamples >> addLepiterPageWithChangeAndDependentSnippets [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPageHolder |
 	aScripter := self tabElementInScripter.
 	aPageHolder := LeModelExamples new pageOneWithOnePharoSnippet.
@@ -369,6 +383,7 @@ GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self tabElementInScripter.
 
@@ -414,6 +429,7 @@ GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aCreateClassId aClassLinkId aCreateMethodId aMethodLinkId anExampleId |
 	self removeOnDemandDummyClass.
 
@@ -520,6 +536,7 @@ GtWorldByScripterExamples >> assertResizeSpotterInScripter: aScripter [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> browseImplementorsInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 
@@ -559,6 +576,7 @@ GtWorldByScripterExamples >> browseImplementorsInTheSecondLepiterPagePane [
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> browsePackageInSecondPane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self clickOnPackageEditableName.
 	aScripter shortcut
@@ -579,6 +597,7 @@ GtWorldByScripterExamples >> browsePackageInSecondPane [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> browseSendersInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 
@@ -620,6 +639,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 	"See [feenkcom/gtoolkit#3200](https://github.com/feenkcom/gtoolkit/issues/3200)"
 
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self executePlaygroundSnippet.
 
@@ -732,6 +752,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> clickAgainOnPackageEditableNameInTheFirstPane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self selectClassInSecondPane.
 	aScripter
@@ -754,6 +775,7 @@ GtWorldByScripterExamples >> clickAgainOnPackageEditableNameInTheFirstPane [
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> clickBackOnPlaygroundInTheFirstPane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self clickOnInspectorInTheSecondPane.
 
@@ -780,6 +802,7 @@ GtWorldByScripterExamples >> clickBackOnPlaygroundInTheFirstPane [
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> clickOnInspectorInTheSecondPane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self executePlaygroundSnippet.
 
@@ -838,6 +861,7 @@ GtWorldByScripterExamples >> clickOnLepiterPageTitle: aPage atPagerPaneIndex: an
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> clickOnPackageEditableName [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self selectPackageInCoder.
 	aScripter
@@ -860,6 +884,7 @@ GtWorldByScripterExamples >> clickOnPackageEditableName [
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> clickOnPackageEditableNameInSecondPane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self browsePackageInSecondPane.
 	aScripter
@@ -928,6 +953,7 @@ GtWorldByScripterExamples >> clickOnWorldHomeCoderIcon [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> coderStencil [
 	<gtExample>
+	<return: #GtCoderStencil>
 	^ GtCoderStencil new
 ]
 
@@ -936,15 +962,14 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	"See https://github.com/feenkcom/gtoolkit/issues/3947"
 
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
 
 	aScripter memoryLogger
-		runFor: GtInspectorSampleBOneForwardObjectSignal 
-			, GtPhlowForwarderFutureElementSignal
-			, GtPhlowApplyToolSelectionSignal 
-			, GtPhlowStoreToolSelectionSignal
-			, GtInspectorSelectTabSignal
+		runFor: GtInspectorSampleBOneForwardObjectSignal , GtPhlowForwarderFutureElementSignal
+				, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
+				, GtInspectorSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				selectAll;
@@ -967,11 +992,9 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 		play.
 
 	aScripter memoryLogger
-		runFor: GtInspectorSampleBOneForwardObjectSignal 
-			, GtPhlowForwarderFutureElementSignal
-			, GtPhlowApplyToolSelectionSignal 
-			, GtPhlowStoreToolSelectionSignal
-			, GtInspectorSelectTabSignal
+		runFor: GtInspectorSampleBOneForwardObjectSignal , GtPhlowForwarderFutureElementSignal
+				, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
+				, GtInspectorSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				playAndInspect;
@@ -991,6 +1014,7 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 	"See https://github.com/feenkcom/gtoolkit/issues/4374"
 
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self selectClassInSecondPane.
 
@@ -1045,23 +1069,24 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAnotherClass [
 	"See https://github.com/feenkcom/gtoolkit/issues/4374"
-	
+
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aSelectedClass aNewSelectedClass |
 	aScripter := self displayClassHierarchyDropdownInSecondPane.
-	
+
 	aSelectedClass := nil.
 	aNewSelectedClass := nil.
-	
-	aScripter do 
+
+	aScripter do
 		label: 'Get selected coder class';
 		block: [ :aCoder | aCoder navigationModel selectedClassDo: [ :aClass | aSelectedClass := aClass ] ];
 		id: GtPagerPageElementId index: 2;
 		// GtCoderElement;
 		play.
-		
+
 	self assert: aSelectedClass isNotNil.
-	
+
 	aScripter
 		clickStep: [ :s | 
 			s
@@ -1072,39 +1097,40 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 				@ [ :eachElement | 
 					| aResult |
 					aResult := eachElement theClass ~= aSelectedClass.
-					(aResult and: [ aNewSelectedClass isNil ]) 
+					(aResult and: [ aNewSelectedClass isNil ])
 						ifTrue: [ aNewSelectedClass := eachElement theClass ].
 					aResult ];
 				@ 1 ].
 
 	self assert: aNewSelectedClass isNotNil.
 
-	aScripter assert 
+	aScripter assert
 		label: 'Assert new selected coder class';
 		value: [ :aCoder | aCoder navigationModel selectedClass ]
 			equals: aNewSelectedClass;
 		id: GtPagerPageElementId index: 2;
 		// GtCoderElement;
 		play.
-		
+
 	aScripter assert
 		label: 'Assert class hierarchy view exists';
 		exists;
 		onSpaceRoot;
 		// GtCoderClassesTreeElement;
 		play.
-	
+
 	^ aScripter
 ]
 
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAnotherClass_closePinnedMenu [
 	"See https://github.com/feenkcom/gtoolkit/issues/4374"
-	
+
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self displayClassHierarchyDropdownInSecondPane_SelectAnotherClass.
-	
+
 	aScripter
 		clickStep: [ :s | 
 			s
@@ -1118,13 +1144,14 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 		onSpaceRoot;
 		// GtCoderClassesTreeElement;
 		play.
-	
+
 	^ aScripter
 ]
 
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self inspectRustRemoteObject.
 
@@ -1144,6 +1171,7 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDefiningMethod [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self displayRustObjectDefiningMethodContextMenu.
 
@@ -1159,6 +1187,7 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDef
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_inspectDefiningMethod [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self displayRustObjectDefiningMethodContextMenu.
 
@@ -1187,6 +1216,7 @@ GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	"See https://github.com/feenkcom/gtoolkit/issues/3960"
 
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aSourceCode aSourceInterval |
 	self
 		assert: (GtPharoDummyOneObject respondsTo: #nonExistentMethod) not
@@ -1236,16 +1266,17 @@ GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
-	
+
 	aScripter methodCoder
 		selectAll;
 		type: GtPharoDummyOneObject name;
 		type: ' new';
 		playAndInspect;
 		play.
-		
+
 	aScripter pager
 		assertPageCountIs: 2;
 		clickOnInspectorInspectButtonAtPage: 2;
@@ -1253,7 +1284,7 @@ GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 		dragInspectorPlaygroundAtPage: 2 verticallyBy: -150;
 		dragInspectorPlaygroundAtPage: 3 verticallyBy: -150;
 		play.
-		
+
 	aScripter methodCoder
 		click;
 		assertHasFocus;
@@ -1264,7 +1295,7 @@ GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 		// #playground;
 		// GtSourceCoderEditorId;
 		play.
-		
+
 	aScripter pager
 		assertPageCountIs: 4;
 		play.
@@ -1275,6 +1306,7 @@ GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> executePlaygroundSnippet [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self typeSnippetInPlayground.
 
@@ -1303,9 +1335,10 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
-	
+
 	aScripter
 		substeps: 'Open result in the third pane'
 		do: [ :aStep | 
@@ -1329,6 +1362,7 @@ GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> expandMethodCoder [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPage |
 	aScripter := self addLepiterPageWithPharoSnippetIntoTabElement.
 	aPage := aScripter model page.
@@ -1353,6 +1387,7 @@ GtWorldByScripterExamples >> expandMethodCoder [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> formatScriptWithAssignmentInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 
@@ -1404,7 +1439,8 @@ GtWorldByScripterExamples >> formatScriptWithAssignmentInTheSecondLepiterPagePan
 						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
 						satisfies: [ :anEditor | 
 							(anEditor text attributesFinder
-								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ])
+								not ];
 						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId ].
 			aStep
@@ -1413,7 +1449,8 @@ GtWorldByScripterExamples >> formatScriptWithAssignmentInTheSecondLepiterPagePan
 						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
 						satisfies: [ :anEditor | 
 							(anEditor text attributesFinder
-								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ])
+								not ];
 						// (GtPagerPageElementId indexed: 2);
 						// GtSourceCoderEditorId ].
 
@@ -1441,6 +1478,7 @@ GtWorldByScripterExamples >> formatScriptWithAssignmentInTheSecondLepiterPagePan
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 
@@ -1502,7 +1540,8 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
 						satisfies: [ :anEditor | 
 							(anEditor text attributesFinder
-								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ])
+								not ];
 						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId ].
 			aStep
@@ -1539,6 +1578,7 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> inspectRustRemoteObject [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
 
@@ -1604,8 +1644,8 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 				// GtSourceCoderDoItAndGoActionId;
 				@ 2;
 				play.
-			
-			aStep click 
+
+			aStep click
 				label: 'Inspect rust object';
 				// #'phlow--inspect-rust-object';
 				play ].
@@ -1617,6 +1657,7 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass [
 	<gtExample>
 	<after: #removeNonExistentClass>
+	<return: #MessageNotUnderstood>
 	| aScripter aPageHolder |
 	aScripter := self addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod.
 	aPageHolder := aScripter model.
@@ -1656,9 +1697,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass [
 
 			aStep assert
 				label: 'Assert class exists';
-				satisfies: [ :anObject | 
-					self class environment 
-						hasClassNamed: LeModelExamples new nonExistentClassName ];
+				satisfies: [ :anObject | self class environment hasClassNamed: LeModelExamples new nonExistentClassName ];
 				onModel;
 				play ].
 
@@ -1669,6 +1708,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass [
 GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass2 [
 	<gtExample>
 	<after: #removeNonExistentClass>
+	<return: #MessageNotUnderstood>
 	| aScripter aPageHolder aPage aFirstSnippetId |
 	aScripter := self
 			addLepiterPageHavingPharoSnippetWithNonExistentClassAndMethod2.
@@ -1722,6 +1762,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentClass2 [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
 	<gtExample>
+	<return: #MessageNotUnderstood>
 	| aScripter aPageHolder |
 	aScripter := self lepiterPageCreateNonExistentClass.
 	aPageHolder := aScripter model.
@@ -1739,15 +1780,16 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
 				onSpaceRoot;
 				// (GtDefineMethodFixItActionElementId indexed: 1);
 				play.
-				
+
 			aStep methodCoder
 				assertMethodExpandersCountIs: 2;
-				methodCoderExpander: 2 insideDo: [ :insideStep |
-					insideStep
-						assertTargetBehaviorIs: self nonExistentClass;
-						assertExplicitProviderClassIs: nil;
-						assertBinding: #anInteger is: 72;
-						assertBinding: #anInteger1 is: 144 ];
+				methodCoderExpander: 2
+					insideDo: [ :insideStep | 
+						insideStep
+							assertTargetBehaviorIs: self nonExistentClass;
+							assertExplicitProviderClassIs: nil;
+							assertBinding: #anInteger is: 72;
+							assertBinding: #anInteger1 is: 144 ];
 				// GtSourceCoderEditorId;
 				play ].
 
@@ -1757,6 +1799,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
 	<gtExample>
+	<return: #MessageNotUnderstood>
 	| aScripter aPageHolder aPage aFirstSnippetId aSecondSnippetId |
 	aScripter := self lepiterPageCreateNonExistentClass2.
 	aPageHolder := aScripter model.
@@ -1803,7 +1846,9 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
 			insideDo: [ :insideStep | 
 				insideStep
 					label: 'Print the first method argument value';
-					select: 'arg1' from: 12 to: 16;
+					select: 'arg1'
+						from: 12
+						to: 16;
 					printIt;
 					assertPrintItString: '72' ];
 		// aSecondSnippetId;
@@ -1831,9 +1876,9 @@ GtWorldByScripterExamples >> paneTabLabelKeyAt: aPaneIndex [
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> playgroundStencil [
 	<gtExample>
+	<return: #GtPlaygroundStencil>
 	| aDb aStencil |
-	aDb := LeLogicalDatabase new 
-		primaryDB: LeDatabase new.
+	aDb := LeLogicalDatabase new primaryDB: LeDatabase new.
 
 	aStencil := GtPlaygroundStencil new knowledgeBase: aDb.
 
@@ -1845,6 +1890,7 @@ GtWorldByScripterExamples >> playgroundStencil [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 
@@ -1873,7 +1919,7 @@ GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
 						exists;
 						// (GtPagerPageElementId indexed: 2);
 						// GtCoderPrintStringElementId ].
-						
+
 			aStep
 				assertStep: [ :s | 
 					s
@@ -1888,9 +1934,10 @@ GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> profileScriptInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
-	
+
 	aScripter
 		substeps: 'Open profile report in the third pane'
 		do: [ :aStep | 
@@ -1914,6 +1961,7 @@ GtWorldByScripterExamples >> profileScriptInTheSecondLepiterPagePane [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> removeClassAddedByEpiceaSnippet [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aCreateClassId aClassLinkId aCreateMethodId aMethodLinkId anExampleId |
 	aScripter := self applyEpiceaSnippetChanges.
 	aCreateClassId := aScripter model page children first uid.
@@ -1928,7 +1976,7 @@ GtWorldByScripterExamples >> removeClassAddedByEpiceaSnippet [
 			aClass := Smalltalk at: #LeOnDemandDummyClass.
 			aClass removeFromSystem ];
 		play.
-		
+
 	aScripter assert
 		label: 'Assert LeOnDemandDummyClass does not exist';
 		satisfies: [ Smalltalk
@@ -1967,6 +2015,7 @@ GtWorldByScripterExamples >> removeClassAddedByEpiceaSnippet [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> removeMethodAddedByEpiceaSnippet [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aCreateClassId aClassLinkId aCreateMethodId aMethodLinkId anExampleId |
 	aScripter := self applyEpiceaSnippetChanges.
 	aCreateClassId := aScripter model page children first uid.
@@ -1982,7 +2031,7 @@ GtWorldByScripterExamples >> removeMethodAddedByEpiceaSnippet [
 			aMethod := aClass methodDict at: #example.
 			aMethod removeFromSystem ];
 		play.
-		
+
 	aScripter assert
 		label: 'Assert LeOnDemandDummyClass exists';
 		satisfies: [ Smalltalk
@@ -1991,7 +2040,7 @@ GtWorldByScripterExamples >> removeMethodAddedByEpiceaSnippet [
 					ifAbsent: [ false ] ]
 			description: [ 'LeOnDemandDummyClass does not exist' ];
 		play.
-		
+
 	aScripter assert
 		label: 'Assert LeOnDemandDummyClass >> #example does not exist';
 		satisfies: [ Smalltalk
@@ -2088,16 +2137,17 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 	"Issue [feenkcom/gtoolkit#3168](https://github.com/feenkcom/gtoolkit/issues/3168)"
 
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aLogger |
 	aScripter := self worldElementInScripter.
 
 	aScripter
 		substep: 'Search BlElement>>#zIndex: using Spotter'
 		do: [ :aStep | 
-			aStep memoryLogger 
-				runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal 
-					, LeDatabaseSidebarGroupedListScrolledToIndexSignal
-					, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
+			aStep memoryLogger
+				runFor: LeDatabaseSidebarGroupedListUpdateSelectionSignal
+						, LeDatabaseSidebarGroupedListScrolledToIndexSignal
+						, LeDatabaseSidebarGroupedListRequestUpdateSelectionSignal
 				during: [ :aLoggerStep | 
 					aLoggerStep
 						clickStep: [ :s | 
@@ -2105,10 +2155,7 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 								label: 'Click on Spotter button';
 								id: GtWorldSpotterSearchElementId ] ].
 
-			aStep
-				typeStep: [ :s | 
-					s
-						text: (BlElement >> #zIndex:) printString ].
+			aStep typeStep: [ :s | s text: (BlElement >> #zIndex:) printString ].
 
 			aLogger := MemoryLogger startFor: GtPharoStreamingMethodsCoderElementSignal.
 			aLogger name: '01 Browse method'.
@@ -2156,6 +2203,7 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> selectClassInSecondPane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self clickOnPackageEditableNameInSecondPane.
 	aScripter
@@ -2223,6 +2271,7 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> selectPackageInCoder [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self addCoderIntoTabElement.
 
@@ -2266,6 +2315,7 @@ GtWorldByScripterExamples >> selectPackageInCoder [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> semanticErrorScriptInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 
@@ -2337,7 +2387,8 @@ GtWorldByScripterExamples >> semanticErrorScriptInTheSecondLepiterPagePane [
 						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
 						satisfies: [ :anEditor | 
 							(anEditor text attributesFinder
-								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ])
+								not ];
 						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId ].
 
@@ -2421,10 +2472,11 @@ editor := BrEditor new
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> spawnSameLepiterPageWithPharoSnippetToNextPane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aPage |
 	aScripter := self addLepiterPageWithPharoSnippetIntoTabElement.
 	aPage := aScripter model page.
-	
+
 	aScripter
 		substeps: 'Open the same page in a second pane'
 		do: [ :aStep | 
@@ -2457,6 +2509,7 @@ GtWorldByScripterExamples >> spawnSameLepiterPageWithPharoSnippetToNextPane [
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> syntaxErrorScriptInTheSecondLepiterPagePane [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spawnSameLepiterPageWithPharoSnippetToNextPane.
 
@@ -2521,7 +2574,8 @@ GtWorldByScripterExamples >> syntaxErrorScriptInTheSecondLepiterPagePane [
 						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
 						satisfies: [ :anEditor | 
 							(anEditor text attributesFinder
-								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ]) not ];
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ])
+								not ];
 						// (GtPagerPageElementId indexed: 1);
 						// GtSourceCoderEditorId ].
 
@@ -2556,8 +2610,8 @@ GtWorldByScripterExamples >> syntaxErrorScriptInTheSecondLepiterPagePane [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> tabElementInScripter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
-
 	aScripter := self scripter.
 	aScripter element: GtWorldTabElement new.
 
@@ -2572,6 +2626,7 @@ GtWorldByScripterExamples >> temporaryPackageName [
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> typeSnippetInPlayground [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
 
@@ -2605,6 +2660,7 @@ GtWorldByScripterExamples >> typeSnippetInPlayground [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> worldElementInScripter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self scripter.
 	aScripter element: GtWorldElement new.
@@ -2614,6 +2670,7 @@ GtWorldByScripterExamples >> worldElementInScripter [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> worldSpotter_ResizeVertically [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self worldElementInScripter.
 
@@ -2636,6 +2693,7 @@ GtWorldByScripterExamples >> worldSpotter_ResizeVertically [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self worldSpotter_ResizeVertically.
 
@@ -2672,14 +2730,15 @@ GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape_ResizeSecondTime [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self worldSpotter_ResizeVertically_ClosePressingEscape.
-	
+
 	aScripter click
 		label: 'Open Spotter dropdown';
 		// GtWorldSpotterSearchElementId;
 		play.
-		
+
 	self resizeSpotterInScripter: aScripter.
 	self assertResizeSpotterInScripter: aScripter.
 
