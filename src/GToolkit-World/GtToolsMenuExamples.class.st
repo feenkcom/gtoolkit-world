@@ -7,6 +7,7 @@ Class {
 { #category : #examples }
 GtToolsMenuExamples >> gtWorld [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := BlScripter new.
 	aScripter element: (GtWorldElement new knowledgeBase: LeDatabase new).
@@ -16,6 +17,7 @@ GtToolsMenuExamples >> gtWorld [
 { #category : #examples }
 GtToolsMenuExamples >> newPageCreatedWithReturn [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spotterWithFocusOnPageDropdown.
 
@@ -23,7 +25,7 @@ GtToolsMenuExamples >> newPageCreatedWithReturn [
 		label: 'Press return key';
 		key: BlKeyboardKey return;
 		play.
-	
+
 	aScripter assert
 		label: 'Assert Tools Menu is not part of scene graph anymore';
 		satisfies: [ :aWorldElement | 
@@ -36,6 +38,7 @@ GtToolsMenuExamples >> newPageCreatedWithReturn [
 { #category : #examples }
 GtToolsMenuExamples >> spotterChangeFocus [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spotterWithFocus.
 
@@ -57,6 +60,7 @@ GtToolsMenuExamples >> spotterChangeFocus [
 { #category : #examples }
 GtToolsMenuExamples >> spotterChangeFocusAndPressReturn [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spotterChangeFocus.
 
@@ -88,6 +92,7 @@ GtToolsMenuExamples >> spotterChangeFocusAndPressReturn [
 { #category : #examples }
 GtToolsMenuExamples >> spotterWithFocus [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self gtWorld.
 
@@ -117,6 +122,7 @@ GtToolsMenuExamples >> spotterWithFocus [
 { #category : #examples }
 GtToolsMenuExamples >> spotterWithFocusOnPageDropdown [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spotterWithFocus.
 
@@ -137,6 +143,7 @@ GtToolsMenuExamples >> spotterWithFocusOnPageDropdown [
 { #category : #examples }
 GtToolsMenuExamples >> spotterWithFocusOnPageDropdown_escape [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self spotterWithFocusOnPageDropdown.
 

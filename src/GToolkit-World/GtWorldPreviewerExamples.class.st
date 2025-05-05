@@ -7,6 +7,7 @@ Class {
 { #category : #accessing }
 GtWorldPreviewerExamples >> worldElementWithPreviewerHandler [
 	<gtExample>
+	<return: #GtWorldElement>
 	| worldElement |
 	worldElement := GtWorldElement new.
 	self assert: worldElement children size = 1.

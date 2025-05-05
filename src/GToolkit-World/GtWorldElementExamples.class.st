@@ -7,6 +7,7 @@ Class {
 { #category : #accessing }
 GtWorldElementExamples >> shortcutsHaveExplicitName [
 	<gtExample>
+	<return: #GtWorldElement>
 	| worldElement |
 	worldElement := GtWorldElement new.
 	worldElement shortcuts do: [ :each | self assert: each name notNil ].
@@ -16,6 +17,7 @@ GtWorldElementExamples >> shortcutsHaveExplicitName [
 { #category : #accessing }
 GtWorldElementExamples >> takeScreenshotShortcut [
 	<gtExample>
+	<return: #BlShortcutWithAction>
 	| worldRoot shortcut |
 	worldRoot := GtWorld new root.
 	shortcut := worldRoot shortcuts
