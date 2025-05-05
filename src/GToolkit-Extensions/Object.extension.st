@@ -10,7 +10,7 @@ Object class >> gtMagritteDescriptionFor: aView [
 		tooltip: 'Methods that define Magritte descriptions';
 		priority: 100;
 		stencil: [ (self gtMethodsInClass includeSuperclass: true)
-				& #magritteDescription gtPragmas ]
+				& ( #magritteDescription gtPragmas | #magritteActionDescription gtPragmas) ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
