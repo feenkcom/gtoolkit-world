@@ -7,6 +7,7 @@ Class {
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyNineButtonsWithDifferentParents [
 	<gtExample>
+	<return: #BrHorizontalPane>
 	| grid |
 	grid := BrHorizontalPane new matchParent
 			addChildren: (7
@@ -34,6 +35,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyNineButtonsWithDifferentParents [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyNineButtonsWithDifferentParentsFocusOnLast [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter grid |
 	grid := self fortyNineButtonsWithDifferentParents.
 	aScripter := BlScripter new.
@@ -60,6 +62,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyNineButtonsWithDifferentParentsFoc
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtons [
 	<gtExample>
+	<return: #BrHorizontalGrid>
 	| grid |
 	grid := BrHorizontalGrid new
 			columnCount: 7;
@@ -82,6 +85,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtons [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirst [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self fortyTwoButtonsFocusOnLast.
 	5
@@ -112,6 +116,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirst [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirstWithShiftTab [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self fortyTwoButtonsFocusOnLastWithTab.
 
@@ -121,7 +126,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirstWithShif
 				key: BlKeyboardKey tab;
 				modifiers: BlKeyModifiers shift;
 				play ].
-			
+
 	aScripter assert
 		label: 'Assert First button has focus';
 		satisfies: [ :aGrid | 
@@ -137,14 +142,13 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusBackOnFirstWithShif
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnFirstWithTabWrapAround [
 	<gtExample>
-	| aScripter  |
-	aScripter := self fortyTwoButtonsFocusOnLastWithTab.
-
-	"Pressing tab one more time will change focus from the last to the first element"
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self fortyTwoButtonsFocusOnLastWithTab.	"Pressing tab one more time will change focus from the last to the first element"
 	aScripter keyPress
-				label: 'Press tab key';
-				key: BlKeyboardKey tab;
-				play .
+		label: 'Press tab key';
+		key: BlKeyboardKey tab;
+		play.
 	aScripter assert
 		label: 'Assert First button has focus.';
 		satisfies: [ :aGrid | 
@@ -159,6 +163,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnFirstWithTabWrapA
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLast [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter grid |
 	grid := self fortyTwoButtons.
 	aScripter := BlScripter new.
@@ -191,6 +196,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLast [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLastWithTab [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter grid |
 	grid := self fortyTwoButtons.
 	aScripter := BlScripter new.
@@ -214,6 +220,7 @@ BrKeyboardFocusChangeAptitudeExamples >> fortyTwoButtonsFocusOnLastWithTab [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> twoButtons [
 	<gtExample>
+	<return: #BrHorizontalGrid>
 	| grid |
 	grid := BrHorizontalGrid new
 			columnCount: 7;
@@ -233,6 +240,7 @@ BrKeyboardFocusChangeAptitudeExamples >> twoButtons [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> twoButtonsChangeFocus [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter grid |
 	grid := self twoButtons.
 	aScripter := BlScripter new.
@@ -254,6 +262,7 @@ BrKeyboardFocusChangeAptitudeExamples >> twoButtonsChangeFocus [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> twoButtonsChangeFocusAndPressEnter [
 	<gtExample>
+	<return: #BlScripter>
 	| aCollection aScripter |
 	aCollection := OrderedCollection new.
 	aScripter := self twoButtonsChangeFocus.
@@ -278,6 +287,7 @@ BrKeyboardFocusChangeAptitudeExamples >> twoButtonsChangeFocusAndPressEnter [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> twoButtonsChangeFocusPastLastButton [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter grid |
 	grid := self twoButtons.
 	aScripter := BlScripter new.
@@ -300,6 +310,7 @@ BrKeyboardFocusChangeAptitudeExamples >> twoButtonsChangeFocusPastLastButton [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> twoButtonsWithDifferentParents [
 	<gtExample>
+	<return: #BrHorizontalGrid>
 	| grid |
 	grid := BrHorizontalGrid new
 			columnCount: 7;
@@ -327,6 +338,7 @@ BrKeyboardFocusChangeAptitudeExamples >> twoButtonsWithDifferentParents [
 { #category : #examples }
 BrKeyboardFocusChangeAptitudeExamples >> twoButtonsWithDifferentParentsChangeFocus [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter grid |
 	grid := self twoButtonsWithDifferentParents.
 	aScripter := BlScripter new.

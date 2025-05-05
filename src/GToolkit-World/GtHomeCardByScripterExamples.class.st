@@ -9,6 +9,7 @@ Class {
 { #category : #examples }
 GtHomeCardByScripterExamples >> displayTooltip [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aCard aLoggerStep |
 	aScripter := self
 			scripterWithElement: [ aCard := GtHomeCardExamples new jobCard.

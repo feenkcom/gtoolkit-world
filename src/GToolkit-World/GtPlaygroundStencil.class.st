@@ -91,5 +91,8 @@ GtPlaygroundStencil >> openWithSnippets: snippets [
 { #category : #examples }
 GtPlaygroundStencil >> playgroundWithSnippets [
 	<gtExample>
-	^ GtPlaygroundStencil new createWithSnippets: {'3+4' . '42'}
+	<return: #'LePlayground class'>
+	^ GtPlaygroundStencil new
+		createWithSnippets: {'3+4'.
+				'42'}
 ]
