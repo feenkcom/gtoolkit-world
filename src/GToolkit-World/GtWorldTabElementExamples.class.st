@@ -10,18 +10,19 @@ Class {
 
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter [
-	| aScripter |
 	<gtExample>
-	
+	<return: #BlScripter>
+	| aScripter |
 	aScripter := BlScripter new.
 	aScripter element: GtWorldTabElement new.
-	
+
 	^ aScripter
 ]
 
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_01_addSpace [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self showSpaceSelectScripter.
 	aScripter
@@ -43,6 +44,7 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_01_addSpace [
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_02_moveMouseOverSpaceCloseButton [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self showSpaceSelectScripter_01_addSpace.
 
@@ -63,6 +65,7 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_02_moveMouseOverSpaceCloseB
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_03_clickSpaceCloseButton [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self showSpaceSelectScripter_02_moveMouseOverSpaceCloseButton.
 
@@ -86,6 +89,7 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_03_clickSpaceCloseButton [
 { #category : #'examples - by scripter' }
 GtWorldTabElementExamples >> showSpaceSelectScripter_04_checkSpaceGarbageCollected [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self showSpaceSelectScripter_03_clickSpaceCloseButton.
 	aScripter
@@ -111,6 +115,7 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_04_checkSpaceGarbageCollect
 { #category : #'examples - show space' }
 GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnSelectedTabCloseAction [
 	<gtExample>
+	<return: #GtWorldTabElement>
 	| aSpace aWorld aTabs |
 	aSpace := BlSpace new.
 	aWorld := GtWorldTabElement new.
@@ -126,6 +131,7 @@ GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnSelectedTabCloseActio
 { #category : #'examples - show space' }
 GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnUnselectedTabCloseAction [
 	<gtExample>
+	<return: #GtWorldTabElement>
 	| aSpace aWorld aTabs |
 	aSpace := BlSpace new.
 	aWorld := GtWorldTabElement new.

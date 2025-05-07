@@ -7,6 +7,7 @@ Class {
 { #category : #accessing }
 GtSamplingProfilerExamples >> createSpyAllOn [
 	<gtExample>
+	<return: #AsyncFuturePromise>
 	| tally |
 	tally := GtSamplingProfiler spyAllProcessesFor: 2 seconds.
 	^ tally

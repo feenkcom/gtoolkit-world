@@ -32,11 +32,10 @@ GtHomeMultiCardSection >> cardMethods [
 GtHomeMultiCardSection >> cardPriorities [
 	"Override this method in the subclass.
 	Instead of manually setting priorities, just list the cards in order here. NB: the names can be the same as the method selectors, but need not be."
-	
+
 	<gtExample>
-	^ #( 
-		"Add the names of the cards here ..."
-		)
+	<return: #Array>
+	^ #()	"Add the names of the cards here ..."
 ]
 
 { #category : #accessing }
