@@ -408,7 +408,7 @@ GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
 	aTab
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude content: [ self tabContextMenu ]).
 	aTab selected: shouldBeSelected.
-	tabs addTab: aTab.
+	tabs addTabAfterSelectedTab: aTab.
 	aTab := nil
 ]
 
