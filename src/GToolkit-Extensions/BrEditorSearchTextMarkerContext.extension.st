@@ -1,12 +1,12 @@
-Extension { #name : #BrEditorSearchTextContext }
+Extension { #name : #BrEditorSearchTextMarkerContext }
 
 { #category : #'*GToolkit-Extensions' }
-BrEditorSearchTextContext >> gtComputedPatternItemsFor: aView [
+BrEditorSearchTextMarkerContext >> gtComputedPatternItemsFor: aView [
 	<gtView>
-	computedPatternItems ifNil: [ ^ aView empty ].
+	patternItems ifNil: [ ^ aView empty ].
 	^ aView columnedList
 		title: 'Computed pattern items';
-		items: [ computedPatternItems ifNil: [ #() ] ];
+		items: [ patternItems ifNil: [ #() ] ];
 		column: 'Index' text: [ :each :index | index gtDisplayString ];
 		column: 'Is selected'
 			text: [ :each | 
@@ -19,38 +19,42 @@ BrEditorSearchTextContext >> gtComputedPatternItemsFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-BrEditorSearchTextContext >> gtOverview [
+BrEditorSearchTextMarkerContext >> gtOverview [
 	^ {GtPhlowOverviewItem new
 			name: 'Associated element';
 			value: self element.
 		GtPhlowOverviewItem new
-			name: 'Editor element';
-			value: self editorElement.
+			name: 'Text source';
+			value: self textSource.
 		GtPhlowOverviewItem new
-			name: 'Editor text';
+			name: 'Editor model text';
+			value: self editorModelText.
+		GtPhlowOverviewItem new
+			name: 'Processed text';
 			value: text.
 		GtPhlowOverviewItem new
-			name: 'Visible editor text';
+			name: 'Visible processed text';
 			value: visibleText.
 		GtPhlowOverviewItem new
 			name: 'Pattern';
 			value: self pattern.
 		GtPhlowOverviewItem new
-			name: 'Current index';
-			value: self currentIndex.
+			name: 'Selected pattern index';
+			value: self selectedIndex.
 		GtPhlowOverviewItem new
 			name: 'Computed pattern items';
-			value: self computedPatternItems.
+			value: self patternItems.
 		GtPhlowOverviewItem new
 			name: 'Computed current pattern item';
-			value: self computedCurrentPatternItem}
+			value: self selectedPatternItem}
 ]
 
 { #category : #'*GToolkit-Extensions' }
-BrEditorSearchTextContext >> gtOverviewFor: aView [
+BrEditorSearchTextMarkerContext >> gtOverviewFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Overview';
+		priority: 1;
 		items: [ self gtOverview ];
 		column: 'Name' text: #name;
 		column: 'Value' text: #description;
