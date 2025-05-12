@@ -13,7 +13,7 @@ ConfigurationOf class >> gtMapFor: aView [
 { #category : #'*GToolkit-Extensions' }
 ConfigurationOf class >> gtMapFor: aView selectRelationsThat: aTwoArgBlock nameDisplayedAs: anOneArgBlock [
 	| standardEdge |
-	standardEdge := BlBorder paint: (Color gray alpha: 0.2) width: 2.
+	standardEdge := BlBorder paint: Color veryVeryLightGray.
 	^ aView mondrian
 		title: 'Map';
 		priority: 10;
@@ -52,12 +52,12 @@ ConfigurationOf class >> gtMapFor: aView selectRelationsThat: aTwoArgBlock nameD
 							do: [ :anEvent | 
 								anEvent currentTarget graph connectedEdges incoming
 									do: [ :inner | 
-										inner element border: (BlBorder paint: (Color blue alpha: 0.5) width: 3).
-										inner fromElement background: (Color blue alpha: 0.2) ].
+										inner element border: (BlBorder paint: (Color blue muchLighter) width: 5).
+										inner fromElement background: (Color blue muchLighter) ].
 								anEvent currentTarget graph connectedEdges outgoing
 									do: [ :inner | 
-										inner element border: (BlBorder paint: (Color red alpha: 0.5) width: 3).
-										inner toElement background: (Color red alpha: 0.2) ] ];
+										inner element border: (BlBorder paint: (Color lightRed ) width: 5).
+										inner toElement background: (Color lightRed) ] ];
 						when: BlMouseLeaveEvent
 							do: [ :anEvent | 
 								anEvent currentTarget graph connectedEdges
@@ -76,8 +76,8 @@ ConfigurationOf class >> gtMapFor: aView selectRelationsThat: aTwoArgBlock nameD
 						border: standardEdge;
 						toHead: (BlArrowheadSimpleArrow new
 								border: (BlBorder builder
-										paint: (Color gray alpha: 0.2);
-										width: 2;
+										paint: (Color veryVeryLightGray);
+										width: 1;
 										build)) ];
 				fromRightCenter;
 				toLeftCenter;
