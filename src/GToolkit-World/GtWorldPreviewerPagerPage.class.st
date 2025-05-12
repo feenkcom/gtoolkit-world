@@ -54,6 +54,11 @@ GtWorldPreviewerPagerPage >> page: aPage [
 ]
 
 { #category : #accessing }
+GtWorldPreviewerPagerPage >> pageIndex [
+	^ pageIndex
+]
+
+{ #category : #accessing }
 GtWorldPreviewerPagerPage >> pageIndex: index [ 
 	pageIndex := index
 ]
