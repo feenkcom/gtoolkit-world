@@ -46,7 +46,7 @@ BrEditorSearchTextMarkerContext >> gtOverview [
 			value: self patternItems.
 		GtPhlowOverviewItem new
 			name: 'Computed current pattern item';
-			value: self selectedPatternItem}
+			value: self selectedItem}
 ]
 
 { #category : #'*GToolkit-Extensions' }
