@@ -256,7 +256,7 @@ GtWorldTabElement >> maximizeButtonFor: aTabModel [
 
 { #category : #accessing }
 GtWorldTabElement >> moveOptions [
-	| gtWorlds |
+	| gtWorlds space |
 	gtWorlds := GtWorld allInstances
 			select: [ :e | e isOpened and: [ (tabs == e tabGroup) not ] ].
 	^ gtWorlds
@@ -264,9 +264,11 @@ GtWorldTabElement >> moveOptions [
 			e tabGroup viewModel selectedTab tabLabel text
 				-> [ :aButtonElement | 
 					| myTab |
+					space := aButtonElement space.	"remember the space before moving"
 					myTab := aButtonElement viewModel.
 					tabs viewModel removeTab: myTab.
-					e showSpace: myTab model ] ]
+					e showSpace: myTab model.
+					tabs tabs size = 1 ifTrue: [ space close ] ] ]
 ]
 
 { #category : #'private - instance creation' }
