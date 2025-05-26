@@ -21,7 +21,7 @@ GtWorldPreviewerPagerPage >> asElementScaled: aScale [
 	
 	aPreviewElement := BrElementAsFormPreview
 		forElement: page widget
-		preferredScale: 0.3.
+		preferredScale: aScale.
 
 	^ aPreviewElement
 			aptitude: (BrStyleCommonAptitude new
