@@ -43,6 +43,7 @@ GtWorldPreviewer >> asElement [
 					removeChildren;
 					addChild: (BrHorizontalPane new
 							fitContent;
+							alignCenter;
 							addChild: (BrLabel new
 									text: 'Tab: ' , aPreview tabLabel;
 									margin: (BlInsets left: 10);
@@ -52,17 +53,30 @@ GtWorldPreviewer >> asElement [
 									margin: (BlInsets left: 10);
 									aptitude: BrGlamorousButtonWithLabelAptitude new;
 									label: 'Screenshot';
-									action: [ | screenshot |
-										screenshot := BrHorizontalPane new fitContent cellSpacing: 20.
-										aPreview pagerPagePreviews
-											do: [ :each | 
-												screenshot
-													addChild: ((each asElementScaled: 1)
-															margin: (BlInsets all: 20);
-															addAptitude: BrShadowAptitude new beLarge) ].
-										(BlScripter new
-											maxPulseElapsedTime: 30 seconds;
-											element: screenshot) element exportAsPNG ])");
+									withAsyncFutureDo: [ :anElementFuture |
+										anElementFuture 
+											whenPending: [ :theButton | theButton disable ];
+											whenError: [ :theButton :anError | 
+												| aCopyError |
+												aCopyError := GtSystemUtility freeze: anError.
+												theButton 
+													enable; 
+													background: theButton theme status errorBackgroundColor;
+													action: [ :aButton | aButton phlow spawnObject: aCopyError ] ];
+											whenSuccess: [ :theButton :aData | theButton enable ] ];
+									action: [ :theButton |
+										| screenshot |
+										theButton asyncFuture future: [
+											screenshot := BrHorizontalPane new fitContent cellSpacing: 20.
+											aPreview pagerPagePreviews
+												do: [ :each | 
+													screenshot
+														addChild: ((each asElementScaled: 1)
+																margin: (BlInsets all: 20);
+																addAptitude: BrShadowAptitude new beLarge) ].
+											(BlScripter new
+												maxPulseElapsedTime: 30 seconds;
+												element: screenshot) element exportAsPNG ] ])");
 					addChild: aPreview asElement ];
 			items: self worldTabs.
 	container addChild: list.
