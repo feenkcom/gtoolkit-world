@@ -47,7 +47,7 @@ GtWorldPreviewer >> asElement [
 							addChild: (BrLabel new
 									text: 'Tab: ' , aPreview tabLabel;
 									margin: (BlInsets left: 10);
-									aptitude: BrGlamorousLabelAptitude new)";
+									aptitude: BrGlamorousLabelAptitude new);
 							addChild: (BrButton new
 									beTinySize;
 									margin: (BlInsets left: 10);
@@ -67,7 +67,7 @@ GtWorldPreviewer >> asElement [
 									action: [ :theButton |
 										| screenshot |
 										theButton asyncFuture future: [
-											screenshot := BrHorizontalPane new fitContent cellSpacing: 20.
+											screenshot := BrHorizontalPane new fitContent cellSpacing: 20; background: Color white.
 											aPreview pagerPagePreviews
 												do: [ :each | 
 													screenshot
@@ -76,7 +76,7 @@ GtWorldPreviewer >> asElement [
 																addAptitude: BrShadowAptitude new beLarge) ].
 											(BlScripter new
 												maxPulseElapsedTime: 30 seconds;
-												element: screenshot) element exportAsPNG ] ])");
+												element: screenshot) element exportAsPNG ] ]));
 					addChild: aPreview asElement ];
 			items: self worldTabs.
 	container addChild: list.
