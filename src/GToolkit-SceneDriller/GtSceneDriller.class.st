@@ -278,7 +278,7 @@ GtSceneDriller >> newSceneContainerFor: aTargetContainer [
 					(BrShadowAptitude new beLarge
 						color:
 							self theme default defaultShadowColor darker);
-				background: Color white;
+				background: self theme default contentBackground;
 				addChild: aTargetContainer)}
 ]
 
