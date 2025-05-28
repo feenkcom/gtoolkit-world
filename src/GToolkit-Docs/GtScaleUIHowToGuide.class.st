@@ -19,7 +19,7 @@ GtScaleUIHowToGuide >> scaleToDefault [
 	<gtExample>
 	<noTest>
 
-	BlRustWindowingHostSpace zoomFactor: 1.0
+	BlSpace userScale: 1.0
 ]
 
 { #category : #'examples - scale' }
@@ -27,5 +27,5 @@ GtScaleUIHowToGuide >> scaleToOneHalf [
 	<gtExample>
 	<noTest>
 
-	BlRustWindowingHostSpace zoomFactor: 1.5
+	BlSpace userScale: 1.5
 ]
