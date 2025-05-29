@@ -166,7 +166,7 @@ GtWorldTabElement >> defaultHomeElement [
 				foreground: self theme button disabledTextColor);
 		matchParent;
 		alignCenter;
-		background: Color white
+		background: self theme default contentBackground
 ]
 
 { #category : #defaults }

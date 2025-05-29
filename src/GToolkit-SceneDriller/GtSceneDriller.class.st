@@ -234,7 +234,7 @@ GtSceneDriller >> newPagerFor: aTargetContainer [
 				bottom: 10
 				right: 0);
 		addAptitude: BrShadowAptitude new beLarge;
-		background: self theme default backdropColor;
+		background: self theme default backdropBackground;
 		addChildren:
 			{(self newSectionLabel text: 'Details').
 			((GtPager
@@ -278,7 +278,7 @@ GtSceneDriller >> newSceneContainerFor: aTargetContainer [
 					(BrShadowAptitude new beLarge
 						color:
 							self theme default defaultShadowColor darker);
-				background: Color white;
+				background: self theme default contentBackground;
 				addChild: aTargetContainer)}
 ]
 

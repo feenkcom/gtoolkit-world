@@ -12,7 +12,7 @@ Exception >> gtStackFor: aView [
 		stencil: [ | anElement |
 			anElement := GtPharoStackIndexStencil new asElement.
 			anElement
-				background: anElement theme default contentBackgroundColor;
+				background: anElement theme default contentBackground;
 				hMatchParent;
 				vMatchParent;
 				padding: (BlInsets left: 5 right: 5).
