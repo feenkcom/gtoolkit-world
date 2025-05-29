@@ -40,7 +40,7 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> initialize [
 	self initializeUpdater.
 	
 	self initializeDescriptionElement.
-	self addChild: descriptionElement as: #description.
+	self addChild: descriptionElement as: #'gt-home--lepiter-db-desciption'.
 
 	self matchParent.
 	self padding: (BlInsets all: 10)
