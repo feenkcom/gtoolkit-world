@@ -51,7 +51,7 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> initializeDescriptionElement [
 	descriptionElement := BrEditor new
 			preventMeAndChildrenMouseEvents;
 			padding: (BlInsets all: 10);
-			aptitude: (BrGlamorousRegularEditorAptitude new foreground: Color black);
+			aptitude: BrGlamorousRegularEditorAptitude;
 			text: ''
 ]
 
@@ -150,7 +150,7 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> updateDescriptionElement [
 		ifFalse: [ 
 			descriptionElement text: self descriptionText.
 			descriptionElement aptitude
-				foreground: Color black. ]
+				foreground: self theme editor defaultTextForeground. ]
 		ifTrue: [ 
 			descriptionElement text: 'Reloading...'.
 			descriptionElement aptitude
