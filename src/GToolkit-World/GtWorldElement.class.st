@@ -68,7 +68,9 @@ GtWorldElement >> defaultHomeElement [
 { #category : #initialization }
 GtWorldElement >> initialize [ 
 	announcer := Announcer new.
-	super initialize
+	super initialize.
+	
+	self background: self theme default appBackground.
 ]
 
 { #category : #initialization }
