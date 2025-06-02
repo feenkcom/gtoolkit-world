@@ -12,7 +12,8 @@ BlSpace >> withScreenshotHandler [
 				name: 'Take screenshot';
 				repeatable: false;
 				combination: BlKeyCombination primaryShiftP;
-				action: [ self root dispatchEvent: GtTakePicture new ]).
+				action: [ :aShortcutEvent :aShortcut | 
+					aShortcutEvent currentTarget dispatchEvent: GtTakePicture new ]).
 	self root
 		when: GtTakePicture
 		do: [ :anEvent | 
@@ -20,7 +21,7 @@ BlSpace >> withScreenshotHandler [
 			anEvent consumed: true.
 			fileReference := BlExporter png
 					scaled: 2;
-					element: self root;
+					element: anEvent currentTarget;
 					export.
 			Clipboard clipboardText: fileReference fullName ]
 ]
