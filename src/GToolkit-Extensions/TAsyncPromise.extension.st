@@ -2,9 +2,9 @@ Extension { #name : #TAsyncPromise }
 
 { #category : #'*GToolkit-Extensions' }
 TAsyncPromise >> gtChainedPromises [
-	"Return a collection of promises that are next in the chain after this one"
-	<return: #Collection of: #TAsyncPromise>
+	"Return a collection of promises that depends on this promise"
 
+	<return: #Collection of: #TAsyncPromise>
 	^ #()
 ]
 
