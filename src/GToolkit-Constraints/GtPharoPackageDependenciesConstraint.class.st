@@ -24,7 +24,7 @@ GtPharoPackageDependenciesConstraint >> issues [
 	"returns the facts that contradict the constraint"
 	
 	^ Array streamContents: [ :aStream |
-		RPackage organizer packageNames do: [ :eachPackageName | aStream nextPutAll: (self packageIssuesOf: eachPackageName) ] ]
+		self packageOrganizer packageNames do: [ :eachPackageName | aStream nextPutAll: (self packageIssuesOf: eachPackageName) ] ]
 ]
 
 { #category : #accessing }
