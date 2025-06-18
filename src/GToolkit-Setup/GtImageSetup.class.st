@@ -267,7 +267,10 @@ GtImageSetup class >> recordSpaceTallyAtEnd [
 
 { #category : #actions }
 GtImageSetup class >> registerGTNamespace [
-	RBClassModelFactory setRBNamespace: GtRBNamespace
+	self 
+		forPharo12: [] 
+		forPharo11AndPharo10: [
+			RBClassModelFactory setRBNamespace: GtRBNamespace]
 ]
 
 { #category : #actions }
