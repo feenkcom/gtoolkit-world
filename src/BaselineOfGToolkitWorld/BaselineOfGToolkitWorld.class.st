@@ -16,10 +16,10 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				spec repository: 'github://feenkcom/gtoolkit-clipboard:v0.8.67/src' ].
 		spec
 			baseline: 'GToolkitDebugger' with: [
-				spec repository: 'github://feenkcom/gtoolkit-debugger:v0.8.2859/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-debugger:v0.8.2860/src' ].
 		spec
 			baseline: 'GToolkitFileBrowser' with: [
-				spec repository: 'github://feenkcom/gtoolkit-filebrowser:v0.6.2396/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-filebrowser:v0.6.2397/src' ].
 		spec
 			baseline: 'GToolkitReleaser' with: [
 				spec repository: 'github://feenkcom/gtoolkit-releaser:v0.8.289/src' ].
@@ -28,43 +28,43 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				spec repository: 'github://feenkcom/gtoolkit-constrainer:v0.8.19/src' ].
 		spec
 			baseline: 'GToolkit4Pharo' with: [
-				spec repository: 'github://feenkcom/gt4pharo:v0.6.2250/src' ].
+				spec repository: 'github://feenkcom/gt4pharo:v0.6.2251/src' ].
 		spec
 			baseline: 'GToolkit4XMLSupport' with: [
 				spec repository: 'github://feenkcom/gt4xmlsupport:v0.8.30/src' ].
 		spec
 			baseline: 'GToolkit4Changes' with: [
-				spec repository: 'github://feenkcom/gt4changes:v0.6.1183/src' ].
+				spec repository: 'github://feenkcom/gt4changes:v0.6.1184/src' ].
 		spec
 			baseline: 'GToolkit4Git' with: [
-				spec repository: 'github://feenkcom/gt4git:v0.8.1541/src' ].
+				spec repository: 'github://feenkcom/gt4git:v0.8.1542/src' ].
 		spec
 			baseline: 'GToolkit4GraphQL' with: [
-				spec repository: 'github://feenkcom/gt4graphql:v0.6.2137/src' ].
+				spec repository: 'github://feenkcom/gt4graphql:v0.6.2138/src' ].
 		spec
 			baseline: 'GToolkitCoder' with: [
-				spec repository: 'github://feenkcom/gtoolkit-coder:v0.8.2145/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-coder:v0.8.2146/src' ].
 		spec
 			baseline: 'GToolkitVisualizerPhlow' with: [
-				spec repository: 'github://feenkcom/gtoolkit-visualizer:v0.8.2367/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-visualizer:v0.8.2368/src' ].
 		spec
 			baseline: 'GToolkitPager' with: [
-				spec repository: 'github://feenkcom/gtoolkit-pager:v0.8.1732/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-pager:v0.8.1733/src' ].
 		spec
 			baseline: 'GToolkitSpotter' with: [
-				spec repository: 'github://feenkcom/gtoolkit-spotter:v0.8.1650/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-spotter:v0.8.1651/src' ].
 		spec
 			baseline: 'GToolkitNotifications' with: [
-				spec repository: 'github://feenkcom/gtoolkit-notifications:v0.6.1312/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-notifications:v0.6.1313/src' ].
 		spec
 			baseline: 'GToolkitNotificationsExamples' with: [
-				spec repository: 'github://feenkcom/gtoolkit-notifications:v0.6.1312/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-notifications:v0.6.1313/src' ].
 		spec
 			baseline: 'XdocClient' with: [
 				spec repository: 'github://feenkcom/xdoc:v0.8.847/src' ].
 		spec
 			baseline: 'LepiterEngine' with: [
-				spec repository: 'github://feenkcom/lepiter:v0.6.3117/src' ].
+				spec repository: 'github://feenkcom/lepiter:v0.6.3118/src' ].
 
 		spec package: 'GToolkit-Monitor' with: [
 			spec requires: #(#LepiterEngine #GToolkitVisualizerPhlow) ].
