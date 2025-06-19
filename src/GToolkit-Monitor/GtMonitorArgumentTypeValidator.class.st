@@ -92,7 +92,7 @@ GtMonitorArgumentTypeValidator >> validateArgument: anArgumentObject satisfies: 
 	
 	satisfies := [ aCondition isSymbol
 		ifTrue: [ anArgumentObject perform: aCondition ]
-		ifFalse: [ (self class evaluate: aCondition asString) value: anArgumentObject ] ]
+		ifFalse: [ (self class compiler evaluate: aCondition asString) value: anArgumentObject ] ]
 			on: Error
 			do: [ :anError | false ].
 		
