@@ -68,7 +68,9 @@ GtWorldElement >> defaultHomeElement [
 { #category : #initialization }
 GtWorldElement >> initialize [ 
 	announcer := Announcer new.
-	super initialize
+	super initialize.
+	
+	self background: self theme default appBackground.
 ]
 
 { #category : #initialization }
@@ -215,7 +217,8 @@ GtWorldElement >> newSubSpaceButton [
 		description: [ 'Sub-space dropdown is already created!' ].
 	subSpaceDropdown := BrButton new
 			aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude
-					+ (BrGlamorousWithExplicitDropdownAptitude
+					+ (BrGlamorousWithExplicitDropdownAptitude new 
+							withGainFocusOnShow;
 							handle: [ BrButton new
 									aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonWithLabelTooltipAptitude2
 											- BrGlamorousButtonExteriorAptitude;

@@ -60,7 +60,7 @@ GtHomeListItemElement >> newActOnButton [
 		icon: BrGlamorousVectorIcons accept;
 		label: 'Show page';
 		action: [ :aButton | 
-			BlSpace spawnPage: self item from: aButton ];
+			BlSpace spawnPage: self item page from: aButton ];
 		beTinySize;
 		yourself
 ]
@@ -76,5 +76,9 @@ GtHomeListItemElement >> newCandidateLabel [
 
 { #category : #accessing }
 GtHomeListItemElement >> onItemChanged [
-	label text: self item title
+	label text: self item page title.
+
+	self item isForPage
+		ifTrue: [ actOnButton visibility: BlVisibility visible ]
+		ifFalse: [ actOnButton visibility: BlVisibility gone ]
 ]

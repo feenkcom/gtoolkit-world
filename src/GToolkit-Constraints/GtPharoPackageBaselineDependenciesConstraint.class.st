@@ -19,7 +19,7 @@ GtPharoPackageBaselineDependenciesConstraint >> issues [
 	"returns the facts that contradict the constraint"
 	
 	^ Array streamContents: [ :aStream |
-		RPackage organizer packageNames do: [ :eachPackageName | aStream nextPutAll: (self packageIssuesOf: eachPackageName) ] ]
+		self packageOrganizer packageNames do: [ :eachPackageName | aStream nextPutAll: (self packageIssuesOf: eachPackageName) ] ]
 ]
 
 { #category : #accessing }
@@ -47,7 +47,7 @@ GtPharoPackageBaselineDependenciesConstraint >> packageIssuesOf: aPackageName [
 { #category : #accessing }
 GtPharoPackageBaselineDependenciesConstraint >> packagesToValidate [
 	^ (Array streamContents: [ :aStream |
-		RPackage organizer packageNames do: [ :eachPackageName |
+		self packageOrganizer packageNames do: [ :eachPackageName |
 			| eachPackage |
 	
 			eachPackage := eachPackageName asPackageIfAbsent: [

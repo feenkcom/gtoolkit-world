@@ -26,16 +26,17 @@ GtCreateStandaloneAppHowToGuide >> disableGtWorldShutdownHandler [
 { #category : #examples }
 GtCreateStandaloneAppHowToGuide >> helloWorldScene [
 	<gtExample>
+	<return: #BrVerticalPane>
 	| aContainer |
-	
 	aContainer := BrVerticalPane new
-		matchParent;
-		alignCenter.
-		
-	aContainer addChild: (BrLabel new
-		aptitude: (BrGlamorousLabelAptitude new fontSize: 30);
-		text: 'Hello world!').
-		
+			matchParent;
+			alignCenter.
+
+	aContainer
+		addChild: (BrLabel new
+				aptitude: (BrGlamorousLabelAptitude new fontSize: 30);
+				text: 'Hello world!').
+
 	^ aContainer
 ]
 

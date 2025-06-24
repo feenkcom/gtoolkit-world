@@ -253,7 +253,7 @@ GtWorld >> withWorldCloseEventHandler [
 	self addEventHandler: GtWorldCloseEventHandler new
 ]
 
-{ #category : #'*GToolkit-World' }
+{ #category : #initialization }
 GtWorld >> withWorldPreviewer [
 	worldElement
 		addShortcut: (BlShortcutWithAction new

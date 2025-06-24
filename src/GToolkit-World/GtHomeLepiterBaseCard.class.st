@@ -32,7 +32,7 @@ GtHomeLepiterBaseCard >> createContainer [
 	^ BrButton new
 		layout: BlLinearLayout horizontal;
 		exact: 500 @ 250;
-		background: Color white;
+		background: BlTheme default default contentBackground;
 		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude2 new;
 		label: self description;
 		padding: (BlInsets

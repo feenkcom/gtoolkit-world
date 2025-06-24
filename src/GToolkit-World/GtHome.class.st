@@ -91,7 +91,7 @@ GtHome >> homeSectionCollector [
 { #category : #initialization }
 GtHome >> initialize [
 	super initialize.
-	self background: self theme default backdropColor.
+	self background: self theme default backdropBackground.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.

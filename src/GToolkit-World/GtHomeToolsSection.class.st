@@ -51,7 +51,7 @@ GtHomeToolsSection >> create [
 		constraintsDo: [ :c |
 			c horizontal fitContent.
 			c vertical fitContent ];
-		background: Color white; 
+		background: BlTheme default default contentBackground; 
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		aptitude: (BrShadowAptitude new beLarge);
 		padding: (BlInsets top: 10 left: 0 bottom: 10 right: 0).

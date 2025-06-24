@@ -23,9 +23,12 @@ GtWorldPreviewer >> asElement [
 	container
 		addChild: (BrLabel new
 				text: 'Preview of all tabs and pager pages. Select to navigate.';
-				margin: (BlInsets top: 10 left: 20 bottom: 10 right: 10);
-				aptitude: (BrGlamorousLabelAptitude new
-						foreground: Color gray)).
+				margin: (BlInsets
+						top: 10
+						left: 20
+						bottom: 10
+						right: 10);
+				aptitude: (BrGlamorousLabelAptitude new foreground: Color gray)).
 	list := BrSimpleList vertical matchParent
 			itemStencil: [ BrVerticalPane new
 					margin: (BlInsets
@@ -38,10 +41,42 @@ GtWorldPreviewer >> asElement [
 			itemDataBinder: [ :anElement :aPreview :anIndex | 
 				anElement
 					removeChildren;
-					addChild: (BrLabel new
-							text: 'Tab: ', aPreview tabLabel;
-							margin: (BlInsets left: 10);
-							aptitude: (BrGlamorousLabelAptitude new foreground: Color gray));
+					addChild: (BrHorizontalPane new
+							fitContent;
+							alignCenter;
+							addChild: (BrLabel new
+									text: 'Tab: ' , aPreview tabLabel;
+									margin: (BlInsets left: 10);
+									aptitude: BrGlamorousLabelAptitude new);
+							addChild: (BrButton new
+									beTinySize;
+									margin: (BlInsets left: 10);
+									aptitude: BrGlamorousButtonWithLabelAptitude new;
+									label: 'Screenshot';
+									withAsyncFutureDo: [ :anElementFuture |
+										anElementFuture 
+											whenPending: [ :theButton | theButton disable ];
+											whenError: [ :theButton :anError | 
+												| aCopyError |
+												aCopyError := GtSystemUtility freeze: anError.
+												theButton 
+													enable; 
+													background: theButton theme status errorBackgroundColor;
+													action: [ :aButton | aButton phlow spawnObject: aCopyError ] ];
+											whenSuccess: [ :theButton :aData | theButton enable ] ];
+									action: [ :theButton |
+										| screenshot |
+										theButton asyncFuture future: [
+											screenshot := BrHorizontalPane new fitContent cellSpacing: 20; background: Color white.
+											aPreview pagerPagePreviews
+												do: [ :each | 
+													screenshot
+														addChild: ((each asElementScaled: 1)
+																margin: (BlInsets all: 20);
+																addAptitude: BrShadowAptitude new beLarge) ].
+											(BlScripter new
+												maxPulseElapsedTime: 30 seconds;
+												element: screenshot) element exportAsPNG ] ]));
 					addChild: aPreview asElement ];
 			items: self worldTabs.
 	container addChild: list.

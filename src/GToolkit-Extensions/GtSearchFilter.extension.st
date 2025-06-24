@@ -88,9 +88,10 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 	
 	^ aView columnedList
 		title: 'By Class';
-		priority: 43;
+		priority: 44;
 		items: [ 
-			(self result asyncSimilarCopy toArray wait 
+			((self & GtSearchImageMethodsFilter new) result 
+				asyncSimilarCopy toArray wait 
 				groupedBy: [ :aCompiledMethod | aCompiledMethod methodClass ])
 				associations sorted: [ :assoc | assoc key name ] ascending ];
 		column: 'Class' do: [ :aColumn |
@@ -118,7 +119,8 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 		title: 'By Package';
 		priority: 43;
 		items: [ 
-			(self result asyncSimilarCopy toArray wait 
+			((self & GtSearchImageMethodsFilter new) result 
+				asyncSimilarCopy toArray wait 
 				groupedBy: [ :aCompiledMethod | aCompiledMethod package ])
 				associations sorted: [ :assoc | 
 					assoc key 

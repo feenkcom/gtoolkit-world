@@ -7,14 +7,15 @@ Class {
 { #category : #example }
 GtHomeCardExamples >> errorCard [
 	<gtExample>
+	<return: #GtHomeErrorCard>
 	^ GtHomeCard errorCard
-		targetError: 
-			(Error new messageText: 'An error occurred!')
+		targetError: (Error new messageText: 'An error occurred!')
 ]
 
 { #category : #example }
 GtHomeCardExamples >> gtBookCard [
 	<gtExample>
+	<return: #GtHomePageCard>
 	^ GtHomeCard page
 		title: 'Glamorous Toolkit Book';
 		description: 'Read the Glamorous Toolkit book';
@@ -32,6 +33,7 @@ GtHomeCardExamples >> gtDemosDbName [
 { #category : #example }
 GtHomeCardExamples >> gtTourCard [
 	<gtExample>
+	<return: #GtJobHomeCard>
 	^ GtHomeCard job
 		title: 'GtTour';
 		description: 'Open the GtTour slideshow';
@@ -45,6 +47,7 @@ GtHomeCardExamples >> jobCard [
 	"If you click multiple times on the button, this will trigger a warning that a job is still running."
 
 	<gtExample>
+	<return: #GtJobHomeCard>
 	^ GtHomeCard job
 		title: 'Test job card';
 		description: 'Demo running a job from a card';
@@ -100,6 +103,7 @@ GtHomeCardExamples >> primaryDbTocCard [
 { #category : #accessing }
 GtHomeCardExamples >> registry [
 	<gtExample>
+	<return: #LeLogicalDatabase>
 	^ LeDatabasesRegistry uniqueInstance defaultLogicalDatabase
 ]
 

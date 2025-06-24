@@ -21,7 +21,7 @@ GtWorldPreviewerPagerPage >> asElementScaled: aScale [
 	
 	aPreviewElement := BrElementAsFormPreview
 		forElement: page widget
-		preferredScale: 0.3.
+		preferredScale: aScale.
 
 	^ aPreviewElement
 			aptitude: (BrStyleCommonAptitude new
@@ -51,6 +51,11 @@ GtWorldPreviewerPagerPage >> page [
 { #category : #accessing }
 GtWorldPreviewerPagerPage >> page: aPage [ 
 	page := aPage
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPage >> pageIndex [
+	^ pageIndex
 ]
 
 { #category : #accessing }

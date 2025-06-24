@@ -31,14 +31,16 @@ GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 				bottom: 3
 				left: 3);
 		nodeStencil: [ GtHomeListItemElement new ];
-		nodeDataBinder: [ :aLabel :aNode | aLabel item: aNode page ];
+		nodeDataBinder: [ :aLabel :aNode | aLabel item: aNode ];
 		when: BrSelectionDoubleClicked
 			do: [ :e | 
 				e selection
 					ifNotEmpty: [ :theIndices | 
 						| selectedObject |
 						selectedObject := e currentTarget viewModel itemAt: theIndices first.
-						self spawnPage: selectedObject value page from: e currentTarget ] ].
+
+						selectedObject value isForPage
+							ifTrue: [ self spawnPage: selectedObject value page from: e currentTarget ] ] ].
 
 	^ treeElement
 ]

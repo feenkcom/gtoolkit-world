@@ -72,7 +72,7 @@ Rectangle >> gtOverview [
 			name: 'Is zero';
 			value: self isZero.
 		GtPhlowOverviewItem new
-			name: 'Is intereger rectangle';
+			name: 'Is integer rectangle';
 			boolean: self isIntegerRectangle.
 		GtPhlowOverviewItem new
 			name: 'Corners';
