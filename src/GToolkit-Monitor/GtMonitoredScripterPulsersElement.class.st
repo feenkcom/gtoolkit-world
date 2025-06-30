@@ -12,7 +12,8 @@ GtMonitoredScripterPulsersElement class >> allScripterExamples [
 	^ GtExampleWithResult allSubInstances
 		select: [ :anExampleWithResult | 
 			anExampleWithResult isSuccess
-				and: [ anExampleWithResult result returnValue isKindOf: BlScripter ] ]
+				and: [ (anExampleWithResult result returnValue class == ProtoObject) not
+						and: [ anExampleWithResult result returnValue isKindOf: BlScripter ] ] ]
 ]
 
 { #category : #accessing }
