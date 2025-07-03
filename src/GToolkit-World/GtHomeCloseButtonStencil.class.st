@@ -20,7 +20,7 @@ GtHomeCloseButtonStencil >> closeAction: aBlock [
 { #category : #accessing }
 GtHomeCloseButtonStencil >> create [
 	^ GtInspectorRoundButtonStencil normal asElement
-		icon: GtInspectorPlusIconStencil close asElement;
+		icon: BrPlusIconStencil close asElement;
 		constraintsDo: [ :c | 
 			c ignoreByLayout.
 			c
