@@ -34,7 +34,7 @@ GtDependencyAnalyzerForPackage class >> baselinesForPackage: aPackageOrName [
 
 { #category : #dependencies }
 GtDependencyAnalyzerForPackage class >> packageDependenciesOf: aPackage [
-	<return: #Set of: #RPackage>
+	<return: #Set of: #Package>
 
 	^ aPackage gtDependencies collect: [ :each | each toPackage ]
 ]
