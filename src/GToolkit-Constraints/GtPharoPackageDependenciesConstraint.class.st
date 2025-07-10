@@ -146,7 +146,7 @@ GtPharoPackageDependenciesConstraint >> packageIssuesOf: aPackageName [
 
 { #category : #'private - dependencies' }
 GtPharoPackageDependenciesConstraint >> packageNameToPackage: aPackageName issues: aCollectionOfIssues forPackage: aPackage [
-	<return: #Collection of: #RPackage>
+	<return: #Collection of: #Package>
 
 	^ aPackageName asPackageIfAbsent: [
 		aCollectionOfIssues add: ('Package named {1} referenced by metadata of {2} does not exist' format: { aPackageName asString printString. aPackage name printString } ).
@@ -155,7 +155,7 @@ GtPharoPackageDependenciesConstraint >> packageNameToPackage: aPackageName issue
 
 { #category : #'private - dependencies' }
 GtPharoPackageDependenciesConstraint >> packageNamesToPackages: aCollectionOfPackageNames issues: aCollectionOfIssues forPackage: aPackage [
-	<return: #Collection of: #RPackage>
+	<return: #Collection of: #Package>
 	| theDeclaredDependentPackages |
 
 	theDeclaredDependentPackages := OrderedCollection new.
