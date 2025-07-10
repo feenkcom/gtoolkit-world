@@ -335,7 +335,7 @@ GtDependencyAnalyzerForPackageFromBaseline >> name [
 
 { #category : #accessing }
 GtDependencyAnalyzerForPackageFromBaseline >> package [
-	<return: #RPackage>
+	<return: #Package>
 
 	^ packageAnalyzer package
 ]
