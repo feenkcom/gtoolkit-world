@@ -28,7 +28,8 @@ GtDependencyAnalyzerForBaselineOfProject >> directlyDefinedPackagesWithContext: 
 		visitBaseline: self
 		during: [
 			(self baselineOfProject loadPackageList
-				select: [  :aPackageName | RPackageOrganizer default includesPackageNamed: aPackageName ]
+				select: [  :aPackageName | 
+					self packageOrganizer includesPackageNamed: aPackageName ]
 				thenCollect: [ :aPackageName |
 					aGtDependencyAnalyzerContext
 						package: aPackageName
