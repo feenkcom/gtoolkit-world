@@ -51,7 +51,8 @@ GtDependencyAnalyzerForBaseline >> directlyDefinedPackagesWithContext: aGtDepend
 					anError return: #() ].
 		
 			(somePackages
-				select: [  :eachPackageSpec | RPackageOrganizer default includesPackageNamed: eachPackageSpec name ]
+				select: [  :eachPackageSpec | 
+					self packageOrganizer includesPackageNamed: eachPackageSpec name ]
 				thenCollect: [ :eachPackageSpec |
 					aGtDependencyAnalyzerContext
 						package: eachPackageSpec name

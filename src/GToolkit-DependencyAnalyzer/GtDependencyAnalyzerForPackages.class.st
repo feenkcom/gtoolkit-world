@@ -16,7 +16,7 @@ GtDependencyAnalyzerForPackages class >> prefixed: aPrefixStringOrArray [
 		ifTrue: [ { aPrefixStringOrArray } ]
 		ifFalse: [ aPrefixStringOrArray ].
 
-	^ self new packages: (RPackageOrganizer default packages select: [ :eachPackage | thePrefixes anySatisfy: [ :eachPrefix | eachPackage name beginsWith: eachPrefix ] ])
+	^ self new packages: (self packageOrganizer packages select: [ :eachPackage | thePrefixes anySatisfy: [ :eachPrefix | eachPackage name beginsWith: eachPrefix ] ])
 ]
 
 { #category : #'gt-extensions' }
