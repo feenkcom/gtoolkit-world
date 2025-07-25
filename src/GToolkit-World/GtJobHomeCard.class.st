@@ -27,6 +27,8 @@ GtJobHomeCard >> block: anObject [
 
 { #category : #running }
 GtJobHomeCard >> defaultAction [
+	"Something is wrong here -- a mutex critical: within a mutex critical: makes no sense."
+
 	^ [ :aButton :aModel :anEvent | 
 	mutex
 		critical: [ process
