@@ -4,9 +4,11 @@ Extension { #name : #BrMenuExplicitHandle }
 BrMenuExplicitHandle >> gtSourceCodeFor: aView [
 	<gtView>
 	(handleStencil respondsTo: #gtSourceCodeFor:) ifFalse: [ ^ aView empty ].
-	
+
 	^ aView forward
 		title: 'Source code';
-		object: [ handleStencil ];
+		object: [ (submenuStencil respondsTo: #gtSourceCodeFor:)
+				ifTrue: [ submenuStencil ]
+				ifFalse: [ handleStencil ] ];
 		view: #gtSourceCodeFor:
 ]
