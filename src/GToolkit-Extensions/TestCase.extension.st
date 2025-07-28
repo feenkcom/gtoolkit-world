@@ -43,10 +43,12 @@ TestCase class >> gtTestsFor: aView [
 	aTestSuiteViewModel := GtPharoTestSuiteViewModel new.
 	aTestSuiteViewModel
 		pharoTestSuite: aSuiteModel;
-		when: GtPharoSuiteSelectedStateChanged do: [ :anEvent | 
-			aMethodsCoder additionalFilters: (GtPharoTestCaseStateFilter new
+		when: GtPharoSuiteSelectedStateChanged 
+			do: [ :anEvent | 
+				aMethodsCoder additionalFilters: (GtPharoTestCaseStateFilter new
 						 resultState: anEvent state;
-						 pharoTestSuite: aSuiteModel) ].
+						 pharoTestSuite: aSuiteModel) ]
+			for: self.
 
 	^ aView explicit
 		  title: 'Tests';
