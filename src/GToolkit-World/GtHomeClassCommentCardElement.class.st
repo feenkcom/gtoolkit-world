@@ -18,7 +18,7 @@ Class {
 { #category : #'private - accessing' }
 GtHomeClassCommentCardElement >> description [
 	| aComment aDescription reachedSecondLine |
-	aComment := self documentClass organization classComment.
+	aComment := self documentClassComment.
 	reachedSecondLine := false.
 	aDescription := String 
 		streamContents: [ :aStream |
@@ -41,6 +41,17 @@ GtHomeClassCommentCardElement >> documentClass: aClass [
 	self document: aClass instanceSide.
 ]
 
+{ #category : #'private - accessing' }
+GtHomeClassCommentCardElement >> documentClassComment [
+	| targetClass |
+	targetClass := self documentClass.
+	^ self 
+		forPharo12: [
+			targetClass comment ] 
+		forPharo11AndPharo10: [ 
+			targetClass organization classComment ].
+]
+
 { #category : #'private - hooks' }
 GtHomeClassCommentCardElement >> onDocumentChanged [
 	self updateElement.
@@ -49,7 +60,7 @@ GtHomeClassCommentCardElement >> onDocumentChanged [
 { #category : #'private - accessing' }
 GtHomeClassCommentCardElement >> title [
 	| aComment aTitle |
-	aComment := self documentClass organization classComment.
+	aComment := self documentClassComment.
 	aTitle := self titleWithoutHeadingsFrom: aComment.
 	aTitle ifEmpty: [ ^ self documentClass name ].
 	^ aTitle
