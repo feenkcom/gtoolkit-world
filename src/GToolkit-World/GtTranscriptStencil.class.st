@@ -11,7 +11,7 @@ GtTranscriptStencil >> asPreviewElement [
 
 { #category : #'api - instantiation' }
 GtTranscriptStencil >> create [
-	^ (GtPager createWrappedOn: GtTranscript default) maximized.
+	^ (GtPagerSettings usedPager createWrappedOn: GtTranscript default) maximized.
 ]
 
 { #category : #accessing }

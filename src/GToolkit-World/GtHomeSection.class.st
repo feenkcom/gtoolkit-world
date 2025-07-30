@@ -126,15 +126,13 @@ GtHomeSection >> newDocCardForClass: aClass [
 		newHeaderCardWithTitle: 'Doc'
 		description: aClass name
 		size: 150 @ 200
-		content:
-			((GtHomeDocumentCardElement forClass: aClass) matchParent)
+		content: (GtHomeDocumentCardElement forClass: aClass) matchParent
 		action: [ :card | 
 			self
 				showSpaceWithIcon: BrGlamorousIcons file
 				title: aClass name
-				with: (GtPager createWrappedOn: (
-					(LeCoderCommentElement coderElementFor: aClass name) 
-						withDefaultToolbar))
+				with: (GtPagerSettings usedPager
+						createWrappedOn: (LeCoderCommentElement coderElementFor: aClass name))
 				from: card ]
 ]
 
@@ -206,18 +204,16 @@ GtHomeSection >> newInspectorCardForObject: anObject [
 		newHeaderCardWithTitle: 'Inspector'
 		description: anObject gtDisplayString
 		size: 200 @ 150
-		content:
-			(((GtInspector newOn: anObject)
-				constraintsDo: [ :c |
+		content: (((GtInspector newOn: anObject)
+				constraintsDo: [ :c | 
 					c horizontal exact: 400.
 					c vertical exact: 300 ];
-				asScalableElement)
-					margin: (BlInsets top: 5))
+				asScalableElement) margin: (BlInsets top: 5))
 		action: [ :card | 
 			self
 				showSpaceWithTitle: anObject gtDisplayString
-				with: (GtPager createWrappedOn: (
-					GtInspector newOn: anObject))
+				with: (GtPagerSettings usedPager
+						createWrappedOn: (GtInspectorTool forObject: anObject))
 				from: card ]
 ]
 
