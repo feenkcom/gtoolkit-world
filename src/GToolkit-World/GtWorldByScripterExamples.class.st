@@ -252,6 +252,15 @@ GtWorldByScripterExamples >> addLepiterPageHavingThisSnippetPharoSnippet_inspect
 		// BrButton;
 		@ [ :eachButton | eachButton label asString includesSubstring: 'did not understand' ];
 		play.
+		
+	aScripter assert
+		label: 'Assert there are two panes with "Pane one" editor';
+		exists;
+		// (GtPagerPageElementId indexed: 2);
+		// LePageEditableTitleElement;
+		/ #title;
+		@ [ :eachEditor | eachEditor text asString = 'Page one' ];
+		play.
 
 	^ aScripter
 ]
