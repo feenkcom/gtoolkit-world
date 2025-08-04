@@ -219,6 +219,44 @@ GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClas
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingThisSnippetPharoSnippet [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter aPageHolder |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new pageOneWithThisSnippetPharoSnippet.
+	aScripter model: aPageHolder.
+
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingThisSnippetPharoSnippet_inspectThisSnippet [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self addLepiterPageHavingThisSnippetPharoSnippet.
+
+	aScripter click
+		// GtSourceCoderDoItAndGoActionId;
+		play.
+
+	aScripter assert
+		label: 'Assert there is not a "did not understand" button';
+		notExists;
+		// BrButton;
+		@ [ :eachButton | eachButton label asString includesSubstring: 'did not understand' ];
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet [
 	<gtExample>
 	<return: #BlScripter>
