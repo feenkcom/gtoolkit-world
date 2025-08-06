@@ -2052,6 +2052,57 @@ GtWorldByScripterExamples >> nonExistentClass [
 	^ self class environment classNamed: LeModelExamples new nonExistentClassName
 ]
 
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> openWorldMenu [
+	<gtExample>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+	aScripter
+		substep: 'Open world menu dropdown'
+		do: [ :aStep | 
+			aStep click
+				label: 'Click on menu button';
+				id: GtWorldMenuElementId;
+				play.
+
+			aStep menuStep
+				assertMenuContainerExist;
+				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> openWorldMenuTranscript [
+	<gtExample>
+	| aScripter |
+	aScripter := self openWorldMenu.
+	aScripter
+		substep: 'Open transcript tool'
+		do: [ :aStep | 
+			aStep assert
+				label: 'Assert one world tab';
+				value: [ :anElement | anElement tabs tabs size ] equals: 1;
+				play.
+
+			aStep click
+				label: 'Click on transcript button';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtWorldMenuTranscriptElementId;
+				play.
+
+			aStep menuStep
+				assertClosedMenuContainer;
+				play.
+			aStep assert
+				label: 'Assert two world tabs';
+				value: [ :anElement | anElement tabs tabs size ] equals: 2;
+				play ].
+
+	^ aScripter
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> paneModelKeyAt: aPaneIndex [
 	^ 'paneModelAt', aPaneIndex asString

@@ -216,22 +216,23 @@ GtWorldElement >> newSubSpaceButton [
 		assert: [ subSpaceDropdown isNil ]
 		description: [ 'Sub-space dropdown is already created!' ].
 	subSpaceDropdown := BrButton new
+			id: GtWorldMenuElementId;
 			aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude
-					+ (BrGlamorousWithExplicitDropdownAptitude new 
+					+ (BrGlamorousWithExplicitDropdownAptitude new
 							withGainFocusOnShow;
 							handle: [ BrButton new
-									aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonWithLabelTooltipAptitude2
-											- BrGlamorousButtonExteriorAptitude;
-									icon: BrGlamorousIcons hamburger;
-									label: 'Menu';
-									yourself ]
-							content: [ BrScrollPane new
-									aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
-									hExact: 420;
-									vMatchParent;
-									content: (GtToolsMenu new
-											knowledgeBase: self knowledgeBase;
-											yourself) ]);
+										aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonWithLabelTooltipAptitude2
+												- BrGlamorousButtonExteriorAptitude;
+										icon: BrGlamorousIcons hamburger;
+										label: 'Menu';
+										yourself ]
+								content: [ BrScrollPane new
+										aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
+										hExact: 420;
+										vMatchParent;
+										content: (GtToolsMenu new
+												knowledgeBase: self knowledgeBase;
+												yourself) ]);
 			icon: BrGlamorousIcons hamburger;
 			label: 'Menu';
 			yourself.

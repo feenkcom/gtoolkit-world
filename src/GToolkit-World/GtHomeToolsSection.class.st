@@ -255,10 +255,10 @@ GtHomeToolsSection >> newPlaygroundButtonStencil [
 { #category : #'tools creation' }
 GtHomeToolsSection >> newTranscriptButtonStencil [
 	<gtToolButton>
-
-	^ GtToolButtonStencil new 
+	^ GtToolButtonStencil new
 		title: 'Transcript';
 		priority: 50;
+		elementId: GtWorldMenuTranscriptElementId;
 		icon: BrGlamorousVectorIcons largeTranscript;
 		action: [ :card | 
 			self
