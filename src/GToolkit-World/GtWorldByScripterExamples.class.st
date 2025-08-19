@@ -1204,8 +1204,13 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 
 	<gtExample>
 	<return: #BlScripter>
-	| aScripter |
+	| aScripter aDefiningMethod |
 	aScripter := self selectClassInSecondPane.
+
+
+	"The extension was removed. See https://github.com/feenkcom/gtoolkit/issues/4653"
+	aDefiningMethod := Behavior >> #gtHierarchyButtonFor:.
+	(aDefiningMethod hasPragmaNamed: #gtClassAction) ifFalse: [ ^ aScripter ].
 
 	aScripter do
 		label: 'Set space extent';
@@ -1226,6 +1231,8 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 				id: GtPagerPageElementId index: 2;
 				id: GtCoderClassHierarchyButtonId ]
 		ensure: [ :anInitialValue | GtPharoCoderHierarchyDropdownConfiguration preferredExtent: anInitialValue ].
+
+
 
 	aScripter
 		checkStep: [ :s | 
@@ -1261,8 +1268,12 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 
 	<gtExample>
 	<return: #BlScripter>
-	| aScripter aSelectedClass aNewSelectedClass |
+	| aScripter aSelectedClass aNewSelectedClass aDefiningMethod |
 	aScripter := self displayClassHierarchyDropdownInSecondPane.
+	
+	"The extension was removed. See https://github.com/feenkcom/gtoolkit/issues/4653"
+	aDefiningMethod := Behavior >> #gtHierarchyButtonFor:.
+	(aDefiningMethod hasPragmaNamed: #gtClassAction) ifFalse: [ ^ aScripter ].
 
 	aSelectedClass := nil.
 	aNewSelectedClass := nil.
@@ -1317,8 +1328,12 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 
 	<gtExample>
 	<return: #BlScripter>
-	| aScripter |
+	| aScripter aDefiningMethod |
 	aScripter := self displayClassHierarchyDropdownInSecondPane_SelectAnotherClass.
+	
+	"The extension was removed. See https://github.com/feenkcom/gtoolkit/issues/4653"
+	aDefiningMethod := Behavior >> #gtHierarchyButtonFor:.
+	(aDefiningMethod hasPragmaNamed: #gtClassAction) ifFalse: [ ^ aScripter ].
 
 	aScripter
 		clickStep: [ :s | 
