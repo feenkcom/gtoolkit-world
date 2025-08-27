@@ -2,11 +2,13 @@ Extension { #name : #BlSpace }
 
 { #category : #'*GToolkit-SceneDriller' }
 BlSpace >> withSceneDriller [
+	<spaceCommonSettings>
 	self root addEventFilter: GtSceneDrillerEventHandler new
 ]
 
 { #category : #'*GToolkit-SceneDriller' }
 BlSpace >> withScreenshotHandler [
+	<spaceCommonSettings>
 	self root
 		addShortcut: (BlShortcutWithAction new
 				name: 'Take screenshot';
