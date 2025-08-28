@@ -176,9 +176,8 @@ GtWorld >> initialize [
 			c horizontal matchParent ].
 	self root addChild: worldElement.
 
-	self withSceneDriller.
+	self withCommonSettings.
 	self withWorldPreviewer.
-	self withScreenshotHandler.
 	self withGlamorousFullscreenMaxizimerHost.
 	self withWorldCloseEventHandler
 ]
