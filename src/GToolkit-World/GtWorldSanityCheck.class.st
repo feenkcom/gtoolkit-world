@@ -67,11 +67,20 @@ GtWorldSanityCheck >> checkImage [
 GtWorldSanityCheck >> runChecks [
 	| image gtw screenshot |
 
+	self waitForWorldToInitialize.
+	
 	gtw := GtWorld allInstances anyOne.
 	self assert: gtw isOpened.
+	
 	screenshot := gtw root exportAsPNG.
 	self assert: screenshot exists.
 	image := ImageReadWriter gtFormFromFileReference:  screenshot.
 	self assert: (image width between: 600 and: 2000).
 	self assert: (image height between: 400 and: 2000).
+]
+
+{ #category : #utils }
+GtWorldSanityCheck >> waitForWorldToInitialize [
+	"For now we use a fix delay"
+	15 seconds wait.
 ]
