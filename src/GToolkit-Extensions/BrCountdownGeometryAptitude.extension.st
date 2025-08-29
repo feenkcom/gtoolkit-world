@@ -19,7 +19,10 @@ BrCountdownGeometryAptitude >> gtOverview [
 			value: finishedAction.
 		GtPhlowOverviewItem new
 			name: 'Widget';
-			value: widget}
+			value: widget.
+		GtPhlowOverviewItem new
+			name: 'Widget space';
+			value: widgetSpace}
 ]
 
 { #category : #'*GToolkit-Extensions' }
