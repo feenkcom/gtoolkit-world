@@ -28,7 +28,7 @@ GtWorldSanityCheck class >> checkImage: aFileReference [
 		command: vm fullName
 		arguments: arguments.
 	proc runAndSignal.
-	timedOut := proc waitTimeoutMSecs: 5 * 60 * 1000.
+	timedOut := proc waitTimeoutMilliseconds: 5 * 60 * 1000.
 	timedOut ifTrue:
 		[ self error: 'Check image process didn''t complete in time' ].
 	proc isSuccess ifFalse:
