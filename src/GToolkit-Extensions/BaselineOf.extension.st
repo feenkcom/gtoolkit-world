@@ -21,7 +21,7 @@ BaselineOf class >> gtDependencyAnalyzerFor: aView [
 	
 	| anAnalyzer |
 	^ aView explicit
-		title: 'Dependency Analysis';
+		title: 'Dependency analysis';
 		priority: 41;
 		stencil: [ 
 			| anObjectHolder |
