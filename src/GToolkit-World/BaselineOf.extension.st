@@ -15,3 +15,10 @@ BaselineOf class >> gtDependenciesGraphFor: aView [
 					withRepositoryDescription: 'unknown'.
 			rootProject paintProjectDependenciesWith: mondrian ]
 ]
+
+{ #category : #'*GToolkit-World' }
+BaselineOf class >> withAllContainedProjects [
+	^ (GtRlDependenciesModelBuilder new
+		buildProjectFromBaselineClass: self
+		withRepositoryDescription: '') withAllChildProjects
+]

@@ -6,12 +6,10 @@ BaselineOfGToolkit class >> gtDependenciesGraphFor: aView [
 		title: 'GT dependencies';
 		priority: 10;
 		painting: [ :mondrian | 
-			| repo builder rootProject projectPrefixes |
-			repo := 'github://feenkcom/gtoolkit:main/src'.
-			builder := GtRlDependenciesModelBuilder new.
-			rootProject := builder
+			| rootProject projectPrefixes |
+			rootProject := GtRlDependenciesModelBuilder new
 					buildProjectFromBaselineClass: BaselineOfGToolkit
-					withRepositoryDescription: repo.
+					withRepositoryDescription: 'github://feenkcom/gtoolkit:main/src'.
 			projectPrefixes := {'GToolkit'.
 					'Gt'.
 					'Xdoc'.
@@ -23,9 +21,17 @@ BaselineOfGToolkit class >> gtDependenciesGraphFor: aView [
 			rootProject
 				paintProjectDependenciesSelectingRelationsThat: [ :a :b | projectPrefixes anySatisfy: [ :prefix | a name beginsWith: prefix ] ]
 				labelledAs: [ :aProject | 
-					aProject name asRopedText
+					(aProject name copyReplaceAll: 'GToolkit' with: 'GT ') asRopedText
 						foreground: ((projectPrefixes anySatisfy: [ :prefix | aProject name beginsWith: prefix ])
 								ifTrue: [ BrGlamorousColors linkColor ]
 								ifFalse: [ Color gray ]) ]
 				with: mondrian ]
+]
+
+{ #category : #'*GToolkit-World' }
+BaselineOfGToolkit class >> withAllContainedProjects [
+	<gtExample>
+	^ (GtRlDependenciesModelBuilder new
+		buildProjectFromBaselineClass: BaselineOfGToolkit
+		withRepositoryDescription: 'github://feenkcom/gtoolkit:main/src') withAllChildProjects	"(self project version withDeepCollect: [ :each | each projects collect: #version ] as: Set) sorted: [ :a :b | a name < b name ]"
 ]
