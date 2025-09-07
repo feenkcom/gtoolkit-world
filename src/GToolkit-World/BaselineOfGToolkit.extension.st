@@ -24,7 +24,7 @@ BaselineOfGToolkit class >> gtDependenciesGraphFor: aView [
 				paintProjectDependenciesSelectingRelationsThat: [ :a :b | projectPrefixes anySatisfy: [ :prefix | a name beginsWith: prefix ] ]
 				labelledAs: [ :aProject | 
 					aProject name asRopedText
-						foreground: ((projectPrefixes anySatisfy: [ :prefix | aProject beginsWith: prefix ])
+						foreground: ((projectPrefixes anySatisfy: [ :prefix | aProject name beginsWith: prefix ])
 								ifTrue: [ BrGlamorousColors linkColor ]
 								ifFalse: [ Color gray ]) ]
 				with: mondrian ]
