@@ -2609,9 +2609,9 @@ GtWorldByScripterExamples >> semanticErrorScriptInTheSecondLepiterPagePane [
 						// GtSourceCoderDoItAndGoActionId ].
 
 			self 
-				forPharo12: [
+				forPharo12AndNewer: [
 					self assertNoSemanticErrorAndThreePanesForPharo12In: aStep] 
-				forPharo11AndPharo10: [
+				forPharo11: [
 					self assertSemanticErrorInSecondPaneForPharo11In: aStep] ].
 
 	^ aScripter

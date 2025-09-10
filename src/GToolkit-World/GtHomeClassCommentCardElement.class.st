@@ -46,9 +46,9 @@ GtHomeClassCommentCardElement >> documentClassComment [
 	| targetClass |
 	targetClass := self documentClass.
 	^ self 
-		forPharo12: [
+		forPharo12AndNewer: [
 			targetClass comment ] 
-		forPharo11AndPharo10: [ 
+		forPharo11: [ 
 			targetClass organization classComment ].
 ]
 
