@@ -13,7 +13,7 @@ IceLogVersion >> gtViewTwoPanesDiffFor: aView [
 			
 			aLocalSource := String streamContents: [ :stream | 
 		stream 
-				<< '"protocol: ' << aCompiledMethod protocol << '"'; cr;
+				<< '"protocol: ' << aCompiledMethod protocolName << '"'; cr;
 				<< aCompiledMethod sourceCode ].
 		
 		
