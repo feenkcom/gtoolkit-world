@@ -77,7 +77,8 @@ GtImageSetup class >> copyDataAndDocsFolders [
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit' / 'lepiter');
 		add: (gtoolkitRepoFolders asFileReference / 'lepiter' / 'test-data');
 		add: (gtoolkitRepoFolders asFileReference / 'JSLink' / 'js');
-		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests').
+		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests');
+		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-roadmaps' / 'gtbook-examples').
 
 	self copyDocFolders: docFolders.
 
