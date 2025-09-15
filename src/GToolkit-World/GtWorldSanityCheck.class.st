@@ -7,36 +7,23 @@ Class {
 { #category : #accessing }
 GtWorldSanityCheck class >> checkImage: aFileReference [
 	"Run the receiver in the supplied image using the current VM."
-	| vm arguments proc timedOut pharoDebug |
+	| proc timedOut pharoDebug |
 
 	pharoDebug := Smalltalk logFileName asFileReference.
 	self assert: pharoDebug exists not.
-	vm := LanguageLinkSettings pharoDefaultSettings serverExecutable.
-	arguments := {
-		'--interactive'.
-		aFileReference fullName.
-		'clap'.
-		'eval'.
-		self name asString.
-		'new'.
-		'checkImage'.
-		'--'.
-		'--detachChangesFromFileSystem'.
-		'--epiceaMemoryStore'.
-		'--noLepiterReload'.
-		'--noGtImageUpdate'.
-		}.
-	proc := GtSubprocessWithInMemoryOutput
-		command: vm fullName
-		arguments: arguments.
+	
+	proc := self createCheckProcessForImageFile: aFileReference.
 	proc runAndSignal.
+	
 	timedOut := proc waitTimeoutMilliseconds: 5 * 60 * 1000.
 	timedOut ifTrue:
 		[ self error: 'Check image process didn''t complete in time' ].
+	
 	proc isSuccess ifFalse:
 		[ self error: 'Check image process didn''t succeed' ].
 	(proc stdout includesSubstring: 'GtWorldSanityCheck pass') ifFalse:
 		[ self error: 'Check image process didn''t pass' ].
+		
 	pharoDebug exists ifTrue:
 		[ self error: 'PharoDebug log file present after running checks' ].
 ]
@@ -47,6 +34,27 @@ GtWorldSanityCheck class >> checkOnDiskImage [
 	The image must be able to be run interactively."
 
 	self checkImage: Smalltalk imageFile resolve
+]
+
+{ #category : #accessing }
+GtWorldSanityCheck class >> createCheckProcessForImageFile: aFileReference [
+	| vm arguments |
+	vm := LanguageLinkSettings pharoDefaultSettings serverExecutable.
+	arguments := {'--interactive'.
+			aFileReference fullName.
+			'clap'.
+			'eval'.
+			self name asString.
+			'new'.
+			'checkImage'.
+			'--'.
+			'--detachChangesFromFileSystem'.
+			'--epiceaMemoryStore'.
+			'--noLepiterReload'.
+			'--noGtImageUpdate'}.
+	^ GtSubprocessWithInMemoryOutput
+			command: vm fullName
+			arguments: arguments
 ]
 
 { #category : #checking }
@@ -67,18 +75,33 @@ GtWorldSanityCheck >> checkImage [
 
 { #category : #checking }
 GtWorldSanityCheck >> runChecks [
-	| image gtw screenshot |
+	| gtWorld |
 
 	self waitForWorldToInitialize.
 	
-	gtw := GtWorld allInstances anyOne.
-	self assert: gtw isOpened.
+	gtWorld := GtWorld allInstances anyOne.
+	self assert: gtWorld isOpened.
 	
-	screenshot := gtw root exportAsPNG.
+	self runChecksForWorld: gtWorld.
+]
+
+{ #category : #checking }
+GtWorldSanityCheck >> runChecksForWorld: aGtWorld [
+	self runScreenshotChecksForWorld: aGtWorld.
+]
+
+{ #category : #checking }
+GtWorldSanityCheck >> runScreenshotChecksForWorld: aGtWorld [
+	| image screenshot |
+	
+	screenshot := aGtWorld root exportAsPNG.
 	self assert: screenshot exists.
+	
 	image := ImageReadWriter gtFormFromFileReference:  screenshot.
 	self assert: (image width between: 600 and: 2000).
 	self assert: (image height between: 400 and: 2000).
+	
+	^ screenshot
 ]
 
 { #category : #utils }
