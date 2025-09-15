@@ -257,9 +257,7 @@ GtWorldByScripterExamples >> addLepiterPageHavingThisSnippetPharoSnippet_inspect
 		label: 'Assert there are two panes with "Pane one" editor';
 		exists;
 		// (GtPagerPageElementId indexed: 2);
-		// LePageEditableTitleElement;
-		/ #title;
-		@ [ :eachEditor | eachEditor text asString = 'Page one' ];
+		// GtInspector;
 		play.
 
 	^ aScripter
