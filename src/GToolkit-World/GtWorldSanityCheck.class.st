@@ -15,10 +15,12 @@ GtWorldSanityCheck class >> checkImage: aFileReference [
 	arguments := {
 		'--interactive'.
 		aFileReference fullName.
+		'clap'.
 		'eval'.
 		self name asString.
 		'new'.
 		'checkImage'.
+		'--'.
 		'--detachChangesFromFileSystem'.
 		'--epiceaMemoryStore'.
 		'--noLepiterReload'.
