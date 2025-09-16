@@ -109,6 +109,41 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtItemsByMethodFor: aView [
+	<gtView>
+	<gtToolView>
+	
+	self gtAreAllGtSearchMethodsFilterKind ifFalse: [^aView empty].
+	
+	^(aView columnedList)
+		title: 'By Method';
+		priority: 45;
+		withMultipleSelection;
+		items: [
+			self result asyncSimilarCopy toArray wait
+				sorted: [:assoc | assoc selector] ascending];
+		column: 'Method'
+			do: [:aColumn |
+				aColumn
+					cellStencil: [GtPhlowLabelWithIcon new];
+					dataBinder: [:anElement :aMethod |
+						anElement updateForMethod: aMethod ] ];
+		send: [:oneOrMoreMethods :selectionIndexes |
+			selectionIndexes size = 1
+				ifTrue: [
+					oneOrMoreMethods methodReference
+						gtHighlighter: self highlighter;
+						yourself ]
+				ifFalse: [
+					(GtRGMethodDefinitionWithComparisonGroup 
+						withAll: (oneOrMoreMethods collect: [ :aMethod |
+								aMethod methodReference
+									gtHighlighter: self highlighter;
+									yourself ]))
+							highlighter: self highlighter ] ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 GtSearchFilter >> gtItemsByPackageFor: aView [
 	<gtView>
 	<gtToolView>
