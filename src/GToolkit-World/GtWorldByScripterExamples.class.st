@@ -257,9 +257,7 @@ GtWorldByScripterExamples >> addLepiterPageHavingThisSnippetPharoSnippet_inspect
 		label: 'Assert there are two panes with "Pane one" editor';
 		exists;
 		// (GtPagerPageElementId indexed: 2);
-		// LePageEditableTitleElement;
-		/ #title;
-		@ [ :eachEditor | eachEditor text asString = 'Page one' ];
+		// GtInspector;
 		play.
 
 	^ aScripter
@@ -2609,9 +2607,9 @@ GtWorldByScripterExamples >> semanticErrorScriptInTheSecondLepiterPagePane [
 						// GtSourceCoderDoItAndGoActionId ].
 
 			self 
-				forPharo12: [
+				forPharo12AndNewer: [
 					self assertNoSemanticErrorAndThreePanesForPharo12In: aStep] 
-				forPharo11AndPharo10: [
+				forPharo11: [
 					self assertSemanticErrorInSecondPaneForPharo11In: aStep] ].
 
 	^ aScripter
