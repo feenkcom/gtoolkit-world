@@ -213,9 +213,6 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 										ifNotNil: [:aPackage | aPackage name ]])
 									asStringOn: s delimiter: ' | ' ])
 						, ') packages')] ] 
-					
-		
-					
 ]
 
 { #category : #'*GToolkit-Extensions' }
