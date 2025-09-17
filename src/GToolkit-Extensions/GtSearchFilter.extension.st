@@ -89,6 +89,7 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 	^ aView columnedList
 		title: 'By Class';
 		priority: 44;
+		withMultipleSelection;
 		items: [ 
 			((self & GtSearchImageMethodsFilter new) result 
 				asyncSimilarCopy toArray wait 
@@ -101,11 +102,60 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 				dataBinder: [ :anElement :assoc | 
 					anElement updateForClass: assoc key ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
-		send: [ :assoc |
-			GtSearchFixedMethodsFilter new 
-				withDefinedMethodsFrom: assoc value ;
-				highlighter: self highlighter;
-				label: self gtDisplayString, ' & ', assoc key name, ' class'  ] 
+		send: [ :oneOrMoreAssociations :selectionIndexes |
+			selectionIndexes size = 1
+				ifTrue: [ GtSearchFixedMethodsFilter new 
+					withDefinedMethodsFrom: oneOrMoreAssociations value ;
+					highlighter: self highlighter;
+					label: self gtDisplayString
+						, ' & '
+						, oneOrMoreAssociations key name, ' class' ]
+				ifFalse: [
+					GtSearchFixedMethodsFilter new 
+						withDefinedMethodsFrom: (oneOrMoreAssociations
+							flatCollect: [ :each | each value])  ;
+						highlighter: self highlighter;
+						label: self gtDisplayString
+							, ' & ('
+							, (String streamContents: [ :s | 
+								(oneOrMoreAssociations collect: [ :each | each key name])
+									asStringOn: s delimiter: ' | ' ])
+							, ') classes'] ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtItemsByMethodFor: aView [
+	<gtView>
+	<gtToolView>
+	
+	self gtAreAllGtSearchMethodsFilterKind ifFalse: [^aView empty].
+	
+	^(aView columnedList)
+		title: 'By Method';
+		priority: 45;
+		withMultipleSelection;
+		items: [
+			self result asyncSimilarCopy toArray wait
+				sorted: [:assoc | assoc selector] ascending];
+		column: 'Method'
+			do: [:aColumn |
+				aColumn
+					cellStencil: [GtPhlowLabelWithIcon new];
+					dataBinder: [:anElement :aMethod |
+						anElement updateForMethod: aMethod ] ];
+		send: [:oneOrMoreMethods :selectionIndexes |
+			selectionIndexes size = 1
+				ifTrue: [
+					oneOrMoreMethods methodReference
+						gtHighlighter: self highlighter;
+						yourself ]
+				ifFalse: [
+					(GtRGMethodDefinitionWithComparisonGroup 
+						withAll: (oneOrMoreMethods collect: [ :aMethod |
+								aMethod methodReference
+									gtHighlighter: self highlighter;
+									yourself ]))
+							highlighter: self highlighter ] ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -118,6 +168,7 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 	^ aView columnedList
 		title: 'By Package';
 		priority: 43;
+		withMultipleSelection;
 		items: [ 
 			((self & GtSearchImageMethodsFilter new) result 
 				asyncSimilarCopy toArray wait 
@@ -138,16 +189,30 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 							ifNil: [ '<Obsolete>' ] 
 							ifNotNil: [:aPackage | aPackage name ] ) ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
-		send: [ :assoc |
-			GtSearchFixedMethodsFilter new 
-				withDefinedMethodsFrom: assoc value ;
-				highlighter: self highlighter;
-				label: (self gtDisplayString
-					, ' & '
-					, (assoc key 
-						ifNil: [ '<Obsolete>' ] 
-						ifNotNil: [:aPackage | aPackage name ])
-					, ' package') ] 
+		send: [ :oneOrMoreAssociations :selectionIndexes |
+			selectionIndexes size = 1
+				ifTrue: [GtSearchFixedMethodsFilter new 
+					withDefinedMethodsFrom: oneOrMoreAssociations value ;
+					highlighter: self highlighter;
+					label: (self gtDisplayString
+						, ' & '
+						, (oneOrMoreAssociations key 
+							ifNil: [ '<Obsolete>' ] 
+							ifNotNil: [:aPackage | aPackage name ])
+						, ' package')]
+				ifFalse: [GtSearchFixedMethodsFilter new 
+					withDefinedMethodsFrom: (oneOrMoreAssociations
+						flatCollect: [ :each | each value]) ;
+					highlighter: self highlighter;
+					label: (self gtDisplayString
+						, ' & ('
+						, (String streamContents: [ :s | 
+								(oneOrMoreAssociations collect: [ :each |
+									each key 
+										ifNil: [ '<Obsolete>' ] 
+										ifNotNil: [:aPackage | aPackage name ]])
+									asStringOn: s delimiter: ' | ' ])
+						, ') packages')] ] 
 ]
 
 { #category : #'*GToolkit-Extensions' }
