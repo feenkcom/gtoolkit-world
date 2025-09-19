@@ -121,8 +121,10 @@ GtWorldElement >> initializeShortcuts [
 				name: 'Close tab';
 				repeatable: true;
 				combination: BlKeyCombination primaryW;
-				action: [ self tabs content children anyOne = home
-						ifFalse: [  "only close the non-home tabs"self tabs removeSelectedTab ] ]).
+				action: (BrTabGroupPreventableSelectedTabCloseAction new
+					tabGroup: self tabs;
+					keepContentElement: home;
+					inquire)).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Close world';
