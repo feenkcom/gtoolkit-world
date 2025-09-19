@@ -69,7 +69,6 @@ GtWorldSpotterSearchStart >> gtSearchForToolsFor: aSearch [
 				LeLepiterToolStencil new knowledgeBase: self knowledgeBase.
 				GtCoderStencil new.
 				GtMonitorStencil new.
-				GtRlGToolkitExamplesExplorer buildForGToolkitProject.
 				GtGitStencil new.
 				GtEpiceaStencil new.
 				GtTranscriptStencil new.

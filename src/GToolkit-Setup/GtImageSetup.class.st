@@ -38,8 +38,8 @@ GtImageSetup class >> cleanUpImageAfterLoad [
 	self cleanUpMonticelloCaches.
 	
 	self 
-		forPharo12: [] 
-		forPharo11AndPharo10: [
+		forPharo12AndNewer: [] 
+		forPharo11: [
 			self cleanUpChangeSets.
 			Smalltalk organization sortCategories. ].
 
@@ -77,7 +77,8 @@ GtImageSetup class >> copyDataAndDocsFolders [
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit' / 'lepiter');
 		add: (gtoolkitRepoFolders asFileReference / 'lepiter' / 'test-data');
 		add: (gtoolkitRepoFolders asFileReference / 'JSLink' / 'js');
-		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests').
+		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests');
+		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-roadmaps' / 'gtbook-examples').
 
 	self copyDocFolders: docFolders.
 
@@ -182,8 +183,8 @@ GtImageSetup class >> performLocalSetup [
 	self installGtSessionManager.
 	
 	self 
-		forPharo12: [] 
-		forPharo11AndPharo10: [
+		forPharo12AndNewer: [] 
+		forPharo11: [
 			self registerGTNamespace.
 			self patchForStringSymbolStringComparison ].
 	
@@ -268,8 +269,8 @@ GtImageSetup class >> recordSpaceTallyAtEnd [
 { #category : #actions }
 GtImageSetup class >> registerGTNamespace [
 	self 
-		forPharo12: [] 
-		forPharo11AndPharo10: [
+		forPharo12AndNewer: [] 
+		forPharo11: [
 			RBClassModelFactory setRBNamespace: GtRBNamespace]
 ]
 

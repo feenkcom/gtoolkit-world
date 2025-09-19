@@ -121,8 +121,10 @@ GtWorldElement >> initializeShortcuts [
 				name: 'Close tab';
 				repeatable: true;
 				combination: BlKeyCombination primaryW;
-				action: [ self tabs content children anyOne = home
-						ifFalse: [  "only close the non-home tabs"self tabs removeSelectedTab ] ]).
+				action: (BrTabGroupPreventableSelectedTabCloseAction new
+					tabGroup: self tabs;
+					keepContentElement: home;
+					inquire)).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Close world';
@@ -216,22 +218,23 @@ GtWorldElement >> newSubSpaceButton [
 		assert: [ subSpaceDropdown isNil ]
 		description: [ 'Sub-space dropdown is already created!' ].
 	subSpaceDropdown := BrButton new
+			id: GtWorldMenuElementId;
 			aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude
-					+ (BrGlamorousWithExplicitDropdownAptitude new 
+					+ (BrGlamorousWithExplicitDropdownAptitude new
 							withGainFocusOnShow;
 							handle: [ BrButton new
-									aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonWithLabelTooltipAptitude2
-											- BrGlamorousButtonExteriorAptitude;
-									icon: BrGlamorousIcons hamburger;
-									label: 'Menu';
-									yourself ]
-							content: [ BrScrollPane new
-									aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
-									hExact: 420;
-									vMatchParent;
-									content: (GtToolsMenu new
-											knowledgeBase: self knowledgeBase;
-											yourself) ]);
+										aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonWithLabelTooltipAptitude2
+												- BrGlamorousButtonExteriorAptitude;
+										icon: BrGlamorousIcons hamburger;
+										label: 'Menu';
+										yourself ]
+								content: [ BrScrollPane new
+										aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
+										hExact: 420;
+										vMatchParent;
+										content: (GtToolsMenu new
+												knowledgeBase: self knowledgeBase;
+												yourself) ]);
 			icon: BrGlamorousIcons hamburger;
 			label: 'Menu';
 			yourself.

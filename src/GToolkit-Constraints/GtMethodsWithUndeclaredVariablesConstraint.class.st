@@ -84,11 +84,3 @@ GtMethodsWithUndeclaredVariablesConstraint >> name [
 GtMethodsWithUndeclaredVariablesConstraint >> status [ 
 	^ GtNeutralConstraintStatus new
 ]
-
-{ #category : #ignored }
-GtMethodsWithUndeclaredVariablesConstraint >> weakRegistryClassNames [
-	<gtIgnoredVariables>
-	^ {self 
-		forPharo11AndPharo12: [ #WeakRegistry ] 
-		forPharo10: [ #FinalizationRegistry ]}
-]

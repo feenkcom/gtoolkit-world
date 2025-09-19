@@ -183,7 +183,8 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> methodsAllowedToSendHalt [
 		GtPharoMethodExample>>#exampleWithNumber:.
 		PP2AllNodesVisitor>>#children.
 		PP2EventsTrace>>#filterEvents:.
-		PP2WrappingStrategy>>#changeStrategy:}
+		PP2WrappingStrategy>>#changeStrategy:.
+		LeRefactoringExamples>>#renameMethodInGemstoneSnippet}
 ]
 
 { #category : #accessing }

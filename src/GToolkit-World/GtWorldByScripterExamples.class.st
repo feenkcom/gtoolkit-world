@@ -219,6 +219,51 @@ GtWorldByScripterExamples >> addLepiterPageHavingPharoSnippetWithNonExistentClas
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingThisSnippetPharoSnippet [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter aPageHolder |
+	aScripter := self tabElementInScripter.
+	aPageHolder := LeModelExamples new pageOneWithThisSnippetPharoSnippet.
+	aScripter model: aPageHolder.
+
+	self
+		addLepiterPage: aPageHolder page
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageHavingThisSnippetPharoSnippet_inspectThisSnippet [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self addLepiterPageHavingThisSnippetPharoSnippet.
+
+	aScripter click
+		// GtSourceCoderDoItAndGoActionId;
+		play.
+
+	aScripter assert
+		label: 'Assert there is not a "did not understand" button';
+		notExists;
+		// BrButton;
+		@ [ :eachButton | eachButton label asString includesSubstring: 'did not understand' ];
+		play.
+		
+	aScripter assert
+		label: 'Assert there are two panes with "Pane one" editor';
+		exists;
+		// (GtPagerPageElementId indexed: 2);
+		// GtInspector;
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> addLepiterPageHavingWardleyMapSnippet [
 	<gtExample>
 	<return: #BlScripter>
@@ -506,6 +551,81 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 	^ aScripter
 ]
 
+{ #category : #assertions }
+GtWorldByScripterExamples >> assertNoSemanticErrorAndThreePanesForPharo12In: aStep [ 
+	aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert three panes';
+						value: [ :aPager | aPager pages size ] equals: 3;
+						// GtPager ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert no error content dropdown';
+						value: [ :aRoot | 
+								| aQuery |
+								aQuery := aRoot query // GtSourceCoderErrorContentElementId.
+								aQuery result size ]
+							equals: 0;
+						onSpaceRoot ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert fix it attribute in the second pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesAt: 53)
+								anySatisfy: [ :a | a class = GtFixItAttribute ] ];
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+						
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Click to navigate to the first pane';
+						// GtPager;
+						// #preview;
+						// BrButton;
+						@ 1 ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert fix it attribute in the first pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesFinder
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtFixItAttribute ]) ];
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Click inside of the code';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert fix it attribute in the second pane';
+						exists;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId;
+						// GtFixItButton ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert fix it attribute in the first pane';
+						exists;
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId;
+						// GtFixItButton ]
+]
+
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> assertResizeSpotterInScripter: aScripter [
 	<gtExample>
@@ -531,6 +651,73 @@ GtWorldByScripterExamples >> assertResizeSpotterInScripter: aScripter [
 		value: [ GtWorldElement worldSpotterSize ]
 			equals: [ aScripter userData at: #worldSpotterSize ];
 		play.
+]
+
+{ #category : #assertions }
+GtWorldByScripterExamples >> assertSemanticErrorInSecondPaneForPharo11In: aStep [ 
+	aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert two panes';
+						value: [ :aPager | aPager pages size ] equals: 2;
+						// GtPager ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert one error content dropdown';
+						value: [ :aRoot | 
+								| aQuery |
+								aQuery := aRoot query // GtSourceCoderErrorContentElementId.
+								aQuery result size ]
+							equals: 1;
+						onSpaceRoot ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesAt: 49)
+								anySatisfy: [ :a | a class = GtSourceCoderErrorAttribute ] ];
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
+						satisfies: [ :anEditor | 
+							(anEditor text attributesFinder
+								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ])
+								not ];
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				clickStep: [ :s | 
+					s
+						label: 'Click inside of the code';
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
+						exists;
+						// (GtPagerPageElementId indexed: 2);
+						// GtSourceCoderEditorId;
+						// GtSourceCoderErrorButtonElementId ].
+
+			aStep
+				assertStep: [ :s | 
+					s
+						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
+						notExists;
+						// (GtPagerPageElementId indexed: 1);
+						// GtSourceCoderEditorId;
+						// GtSourceCoderErrorButtonElementId ]
 ]
 
 { #category : #'examples - lepiter' }
@@ -1015,8 +1202,13 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 
 	<gtExample>
 	<return: #BlScripter>
-	| aScripter |
+	| aScripter aDefiningMethod |
 	aScripter := self selectClassInSecondPane.
+
+
+	"The extension was removed. See https://github.com/feenkcom/gtoolkit/issues/4653"
+	aDefiningMethod := Behavior >> #gtHierarchyButtonFor:.
+	(aDefiningMethod hasPragmaNamed: #gtClassAction) ifFalse: [ ^ aScripter ].
 
 	aScripter do
 		label: 'Set space extent';
@@ -1037,6 +1229,8 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane [
 				id: GtPagerPageElementId index: 2;
 				id: GtCoderClassHierarchyButtonId ]
 		ensure: [ :anInitialValue | GtPharoCoderHierarchyDropdownConfiguration preferredExtent: anInitialValue ].
+
+
 
 	aScripter
 		checkStep: [ :s | 
@@ -1072,8 +1266,12 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 
 	<gtExample>
 	<return: #BlScripter>
-	| aScripter aSelectedClass aNewSelectedClass |
+	| aScripter aSelectedClass aNewSelectedClass aDefiningMethod |
 	aScripter := self displayClassHierarchyDropdownInSecondPane.
+	
+	"The extension was removed. See https://github.com/feenkcom/gtoolkit/issues/4653"
+	aDefiningMethod := Behavior >> #gtHierarchyButtonFor:.
+	(aDefiningMethod hasPragmaNamed: #gtClassAction) ifFalse: [ ^ aScripter ].
 
 	aSelectedClass := nil.
 	aNewSelectedClass := nil.
@@ -1128,8 +1326,12 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 
 	<gtExample>
 	<return: #BlScripter>
-	| aScripter |
+	| aScripter aDefiningMethod |
 	aScripter := self displayClassHierarchyDropdownInSecondPane_SelectAnotherClass.
+	
+	"The extension was removed. See https://github.com/feenkcom/gtoolkit/issues/4653"
+	aDefiningMethod := Behavior >> #gtHierarchyButtonFor:.
+	(aDefiningMethod hasPragmaNamed: #gtClassAction) ifFalse: [ ^ aScripter ].
 
 	aScripter
 		clickStep: [ :s | 
@@ -1863,6 +2065,57 @@ GtWorldByScripterExamples >> nonExistentClass [
 	^ self class environment classNamed: LeModelExamples new nonExistentClassName
 ]
 
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> openWorldMenu [
+	<gtExample>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+	aScripter
+		substep: 'Open world menu dropdown'
+		do: [ :aStep | 
+			aStep click
+				label: 'Click on menu button';
+				id: GtWorldMenuElementId;
+				play.
+
+			aStep menuStep
+				assertMenuContainerExist;
+				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> openWorldMenuTranscript [
+	<gtExample>
+	| aScripter |
+	aScripter := self openWorldMenu.
+	aScripter
+		substep: 'Open transcript tool'
+		do: [ :aStep | 
+			aStep assert
+				label: 'Assert one world tab';
+				value: [ :anElement | anElement tabs tabs size ] equals: 1;
+				play.
+
+			aStep click
+				label: 'Click on transcript button';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtWorldMenuTranscriptElementId;
+				play.
+
+			aStep menuStep
+				assertClosedMenuContainer;
+				play.
+			aStep assert
+				label: 'Assert two world tabs';
+				value: [ :anElement | anElement tabs tabs size ] equals: 2;
+				play ].
+
+	^ aScripter
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> paneModelKeyAt: aPaneIndex [
 	^ 'paneModelAt', aPaneIndex asString
@@ -2353,69 +2606,11 @@ GtWorldByScripterExamples >> semanticErrorScriptInTheSecondLepiterPagePane [
 						// (GtPagerPageElementId indexed: 2);
 						// GtSourceCoderDoItAndGoActionId ].
 
-			aStep
-				assertStep: [ :s | 
-					s
-						label: 'Assert two panes';
-						value: [ :aPager | aPager pages size ] equals: 2;
-						// GtPager ].
-
-			aStep
-				assertStep: [ :s | 
-					s
-						label: 'Assert one error content dropdown';
-						value: [ :aRoot | 
-								| aQuery |
-								aQuery := aRoot query // GtSourceCoderErrorContentElementId.
-								aQuery result size ]
-							equals: 1;
-						onSpaceRoot ].
-
-			aStep
-				assertStep: [ :s | 
-					s
-						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
-						satisfies: [ :anEditor | 
-							(anEditor text attributesAt: 49)
-								anySatisfy: [ :a | a class = GtSourceCoderErrorAttribute ] ];
-						// (GtPagerPageElementId indexed: 2);
-						// GtSourceCoderEditorId ].
-
-			aStep
-				assertStep: [ :s | 
-					s
-						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
-						satisfies: [ :anEditor | 
-							(anEditor text attributesFinder
-								hasAttributeSuchThat: [ :anAttribute | anAttribute class = GtSourceCoderErrorAttribute ])
-								not ];
-						// (GtPagerPageElementId indexed: 1);
-						// GtSourceCoderEditorId ].
-
-			aStep
-				clickStep: [ :s | 
-					s
-						label: 'Click inside of the code';
-						// (GtPagerPageElementId indexed: 2);
-						// GtSourceCoderEditorId ].
-
-			aStep
-				assertStep: [ :s | 
-					s
-						label: 'Assert GtSourceCoderErrorAttribute in the second pane';
-						exists;
-						// (GtPagerPageElementId indexed: 2);
-						// GtSourceCoderEditorId;
-						// GtSourceCoderErrorButtonElementId ].
-
-			aStep
-				assertStep: [ :s | 
-					s
-						label: 'Assert GtSourceCoderErrorAttribute in the first pane';
-						notExists;
-						// (GtPagerPageElementId indexed: 1);
-						// GtSourceCoderEditorId;
-						// GtSourceCoderErrorButtonElementId ] ].
+			self 
+				forPharo12AndNewer: [
+					self assertNoSemanticErrorAndThreePanesForPharo12In: aStep] 
+				forPharo11: [
+					self assertSemanticErrorInSecondPaneForPharo11In: aStep] ].
 
 	^ aScripter
 ]

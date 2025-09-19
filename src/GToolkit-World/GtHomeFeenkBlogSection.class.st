@@ -138,7 +138,7 @@ GtHomeFeenkBlogSection >> newPostCardFor: aXdFileInfo [
 		action: [ :aCard | 
 			self
 				showSpaceWithTitle: aXdFileInfo title
-				with: (GtPager createWrappedOn: aXdFileInfo asElement)
+				with: (GtPagerSettings usedPager createWrappedOn: aXdFileInfo asElement)
 				from: aCard ])
 ]
 
