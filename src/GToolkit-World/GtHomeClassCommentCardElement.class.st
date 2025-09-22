@@ -45,11 +45,7 @@ GtHomeClassCommentCardElement >> documentClass: aClass [
 GtHomeClassCommentCardElement >> documentClassComment [
 	| targetClass |
 	targetClass := self documentClass.
-	^ self 
-		forPharo12AndNewer: [
-			targetClass comment ] 
-		forPharo11: [ 
-			targetClass organization classComment ].
+	^ targetClass gtComment
 ]
 
 { #category : #'private - hooks' }
