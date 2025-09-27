@@ -76,7 +76,7 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> allowedSendersOfHalt [
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> classesAllowedToSendHalt [
-	^ { TDAPProtocolVisitor . GtEpImageModelHasImpactVisitor }
+	^ { TDAPProtocolVisitor  }
 ]
 
 { #category : #accessing }
