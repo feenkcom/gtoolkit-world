@@ -11,7 +11,7 @@ ZnStringEntity >> gtJsonFor: aView [
 		  priority: 10;
 		  glamorousCodeFontAndSize;
 		  styler: [ JSONParser gtStyler ];
-		  actionButtonIcon: BrGlamorousIcons tree asElement
+		  actionButtonIcon: BrGlamorousVectorIcons tree asElement
 		  action: [ :aButton | 
 			  aButton phlow spawnObject: (STONJSON fromString: self contents) ];
 		  text: [ 

@@ -225,7 +225,7 @@ GtWorldElement >> newSubSpaceButton [
 							handle: [ BrButton new
 										aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonWithLabelTooltipAptitude2
 												- BrGlamorousButtonExteriorAptitude;
-										icon: BrGlamorousIcons hamburger;
+										icon: BrGlamorousVectorIcons hamburger;
 										label: 'Menu';
 										yourself ]
 								content: [ BrScrollPane new
@@ -235,7 +235,7 @@ GtWorldElement >> newSubSpaceButton [
 										content: (GtToolsMenu new
 												knowledgeBase: self knowledgeBase;
 												yourself) ]);
-			icon: BrGlamorousIcons hamburger;
+			icon: BrGlamorousVectorIcons hamburger;
 			label: 'Menu';
 			yourself.
 	^ subSpaceDropdown
