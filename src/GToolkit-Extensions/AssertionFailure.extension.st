@@ -93,7 +93,7 @@ AssertionFailure >> gtScripterPreviewFor: aView [
 		priority: 0;
 		object: [ aScripter ];
 		view: #gtSpaceFor:;
-		actionButtonIcon: BrGlamorousIcons inspect 
+		actionButtonIcon: BrGlamorousVectorIcons inspect 
 			label: 'Scripter'
 			tooltip: 'Inspect Scripter'
 			action: [ :anElement | anElement phlow spawnObject: aScripter ]
@@ -111,7 +111,7 @@ AssertionFailure >> gtScripterStepsFor: aView [
 	^ (aScripter gtStepsMondrianTreeFor: aView)
 		title: 'Scripter steps';
 		priority: -1;
-		actionButtonIcon: BrGlamorousIcons inspect
+		actionButtonIcon: BrGlamorousVectorIcons inspect
 			label: 'Scripter'
 			tooltip: 'Inspect Scripter'
 			action: [ :anElement | anElement phlow spawnObject: aScripter ]

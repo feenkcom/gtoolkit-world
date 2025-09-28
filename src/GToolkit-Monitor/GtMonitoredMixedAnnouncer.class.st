@@ -97,7 +97,7 @@ GtMonitoredMixedAnnouncer >> gtSubscriptionsFor: aView [
 						actionStencil: [ 
 							BrButton new 
 								aptitude: BrGlamorousButtonWithIconAptitude;
-								icon: BrGlamorousIcons trash asElement;
+								icon: BrGlamorousVectorIcons bin asElement;
 								label: 'Remove subscriptions';
 								action:  [ self removeSubscriptions ] ] ] ];
 		yourself.

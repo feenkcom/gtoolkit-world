@@ -173,7 +173,7 @@ String >> gtXMLFor: aView [
 		priority: 20;
 		text: [ self ];
 		styler: Gt4XMLStyler new;
-		actionButtonIcon: BrGlamorousIcons tree
+		actionButtonIcon: BrGlamorousVectorIcons tree
 			action: [ :aButton | aButton phlow spawnObject: (XMLDOMParser parse: self) ];
 		aptitude: BrGlamorousCodeEditorAptitude;
 		actionDropdownButtonIcon: nil
