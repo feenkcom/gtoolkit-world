@@ -21,6 +21,8 @@ LePage >> icebergRepo [
 		detect: [ :repo | 
 			repo location
 				ifNil: [ false ]
-				ifNotNil: [ repo location contains: self pageFileReference ] ]
+				ifNotNil: [ self pageFileReference 
+					ifNil: [ false ]
+					ifNotNil: [:aPageReference | repo location contains: aPageReference ] ] ]
 		ifNone: [ nil ]
 ]
