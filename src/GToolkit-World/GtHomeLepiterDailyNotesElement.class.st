@@ -90,7 +90,7 @@ GtHomeLepiterDailyNotesElement >> onDailyNotesChanged: anAnnouncement [
 GtHomeLepiterDailyNotesElement >> spawnPage: aPage from: aButton [
 	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
 
-	^ BlSpace spawnPage: aPage from: aButton
+	^ BlSpace spawnTool: [ aPage gtDefaultInspectorTool ] from: aButton
 ]
 
 { #category : #'private - subscriptions' }
