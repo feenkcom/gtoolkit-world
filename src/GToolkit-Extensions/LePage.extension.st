@@ -3,7 +3,9 @@ Extension { #name : #LePage }
 { #category : #'*GToolkit-Extensions' }
 LePage >> gtLePageGitButtonFor: anAction [
 	<gtAction>
-	self icebergRepo ifNil: [ ^ anAction empty ].
+	
+	(self database monitor isLocalStore not or: [ self icebergRepo isNil ]) ifTrue: 
+		[ ^ anAction empty ].
 	^ anAction button
 		tooltip: 'Go to repository';
 		priority: 72;
