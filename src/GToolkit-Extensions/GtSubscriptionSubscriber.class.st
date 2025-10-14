@@ -120,3 +120,8 @@ GtSubscriptionSubscriber >> subscriptions [
 GtSubscriptionSubscriber >> subscriptions: anObject [
 	subscriptions := anObject
 ]
+
+{ #category : #'api - accessing' }
+GtSubscriptionSubscriber >> subscriptionsCount [
+	^ self subscriptions size
+]

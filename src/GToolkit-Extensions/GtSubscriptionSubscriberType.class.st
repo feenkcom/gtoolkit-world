@@ -27,6 +27,16 @@ GtSubscriptionSubscriberType >> subscribers: aCollection [
 ]
 
 { #category : #accessing }
+GtSubscriptionSubscriberType >> subscribersCount [
+	^ self subscribers size
+]
+
+{ #category : #accessing }
+GtSubscriptionSubscriberType >> subscriptionsCount [
+	^ self subscribers sum: #subscriptionsCount
+]
+
+{ #category : #accessing }
 GtSubscriptionSubscriberType >> type [
 	^ type
 ]
