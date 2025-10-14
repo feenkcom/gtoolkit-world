@@ -31,7 +31,7 @@ Announcer >> gtSubscriptionsPerSubscriberFor: aView [
 		column: 'Announcement' text: [ :aSubscription |
 			((aSubscription isKindOf: GtSubscriptionSubscriber)
 				or: [ aSubscription isKindOf: GtSubscriptionSubscriberType ])
-					ifTrue: [ '' ]
+					ifTrue: [ '{1} subscriptions' format: { aSubscription subscriptionsCount } ]
 					ifFalse: [ aSubscription announcementClass ] ];
 		column: 'Kind' text: [ :aSubscription | 
 			((aSubscription isKindOf: GtSubscriptionSubscriber)
