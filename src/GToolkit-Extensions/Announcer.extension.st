@@ -7,7 +7,7 @@ Announcer >> gtSubscriptionsPerSubscriberFor: aView [
 	^ aView columnedTree
 		title: 'Per subscriber';
 		priority: 51;
-		expandUpTo: 1;
+		actionCollapseAndExpandButtons;
 		items: [ GtSubscriptionSubscriber fromAnnouncer: self ];
 		children: [ :each | 
 			(each isKindOf: GtSubscriptionSubscriberType)
