@@ -71,11 +71,13 @@ GtSearchFilter class >> gtHierarchyFor: aView [
 { #category : #'*GToolkit-Extensions' }
 GtSearchFilter >> gtHierarchyFor: aView [
 	<gtView>
-	^ aView tree
+	^ aView columnedTree
 		title: 'Hierarchy';
 		priority: 80;
 		items: [ { self } ];
 		children: [ :aFilter | aFilter children ];
+		column: 'Value' text: #gtDisplayString;
+		column: 'Type' text: [:each | (each class name removeSuffix: 'Filter') removePrefix: 'GtSearch' ] width: 200;
 		expandUpTo: 2
 ]
 
