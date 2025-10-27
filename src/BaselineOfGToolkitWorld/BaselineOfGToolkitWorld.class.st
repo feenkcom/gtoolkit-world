@@ -10,7 +10,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'GToolkitVirtualMachine' with: [
-				spec repository: 'github://feenkcom/gtoolkit-vm-bindings:v0.6.37/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-vm-bindings:v0.6.38/src' ].
 		spec
 			baseline: 'GToolkitClipboard' with: [
 				spec repository: 'github://feenkcom/gtoolkit-clipboard:v0.8.72/src' ].
@@ -40,7 +40,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				spec repository: 'github://feenkcom/gt4git:v0.8.1682/src' ].
 		spec
 			baseline: 'GToolkit4GraphQL' with: [
-				spec repository: 'github://feenkcom/gt4graphql:v0.6.2440/src' ].
+				spec repository: 'github://feenkcom/gt4graphql:v0.6.2441/src' ].
 		spec
 			baseline: 'GToolkitCoder' with: [
 				spec repository: 'github://feenkcom/gtoolkit-coder:v0.8.2357/src' ].
@@ -64,7 +64,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				spec repository: 'github://feenkcom/xdoc:v0.8.889/src' ].
 		spec
 			baseline: 'LepiterEngine' with: [
-				spec repository: 'github://feenkcom/lepiter:v0.6.3416/src' ].
+				spec repository: 'github://feenkcom/lepiter:v0.6.3417/src' ].
 
 		spec package: 'GToolkit-Monitor' with: [
 			spec requires: #(#LepiterEngine #GToolkitVisualizerPhlow) ].
