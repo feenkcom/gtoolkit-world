@@ -62,3 +62,38 @@ RGMethodDefinition >> isClassSide [
 RGMethodDefinition >> isGtSlide [
 	^ self method isGtSlide
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> paintWithinSelfMessagesWith: m [
+	| methods |
+	methods := {self}
+			, ((self methodClass methods
+					select: [ :each | each selfMessages anySatisfy: [ :method | method = self selector ] ])
+					, (self method
+							deepCollect: [ :each | each selfMessages collect: [ :method | self methodClass lookupSelector: method ] ])
+					collect: #methodReference).
+	m nodes
+		stencil: [ :method | 
+			BlElement new
+				geometry: BlCircleGeometry new;
+				size: 10 @ 10;
+				background: (method compiledMethod = self compiledMethod
+						ifTrue: [ Color red ]
+						ifFalse: [ Color black ]) ];
+		with: methods.
+	m edges
+		stencil: [ :method | 
+			BlParabollaArcElement new
+				curvatureFraction: 0.1;
+				zIndex: -1;
+				border: Color veryVeryLightGray;
+				toHead: (BlArrowheadSimpleArrow new border: Color veryVeryLightGray) ];
+		connectToAll: [ :each | 
+			(each compiledMethod selfMessages
+				collect: [ :method | self methodClass lookupSelector: method ])
+				collect: #methodReference ].
+	m layout horizontalDominanceTree
+		levelDistance: 50;
+		treesDistance: 10;
+		nodeDistance: 1
+]
