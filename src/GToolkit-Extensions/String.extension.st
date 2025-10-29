@@ -143,7 +143,6 @@ String >> gtLiveFor: aView [
 
 { #category : #'*GToolkit-Extensions' }
 String >> gtStreamStateFor: aView [
-	<gtView>
 	^ self gtStringFor: aView
 ]
 
