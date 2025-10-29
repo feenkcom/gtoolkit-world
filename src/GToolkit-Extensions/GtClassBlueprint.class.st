@@ -251,6 +251,12 @@ GtClassBlueprint >> createType: aType [
 	^ classElement
 ]
 
+{ #category : #'as yet unclassified' }
+GtClassBlueprint >> gtDisplayOn: stream [
+	stream nextPutAll: 'Blueprint of '.
+	types do: [:t | stream nextPutAll: t name ] separatedBy: [stream nextPutAll: ', ']
+]
+
 { #category : #views }
 GtClassBlueprint >> gtLiveFor: aView [
 	^ aView canvassable
