@@ -12,7 +12,7 @@ CompiledMethod >> paintWithinSelfMessagesWith: m [
 			, (self methodClass methods
 					select: [ :each | each selfMessages anySatisfy: [ :method | method = self selector ] ])
 			, (self
-					deepCollect: [ :each | each selfMessages collect: [ :method | self methodClass lookupSelector: method ] ]).
+					deepCollect: [ :each | each selfMessages collect: [ :selector | each methodClass lookupSelector: selector ] ]).
 	m nodes
 		stencil: [ :method | 
 			BlElement new

@@ -1,6 +1,11 @@
 Extension { #name : #Class }
 
 { #category : #'*GToolkit-Extensions' }
+Class >> gtAccessorMethods [
+	^ self methods select: [ :each | each gtIsGetter or: [ each gtIsSetter ] ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 Class >> gtAllConfigurationReferencesFor: aView [
 	<gtView>
 	<gtClassView>
@@ -91,6 +96,32 @@ Class >> gtExamplesMapFor: aView context: aPhlowContext [
 		
 			GtExampleGroup withAll: aCollection ];
 		view: #gtMapFor:
+]
+
+{ #category : #'*GToolkit-Extensions' }
+Class >> gtImplementationMethods [
+	| candidates methodsCalled |
+	candidates := self methods \ self gtInitializerMethods \ self gtAccessorMethods.
+	methodsCalled := candidates flatCollectAsSet: [ :each | each gtSelfMethods ].
+	^ methodsCalled
+]
+
+{ #category : #'*GToolkit-Extensions' }
+Class >> gtInitializerMethods [
+	^ self methods
+		select: [ :each | 
+			each selector = #initialize
+				or: [ {'initialization'.
+						'initialize'}
+						anySatisfy: [ :categoryName | each protocolName includesSubstring: categoryName ] ] ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+Class >> gtInterfaceMethods [
+	| candidates methodsCalled |
+	candidates := self methods \ self gtInitializerMethods \ self gtAccessorMethods.
+	methodsCalled := candidates flatCollectAsSet: [ :each | each gtSelfMethods ].
+	^ candidates \ methodsCalled
 ]
 
 { #category : #'*GToolkit-Extensions' }
