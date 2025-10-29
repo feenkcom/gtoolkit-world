@@ -19,7 +19,8 @@ GtWorldPreviewerTabContentTreePagerElement >> defaultLayout [
 		firstVisibleColumn: 1;
 		horizontalOffset: 0;
 		horizontalCellSpacing: GtTreePagerConstants horizontalCellSpacing;
-		verticalCellSpacing: GtTreePagerConstants verticalCellSpacing
+		verticalCellSpacing: GtTreePagerConstants verticalCellSpacing;
+		fillEntireColumnHeight
 ]
 
 { #category : #'private - updating' }

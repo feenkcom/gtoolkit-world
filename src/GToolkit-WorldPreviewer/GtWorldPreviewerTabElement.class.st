@@ -60,10 +60,7 @@ GtWorldPreviewerTabElement >> initialize [
 
 	self
 		hMatchParent;
-		vFitContentLimited.
-		
-	"Helper until we support fitContent in the tree flow layout."
-	self vExact: 200.
+		vFitContent.
 ]
 
 { #category : #'as yet unclassified' }
