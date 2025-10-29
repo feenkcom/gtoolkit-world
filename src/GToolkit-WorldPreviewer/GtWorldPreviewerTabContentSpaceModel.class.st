@@ -1,18 +1,15 @@
 Class {
-	#name : #GtWorldPreviewerTabSpace,
-	#superclass : #Object,
-	#instVars : [
-		'tabSpace'
-	],
-	#category : #'GToolkit-World-UI - Preview'
+	#name : #GtWorldPreviewerTabContentSpaceModel,
+	#superclass : #GtWorldPreviewerTabContentModel,
+	#category : #'GToolkit-WorldPreviewer-Model'
 }
 
-{ #category : #accessing }
-GtWorldPreviewerTabSpace >> asElement [
+{ #category : #'api - converting' }
+GtWorldPreviewerTabContentSpaceModel >> asElement [
 	| aPreviewElement |
 
 	aPreviewElement := BrElementAsFormPreview
-		forElement: tabSpace model root
+		forElement: tabModelWithSpace model root
 		preferredScale: 0.3.
 
 	^ aPreviewElement
@@ -27,11 +24,11 @@ GtWorldPreviewerTabSpace >> asElement [
 ]
 
 { #category : #accessing }
-GtWorldPreviewerTabSpace >> select [
-	tabSpace select
+GtWorldPreviewerTabContentSpaceModel >> pageIndex [
+	^ 0
 ]
 
 { #category : #accessing }
-GtWorldPreviewerTabSpace >> tabSpace: aTabSpace [ 
-	tabSpace := aTabSpace
+GtWorldPreviewerTabContentSpaceModel >> select [
+	tabModelWithSpace select
 ]
