@@ -25,13 +25,14 @@ GtClassBlueprint >> colorForMethod: aMethod [
 
 	aMethod isConstant ifTrue: [ ^ Color magenta alpha: 0.5 ]."
 	
-	^ Color white
+	^ Color veryVeryLightGray
 ]
 
 { #category : #rendering }
 GtClassBlueprint >> create [
 	| container |
 	container := BlElement new
+			padding: (BlInsets all: 10);
 			constraintsDo: [ :c | 
 				c horizontal fitContent.
 				c vertical fitContent ];
@@ -171,9 +172,10 @@ GtClassBlueprint >> createLayerForAttributes: aCollection [
 { #category : #rendering }
 GtClassBlueprint >> createLayerForMethods: aCollection named: aString [
 	| methodsContainer layerLabel layerMethodsToElements minMethodNodeSize |
-	minMethodNodeSize := 10 @ 10.
+	minMethodNodeSize := 7 @ 7.
 	layerMethodsToElements := IdentityDictionary new.
 	methodsContainer := BlElement new
+			clipChildren: false;
 			padding: (BlInsets
 					top: 5
 					left: 5
@@ -183,11 +185,15 @@ GtClassBlueprint >> createLayerForMethods: aCollection named: aString [
 				c vertical fitContent.
 				c horizontal fitContent.
 				c linear horizontal alignCenter ];
-			layout: (GtGraphHorizontalTreeLayout new layered horizontalGap: 30).
+			layout: (BlOnceLayout
+					on: (GtGradHorizontalTreeLayout new
+							treesDistance: 10;
+							levelDistance: 10;
+							nodeDistance: 5)).
 	layerLabel := BlTextElement new
 			text: (aString asRopedText
 					glamorousRegularFont;
-					fontSize: 8;
+					fontSize: 6;
 					foreground: Color lightGray);
 			constraintsDo: [ :c | 
 				c vertical fitContent.
@@ -200,11 +206,13 @@ GtClassBlueprint >> createLayerForMethods: aCollection named: aString [
 					size: ((aMethod messages size / 5) @ (aMethod linesOfCode / 5) max: minMethodNodeSize);
 					border: Color black;
 					background: (self colorForMethod: aMethod);
+					addEventHandler: BlPullHandler new;
 					when: BlClickEvent
 						do: [ :e | 
 							e target phlow spawnObject: aMethod.
 							e consumed: true ].
 			methodElement graph model: aMethod.
+			methodElement graph beNode.
 			layerMethodsToElements at: aMethod put: methodElement.
 			methodsToElements at: aMethod put: methodElement.
 			methodsContainer addChild: methodElement ].
@@ -218,7 +226,12 @@ GtClassBlueprint >> createLayerForMethods: aCollection named: aString [
 						at: anInvokedMethod
 						ifPresent: [ :anInvokedMethodElement | methodElement graph connectTo: anInvokedMethodElement ] ] ].
 	^ BlElement new
-		padding: (BlInsets all: 10);
+		clipChildren: false;
+		padding: (BlInsets
+				top: 0
+				left: 5
+				bottom: 0
+				right: 5);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ];
@@ -233,13 +246,10 @@ GtClassBlueprint >> createLayerForMethods: aCollection named: aString [
 
 { #category : #rendering }
 GtClassBlueprint >> createLayerForSlots: aCollection [
-	| attributesContainer layerLabel |
+	| attributesContainer layerLabel slotNodeSize |
+	slotNodeSize := 7 @ 7.
 	attributesContainer := BlElement new
-			padding: (BlInsets
-					top: 0
-					left: 5
-					bottom: 5
-					right: 5);
+			padding: (BlInsets top: 0 left: 5 bottom: 0 right: 5);
 			constraintsDo: [ :c | 
 				c vertical fitContent.
 				c horizontal fitContent.
@@ -248,20 +258,19 @@ GtClassBlueprint >> createLayerForSlots: aCollection [
 	layerLabel := BlTextElement new
 			text: ('Attributes' asRopedText
 					glamorousRegularFont;
-					fontSize: 8;
-					foreground: Color gray);
+					fontSize: 6;
+					foreground: Color lightGray);
 			constraintsDo: [ :c | 
 				c vertical fitContent.
 				c horizontal fitContent.
 				c linear horizontal alignCenter ].
 	aCollection
 		do: [ :aSlot | 
-			| slotElement slotNodeSize |
-			slotNodeSize := 10 @ 10.
+			| slotElement |
 			slotElement := BlElement new
 					size: slotNodeSize;
 					border: (BlBorder paint: Color blue);
-					background: Color white;
+					background: Color blue muchLighter;
 					when: BlClickEvent
 						do: [ :e | 
 							e target phlow spawnObject: aSlot.
@@ -271,10 +280,10 @@ GtClassBlueprint >> createLayerForSlots: aCollection [
 			attributesContainer addChild: slotElement ].
 	^ BlElement new
 		padding: (BlInsets
-				top: 10
-				left: 20
-				bottom: 10
-				right: 20);
+				top: 0
+				left: 10
+				bottom: 0
+				right: 10);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ];
@@ -291,34 +300,38 @@ GtClassBlueprint >> createLayerForSlots: aCollection [
 GtClassBlueprint >> createType: aType [
 	| childrenContainer classLabel classElement |
 	childrenContainer := BlElement new
-		border: (BlBorder paint: Color lightGray width: 1);
-		layout: (BlLinearLayout horizontal cellSpacing: 0);
-		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal fitContent.
-			c linear horizontal alignCenter ].
+			layout: BlLinearLayout horizontal;
+			constraintsDo: [ :c | 
+				c vertical fitContent.
+				c horizontal fitContent.
+				c linear horizontal alignCenter ].	"border: (BlBorder paint: Color lightGray width: 1);"
 	classLabel := BlTextElement new
-		text: (aType name asRopedText
-				glamorousRegularFont;
-				fontSize: 12;
-				foreground: Color black);
-		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal fitContent.
-			c linear horizontal alignCenter ].
+			margin: (BlInsets all: 5);
+			text: (aType name asRopedText
+					glamorousRegularFont;
+					foreground: Color black);
+			constraintsDo: [ :c | 
+				c vertical fitContent.
+				c horizontal fitContent.
+				c linear horizontal alignCenter ].
 	classElement := BlElement new
-		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal fitContent ];
-		layout: (BlLinearLayout vertical cellSpacing: 2);
-		when: BlClickEvent do: [ :e | e target phlow spawnObject: aType ];
-		addChild: classLabel;
-		addChild: childrenContainer.
+			constraintsDo: [ :c | 
+				c vertical fitContent.
+				c horizontal fitContent ];
+"			border: (BlBorder paint: Color black width: 0.5 );
+"			layout: BlLinearLayout vertical;
+			when: BlClickEvent do: [ :e | e target phlow spawnObject: aType ];
+			addChild: classLabel;
+			addChild: childrenContainer.
 	classElement graph model: aType.
-	childrenContainer addChild: (self createLayerForMethods: aType gtInitializerMethods named: 'Initializers').
-	childrenContainer addChild: (self createLayerForMethods: aType gtInterfaceMethods named: 'Interface').
-	childrenContainer addChild: (self createLayerForMethods: aType gtImplementationMethods named: 'Implementation').
-	childrenContainer addChild: (self createLayerForMethods: aType gtAccessorMethods named: 'Accessors').
+	childrenContainer 
+		addChild: (self createLayerForMethods: aType gtInitializerMethods named: 'Initializers').
+	childrenContainer 
+		addChild: (self createLayerForMethods: aType gtInterfaceMethods named: 'Interface').
+	childrenContainer 
+		addChild: (self createLayerForMethods: aType gtImplementationMethods named: 'Internal').
+	childrenContainer
+		addChild: (self createLayerForMethods: aType gtAccessorMethods named: 'Accessors').
 	childrenContainer addChild: (self createLayerForSlots: aType slots).
 	^ classElement
 ]

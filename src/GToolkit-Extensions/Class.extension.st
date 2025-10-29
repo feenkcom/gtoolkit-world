@@ -100,10 +100,7 @@ Class >> gtExamplesMapFor: aView context: aPhlowContext [
 
 { #category : #'*GToolkit-Extensions' }
 Class >> gtImplementationMethods [
-	| candidates methodsCalled |
-	candidates := self methods \ self gtInitializerMethods \ self gtAccessorMethods.
-	methodsCalled := candidates flatCollectAsSet: [ :each | each gtSelfMethods ].
-	^ methodsCalled
+	^ self methods \ self gtInitializerMethods \ self gtAccessorMethods \ self gtInterfaceMethods.
 ]
 
 { #category : #'*GToolkit-Extensions' }
