@@ -336,6 +336,16 @@ GtClassBlueprint >> createType: aType [
 	^ classElement
 ]
 
+{ #category : #'as yet unclassified' }
+GtClassBlueprint >> gtLiveFor: aView [
+	^ aView canvassable
+		title: 'Live';
+		priority: 0;
+		stencil: [ self ];
+		actionButtonIcon: BrGlamorousVectorIcons inspect action: [ :aBrButton | 
+			aBrButton phlow spawnObject: self asElement ]
+]
+
 { #category : #initialization }
 GtClassBlueprint >> initialize [
 	super initialize.
