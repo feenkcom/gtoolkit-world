@@ -1,22 +1,23 @@
 Class {
-	#name : #GtWorldPreviewerPagerPage,
+	#name : #GtWorldPreviewerPagerPageModel,
 	#superclass : #Object,
+	#traits : 'TGtWorldWithTabModelWithSpace',
+	#classTraits : 'TGtWorldWithTabModelWithSpace classTrait',
 	#instVars : [
 		'page',
 		'pageIndex',
-		'tabSpace',
 		'pager'
 	],
-	#category : #'GToolkit-World-UI - Preview'
+	#category : #'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> asElement [
+GtWorldPreviewerPagerPageModel >> asElement [
 	^ (self asElementScaled: 0.3)
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> asElementScaled: aScale [
+GtWorldPreviewerPagerPageModel >> asElementScaled: aScale [
 	| aPreviewElement |
 	
 	aPreviewElement := BrElementAsFormPreview
@@ -35,7 +36,7 @@ GtWorldPreviewerPagerPage >> asElementScaled: aScale [
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> gtPreviewFor: aView [
+GtWorldPreviewerPagerPageModel >> gtPreviewFor: aView [
 	<gtView>
 	^ aView forward 
 		title: 'Preview';
@@ -44,37 +45,32 @@ GtWorldPreviewerPagerPage >> gtPreviewFor: aView [
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> page [ 
+GtWorldPreviewerPagerPageModel >> page [ 
 	^ page
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> page: aPage [ 
+GtWorldPreviewerPagerPageModel >> page: aPage [ 
 	page := aPage
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> pageIndex [
+GtWorldPreviewerPagerPageModel >> pageIndex [
 	^ pageIndex
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> pageIndex: index [ 
+GtWorldPreviewerPagerPageModel >> pageIndex: index [ 
 	pageIndex := index
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> pager: aPager [ 
+GtWorldPreviewerPagerPageModel >> pager: aPager [ 
 	pager := aPager.
 ]
 
 { #category : #accessing }
-GtWorldPreviewerPagerPage >> select [
-	tabSpace select.
+GtWorldPreviewerPagerPageModel >> select [
+	tabModelWithSpace select.
 	pager scrollTo: pageIndex
-]
-
-{ #category : #accessing }
-GtWorldPreviewerPagerPage >> tabSpace: aTabSpace [ 
-	tabSpace := aTabSpace
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'previewerOverlay'
 	],
-	#category : #'GToolkit-World-UI - Preview'
+	#category : #'GToolkit-WorldPreviewer-Support'
 }
 
 { #category : #accessing }
@@ -47,13 +47,14 @@ GtWorldPreviewerEventHandler >> previewerShowEvent: aPreviewerShowWish [
 				do: [ :e | 
 					self removePreviewerOverlay.
 					e consumed: true ].
-	preview := (GtWorldPreviewer new worldElement: worldElement) asElement.
+	preview := (GtWorldPreviewerModel new worldElement: worldElement) asElement.
 	previewerOverlay addChild: preview.
 	worldElement addChild: previewerOverlay
 ]
 
 { #category : #accessing }
 GtWorldPreviewerEventHandler >> removePreviewerOverlay [
+	previewerOverlay ifNil: [ ^ self ].
 	previewerOverlay removeFromParent.
 	previewerOverlay := nil
 ]

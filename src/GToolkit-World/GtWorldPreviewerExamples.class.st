@@ -26,6 +26,6 @@ GtWorldPreviewerExamples >> worldPreviewerForWorldWithTwoTabs [
 	scripter := BlScripter new element: worldElement.
 	worldElement phlow showObject: 42.
 	worldElement phlow showObject: Object.
-	worldPreviewer := GtWorldPreviewer new worldElement: worldElement.
+	worldPreviewer := GtWorldPreviewerModel new worldElement: worldElement.
 	^ worldPreviewer
 ]
