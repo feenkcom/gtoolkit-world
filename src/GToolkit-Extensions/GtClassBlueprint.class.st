@@ -57,7 +57,7 @@ GtClassBlueprint >> create [
 							container
 								addChild: (BlLineElement new
 										constraintsDo: [ :c | c ignoreByLayout ];
-										border: (BlBorder paint: (Color gray alpha: 0.3) width: 2);
+										border: (BlBorder paint: (Color lightGray alpha: 0.3) width: 2);
 										zIndex: -2;
 										fromAnchor: (BlElementBottomCenterAnchor
 												referenceElement: assoc value
@@ -65,14 +65,15 @@ GtClassBlueprint >> create [
 										toAnchor: (BlElementTopCenterAnchor
 												referenceElement: subclassElement
 												relatedTo: assoc value);
-										fromHead: (BlArrowheadSimpleArrow new
+										fromHead: (BlArrowheadTriangle new
+												scale: 3;
 												border: (BlBorder builder
 														paint: (Color gray alpha: 0.3);
-														width: 5;
+														width: 1;
 														build))) ] ] ].
 	methodsToElements
 		associationsDo: [ :assoc | 
-			(assoc key gtSelfMethods, assoc key gtSuperMethods)
+			assoc key gtSelfMethods , assoc key gtSuperMethods
 				do: [ :anInvokedMethod | 
 					methodsToElements
 						at: anInvokedMethod
@@ -87,8 +88,8 @@ GtClassBlueprint >> create [
 											relatedTo: invokedMethodElement);
 									toAnchor: (BlElementCenterLeftAnchor
 											referenceElement: invokedMethodElement
-											relatedTo: assoc value)";
-									toHead: (BlArrowheadSimpleArrow new border: (Color gray darker alpha: 0.3))".
+											relatedTo: assoc value).	";
+									toHead: (BlArrowheadSimpleArrow new border: (Color gray darker alpha: 0.3))"
 							lineElement constraints ignoreByLayout.
 							container addChild: lineElement ] ].
 			assoc key gtAccessedSlots
@@ -106,8 +107,8 @@ GtClassBlueprint >> create [
 											relatedTo: accessedAttributeElement);
 									toAnchor: (BlElementCenterLeftAnchor
 											referenceElement: accessedAttributeElement
-											relatedTo: assoc value)";
-									toHead: (BlArrowheadSimpleArrow new border: (Color blue alpha: 0.2))".
+											relatedTo: assoc value).	";
+									toHead: (BlArrowheadSimpleArrow new border: (Color blue alpha: 0.2))"
 							lineElement constraints ignoreByLayout.
 							container addChild: lineElement ] ] ].
 	^ container
@@ -169,7 +170,7 @@ GtClassBlueprint >> createLayerForMethods: aCollection named: aString [
 		do: [ :aMethod | 
 			| methodElement |
 			methodElement := BlElement new
-					size: ((aMethod messages size / 5) @ (aMethod linesOfCode / 5)
+					size: ((self widthOfMethod: aMethod) @ (self heightOfMethod: aMethod)
 							max: self minimumNodeSize);
 					border: Color black;
 					background: (self colorForMethod: aMethod);
@@ -180,7 +181,9 @@ GtClassBlueprint >> createLayerForMethods: aCollection named: aString [
 						do: [ :e | 
 							e target phlow spawnObject: aMethod.
 							e consumed: true ].
-			methodElement graph beNode; model: aMethod.
+			methodElement graph
+				beNode;
+				model: aMethod.
 			layerMethodsToElements at: aMethod put: methodElement.
 			methodsToElements at: aMethod put: methodElement.
 			methodsContainer addChild: methodElement ].
@@ -267,6 +270,11 @@ GtClassBlueprint >> gtLiveFor: aView [
 			aBrButton phlow spawnObject: self asElement ]
 ]
 
+{ #category : #rendering }
+GtClassBlueprint >> heightOfMethod: aMethod [
+	^ "aMethod linesOfCode / 5"7
+]
+
 { #category : #initialization }
 GtClassBlueprint >> initialize [
 	super initialize.
@@ -347,4 +355,9 @@ GtClassBlueprint >> type: aType [
 { #category : #accessing }
 GtClassBlueprint >> types: aCollection [
 	types := aCollection
+]
+
+{ #category : #rendering }
+GtClassBlueprint >> widthOfMethod: aMethod [
+	^ "aMethod messages size / 5"7
 ]
