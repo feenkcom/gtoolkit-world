@@ -375,3 +375,17 @@ GtMonitorGlutinEventsElement >> visitMouseInputEvent: anEvent [
 				ifTrue: [ anEvent button button_code asString ]
 				ifFalse: [ anEvent button button_type item asString ]). }
 ]
+
+{ #category : #'event - visiting' }
+GtMonitorGlutinEventsElement >> visitWindowFocusedEvent: anEvent [
+	^ BrHorizontalPane new
+		hMatchParent;
+		vFitContent;
+		alignCenterLeft;
+		addChildren: ({ 
+			BrLabel new
+				aptitude: BrGlamorousLabelAptitude new;
+				text: 'Window ', (anEvent is_focused ifTrue: [ 'focused' ] ifFalse: ['lost focus']).
+			self newButtonElement: anEvent windowId asString.
+		} select: #notNil).
+]
