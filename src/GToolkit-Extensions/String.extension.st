@@ -42,7 +42,9 @@ String >> gtItemsFor: aView [
 		column: 'Character' 
 			text: [ :eachItem | eachItem gtDisplayString gtRemovePrefix: 'Character '];
 		column: 'ASCII' 
-			text: [ :eachItem | eachItem asciiValue ].
+			text: [ :eachItem | eachItem asciiValue ];
+		column: 'UTF-8' 
+			text: [ :eachItem | [ eachItem unicodeCharacterData gtCodePointHexString ] on: NotFound do: [ 'N/A'] ].
 ]
 
 { #category : #'*GToolkit-Extensions' }
