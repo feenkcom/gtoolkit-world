@@ -21,6 +21,7 @@ Unicode class >> gtSymbolsFor: aView [
 					vExact: 20;
 					text: each character asString ]
 			width: 100;
+		column: 'Name' text: [:each | each name ];
 		column: 'Encoded hex'
 			text: [ :each | 
 				String
@@ -35,13 +36,5 @@ Unicode class >> gtSymbolsFor: aView [
 			width: 100;
 		column: 'Encoded binary'
 			text: [ :each | 
-				String
-					streamContents: [ :out | 
-						each character asString utf8Encoded
-							do: [ :byte | 
-								byte
-									printOn: out
-									base: 2
-									nDigits: 8 ]
-							separatedBy: [ out space ] ] ]
+				each asTextWithUtf8EncodedBinary ]
 ]
