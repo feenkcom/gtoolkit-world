@@ -6,6 +6,7 @@ Unicode class >> gtSymbolsFor: aView [
 	<gtClassView>
 	^ aView columnedList
 		title: 'Symbols';
+		priority: 21;
 		items: [ (0 to: Unicode maxValue) asAsyncStream
 				collect: [ :each | (Character value: each) unicodeCharacterData ] ];
 		column: 'Code point'
@@ -21,7 +22,7 @@ Unicode class >> gtSymbolsFor: aView [
 					vExact: 20;
 					text: each character asString ]
 			width: 100;
-		column: 'Name' text: [:each | each name ];
+		column: 'Name' text: [ :each | each name asLowercase capitalized ];
 		column: 'Encoded hex'
 			text: [ :each | 
 				String
