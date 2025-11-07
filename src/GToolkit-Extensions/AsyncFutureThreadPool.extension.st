@@ -9,6 +9,7 @@ AsyncFutureThreadPool >> gtWorkersFor: aView [
 
 	^ aView columnedList
 		title: 'Workers';
+		importantFutureExecutionConfiguration;
 		priority: 10;
 		items: [ workers asArray withIndexCollect: [ :each :index | each -> index ] ];
 		column: 'Worker'
