@@ -109,9 +109,9 @@ GtMonitor >> gtExternalResourcesFor: aView [
 { #category : #'gt-extension' }
 GtMonitor >> gtFutureWorkersPoolFor: aView [
 	<gtView>
-	
 	^ aView forward
 		title: 'Future workers';
+		importantFutureExecutionConfiguration;
 		priority: 45;
 		object: [ AsyncFutureThreadPool current ];
 		view: #gtWorkersFor:
@@ -184,9 +184,9 @@ GtMonitor >> gtMixedAnnouncersFor: aView [
 { #category : #'gt-extension' }
 GtMonitor >> gtProcessesFor: aView [
 	<gtView>
-	
 	^ aView explicit
 		title: 'Processes';
+		importantFutureExecutionConfiguration;
 		priority: 5;
 		stencil: [ GtMonitoredProcessesElement new ]
 ]
