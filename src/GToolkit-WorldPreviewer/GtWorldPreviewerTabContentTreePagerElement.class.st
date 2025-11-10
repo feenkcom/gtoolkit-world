@@ -54,6 +54,11 @@ GtWorldPreviewerTabContentTreePagerElement >> initialize [
 	
 	self hMatchParent.
 	self vFitContentLimited.
+	
+	self
+		when: BlMouseWheelEvent
+		do: [ :anEvent | 
+			self layoutDo: [ :aLayout | aLayout mouseWheelEvent: anEvent ] ]
 ]
 
 { #category : #'private - updating' }
