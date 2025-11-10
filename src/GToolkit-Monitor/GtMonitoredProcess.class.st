@@ -11,6 +11,7 @@ GtMonitoredProcess >> gtPSKeysFor: aView [
 
 	^ aView forward
 		title: 'PS Keys';
+		importantFutureExecutionConfiguration;
 		priority: 5;
 		object: [ self service ];
 		view: #gtPSKeysFor:
@@ -18,14 +19,12 @@ GtMonitoredProcess >> gtPSKeysFor: aView [
 
 { #category : #'gt-extension' }
 GtMonitoredProcess >> gtStackFor: aView [
-
 	<gtView>
 	^ aView explicit
-		  title: 'Stack';
-		  priority: 1;
-		  stencil: [ 
-			  (GtMethodContextsCoder forProcess: self service) forItems:
-					  self stack ]
+		title: 'Stack';
+		importantFutureExecutionConfiguration;
+		priority: 1;
+		stencil: [ (GtMethodContextsCoder forProcess: self service) forItems: self stack ]
 ]
 
 { #category : #accessing }
@@ -42,6 +41,7 @@ GtMonitoredProcess >> gtUpdatingStackFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Updating stack';
+		importantFutureExecutionConfiguration;
 		priority: 2;
 		stencil: [ GtMonitoredProcessElement new service: self ]
 ]
