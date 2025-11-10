@@ -7,18 +7,26 @@ CompiledMethod >> isGtSlide [
 
 { #category : #'*GToolkit-Extensions' }
 CompiledMethod >> paintWithinSelfMessagesWith: m [
-	| methods |
-	methods := {self}
-			, (self methodClass methods
-					select: [ :each | each selfMessages anySatisfy: [ :method | method = self selector ] ])
-			, (self
-					deepCollect: [ :each | each selfMessages collect: [ :selector | each methodClass lookupSelector: selector ] ]).
+	| methods callingMethods calledMethods |
+	callingMethods := self
+			deepCollect: [ :method | 
+				self methodClass methods
+					select: [ :each | each selfMessages anySatisfy: [ :message | message = method selector ] ] ].
+	calledMethods := self
+			deepCollect: [ :each | each selfMessages collect: [ :method | self methodClass lookupSelector: method ] ].
+	methods := {self} , callingMethods , calledMethods.
 	m nodes
 		stencil: [ :method | 
 			BlElement new
 				geometry: BlCircleGeometry new;
 				size: 10 @ 10;
-				background: (method = self ifTrue: [ Color red ] ifFalse: [ Color black ]) ];
+				border: (BlBorder paint: (method compiledMethod = self compiledMethod
+						ifTrue: [ BrGlamorousColors primaryBorderColor  ]
+						ifFalse: [ Color lightGray ]) width: 2);
+				background: (method compiledMethod = self compiledMethod
+						ifTrue: [ BrGlamorousColors primaryBorderColor muchLighter  ]
+						ifFalse: [ Color veryVeryLightGray ]);
+				addAptitude: (BrGlamorousWithExplicitTooltipAptitude text: method gtDisplayString) ];
 		with: methods.
 	m edges
 		stencil: [ :method | 
