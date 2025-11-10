@@ -6,6 +6,7 @@ AsyncFutureThreadPoolWorker >> gtLocalQueueFor: aView [
 	
 	^ aView forward
 		title: 'Local queue';
+		importantFutureExecutionConfiguration;
 		priority: 11;
 		object: [ localQueue ];
 		view: #gtItemsFor:;
@@ -45,6 +46,7 @@ AsyncFutureThreadPoolWorker >> gtOverviewFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Overview';
+		importantFutureExecutionConfiguration;
 		priority: 60;
 		items: [ self gtOverview ];
 		column: 'Name' text: #name;
@@ -59,6 +61,7 @@ AsyncFutureThreadPoolWorker >> gtPendingQueueFor: aView [
 
 	^ aView forward
 		title: 'Pending queue';
+		importantFutureExecutionConfiguration;
 		priority: 12;
 		object: [ pendingQueue ];
 		view: #gtItemsFor:;
