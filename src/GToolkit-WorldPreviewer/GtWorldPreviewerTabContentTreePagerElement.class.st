@@ -1,6 +1,9 @@
 Class {
 	#name : #GtWorldPreviewerTabContentTreePagerElement,
 	#superclass : #GtWorldPreviewerTabContentElement,
+	#instVars : [
+		'previewScale'
+	],
 	#category : #'GToolkit-WorldPreviewer-UI'
 }
 
@@ -52,6 +55,8 @@ GtWorldPreviewerTabContentTreePagerElement >> ensurePreviewForPaneElement: aPane
 GtWorldPreviewerTabContentTreePagerElement >> initialize [
 	super initialize.
 	
+	previewScale := 0.3.
+	
 	self hMatchParent.
 	self vFitContentLimited.
 	
@@ -68,12 +73,22 @@ GtWorldPreviewerTabContentTreePagerElement >> newPreviewElementForPaneModel: aPa
 		paneModel: aPaneModel;
 		treePager: self tabContentModel treePagerElement;
 		tabModelWithSpace: self tabContentModel tabModelWithSpace;
-		asElement
+		asElementScaled: self previewScale
 ]
 
 { #category : #'api - tab content model' }
 GtWorldPreviewerTabContentTreePagerElement >> onTabContentModelChanged [
 	self updateElement
+]
+
+{ #category : #accessing }
+GtWorldPreviewerTabContentTreePagerElement >> previewScale [
+	^ previewScale ifNil: [ previewScale := 0.3 ]
+]
+
+{ #category : #accessing }
+GtWorldPreviewerTabContentTreePagerElement >> previewScale: anObject [
+	previewScale := anObject
 ]
 
 { #category : #'private - updating' }
