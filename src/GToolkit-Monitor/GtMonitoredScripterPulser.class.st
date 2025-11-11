@@ -220,7 +220,7 @@ GtMonitoredScripterPulser >> status [
 	aPulser := self pulser ifNil: [ ^ '' ].
 	
 	aPulser hasFinished ifTrue: [ 
-		^ 'finished' asRopedText foreground: BrGlamorousColors disabledButtonTextColor ].
+		^ aPulser state asString asRopedText foreground: BrGlamorousColors disabledButtonTextColor ].
 
 	aPulser hasStarted ifFalse: [ 
 		^ 'not started' asRopedText foreground: BrGlamorousColors disabledButtonTextColor ].
@@ -233,9 +233,9 @@ GtMonitoredScripterPulser >> status [
 			ifFalse: [ aText foreground: BrGlamorousColors failureBackgroundColor ] ].
 			
 	aPulser isProcessTerminatedOrTerminating ifTrue: [
-		^ 'terminated' asRopedText foreground: BrGlamorousColors disabledButtonTextColor ].
+		^ aPulser state asString asRopedText foreground: BrGlamorousColors disabledButtonTextColor ].
 	
-	^ 'running' asRopedText foreground: BrGlamorousColors failureBackgroundColor
+	^ aPulser state asString asRopedText foreground: BrGlamorousColors failureBackgroundColor
 ]
 
 { #category : #accessing }
