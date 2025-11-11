@@ -51,11 +51,6 @@ GtWorldPreviewerTabElement >> initialize [
 		vFitContent.
 ]
 
-{ #category : #'as yet unclassified' }
-GtWorldPreviewerTabElement >> initializeHeaderElement [
-	headerElement := BrHorizontalPane new fitContent
-]
-
 { #category : #initialization }
 GtWorldPreviewerTabElement >> initializeLabelElement [
 	labelElement := BrLabel new
