@@ -23,7 +23,7 @@ GtWorldPreviewerTabModel class >> enableTreePager [
 
 { #category : #settings }
 GtWorldPreviewerTabModel class >> isTreePagerEnabled [
-	^ IsTreePagerEnabled ifNil: [ IsTreePagerEnabled := false ]
+	^ IsTreePagerEnabled ifNil: [ IsTreePagerEnabled := true ]
 ]
 
 { #category : #accessing }
