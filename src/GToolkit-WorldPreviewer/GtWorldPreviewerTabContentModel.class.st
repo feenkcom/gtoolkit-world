@@ -11,3 +11,8 @@ GtWorldPreviewerTabContentModel >> asElement [
 	<return: #BlElement>
 	^ self subclassResponsibility
 ]
+
+{ #category : #'api - exporting' }
+GtWorldPreviewerTabContentModel >> computeScreenshot [
+	self subclassResponsibility
+]

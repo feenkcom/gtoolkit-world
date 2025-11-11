@@ -23,6 +23,14 @@ GtWorldPreviewerTabContentSpaceModel >> asElement [
 					fireEvent: (GtWorldPreviewerSelectSpaceTabWish new spaceTabPreview: self) ]
 ]
 
+{ #category : #'api - exporting' }
+GtWorldPreviewerTabContentSpaceModel >> computeScreenshot [
+	<return: #FileReference>
+	^ (BlScripter new
+		maxPulseElapsedTime: 30 seconds;
+		element: self tabModelWithSpace model root) element exportAsPNG
+]
+
 { #category : #accessing }
 GtWorldPreviewerTabContentSpaceModel >> pageIndex [
 	^ 0

@@ -72,6 +72,11 @@ GtWorldPreviewerTabModel >> asElementOld [
 				enqueueTask: (BlTaskAction new action: [ container addChild: tabSpacePreview asElement ]) ]
 ]
 
+{ #category : #'api - exporting' }
+GtWorldPreviewerTabModel >> computeScreenshot [
+	self tabContent computeScreenshot
+]
+
 { #category : #initialization }
 GtWorldPreviewerTabModel >> createTabContent [
 	self queries

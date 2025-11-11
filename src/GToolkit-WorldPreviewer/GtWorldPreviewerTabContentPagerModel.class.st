@@ -13,6 +13,24 @@ GtWorldPreviewerTabContentPagerModel >> asElement [
 	^ GtWorldPreviewerTabContentPagerElement new tabContentModel: self
 ]
 
+{ #category : #'api - exporting' }
+GtWorldPreviewerTabContentPagerModel >> computeScreenshot [
+	<return: #FileReference>
+	| screenshot |
+	screenshot := BrHorizontalPane new fitContent
+			cellSpacing: 20;
+			background: Color white.
+	self pagerPagePreviews
+		do: [ :each | 
+			screenshot
+				addChild: ((each asElementScaled: 1)
+						margin: (BlInsets all: 20);
+						addAptitude: BrShadowAptitude new beLarge) ].
+	^ (BlScripter new
+		maxPulseElapsedTime: 30 seconds;
+		element: screenshot) element exportAsPNG
+]
+
 { #category : #views }
 GtWorldPreviewerTabContentPagerModel >> gtLiveFor: aView [
 	<gtView>
