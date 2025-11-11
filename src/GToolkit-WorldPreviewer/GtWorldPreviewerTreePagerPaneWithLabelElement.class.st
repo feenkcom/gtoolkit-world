@@ -25,7 +25,7 @@ GtWorldPreviewerTreePagerPaneWithLabelElement >> initialize [
 			margin: (BlInsets all: 0);
 			padding: (BlInsets top: 2 left: 5 bottom: 0 right: 5);
 			geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-			background: (Color gray alpha: 0.5);
+			background: (Color lightGray alpha: 0.7);
 			constraintsDo: [ :c | 
 				c horizontal fitContentLimited.
 				c vertical fitContent.

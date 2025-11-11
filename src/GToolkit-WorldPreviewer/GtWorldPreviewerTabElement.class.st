@@ -26,7 +26,10 @@ GtWorldPreviewerTabElement >> initialize [
 	| headerElement |
 	super initialize.
 
-
+	"self background: Color white.
+	self padding: (BlInsets all: 10).
+	self addAptitude: BrShadowAptitude."
+	
 	self initializeLabelElement.
 	self initializeScreenshotButton.
 
@@ -55,7 +58,7 @@ GtWorldPreviewerTabElement >> initialize [
 GtWorldPreviewerTabElement >> initializeLabelElement [
 	labelElement := BrLabel new
 			text: 'Tab: ';
-			margin: (BlInsets left: 10);
+			margin: (BlInsets top: 0 left: 5 bottom: 5 right: 0);
 			aptitude: BrGlamorousLabelAptitude new
 ]
 
