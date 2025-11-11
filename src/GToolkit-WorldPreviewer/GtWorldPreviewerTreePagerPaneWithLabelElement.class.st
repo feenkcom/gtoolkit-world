@@ -12,24 +12,35 @@ Class {
 
 { #category : #initialization }
 GtWorldPreviewerTreePagerPaneWithLabelElement >> defaultLayout [
-	^ BlLinearLayout vertical
+	^ BlFrameLayout new
 ]
 
 { #category : #initialization }
 GtWorldPreviewerTreePagerPaneWithLabelElement >> initialize [
+	| labelContainer |
 	super initialize.
 
-	labelElement := BrLabel new
-			text: 'Pane: ';
+	labelElement := BlShrinkingTextElement new
 			margin: (BlInsets left: 0);
-			aptitude: BrGlamorousLabelAptitude new;
-			hMatchParent;
-			vFitContent.
-	paneElement := GtWorldPreviewerTreePagerPaneElement new.
+			geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+			background: (Color gray alpha: 0.5);
+			constraintsDo: [ :c | 
+				c horizontal fitContentLimited.
+				c vertical fitContent.
+				c frame horizontal alignCenter.
+				c frame vertical alignTop ].
+
+	paneElement := GtWorldPreviewerTreePagerPaneElement new
+			constraintsDo: [ :c | c frame horizontal alignCenter ].
 	self addAptitude: (BrLayoutResizerAptitude new common: paneElement).
 
-	self addChild: labelElement.
+	labelContainer := BrFrame new
+			hMatchParent;
+			vFitContent.
+	labelContainer addChild: labelElement.
+
 	self addChild: paneElement.
+	self addChild: labelContainer.
 
 	self fitContent
 ]
@@ -56,5 +67,5 @@ GtWorldPreviewerTreePagerPaneWithLabelElement >> updateElement [
 	aText := self treePagerPaneModel paneElement
 			ifNotNil: [ :anElement | anElement paneModel ifNotNil: #title ifNil: [ '' ] ]
 			ifNil: [ '' ].
-	labelElement text: aText
+	labelElement text: aText asRopedText
 ]
