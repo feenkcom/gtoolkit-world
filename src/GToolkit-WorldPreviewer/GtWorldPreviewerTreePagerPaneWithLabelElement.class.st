@@ -67,5 +67,5 @@ GtWorldPreviewerTreePagerPaneWithLabelElement >> updateElement [
 	aText := self treePagerPaneModel paneElement
 			ifNotNil: [ :anElement | anElement paneModel ifNotNil: #title ifNil: [ '' ] ]
 			ifNil: [ '' ].
-	labelElement text: aText asRopedText
+	labelElement text: aText asRopedText glamorousRegularFont
 ]
