@@ -20,9 +20,11 @@ GtWorldPreviewerTreePagerPaneWithLabelElement >> initialize [
 	| labelContainer |
 	super initialize.
 
-	labelElement := BlShrinkingTextElement new
-			margin: (BlInsets left: 0);
-			geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+	labelElement := BrLabel new
+			addAptitude: (BrGlamorousShrinkingLabelAptitude new foreground: Color white);
+			margin: (BlInsets all: 0);
+			padding: (BlInsets top: 2 left: 5 bottom: 0 right: 5);
+			geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 			background: (Color gray alpha: 0.5);
 			constraintsDo: [ :c | 
 				c horizontal fitContentLimited.
