@@ -18,21 +18,9 @@ GtWorldPreviewerTreePagerPaneModel >> asElement [
 
 { #category : #'api - converting' }
 GtWorldPreviewerTreePagerPaneModel >> asElementScaled: aScale [
-	| aPreviewElement |
-	
-	aPreviewElement := BrElementAsFormPreview
-		forElement: self paneElement
-		preferredScale: aScale.
-		
-	^ aPreviewElement
-			aptitude: (BrStyleCommonAptitude new
-					default: [ :f | f border: Color transparent ];
-					hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
-			when: BlClickEvent
-				do: [ :e | 
-					e consumed: true.
-					e target
-						fireEvent: (GtWorldPreviewerSelectPagerPageWish new pagerPagePreview: self) ]
+	^ GtWorldPreviewerTreePagerPaneElement new
+		previewScale: aScale;
+		treePagerPaneModel: self
 ]
 
 { #category : #accessing }

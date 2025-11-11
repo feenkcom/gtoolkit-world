@@ -2682,7 +2682,7 @@ GtWorldByScripterExamples >> spawnSameLepiterPageWithPharoSnippetToNextPane [
 			aStep
 				shortcutStep: [ :s | 
 					s
-						label: 'Click on a lepiter page editable title';
+						label: 'Browse the same lepiter page from editable title';
 						combination: BlKeyCombination primaryB;
 						// (GtPagerPageElementId indexed: 1);
 						// LePageEditableTitleElement;

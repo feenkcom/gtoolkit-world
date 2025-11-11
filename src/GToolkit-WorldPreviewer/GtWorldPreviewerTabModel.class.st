@@ -23,7 +23,7 @@ GtWorldPreviewerTabModel class >> enableTreePager [
 
 { #category : #settings }
 GtWorldPreviewerTabModel class >> isTreePagerEnabled [
-	^ IsTreePagerEnabled ifNil: [ IsTreePagerEnabled := false ]
+	^ IsTreePagerEnabled ifNil: [ IsTreePagerEnabled := true ]
 ]
 
 { #category : #accessing }
@@ -70,6 +70,11 @@ GtWorldPreviewerTabModel >> asElementOld [
 			tabSpacePreview := GtWorldPreviewerTabContentSpaceModel new tabModelWithSpace: tabModelWithSpace.
 			container
 				enqueueTask: (BlTaskAction new action: [ container addChild: tabSpacePreview asElement ]) ]
+]
+
+{ #category : #'api - exporting' }
+GtWorldPreviewerTabModel >> computeScreenshot [
+	self tabContent computeScreenshot
 ]
 
 { #category : #initialization }

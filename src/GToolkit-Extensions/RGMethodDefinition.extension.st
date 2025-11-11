@@ -65,21 +65,27 @@ RGMethodDefinition >> isGtSlide [
 
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> paintWithinSelfMessagesWith: m [
-	| methods |
-	methods := {self}
-			, ((self methodClass methods
-					select: [ :each | each selfMessages anySatisfy: [ :method | method = self selector ] ])
-					, (self method
-							deepCollect: [ :each | each selfMessages collect: [ :method | self methodClass lookupSelector: method ] ])
-					collect: #methodReference).
+	| methods callingMethods calledMethods |
+	callingMethods := self method
+			deepCollect: [ :method | 
+				self methodClass methods
+					select: [ :each | each selfMessages anySatisfy: [ :message | message = method selector ] ] ].
+	calledMethods := self method
+			deepCollect: [ :each | each selfMessages collect: [ :method | self methodClass lookupSelector: method ] ].
+	methods := {self} , ((callingMethods , calledMethods) collect: #methodReference).
 	m nodes
 		stencil: [ :method | 
 			BlElement new
 				geometry: BlCircleGeometry new;
 				size: 10 @ 10;
+				border: (BlBorder paint: (method compiledMethod = self compiledMethod
+						ifTrue: [ BrGlamorousColors primaryBorderColor  ]
+						ifFalse: [ Color lightGray ]) width: 2);
 				background: (method compiledMethod = self compiledMethod
-						ifTrue: [ Color red ]
-						ifFalse: [ Color black ]) ];
+						ifTrue: [ BrGlamorousColors primaryBorderColor muchLighter  ]
+						ifFalse: [ Color veryVeryLightGray ]);
+				addAptitude: (BrGlamorousWithExplicitTooltipAptitude text: method gtDisplayString)
+ ];
 		with: methods.
 	m edges
 		stencil: [ :method | 
@@ -93,7 +99,7 @@ RGMethodDefinition >> paintWithinSelfMessagesWith: m [
 				collect: [ :method | self methodClass lookupSelector: method ])
 				collect: #methodReference ].
 	m layout horizontalDominanceTree
-		levelDistance: 50;
+		levelDistance: 30;
 		treesDistance: 10;
 		nodeDistance: 1
 ]

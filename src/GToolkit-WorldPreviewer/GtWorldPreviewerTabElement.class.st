@@ -13,32 +13,23 @@ Class {
 
 { #category : #'private - event handling' }
 GtWorldPreviewerTabElement >> computeScreenshot [
-	| screenshot |
-	screenshot := BrHorizontalPane new fitContent
-			cellSpacing: 20;
-			background: Color white.
-	self tabModel pagerPagePreviews
-		do: [ :each | 
-			screenshot
-				addChild: ((each asElementScaled: 1)
-						margin: (BlInsets all: 20);
-						addAptitude: BrShadowAptitude new beLarge) ].
-	(BlScripter new
-		maxPulseElapsedTime: 30 seconds;
-		element: screenshot) element exportAsPNG
+	self tabModel computeScreenshot
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GtWorldPreviewerTabElement >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GtWorldPreviewerTabElement >> initialize [
 	| headerElement |
 	super initialize.
 
-
+	"self background: Color white.
+	self padding: (BlInsets all: 10).
+	self addAptitude: BrShadowAptitude."
+	
 	self initializeLabelElement.
 	self initializeScreenshotButton.
 
@@ -63,20 +54,15 @@ GtWorldPreviewerTabElement >> initialize [
 		vFitContent.
 ]
 
-{ #category : #'as yet unclassified' }
-GtWorldPreviewerTabElement >> initializeHeaderElement [
-	headerElement := BrHorizontalPane new fitContent
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GtWorldPreviewerTabElement >> initializeLabelElement [
 	labelElement := BrLabel new
 			text: 'Tab: ';
-			margin: (BlInsets left: 10);
+			margin: (BlInsets top: 0 left: 5 bottom: 5 right: 0);
 			aptitude: BrGlamorousLabelAptitude new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GtWorldPreviewerTabElement >> initializeScreenshotButton [
 	screenshotButton := BrButton new
 			beTinySize;

@@ -1,6 +1,10 @@
 Class {
 	#name : #GtWorldPreviewerTabContentTreePagerElement,
 	#superclass : #GtWorldPreviewerTabContentElement,
+	#instVars : [
+		'previewScale',
+		'treePagerPaneElementClass'
+	],
 	#category : #'GToolkit-WorldPreviewer-UI'
 }
 
@@ -52,23 +56,55 @@ GtWorldPreviewerTabContentTreePagerElement >> ensurePreviewForPaneElement: aPane
 GtWorldPreviewerTabContentTreePagerElement >> initialize [
 	super initialize.
 	
+	treePagerPaneElementClass := GtWorldPreviewerTreePagerPaneWithLabelElement.
+	previewScale := 0.3.
+	
 	self hMatchParent.
-	self vFitContentLimited.
+	self vFitContent.
+	
+	self
+		when: BlMouseWheelEvent
+		do: [ :anEvent | 
+			self layoutDo: [ :aLayout | aLayout mouseWheelEvent: anEvent ] ]
 ]
 
 { #category : #'private - updating' }
 GtWorldPreviewerTabContentTreePagerElement >> newPreviewElementForPaneModel: aPaneModel paneElement: aPaneElement [
-	^ GtWorldPreviewerTreePagerPaneModel new
-		paneElement: aPaneElement;
-		paneModel: aPaneModel;
-		treePager: self tabContentModel treePagerElement;
-		tabModelWithSpace: self tabContentModel tabModelWithSpace;
-		asElement
+	| aTreePagerPaneModel |
+	aTreePagerPaneModel := GtWorldPreviewerTreePagerPaneModel new
+			paneElement: aPaneElement;
+			paneModel: aPaneModel;
+			treePager: self tabContentModel treePagerElement;
+			tabModelWithSpace: self tabContentModel tabModelWithSpace.
+
+	^ treePagerPaneElementClass new
+		previewScale: self previewScale;
+		treePagerPaneModel: aTreePagerPaneModel
 ]
 
 { #category : #'api - tab content model' }
 GtWorldPreviewerTabContentTreePagerElement >> onTabContentModelChanged [
 	self updateElement
+]
+
+{ #category : #accessing }
+GtWorldPreviewerTabContentTreePagerElement >> previewScale [
+	^ previewScale ifNil: [ previewScale := 0.3 ]
+]
+
+{ #category : #accessing }
+GtWorldPreviewerTabContentTreePagerElement >> previewScale: anObject [
+	previewScale := anObject
+]
+
+{ #category : #accessing }
+GtWorldPreviewerTabContentTreePagerElement >> treePagerPaneElementClass [
+	^ treePagerPaneElementClass
+]
+
+{ #category : #accessing }
+GtWorldPreviewerTabContentTreePagerElement >> treePagerPaneElementClass: anElementClass [
+	treePagerPaneElementClass := anElementClass
 ]
 
 { #category : #'private - updating' }
