@@ -19,6 +19,7 @@ GtWorldPreviewerPagerPageModel >> asElement [
 { #category : #converting }
 GtWorldPreviewerPagerPageModel >> asElementScaled: aScale [
 	^ GtWorldPreviewerPagerPageElement new
+		withStyling;
 		previewScale: aScale;
 		pagerPageModel: self
 ]

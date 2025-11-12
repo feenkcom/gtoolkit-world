@@ -19,6 +19,7 @@ GtWorldPreviewerTreePagerPaneModel >> asElement [
 { #category : #'api - converting' }
 GtWorldPreviewerTreePagerPaneModel >> asElementScaled: aScale [
 	^ GtWorldPreviewerTreePagerPaneElement new
+		withStyling;
 		previewScale: aScale;
 		treePagerPaneModel: self
 ]
