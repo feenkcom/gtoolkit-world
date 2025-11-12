@@ -21,14 +21,8 @@ GtWorldPreviewerFormElement >> initialize [
 
 	self initializePreviewElement.
 	self addChild: previewElement.
-
-	self
-		addAptitude: (BrStyleCommonAptitude new
-				default: [ :f | f border: Color transparent ];
-				hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]).
-	
 	self addAptitude: (BrLayoutResizerAptitude new common: previewElement).
-	
+
 	self when: BlClickEvent do: [ :e | self onClickEvent: e ].
 
 	self fitContent
@@ -79,4 +73,12 @@ GtWorldPreviewerFormElement >> updateElement [
 	previewElement
 		preferredScale: self previewScale;
 		initializeForElement: self itemElement
+]
+
+{ #category : #initialization }
+GtWorldPreviewerFormElement >> withStyling [
+	self
+		addAptitude: (BrStyleCommonAptitude new
+				default: [ :f | f border: Color transparent ];
+				hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ])
 ]

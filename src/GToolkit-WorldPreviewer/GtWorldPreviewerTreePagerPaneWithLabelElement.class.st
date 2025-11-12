@@ -19,6 +19,9 @@ GtWorldPreviewerTreePagerPaneWithLabelElement >> defaultLayout [
 GtWorldPreviewerTreePagerPaneWithLabelElement >> initialize [
 	| labelContainer |
 	super initialize.
+	
+	self clipChildren: false.
+	self outskirts: BlOutskirts inside.
 
 	labelElement := BrLabel new
 			addAptitude: (BrGlamorousShrinkingLabelAptitude new foreground: Color white);
@@ -44,7 +47,20 @@ GtWorldPreviewerTreePagerPaneWithLabelElement >> initialize [
 	self addChild: paneElement.
 	self addChild: labelContainer.
 
+	self initializeStyling.
 	self fitContent
+]
+
+{ #category : #initialization }
+GtWorldPreviewerTreePagerPaneWithLabelElement >> initializeStyling [
+	self
+		addAptitude: (BrStyleCommonAptitude new
+				default: [ :aStyle | aStyle border: Color transparent ];
+				hovered: [ :aStyle | 
+					aStyle border: (BlBorder paint: BrGlamorousColors primaryBorderColor width: 3).
+					aStyle
+						do: [ :aWidget | labelElement background: BrGlamorousColors primaryBorderColor ]
+						after: [ :aWidget | labelElement background: (Color lightGray alpha: 0.7) ] ])
 ]
 
 { #category : #'api - tree pager pane model' }
