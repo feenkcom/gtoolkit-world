@@ -11,28 +11,16 @@ Class {
 	#category : #'GToolkit-WorldPreviewer-Model'
 }
 
-{ #category : #accessing }
+{ #category : #converting }
 GtWorldPreviewerPagerPageModel >> asElement [
 	^ (self asElementScaled: 0.3)
 ]
 
-{ #category : #accessing }
+{ #category : #converting }
 GtWorldPreviewerPagerPageModel >> asElementScaled: aScale [
-	| aPreviewElement |
-	
-	aPreviewElement := BrElementAsFormPreview
-		forElement: page widget
-		preferredScale: aScale.
-
-	^ aPreviewElement
-			aptitude: (BrStyleCommonAptitude new
-					default: [ :f | f border: Color transparent ];
-					hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ]);
-			when: BlClickEvent
-				do: [ :e | 
-					e consumed: true.
-					e target
-						fireEvent: (GtWorldPreviewerSelectPagerPageWish new pagerPagePreview: self) ]
+	^ GtWorldPreviewerPagerPageElement new
+		previewScale: aScale;
+		pagerPageModel: self
 ]
 
 { #category : #accessing }
@@ -52,6 +40,11 @@ GtWorldPreviewerPagerPageModel >> page [
 { #category : #accessing }
 GtWorldPreviewerPagerPageModel >> page: aPage [ 
 	page := aPage
+]
+
+{ #category : #accessing }
+GtWorldPreviewerPagerPageModel >> pageElement [
+	^ page widget
 ]
 
 { #category : #accessing }
