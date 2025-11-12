@@ -53,6 +53,15 @@ RGMethodDefinition >> gtSendersFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> gtWithinSelfMessagesFor: aView [
+	<gtView>
+	^ aView mondrian
+		title: 'Within self messages';
+		priority: 30;
+		painting: [ :m | self paintWithinSelfMessagesWith: m ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> isClassSide [
 	"For compatibility with CompiledMethod"
 	^self isMetaSide
