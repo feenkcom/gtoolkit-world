@@ -50,7 +50,7 @@ GtWorldPreviewerElement >> newLabelElement [
 		text: 'Preview of all tabs and pager panes. Select to navigate.';
 		margin: (BlInsets
 				top: 10
-				left: 20
+				left: 15
 				bottom: 10
 				right: 10);
 		aptitude: (BrGlamorousLabelAptitude new foreground: Color gray)
