@@ -360,7 +360,9 @@ GtSceneDriller >> selectElement: anElement [
 		self
 			childWithId: '#gtoolkit-driller--pager'
 			ifFound: [ :aPager |
-				aPager pages first requestMaximizePane ]
+				(aPager isKindOf: GtPager)
+					ifTrue: [ aPager maximizePageContentIn: aPager pages first contentElement ]
+					ifFalse: [ aPager pages first requestMaximizePane ] ]
 			ifNone: [  ] ]
 ]
 
