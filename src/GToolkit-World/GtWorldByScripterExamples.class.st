@@ -775,7 +775,7 @@ GtWorldByScripterExamples >> browsePackageInSecondPane [
 		checkStep: [ :s | 
 			s
 				label: 'Check we have two tools';
-				// GtPager;
+				onPager;
 				value: [ :anElement | anElement pages size ] equals: [ 2 ] ].
 
 	^ aScripter
@@ -837,7 +837,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 				clickStep: [ :s | 
 					s
 						label: 'Select Meta tab';
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtInspector;
 						// GtPhlowCompositeViewElementId;
 						// #tabbar;
@@ -847,7 +847,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 				clickStep: [ :s | 
 					s
 						label: 'Expand the first method';
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtCoderElement;
 						// (GtSourceCoderId indexed: 1) ].
 
@@ -856,7 +856,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 					s
 						label: 'Assert a method coder is expanded';
 						value: [ :anElement | anElement isExpanded ] equals: [ true ];
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtCoderElement;
 						// (GtSourceCoderId indexed: 1) ] ].
 
@@ -867,7 +867,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 				clickStep: [ :s | 
 					s
 						label: 'Select Integer tab';
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtInspector;
 						// GtPhlowCompositeViewElementId;
 						// #tabbar;
@@ -887,7 +887,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 					s
 						label: 'Select an Integer detail';
 						flag: 'This is actually a bug. We should be able just do double click';
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtInspector;
 						// GtPhlowColumnedListId;
 						// #scrollable;
@@ -895,7 +895,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 
 			aStep doubleClick
 				label: 'Spawn an Integer detail';
-				// (GtPagerPageElementId indexed: 2);
+				onPagerPaneWithIndex: 2;
 				// GtInspector;
 				// GtPhlowColumnedListId;
 				// #scrollable;
@@ -909,7 +909,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 				clickStep: [ :s | 
 					s
 						label: 'Select Meta tab';
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtInspector;
 						// GtPhlowCompositeViewElementId;
 						// #tabbar;
@@ -919,7 +919,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 				clickStep: [ :s | 
 					s
 						label: 'Collapse the first method';
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtCoderElement;
 						// (GtSourceCoderId indexed: 1);
 						// #sidebar ].
@@ -929,7 +929,7 @@ GtWorldByScripterExamples >> cannotClickOnCoderIssue [
 					s
 						label: 'Assert a method coder is collapsed';
 						value: [ :anElement | anElement isExpanded ] equals: [ false ];
-						// (GtPagerPageElementId indexed: 2);
+						onPagerPaneWithIndex: 2;
 						// GtCoderElement;
 						// (GtSourceCoderId indexed: 1) ] ].
 
@@ -946,7 +946,7 @@ GtWorldByScripterExamples >> clickAgainOnPackageEditableNameInTheFirstPane [
 		clickStep: [ :s | 
 			s
 				label: 'Click on a package editable name';
-				id: GtPagerPageElementId index: 1;
+				onPagerPaneWithIndex: 1;
 				id: GtPackageCoderPackageNameId ].
 
 	aScripter
@@ -972,8 +972,7 @@ GtWorldByScripterExamples >> clickBackOnPlaygroundInTheFirstPane [
 			aStep
 				clickStep: [ :s | 
 					s
-						onBreadthFirstChildOfClass: GtPager;
-						onChildFromBlock: [ :aPager | aPager pages first widget ];
+						onPagerPaneWithIndex: 1;
 						onBreadthFirstChildOfClass: GtSourceCoderEditorElement ].
 
 			aStep
@@ -999,8 +998,7 @@ GtWorldByScripterExamples >> clickOnInspectorInTheSecondPane [
 			aStep
 				clickStep: [ :s | 
 					s
-						onBreadthFirstChildOfClass: GtPager;
-						onChildFromBlock: [ :aPager | aPager pages second widget ];
+						onPagerPaneWithIndex: 2;
 						onBreadthFirstChildOfClass: GtInspector ].
 
 			aStep
@@ -1081,7 +1079,7 @@ GtWorldByScripterExamples >> clickOnPackageEditableNameInSecondPane [
 				clickStep: [ :s | 
 					s
 						label: 'Click on a package editable name';
-						id: GtPagerPageElementId index: 2;
+						onPagerPaneWithIndex: 2;
 						id: GtPackageCoderPackageNameId ].
 
 			self
@@ -1518,8 +1516,7 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 			aStep shortcut
 				combination: BlKeyCombination primaryG;
 				id: GtWorldTabGroupId;
-				onBreadthFirstChildOfClass: GtPager;
-				onChildFromBlock: [ :aPager | aPager pages first widget ];
+				onPagerPaneWithIndex: 1;
 				onBreadthFirstChildOfClass: GtSourceCoderEditorElement;
 				play.
 
@@ -1529,7 +1526,7 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 						label: 'Check we have two tools';
 						value: [ :anElement | anElement pages size ] equals: [ 2 ];
 						id: GtWorldTabGroupId;
-						onBreadthFirstChildOfClass: GtPager ] ].
+						onPager ] ].
 
 	^ aScripter
 ]
@@ -2466,8 +2463,7 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 				clickStep: [ :s | 
 					s
 						id: GtWorldTabGroupId;
-						onBreadthFirstChildOfClass: GtPager;
-						onChildFromBlock: [ :aPager | aPager pages second widget ];
+						onPagerPaneWithIndex: 2;
 						onBreadthFirstChildOfClass: GtPharoPackageCoderElement;
 						onBreadthFirstChildOfClass: GtClassesElement;
 						onChildOfClass: BrSimpleList;
@@ -2490,8 +2486,7 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 								at: #secondPaneTabLabel
 								put: anElement shortTitle asString ];
 						id: GtWorldTabGroupId;
-						onBreadthFirstChildOfClass: GtPager;
-						onChildFromBlock: [ :aPager | aPager pages second widget ];
+						onPagerPaneWithIndex: 2;
 						onBreadthFirstChildOfClass: GtCoderElement ].
 
 			aStep
@@ -2506,8 +2501,7 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 					s
 						label: 'Click on the second Coder';
 						id: GtWorldTabGroupId;
-						onBreadthFirstChildOfClass: GtPager;
-						onChildFromBlock: [ :aPager | aPager pages second widget ];
+						onPagerPaneWithIndex: 2;
 						onBreadthFirstChildOfClass: GtPharoBehaviorCoderElement;
 						id: GtBehaviorCoderBehaviorNameId ].
 
@@ -2632,8 +2626,7 @@ GtWorldByScripterExamples >> setupExpectedTabLabel: aBlock at: aPaneIndex step: 
 						at: (self paneModelKeyAt: aPaneIndex) put: aModel;
 						at: (self paneTabLabelKeyAt: aPaneIndex) put: aCoder shortTitle asString ];
 				id: GtWorldTabGroupId;
-				onBreadthFirstChildOfClass: GtPager;
-				onChildFromBlock: [ :aPager | (aPager pages at: aPaneIndex) widget ];
+				onPagerPaneWithIndex: aPaneIndex;
 				onBreadthFirstChildOfClass: GtCoderElement ]
 ]
 
@@ -2831,21 +2824,21 @@ GtWorldByScripterExamples >> typeSnippetInPlayground [
 			aStep
 				clickStep: [ :s | 
 					s
-						id: GtPagerPageElementId index: 1;
+						onPagerPaneWithIndex: 1;
 						id: GtSourceCoderEditorId ].
 
 			aStep
 				typeStep: [ :s | 
 					s
 						text: '42';
-						id: GtPagerPageElementId index: 1;
+						onPagerPaneWithIndex: 1;
 						id: GtSourceCoderEditorId ].
 
 			aStep
 				checkStep: [ :s | 
 					s
 						label: 'Check Playground content';
-						id: GtPagerPageElementId index: 1;
+						onPagerPaneWithIndex: 1;
 						id: GtSourceCoderEditorId;
 						value: [ :anElement | anElement text asString ] equals: '42' ] ].
 
