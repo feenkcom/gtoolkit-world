@@ -2812,6 +2812,63 @@ GtWorldByScripterExamples >> temporaryPackageName [
 ]
 
 { #category : #'examples - playground' }
+GtWorldByScripterExamples >> twoContextualPlaygroundsOfTheSameKindOfObjects [
+	"See https://github.com/feenkcom/gtoolkit/issues/4852"
+
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self addPlaygroundIntoTabElement.
+
+	aScripter methodCoder
+		selectAll;
+		type: '(1 to: 10) asOrderedCollection';
+		playAndInspect;
+		play.
+
+	aScripter treePager
+		assertNumberOfPaneElements: 2;
+		dragInspectorPlaygroundAtPaneColumn: 2
+			row: 1
+			verticallyBy: -150;
+		play.
+
+	aScripter methodCoder
+		click;
+		selectAll;
+		type: 'self select: [:each | each even ].';
+		playAndInspect;
+		onTreePagerPaneColumn: 2;
+		id: GtSourceCoderEditorId index: 1;
+		play.
+
+	aScripter treePager
+		assertNumberOfPaneElements: 3;
+		dragInspectorPlaygroundAtPaneColumn: 3
+			row: 1
+			verticallyBy: -300;
+		play.
+
+	aScripter editor
+		click;
+		moveToEnd;
+		pressPrimaryReturn;
+		type: 'self selec';
+		onTreePagerPaneColumn: 3;
+		id: GtSourceCoderEditorId index: 1;
+		play.
+
+	aScripter click
+		onSpaceRoot;
+		// #'completion-list';
+		// BrLabel;
+		@ [ :eachLabel | eachLabel text asString = 'select:' ];
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - playground' }
 GtWorldByScripterExamples >> typeSnippetInPlayground [
 	<gtExample>
 	<return: #BlScripter>
