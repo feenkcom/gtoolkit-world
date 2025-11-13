@@ -27,7 +27,7 @@ RxMatcher >> gtSubexpressionsFor: aView [
 		  column: 'Index' text: #key width: 60;
 		  column: 'Expression' text: #value;
 		  send: #value;
-		  actionDropdownButtonIcon: BrGlamorousIcons play
+		  actionDropdownButtonIcon: BrGlamorousVectorIcons play
 		  tooltip: 'Match a string'
 		  content: [ :aButton :aTab | 
 			  | aLabel |

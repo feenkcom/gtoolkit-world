@@ -129,7 +129,7 @@ GtHomeSection >> newDocCardForClass: aClass [
 		content: (GtHomeDocumentCardElement forClass: aClass) matchParent
 		action: [ :card | 
 			self
-				showSpaceWithIcon: BrGlamorousIcons file
+				showSpaceWithIcon: BrGlamorousVectorIcons file
 				title: aClass name
 				with: (GtPagerSettings usedPager
 						createWrappedOn: (LeCoderCommentElement coderElementFor: aClass name))

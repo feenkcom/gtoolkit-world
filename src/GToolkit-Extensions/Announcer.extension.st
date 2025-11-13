@@ -7,7 +7,7 @@ Announcer >> gtSubscriptionsPerSubscriberFor: aView [
 	^ aView columnedTree
 		title: 'Per subscriber';
 		priority: 51;
-		expandUpTo: 1;
+		actionCollapseAndExpandButtons;
 		items: [ GtSubscriptionSubscriber fromAnnouncer: self ];
 		children: [ :each | 
 			(each isKindOf: GtSubscriptionSubscriberType)
@@ -31,7 +31,7 @@ Announcer >> gtSubscriptionsPerSubscriberFor: aView [
 		column: 'Announcement' text: [ :aSubscription |
 			((aSubscription isKindOf: GtSubscriptionSubscriber)
 				or: [ aSubscription isKindOf: GtSubscriptionSubscriberType ])
-					ifTrue: [ '' ]
+					ifTrue: [ '{1} subscriptions' format: { aSubscription subscriptionsCount } ]
 					ifFalse: [ aSubscription announcementClass ] ];
 		column: 'Kind' text: [ :aSubscription | 
 			((aSubscription isKindOf: GtSubscriptionSubscriber)

@@ -95,7 +95,7 @@ GtMonitor >> gtExternalResourcesFor: aView [
 		actionStencil: [ :aTab |
 			BrButton new 
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons trash;
+				icon: BrGlamorousVectorIcons bin;
 				label: 'Garbage collect';
 				action:  [ Smalltalk garbageCollect ] ];
 		actionStencil: [ :aTab |
@@ -109,9 +109,9 @@ GtMonitor >> gtExternalResourcesFor: aView [
 { #category : #'gt-extension' }
 GtMonitor >> gtFutureWorkersPoolFor: aView [
 	<gtView>
-	
 	^ aView forward
 		title: 'Future workers';
+		importantFutureExecutionConfiguration;
 		priority: 45;
 		object: [ AsyncFutureThreadPool current ];
 		view: #gtWorkersFor:
@@ -147,7 +147,7 @@ GtMonitor >> gtLoggersFor: aView [
 		actionStencil: [ 
 			BrButton new 
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons trash asElement;
+				icon: BrGlamorousVectorIcons bin asElement;
 				action:  [ :aButton |
 					SignalLogger allSubInstances
 						do: [ :eachLogger | eachLogger stop; reset ].
@@ -165,7 +165,7 @@ GtMonitor >> gtMixedAnnouncersFor: aView [
 		actionStencil: [ :aTab |
 			BrButton new 
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons trash;
+				icon: BrGlamorousVectorIcons bin;
 				label: 'Reset all';
 				action:  [
 					GtMonitoredMixedAnnouncersElement allMixedAnnouncers do: [ :each | each makeStrong; removeSubscriptions ].
@@ -184,9 +184,9 @@ GtMonitor >> gtMixedAnnouncersFor: aView [
 { #category : #'gt-extension' }
 GtMonitor >> gtProcessesFor: aView [
 	<gtView>
-	
 	^ aView explicit
 		title: 'Processes';
+		importantFutureExecutionConfiguration;
 		priority: 5;
 		stencil: [ GtMonitoredProcessesElement new ]
 ]
@@ -200,7 +200,7 @@ GtMonitor >> gtScriptersFor: aView [
 		priority: 47;
 		stencil: [ GtMonitoredScripterPulsersElement new ];
 		actionUpdateButtonTooltip: 'Update scripter list';
-		actionButtonIcon: BrGlamorousIcons trash 
+		actionButtonIcon: BrGlamorousVectorIcons bin 
 			tooltip: 'Remove all example and test caches' 
 			action: [ :aButton | 
 				CompiledMethod allInstancesDo: #clearExampleAndTestCaches.
@@ -236,7 +236,7 @@ GtMonitor >> gtSpacesFor: aView [
 		actionStencil: [ 
 			BrButton new 
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons trash asElement;
+				icon: BrGlamorousVectorIcons bin asElement;
 				label: 'Close all spaces';
 				action:  [ :aButton |
 					(BlSpace allSubInstances copyWithout: aButton space) do: [ :eachSpace |
@@ -272,7 +272,7 @@ GtMonitor >> gtTaskItServicesFor: aView [
 		priority: 4;
 		tooltip: 'TaskIt Services';
 		stencil: [ GtMonitoredTaskItServicesElement new ];
-		actionButtonIcon: BrGlamorousIcons trash 
+		actionButtonIcon: BrGlamorousVectorIcons bin 
 			tooltip: 'Remove not running services'
 			action: [ :aButton | TKTConfiguration serviceManager purge ]
 ]

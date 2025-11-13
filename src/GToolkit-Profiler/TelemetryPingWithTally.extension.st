@@ -9,7 +9,7 @@ TelemetryPingWithTally >> gtMessagesTreeIn: aView [
 		object: [ tally ];
 		priority: 4;
 		view: #gtMessagesTreeIn:;
-		actionButtonIcon: BrGlamorousIcons inspect 
+		actionButtonIcon: BrGlamorousVectorIcons inspect 
 			label: 'Tally'
 			tooltip: 'Inspect tally' 
 			action: [ :aButton | 
@@ -30,7 +30,7 @@ TelemetryPingWithTally >> gtRecursionSummaryMessagesTreeIn: aView [
 		object: [ tally ];
 		priority: 5;
 		view: #gtRecursionSummaryMessagesTreeIn:;
-		actionButtonIcon: BrGlamorousIcons inspect 
+		actionButtonIcon: BrGlamorousVectorIcons inspect 
 			label: 'Tally'
 			tooltip: 'Inspect tally' 
 			action: [ :aButton | 

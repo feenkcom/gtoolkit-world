@@ -30,19 +30,52 @@ String >> gtGetUrlFor: aView [
 { #category : #'*GToolkit-Extensions' }
 String >> gtItemsFor: aView [
 	"override"
+
 	^ aView columnedList
 		title: 'Items';
 		priority: 16;
 		items: [ self ];
 		actionUpdateButtonTooltip: 'Update item list';
-		column: 'Index' 
-			text: [ :eachItem :eachIndex | 
-				eachIndex asRopedText foreground: Color gray ]
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
-		column: 'Character' 
-			text: [ :eachItem | eachItem gtDisplayString gtRemovePrefix: 'Character '];
-		column: 'ASCII' 
-			text: [ :eachItem | eachItem asciiValue ].
+		column: 'Character'
+			stencil: [ :each | 
+				BrEditor new
+					beReadOnlyWithoutSelection;
+					preventMeAndChildrenMouseEvents;
+					aptitude: BrGlamorousRegularEditorAptitude new;
+					hMatchParent;
+					padding: (BlInsets left: 5);
+					vExact: 20;
+					text: (each gtDisplayString gtRemovePrefix: 'Character ') ]
+			width: 100;
+		column: 'ASCII'
+			text: [ :eachItem | eachItem asciiValue ]
+			width: 100;
+		column: 'UTF-8 code point'
+			text: [ :eachItem | 
+				[ eachItem unicodeCharacterData gtCodePointHexString ]
+					on: NotFound
+					do: [ 'N/A' ] ]
+			width: 150;
+		column: 'UTF-8 hex'
+			text: [ :each | 
+				String
+					streamContents: [ :out | 
+						each asString utf8Encoded
+							do: [ :byte | 
+								byte
+									printOn: out
+									base: 16
+									nDigits: 2 ]
+							separatedBy: [ out space ] ] ]
+			width: 100;
+		column: 'UTF-8 binary'
+			text: [ :each | 
+				[ each value unicodeCharacterData asTextWithUtf8EncodedBinary ]
+					on: NotFound
+					do: [ 'N/A' ] ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -142,6 +175,11 @@ String >> gtLiveFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+String >> gtStreamStateFor: aView [
+	^ self gtStringFor: aView
+]
+
+{ #category : #'*GToolkit-Extensions' }
 String >> gtTreeFor: aView context: aContext [
 	"override"
 	^ aView empty
@@ -173,7 +211,7 @@ String >> gtXMLFor: aView [
 		priority: 20;
 		text: [ self ];
 		styler: Gt4XMLStyler new;
-		actionButtonIcon: BrGlamorousIcons tree
+		actionButtonIcon: BrGlamorousVectorIcons tree
 			action: [ :aButton | aButton phlow spawnObject: (XMLDOMParser parse: self) ];
 		aptitude: BrGlamorousCodeEditorAptitude;
 		actionDropdownButtonIcon: nil

@@ -23,7 +23,28 @@ GtHomeLepiterBaseCard >> create [
 
 	container := self createContainer.
 	container addChild: contents.
-
+	container
+		addAptitude: (BrGlamorousWithHorizontalResizerAptitude new
+				beRight;
+				resizerDo: [ :aResizer | 
+					container
+						addAptitude: (BrLazyStyleCommonAptitude new
+								default: [ :aStyle | aStyle do: [ :aWidget | aResizer visibility: BlVisibility hidden ] ];
+								hovered: [ :aStyle | 
+									aStyle
+										do: [ :aWidget | aResizer visibility: BlVisibility visible ]
+										after: [ :aWidget | aResizer visibility: BlVisibility hidden ] ]) ]).
+	container
+		addAptitude: (BrGlamorousWithVerticalResizerAptitude new
+				beBottom;
+				resizerDo: [ :aResizer | 
+					container
+						addAptitude: (BrLazyStyleCommonAptitude new
+								default: [ :aStyle | aStyle do: [ :aWidget | aResizer visibility: BlVisibility hidden ] ];
+								hovered: [ :aStyle | 
+									aStyle
+										do: [ :aWidget | aResizer visibility: BlVisibility visible ]
+										after: [ :aWidget | aResizer visibility: BlVisibility hidden ] ]) ]).
 	^ container
 ]
 

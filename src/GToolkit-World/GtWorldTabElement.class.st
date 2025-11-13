@@ -242,7 +242,7 @@ GtWorldTabElement >> initializeTabs [
 { #category : #accessing }
 GtWorldTabElement >> maximizeButtonFor: aTabModel [
 	^ BrButton new
-		icon: BrGlamorousIcons maximize;
+		icon: BrGlamorousVectorIcons window;
 		exact: 16 @ 16;
 		aptitude: GtWorldTabToolbarButtonAptitude;
 		model: aTabModel;

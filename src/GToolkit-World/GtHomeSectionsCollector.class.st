@@ -23,15 +23,16 @@ GtHomeSectionsCollector >> collect [
 	<gtCollector>
 	| allSectionStencils filteredSectionStencils |
 	allSectionStencils := self collectPragmas
-		flatCollect: [ :eachPragma | 
-			"Add error handling"
-			(thisContext
-				object: self object
-				perform: eachPragma methodSelector
-				withArguments: {}
-				inClass: self object class) asCollection ].
-	filteredSectionStencils := allSectionStencils reject: [ :aSectionStencil |
-		aSectionStencil isEmptySection ].
+			flatCollect: [  :eachPragma | 
+				"Add error handling"
+				GtProcessStackOverflowChecker currentCheckerClass
+					checkDuring: [ (thisContext
+							object: self object
+							perform: eachPragma methodSelector
+							withArguments: {}
+							inClass: self object class) asCollection ] ].
+	filteredSectionStencils := allSectionStencils
+			reject: [ :aSectionStencil | aSectionStencil isEmptySection ].
 	self sortByPriority: filteredSectionStencils.
 	^ filteredSectionStencils
 ]

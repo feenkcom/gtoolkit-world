@@ -11,6 +11,18 @@ TGtWithTextualCoderViewModel >> gtTextualCoderModelProperty [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+TGtWithTextualCoderViewModel >> gtTextualCoderViewModelAndModelSubscriptionsProperty [
+	<gtInspectorElementOverview>
+	^ GtInspectorElementOverviewProperty new
+		label: 'Subscriptions';
+		object: [ self hasTextualCoderViewModel
+				ifTrue: [ GtTextualCoderSubscriptionOverview new
+						subscriber: self;
+						textualCoderViewModel: self textualCoderViewModel ]
+				ifFalse: [ nil ] ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 TGtWithTextualCoderViewModel >> gtTextualCoderViewModelProperty [
 	<gtInspectorElementOverview>
 	^ GtInspectorElementOverviewProperty new

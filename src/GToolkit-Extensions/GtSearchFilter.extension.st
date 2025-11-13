@@ -71,11 +71,13 @@ GtSearchFilter class >> gtHierarchyFor: aView [
 { #category : #'*GToolkit-Extensions' }
 GtSearchFilter >> gtHierarchyFor: aView [
 	<gtView>
-	^ aView tree
+	^ aView columnedTree
 		title: 'Hierarchy';
 		priority: 80;
 		items: [ { self } ];
 		children: [ :aFilter | aFilter children ];
+		column: 'Value' text: #gtDisplayString;
+		column: 'Type' text: [:each | (each class name removeSuffix: 'Filter') removePrefix: 'GtSearch' ] width: 200;
 		expandUpTo: 2
 ]
 
@@ -127,35 +129,48 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 GtSearchFilter >> gtItemsByMethodFor: aView [
 	<gtView>
 	<gtToolView>
-	
-	self gtAreAllGtSearchMethodsFilterKind ifFalse: [^aView empty].
-	
-	^(aView columnedList)
+	self gtAreAllGtSearchMethodsFilterKind ifFalse: [ ^ aView empty ].
+
+	^ aView columnedList
 		title: 'By Method';
 		priority: 45;
 		withMultipleSelection;
-		items: [
-			self result asyncSimilarCopy toArray wait
-				sorted: [:assoc | assoc selector] ascending];
+		items: [ self result asyncSimilarCopy toArray wait
+				sorted: [ :assoc | assoc selector ] ascending ];
 		column: 'Method'
-			do: [:aColumn |
+			do: [ :aColumn | 
 				aColumn
-					cellStencil: [GtPhlowLabelWithIcon new];
-					dataBinder: [:anElement :aMethod |
-						anElement updateForMethod: aMethod ] ];
-		send: [:oneOrMoreMethods :selectionIndexes |
+					cellStencil: [ GtPhlowLabelWithIcon new ];
+					dataBinder: [ :anElement :aMethod | anElement updateForMethod: aMethod ] ];
+		dynamicContextItems: [ :aCollection | 
+			GtJustContextStackSignal emit.
+			{BrMenuActionItem new
+					group: BrMenuItemGroupConfiguration navigation;
+					label: 'Inspect methods' asRopedText glamorousRegularFont
+							, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
+									glamorousCodeFont;
+									foreground: Color gray;
+									glamorousCodeTinySize);
+					action: [ :b | b phlow spawnObject: aCollection ]".
+				BrMenuSubmenuItem new
+					group: BrMenuItemGroupConfiguration removal;
+					label: 'Remove methods' asRopedText glamorousRegularFont
+							, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
+									glamorousCodeFont;
+									foreground: Color gray;
+									glamorousCodeTinySize);
+					submenu: (self removeSeveralMethodsSubmenuFor: aCollection)"} ];
+		send: [ :oneOrMoreMethods :selectionIndexes | 
 			selectionIndexes size = 1
-				ifTrue: [
-					oneOrMoreMethods methodReference
+				ifTrue: [ oneOrMoreMethods methodReference
 						gtHighlighter: self highlighter;
 						yourself ]
-				ifFalse: [
-					(GtRGMethodDefinitionWithComparisonGroup 
-						withAll: (oneOrMoreMethods collect: [ :aMethod |
-								aMethod methodReference
-									gtHighlighter: self highlighter;
-									yourself ]))
-							highlighter: self highlighter ] ]
+				ifFalse: [ (GtRGMethodDefinitionWithComparisonGroup
+						withAll: (oneOrMoreMethods
+								collect: [ :aMethod | 
+									aMethod methodReference
+										gtHighlighter: self highlighter;
+										yourself ])) highlighter: self highlighter ] ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -257,4 +272,59 @@ GtSearchFilter >> methodPackages [
 			aResult add: aSearchPackage ] ].
 			
 	^ aResult
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> removeSeveralMethodsSubmenuFor: aCollection [
+	| submenu |
+	submenu := BrMenuExplicit new.
+	^ submenu
+		stencil: [ | element changes change button |
+			element := BrVerticalPane new fitContent.
+			element
+				addChild: (BrLabel new
+						margin: (BlInsets
+								top: 10
+								bottom: 0
+								left: 10
+								right: 10);
+						aptitude: BrGlamorousLabelAptitude new glamorousRegularFont;
+						text: ('Remove {1} methods' format: {aCollection size}) asRopedText).
+			element
+				addChild: (BrAsyncWidget new
+						fitContent;
+						stencil: [ | pane references |
+							pane := BrVerticalPane new.
+							pane fitContent.
+							references := aCollection
+									inject: 0
+									into: [ :sum :method1 | sum + (GtPharoIndex current sendersOf: method1 selector) size ].
+							references > 0
+								ifTrue: [ pane
+										addChild: (BrLabel new
+												margin: (BlInsets left: 10 right: 10);
+												aptitude: BrGlamorousLabelAptitude new glamorousRegularFont thin;
+												text: (references printString , ' reference'
+														, (references > 1 ifTrue: [ 's' ] ifFalse: [ '' ])) asRopedText) ].
+							pane ]).
+			changes := aCollection
+					collect: [ :eachMethod | RBRemoveMethodChange remove: eachMethod selector from: eachMethod methodClass ].
+			change := RBCompositeRefactoryChange new
+					name: ('Remove {1} methods' format: {aCollection size});
+					changes: changes;
+					yourself.
+			button := BrButton new
+					aptitude: BrGlamorousButtonWithIconAptitude;
+					beSmallSize;
+					margin: (BlInsets
+							top: 10
+							bottom: 10
+							left: 10
+							right: 10);
+					icon: BrGlamorousVectorIcons remove;
+					label: 'Remove';
+					action: [ submenu hideAll.
+						change execute ].
+			element addChild: button as: #removeButton.
+			element ]
 ]
