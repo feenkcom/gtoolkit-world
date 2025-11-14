@@ -558,7 +558,7 @@ GtWorldByScripterExamples >> assertNoSemanticErrorAndThreePanesForPharo12In: aSt
 			s
 				label: 'Assert three panes';
 				value: [ :aPager | aPager pages size ] equals: 3;
-				// GtPager ].
+				onPager ].
 
 	aStep
 		assertStep: [ :s | 
@@ -583,7 +583,7 @@ GtWorldByScripterExamples >> assertNoSemanticErrorAndThreePanesForPharo12In: aSt
 		clickStep: [ :s | 
 			s
 				label: 'Click to navigate to the first pane';
-				// GtPager;
+				onPager;
 				// #preview;
 				// BrButton;
 				@ 1 ].
@@ -658,7 +658,7 @@ GtWorldByScripterExamples >> assertSemanticErrorInSecondPaneForPharo11In: aStep 
 			s
 				label: 'Assert two panes';
 				value: [ :aPager | aPager pages size ] equals: 2;
-				// GtPager ].
+				onPager ].
 
 	aStep
 		assertStep: [ :s | 
@@ -753,7 +753,7 @@ GtWorldByScripterExamples >> browseImplementorsInTheSecondLepiterPagePane [
 					s
 						label: 'Assert the third result pane';
 						value: [ :aPager | aPager pages size ] equals: 3;
-						// GtPager ] ].
+						onPager ] ].
 
 	^ aScripter
 ]
@@ -814,7 +814,7 @@ GtWorldByScripterExamples >> browseSendersInTheSecondLepiterPagePane [
 					s
 						label: 'Assert the third result pane';
 						value: [ :aPager | aPager pages size ] equals: 3;
-						// GtPager ] ].
+						onPager ] ].
 
 	^ aScripter
 ]
@@ -1468,12 +1468,16 @@ GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 		playAndInspect;
 		play.
 
-	aScripter pager
-		assertPageCountIs: 2;
-		clickOnInspectorInspectButtonAtPage: 2;
-		assertPageCountIs: 3;
-		dragInspectorPlaygroundAtPage: 2 verticallyBy: -150;
-		dragInspectorPlaygroundAtPage: 3 verticallyBy: -150;
+	aScripter treePager
+		assertNumberOfPaneElements: 2;
+		clickOnInspectorInspectButtonAtColumn: 2;
+		assertNumberOfPaneElements: 3;
+		dragInspectorPlaygroundAtPaneColumn: 2
+			row: 1
+			verticallyBy: -150;
+		dragInspectorPlaygroundAtPaneColumn: 3
+			row: 1
+			verticallyBy: -150;
 		play.
 
 	aScripter methodCoder
@@ -1544,7 +1548,7 @@ GtWorldByScripterExamples >> executeScriptInTheSecondLepiterPagePane [
 					s
 						label: 'Assert the third result pane';
 						value: [ :aPager | aPager pages size ] equals: 3;
-						// GtPager ] ].
+						onPager ] ].
 
 	^ aScripter
 ]
@@ -1604,7 +1608,7 @@ GtWorldByScripterExamples >> formatScriptWithAssignmentInTheSecondLepiterPagePan
 					s
 						label: 'Assert two panes';
 						value: [ :aPager | aPager pages size ] equals: 2;
-						// GtPager ].
+						onPager ].
 
 			aStep
 				assertStep: [ :s | 
@@ -1705,7 +1709,7 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 					s
 						label: 'Assert two panes';
 						value: [ :aPager | aPager pages size ] equals: 2;
-						// GtPager ].
+						onPager ].
 
 			aStep
 				assertStep: [ :s | 
@@ -2151,7 +2155,7 @@ GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
 					s
 						label: 'Assert two panes';
 						value: [ :aPager | aPager pages size ] equals: 2;
-						// GtPager ].
+						onPager ].
 
 			aStep
 				assertStep: [ :s | 
@@ -2194,7 +2198,7 @@ GtWorldByScripterExamples >> profileScriptInTheSecondLepiterPagePane [
 					s
 						label: 'Assert the third result pane';
 						value: [ :aPager | aPager pages size ] equals: 3;
-						// GtPager ] ].
+						onPager ] ].
 
 	^ aScripter
 ]
@@ -2722,7 +2726,7 @@ GtWorldByScripterExamples >> syntaxErrorScriptInTheSecondLepiterPagePane [
 					s
 						label: 'Assert two panes';
 						value: [ :aPager | aPager pages size ] equals: 2;
-						// GtPager ].
+						onPager ].
 
 			aStep
 				assertStep: [ :s | 
