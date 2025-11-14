@@ -1468,12 +1468,16 @@ GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 		playAndInspect;
 		play.
 
-	aScripter pager
-		assertPageCountIs: 2;
-		clickOnInspectorInspectButtonAtPage: 2;
-		assertPageCountIs: 3;
-		dragInspectorPlaygroundAtPage: 2 verticallyBy: -150;
-		dragInspectorPlaygroundAtPage: 3 verticallyBy: -150;
+	aScripter treePager
+		assertNumberOfPaneElements: 2;
+		clickOnInspectorInspectButtonAtColumn: 2;
+		assertNumberOfPaneElements: 3;
+		dragInspectorPlaygroundAtPaneColumn: 2
+			row: 1
+			verticallyBy: -150;
+		dragInspectorPlaygroundAtPaneColumn: 3
+			row: 1
+			verticallyBy: -150;
 		play.
 
 	aScripter methodCoder
