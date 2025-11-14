@@ -143,15 +143,30 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 					cellStencil: [ GtPhlowLabelWithIcon new ];
 					dataBinder: [ :anElement :aMethod | anElement updateForMethod: aMethod ] ];
 		dynamicContextItems: [ :aCollection | 
-			GtJustContextStackSignal emit.
-			{BrMenuActionItem new
-					group: BrMenuItemGroupConfiguration navigation;
-					label: 'Inspect methods' asRopedText glamorousRegularFont
-							, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
-									glamorousCodeFont;
-									foreground: Color gray;
-									glamorousCodeTinySize);
-					action: [ :b | b phlow spawnObject: aCollection ]".
+			| menuItems |
+			menuItems := OrderedCollection new.
+			menuItems
+				add: (BrMenuActionItem new
+						group: BrMenuItemGroupConfiguration navigation;
+						label: 'Inspect methods as filter' asRopedText glamorousRegularFont
+								, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
+										glamorousCodeFont;
+										foreground: Color gray;
+										glamorousCodeTinySize);
+						action: [ :b | b phlow spawnObject: (GtSearchFixedMethodsFilter new methods: aCollection) ]).
+			aCollection size = 2
+				ifTrue: [ menuItems
+						add: (BrMenuActionItem new
+								group: BrMenuItemGroupConfiguration navigation;
+								label: 'Compare methods' asRopedText glamorousRegularFont
+										, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
+												glamorousCodeFont;
+												foreground: Color gray;
+												glamorousCodeTinySize);
+								action: [ :b | 
+									b phlow
+										spawnObject: (GtRGMethodDefinitionWithComparisonGroup withAll: aCollection) ]) ].
+			menuItems	".u
 				BrMenuSubmenuItem new
 					group: BrMenuItemGroupConfiguration removal;
 					label: 'Remove methods' asRopedText glamorousRegularFont
@@ -159,7 +174,7 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 									glamorousCodeFont;
 									foreground: Color gray;
 									glamorousCodeTinySize);
-					submenu: (self removeSeveralMethodsSubmenuFor: aCollection)"} ];
+					submenu: (self removeSeveralMethodsSubmenuFor: aCollection)" ];
 		send: [ :oneOrMoreMethods :selectionIndexes | 
 			selectionIndexes size = 1
 				ifTrue: [ oneOrMoreMethods methodReference

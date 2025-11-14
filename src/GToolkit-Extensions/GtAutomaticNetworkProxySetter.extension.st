@@ -1,6 +1,12 @@
 Extension { #name : #GtAutomaticNetworkProxySetter }
 
 { #category : #'*GToolkit-Extensions' }
+GtAutomaticNetworkProxySetter class >> gtNoProxyVariablesFor: aView [
+	<gtClassView>
+	^ (self new gtNoProxyVariablesFor: aView) priority: 2
+]
+
+{ #category : #'*GToolkit-Extensions' }
 GtAutomaticNetworkProxySetter >> gtNoProxyVariablesFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -14,12 +20,6 @@ GtAutomaticNetworkProxySetter >> gtNoProxyVariablesFor: aView [
 		column: 'Priority' text: [ :anAssoc | anAssoc key argumentAt: 1 ];
 		column: 'Defined method' text: [ :anAssoc | anAssoc key methodSelector ];
 		sendTool: [ :anAssoc | GtMethodCoderTool compiledMethod: anAssoc key method ]
-]
-
-{ #category : #'*GToolkit-Extensions' }
-GtAutomaticNetworkProxySetter class >> gtNoProxyVariablesFor: aView [
-	<gtClassView>
-	^ (self new gtNoProxyVariablesFor: aView) priority: 2
 ]
 
 { #category : #'*GToolkit-Extensions' }
