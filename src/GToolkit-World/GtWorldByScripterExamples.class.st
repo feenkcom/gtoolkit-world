@@ -584,8 +584,7 @@ GtWorldByScripterExamples >> assertNoSemanticErrorAndThreePanesForPharo12In: aSt
 			s
 				label: 'Click to navigate to the first pane';
 				onPager;
-				// #preview;
-				// BrButton;
+				// GtTreePagerPaneScrollPreviewElement;
 				@ 1 ].
 
 	aStep
