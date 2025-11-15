@@ -19,6 +19,8 @@ GtWorldPreviewerFormElement >> defaultLayout [
 GtWorldPreviewerFormElement >> initialize [
 	super initialize.
 
+	self outskirts: BlOutskirts outside.
+	
 	self initializePreviewElement.
 	self addChild: previewElement.
 	self addAptitude: (BrLayoutResizerAptitude new common: previewElement).
@@ -80,5 +82,5 @@ GtWorldPreviewerFormElement >> withStyling [
 	self
 		addAptitude: (BrStyleCommonAptitude new
 				default: [ :f | f border: Color transparent ];
-				hovered: [ :f | f border: BrGlamorousColors primaryBorderColor ])
+				hovered: [ :f | f border: (BlBorder paint: BrGlamorousColors primaryBorderColor width: 1) ])
 ]
