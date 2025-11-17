@@ -142,10 +142,10 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 				aColumn
 					cellStencil: [ GtPhlowLabelWithIcon new ];
 					dataBinder: [ :anElement :aMethod | anElement updateForMethod: aMethod ] ];
-		dynamicContextItems: [ :aCollection | 
-			(GtCoderMethodsTarget uniqueInstance
+		dynamicContextItems: [ :anElement :aCollection | 
+			(GtCoderMethodsTarget
 				menuItemsForObject: (GtPharoCompiledMethods withAll: aCollection)
-				hostElement: BlElement new) items ];
+				hostElement: anElement) ];
 		send: [ :oneOrMoreMethods :selectionIndexes | 
 			selectionIndexes size = 1
 				ifTrue: [ oneOrMoreMethods methodReference
