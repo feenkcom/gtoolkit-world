@@ -177,7 +177,7 @@ GtImageSetup class >> performLocalSetup [
 	self recordSpaceTallyAtBeginning.
 	
 	self installOmbuFileStore.
-
+	self captureRepositoryRegistryHistory.
 	self installLogo.
 	self registerTools.
 	self updateLocalVersion.
@@ -191,6 +191,9 @@ GtImageSetup class >> performLocalSetup [
 		forPharo11: [
 			self registerGTNamespace.
 			self patchForStringSymbolStringComparison ].
+			
+	self resetFFIMethods.
+	self printNotRegisteredFFIMethods.
 	
 	self recordSpaceTallyAtEnd.
 ]
@@ -215,22 +218,27 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	
 	self recordSpaceTallyAtBeginning.
 	
-	self installOmbuFileStore.
-	
 	self copyDataAndDocsFolders.
+	
+	self installOmbuFileStore.
 	self captureRepositoryRegistryHistory.
 	self installLogo.
 	self registerTools.
 	self updateNextReleaseVersion: (GtRlSemanticVersionComputation named: aVersionComputationName).
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
-	self registerGTNamespace.
 	self installGtSessionManager.
-	self recordSpaceTallyAtEnd.
-	self resetFFIMethods.
-	self patchForStringSymbolStringComparison.
 	
+	self 
+		forPharo12AndNewer: [] 
+		forPharo11: [
+			self registerGTNamespace.
+			self patchForStringSymbolStringComparison ].
+	
+	self resetFFIMethods.
 	self printNotRegisteredFFIMethods.
+	
+	self recordSpaceTallyAtEnd.
 ]
 
 { #category : #api }
