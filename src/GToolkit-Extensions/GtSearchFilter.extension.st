@@ -144,7 +144,7 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 					dataBinder: [ :anElement :aMethod | anElement updateForMethod: aMethod ] ];
 		dynamicContextItems: [ :anElement :aCollection | 
 			(GtCoderMethodsTarget
-				menuItemsForObject: (GtPharoCompiledMethods withAll: aCollection)
+				menuItemsForObject: (GtPharoCompiledMethodGroup withAll: aCollection)
 				hostElement: anElement) ];
 		send: [ :oneOrMoreMethods :selectionIndexes | 
 			selectionIndexes size = 1
