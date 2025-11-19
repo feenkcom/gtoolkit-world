@@ -112,6 +112,39 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_04_checkSpaceGarbageCollect
 	^ aScripter
 ]
 
+{ #category : #'examples - scripter' }
+GtWorldTabElementExamples >> showSpaceSelectScripter_05_middleMouseButtonClickClosesTab [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self showSpaceSelectScripter_01_addSpace.
+
+	aScripter
+		mouseMoveOverStep: [ :s | 
+			s
+				label: 'Move mouse over the tab';
+				id: (GtWorldTabElement tabNameForSpaceId: aScripter model) ].
+
+	aScripter fire
+		referenceSender;
+		label: 'Simulate a middle mouse button click at the tab';
+		event: (BlMouseDownEvent middle
+				position: ((aScripter userData includesKey: #mousePosition)
+						ifTrue: [ aScripter userData at: #mousePosition ]
+						ifFalse: [ 0.0 @ 0.0 ]));
+		id: (GtWorldTabElement tabNameForSpaceId: aScripter model);
+		play.
+
+	aScripter
+		checkStep: [ :s | 
+			s
+				label: 'Check that there is no more space tab';
+				value: [ :theTabGroup | theTabGroup tabs size ] equals: 1;
+				onChildFromMessage: #tabs ].
+
+	^ aScripter
+]
+
 { #category : #'examples - show space' }
 GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnSelectedTabCloseAction [
 	<gtExample>
