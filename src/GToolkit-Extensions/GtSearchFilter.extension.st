@@ -97,6 +97,7 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 				asyncSimilarCopy toArray wait 
 				groupedBy: [ :aCompiledMethod | aCompiledMethod methodClass ])
 				associations sorted: [ :assoc | assoc key name ] ascending ];
+		updateWhen: (MethodAnnouncement - MethodRepackaged - MethodRecategorized) , ClassAdded , ClassRemoved in: SystemAnnouncer uniqueInstance;
 		column: 'Class' do: [ :aColumn |
 			aColumn
 				cellStencil: [ 
@@ -135,6 +136,7 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 		title: 'By Method';
 		priority: 45;
 		withMultipleSelection;
+		updateWhen: (MethodAnnouncement - MethodRepackaged - MethodRecategorized) , ClassAdded , ClassRemoved in: SystemAnnouncer uniqueInstance;
 		items: [ self result asyncSimilarCopy toArray wait
 				sorted: [ :assoc | assoc selector ] ascending ];
 		column: 'Method'
@@ -178,6 +180,7 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 					assoc key 
 						ifNil: [ '' ] 
 						ifNotNil: [:aPackage | aPackage name] ] ascending ];
+		updateWhen: (MethodAnnouncement - MethodRepackaged - MethodRecategorized) , ClassAdded , ClassRemoved in: SystemAnnouncer uniqueInstance;
 		column: 'Package' do: [ :aColumn |
 			aColumn
 				cellStencil: [ 
