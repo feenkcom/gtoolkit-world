@@ -249,10 +249,6 @@ GtImageSetup class >> preparePharoCompletionCache [
 { #category : #api }
 GtImageSetup class >> printNotRegisteredFFIMethods [
 	self notRegisteredSystemFFIMethods 
-		ifEmpty: [
-			Stdio stderr 
-				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: all FFI methods are registered!');
-				lf . ] 
 		ifNotEmpty: [ :aCollection |
 			Stdio stderr 
 				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: found {1} FFI methods not in the registry:'
