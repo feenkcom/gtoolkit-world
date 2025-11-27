@@ -136,7 +136,9 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 		title: 'By Method';
 		priority: 45;
 		withMultipleSelection;
-		updateWhen: (MethodAnnouncement - MethodRepackaged - MethodRecategorized) , ClassAdded , ClassRemoved in: SystemAnnouncer uniqueInstance;
+		updateWhen: MethodAnnouncement - MethodRepackaged - MethodRecategorized , ClassAdded
+					, ClassRemoved
+			in: SystemAnnouncer uniqueInstance;
 		items: [ self result asyncSimilarCopy toArray wait
 				sorted: [ :assoc | assoc selector ] ascending ];
 		column: 'Method'
@@ -145,9 +147,13 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 					cellStencil: [ GtPhlowLabelWithIcon new ];
 					dataBinder: [ :anElement :aMethod | anElement updateForMethod: aMethod ] ];
 		dynamicContextItems: [ :anElement :aCollection | 
-			(GtCoderMethodsTarget
-				menuItemsForObject: (GtPharoCompiledMethodGroup withAll: aCollection)
-				hostElement: anElement) ];
+			aCollection size = 1
+				ifTrue: [ GtCoderMethodTarget
+						menuItemsForObject: aCollection first
+						hostElement: anElement ]
+				ifFalse: [ GtCoderMethodsTarget
+						menuItemsForObject: (GtPharoCompiledMethodGroup withAll: aCollection)
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreMethods :selectionIndexes | 
 			selectionIndexes size = 1
 				ifTrue: [ oneOrMoreMethods methodReference
