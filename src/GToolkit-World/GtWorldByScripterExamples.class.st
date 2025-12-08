@@ -2822,7 +2822,7 @@ GtWorldByScripterExamples >> twoContextualPlaygroundsOfTheSameKindOfObjects [
 		assertNumberOfPaneElements: 2;
 		dragInspectorPlaygroundAtPaneColumn: 2
 			row: 1
-			verticallyBy: -150;
+			verticallyBy: -200;
 		play.
 
 	aScripter methodCoder

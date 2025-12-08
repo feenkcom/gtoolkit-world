@@ -266,11 +266,15 @@ GtImageSetup class >> printNotRegisteredFFIMethods [
 
 { #category : #api }
 GtImageSetup class >> recordSpaceTallyAtBeginning [
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
 	GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Image Setup Start'
 ]
 
 { #category : #api }
 GtImageSetup class >> recordSpaceTallyAtEnd [
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
 	GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Image Setup End'
 ]
 
