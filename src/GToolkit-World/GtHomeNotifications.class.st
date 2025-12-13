@@ -35,7 +35,7 @@ GtHomeNotifications >> showSpaceWithTitle: aString with: anElement from: another
 	aSpace title: aString.
 	aSpace extent: 1200@600.
 	aSpace addChild: anElement asElement.
-	aSpace withHalos.
+	aSpace withCommonSettings.
 	anotherElement showSpace: aSpace
 ]
 

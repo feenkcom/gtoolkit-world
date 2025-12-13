@@ -81,20 +81,23 @@ RGMethodDefinition >> paintWithinSelfMessagesWith: m [
 					select: [ :each | each selfMessages anySatisfy: [ :message | message = method selector ] ] ].
 	calledMethods := self method
 			deepCollect: [ :each | each selfMessages collect: [ :method | self methodClass lookupSelector: method ] ].
-	methods := {self} , ((callingMethods , calledMethods) collect: #methodReference).
+	methods := {self} , (callingMethods , calledMethods collect: #methodReference).
 	m nodes
 		stencil: [ :method | 
 			BlElement new
 				geometry: BlCircleGeometry new;
 				size: 10 @ 10;
-				border: (BlBorder paint: (method compiledMethod = self compiledMethod
-						ifTrue: [ BrGlamorousColors primaryBorderColor  ]
-						ifFalse: [ Color lightGray ]) width: 2);
+				border: (BlBorder
+						paint: (method compiledMethod = self compiledMethod
+								ifTrue: [ BrGlamorousColors primaryBorderColor ]
+								ifFalse: [ Color lightGray ])
+						width: 2);
 				background: (method compiledMethod = self compiledMethod
-						ifTrue: [ BrGlamorousColors primaryBorderColor muchLighter  ]
+						ifTrue: [ BrGlamorousColors primaryBorderColor muchLighter ]
 						ifFalse: [ Color veryVeryLightGray ]);
-				addAptitude: (BrGlamorousWithExplicitTooltipAptitude text: method gtDisplayString)
- ];
+				addAptitude: ((BrGlamorousWithExplicitTooltipAptitude text: method gtDisplayString)
+						hideDelay: 0 seconds;
+						showDelay: 0.1 seconds) ];
 		with: methods.
 	m edges
 		stencil: [ :method | 

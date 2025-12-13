@@ -177,7 +177,7 @@ GtImageSetup class >> performLocalSetup [
 	self recordSpaceTallyAtBeginning.
 	
 	self installOmbuFileStore.
-
+	self captureRepositoryRegistryHistory.
 	self installLogo.
 	self registerTools.
 	self updateLocalVersion.
@@ -191,6 +191,9 @@ GtImageSetup class >> performLocalSetup [
 		forPharo11: [
 			self registerGTNamespace.
 			self patchForStringSymbolStringComparison ].
+			
+	self resetFFIMethods.
+	self printNotRegisteredFFIMethods.
 	
 	self recordSpaceTallyAtEnd.
 ]
@@ -215,22 +218,27 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	
 	self recordSpaceTallyAtBeginning.
 	
-	self installOmbuFileStore.
-	
 	self copyDataAndDocsFolders.
+	
+	self installOmbuFileStore.
 	self captureRepositoryRegistryHistory.
 	self installLogo.
 	self registerTools.
 	self updateNextReleaseVersion: (GtRlSemanticVersionComputation named: aVersionComputationName).
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
-	self registerGTNamespace.
 	self installGtSessionManager.
-	self recordSpaceTallyAtEnd.
-	self resetFFIMethods.
-	self patchForStringSymbolStringComparison.
 	
+	self 
+		forPharo12AndNewer: [] 
+		forPharo11: [
+			self registerGTNamespace.
+			self patchForStringSymbolStringComparison ].
+	
+	self resetFFIMethods.
 	self printNotRegisteredFFIMethods.
+	
+	self recordSpaceTallyAtEnd.
 ]
 
 { #category : #api }
@@ -241,10 +249,6 @@ GtImageSetup class >> preparePharoCompletionCache [
 { #category : #api }
 GtImageSetup class >> printNotRegisteredFFIMethods [
 	self notRegisteredSystemFFIMethods 
-		ifEmpty: [
-			Stdio stderr 
-				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: all FFI methods are registered!');
-				lf . ] 
 		ifNotEmpty: [ :aCollection |
 			Stdio stderr 
 				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: found {1} FFI methods not in the registry:'
@@ -262,11 +266,15 @@ GtImageSetup class >> printNotRegisteredFFIMethods [
 
 { #category : #api }
 GtImageSetup class >> recordSpaceTallyAtBeginning [
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
 	GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Image Setup Start'
 ]
 
 { #category : #api }
 GtImageSetup class >> recordSpaceTallyAtEnd [
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
 	GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Image Setup End'
 ]
 

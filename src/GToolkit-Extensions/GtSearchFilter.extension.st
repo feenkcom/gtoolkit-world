@@ -97,6 +97,7 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 				asyncSimilarCopy toArray wait 
 				groupedBy: [ :aCompiledMethod | aCompiledMethod methodClass ])
 				associations sorted: [ :assoc | assoc key name ] ascending ];
+		updateWhen: (MethodAnnouncement - MethodRepackaged - MethodRecategorized) , ClassAdded , ClassRemoved in: SystemAnnouncer uniqueInstance;
 		column: 'Class' do: [ :aColumn |
 			aColumn
 				cellStencil: [ 
@@ -135,6 +136,9 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 		title: 'By Method';
 		priority: 45;
 		withMultipleSelection;
+		updateWhen: MethodAnnouncement - MethodRepackaged - MethodRecategorized , ClassAdded
+					, ClassRemoved
+			in: SystemAnnouncer uniqueInstance;
 		items: [ self result asyncSimilarCopy toArray wait
 				sorted: [ :assoc | assoc selector ] ascending ];
 		column: 'Method'
@@ -142,24 +146,14 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 				aColumn
 					cellStencil: [ GtPhlowLabelWithIcon new ];
 					dataBinder: [ :anElement :aMethod | anElement updateForMethod: aMethod ] ];
-		dynamicContextItems: [ :aCollection | 
-			GtJustContextStackSignal emit.
-			{BrMenuActionItem new
-					group: BrMenuItemGroupConfiguration navigation;
-					label: 'Inspect methods' asRopedText glamorousRegularFont
-							, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
-									glamorousCodeFont;
-									foreground: Color gray;
-									glamorousCodeTinySize);
-					action: [ :b | b phlow spawnObject: aCollection ]".
-				BrMenuSubmenuItem new
-					group: BrMenuItemGroupConfiguration removal;
-					label: 'Remove methods' asRopedText glamorousRegularFont
-							, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
-									glamorousCodeFont;
-									foreground: Color gray;
-									glamorousCodeTinySize);
-					submenu: (self removeSeveralMethodsSubmenuFor: aCollection)"} ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderMethodTarget
+						menuItemsForObject: aCollection first
+						hostElement: anElement ]
+				ifFalse: [ GtCoderMethodsTarget
+						menuItemsForObject: (GtPharoCompiledMethodGroup withAll: aCollection)
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreMethods :selectionIndexes | 
 			selectionIndexes size = 1
 				ifTrue: [ oneOrMoreMethods methodReference
@@ -192,6 +186,7 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 					assoc key 
 						ifNil: [ '' ] 
 						ifNotNil: [:aPackage | aPackage name] ] ascending ];
+		updateWhen: (MethodAnnouncement - MethodRepackaged - MethodRecategorized) , ClassAdded , ClassRemoved in: SystemAnnouncer uniqueInstance;
 		column: 'Package' do: [ :aColumn |
 			aColumn
 				cellStencil: [ 
@@ -272,59 +267,4 @@ GtSearchFilter >> methodPackages [
 			aResult add: aSearchPackage ] ].
 			
 	^ aResult
-]
-
-{ #category : #'*GToolkit-Extensions' }
-GtSearchFilter >> removeSeveralMethodsSubmenuFor: aCollection [
-	| submenu |
-	submenu := BrMenuExplicit new.
-	^ submenu
-		stencil: [ | element changes change button |
-			element := BrVerticalPane new fitContent.
-			element
-				addChild: (BrLabel new
-						margin: (BlInsets
-								top: 10
-								bottom: 0
-								left: 10
-								right: 10);
-						aptitude: BrGlamorousLabelAptitude new glamorousRegularFont;
-						text: ('Remove {1} methods' format: {aCollection size}) asRopedText).
-			element
-				addChild: (BrAsyncWidget new
-						fitContent;
-						stencil: [ | pane references |
-							pane := BrVerticalPane new.
-							pane fitContent.
-							references := aCollection
-									inject: 0
-									into: [ :sum :method1 | sum + (GtPharoIndex current sendersOf: method1 selector) size ].
-							references > 0
-								ifTrue: [ pane
-										addChild: (BrLabel new
-												margin: (BlInsets left: 10 right: 10);
-												aptitude: BrGlamorousLabelAptitude new glamorousRegularFont thin;
-												text: (references printString , ' reference'
-														, (references > 1 ifTrue: [ 's' ] ifFalse: [ '' ])) asRopedText) ].
-							pane ]).
-			changes := aCollection
-					collect: [ :eachMethod | RBRemoveMethodChange remove: eachMethod selector from: eachMethod methodClass ].
-			change := RBCompositeRefactoryChange new
-					name: ('Remove {1} methods' format: {aCollection size});
-					changes: changes;
-					yourself.
-			button := BrButton new
-					aptitude: BrGlamorousButtonWithIconAptitude;
-					beSmallSize;
-					margin: (BlInsets
-							top: 10
-							bottom: 10
-							left: 10
-							right: 10);
-					icon: BrGlamorousVectorIcons remove;
-					label: 'Remove';
-					action: [ submenu hideAll.
-						change execute ].
-			element addChild: button as: #removeButton.
-			element ]
 ]

@@ -12,10 +12,11 @@ Class {
 { #category : #'instance creation' }
 GtProfiler class >> open [
 	<script: 'self open'>
-	
-	(GtPager
-		openWrappedOn: self new
-		title: 'Profiler') maximized
+	BlSpace new
+		title: 'Profiler';
+		inPager: self new;
+		withCommonSettings;
+		show
 ]
 
 { #category : #initialization }

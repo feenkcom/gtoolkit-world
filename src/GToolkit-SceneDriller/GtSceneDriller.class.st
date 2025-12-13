@@ -227,34 +227,29 @@ GtSceneDriller >> newPagerFor: aTargetContainer [
 	^ BrVerticalPane new
 		matchParent;
 		constraintsDo: [ :c | c linear weight: 0.7 ];
-		padding:
-			(BlInsets
+		padding: (BlInsets
 				top: 10
 				left: 10
 				bottom: 10
 				right: 0);
 		addAptitude: BrShadowAptitude new beLarge;
 		background: self theme default backdropBackground;
-		addChildren:
-			{(self newSectionLabel text: 'Details').
-			((GtPager
-				createWrappedOn:
-					(BrVerticalPane new
-						matchParent;
-						addChild:
-							(BrLabel new
-								aptitude: BrGlamorousLabelAptitude;
-								hMatchParent;
-								padding:
-									(BlInsets
-										top: 10.0
-										right: 12.0
-										bottom: 10.0
-										left: 12.0);
-								background: self theme header defaultBackgroundColor;
-								text: 'Elements');
-						addChild: (elementsTree := self newElementsTree)))
-				id: '#gtoolkit-driller--pager')}
+		addChildren: {self newSectionLabel text: 'Details'.
+				(GtPagerSettings usedPager
+					createWrappedOn: (BrVerticalPane new
+							matchParent;
+							addChild: (BrLabel new
+									aptitude: BrGlamorousLabelAptitude;
+									hMatchParent;
+									padding: (BlInsets
+											top: 10.0
+											right: 12.0
+											bottom: 10.0
+											left: 12.0);
+									background: self theme header defaultBackgroundColor;
+									text: 'Elements');
+							addChild: (elementsTree := self newElementsTree)))
+					id: '#gtoolkit-driller--pager'}
 ]
 
 { #category : #'instance creation' }
@@ -365,7 +360,9 @@ GtSceneDriller >> selectElement: anElement [
 		self
 			childWithId: '#gtoolkit-driller--pager'
 			ifFound: [ :aPager |
-				aPager maximizePageContentIn: aPager pages first contentElement ]
+				(aPager isKindOf: GtPager)
+					ifTrue: [ aPager maximizePageContentIn: aPager pages first contentElement ]
+					ifFalse: [ aPager pages first maximize ] ]
 			ifNone: [  ] ]
 ]
 
