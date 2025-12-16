@@ -9,27 +9,15 @@ AsyncSharedWeakIdentityKeyDictionary >> gtItemsFor: aView [
 		title: 'Items';
 		priority: 1;
 		items: [ monitor critical: [ dictionary copy associations ] ];
-		column: '' text: [ :_ :anIndex | anIndex ] width: 30;
-		column: 'Key'
-			stencil: [ :anAssoc | 
-				BrButton new
-					aptitude: BrGlamorousButtonWithIconAptitude;
-					fitContent;
-					beTinySize;
-					icon: BrGlamorousVectorIcons inspect;
-					label: 'Inspect key';
-					action: [ :aButton | aButton phlow spawnObject: anAssoc key ] ] width: 35;
-		column: '' text: #key;
-		column: 'Value'
-			stencil: [ :anAssoc | 
-				BrButton new
-					aptitude: BrGlamorousButtonWithIconAptitude;
-					fitContent;
-					beTinySize;
-					icon: BrGlamorousVectorIcons inspect;
-					label: 'Inspect value';
-					action: [ :aButton | aButton phlow spawnObject: anAssoc value ] ] width: 35;
-		column: '' text: #value;
+		column: ''
+			text: [ :_ :anIndex | anIndex ]
+			width: 30;
+		column: 'Key' text: #key;
+		column: 'Value' text: #value;
 		send: #value;
-		actionUpdateButton
+		actionUpdateButton;
+		contextItemLabel: 'Inspect key'
+			action: [ :anElement :anAssoc | anElement phlow spawnObject: anAssoc key ];
+		contextItemLabel: 'Inspect value'
+			action: [ :anElement :anAssoc | anElement phlow spawnObject: anAssoc value ]
 ]
