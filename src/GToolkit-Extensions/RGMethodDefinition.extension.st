@@ -107,8 +107,8 @@ RGMethodDefinition >> paintWithinSelfMessagesWith: m [
 				border: Color veryVeryLightGray;
 				toHead: (BlArrowheadSimpleArrow new border: Color veryVeryLightGray) ];
 		connectToAll: [ :each | 
-			(each compiledMethod selfMessages
-				collect: [ :method | self methodClass lookupSelector: method ])
+			((each compiledMethod selfMessages
+				collect: [ :method | self methodClass lookupSelector: method ]) reject: #isNil)
 				collect: #methodReference ].
 	m layout horizontalDominanceTree
 		levelDistance: 30;
