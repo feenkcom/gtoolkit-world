@@ -123,7 +123,7 @@ GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnSelectedTabCloseActio
 	aTabs := aWorld tabs.
 	aTabs viewModel removeTab: (aTabs viewModel tabs at: 2).
 	aSpace := aSpace asWeakReference.
-	Smalltalk garbageCollect.
+	2 timesRepeat: [ Smalltalk garbageCollect ].
 	self assert: (aSpace at: 1) equals: nil.
 	^ aWorld
 ]
@@ -139,7 +139,7 @@ GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnUnselectedTabCloseAct
 	aTabs := aWorld tabs.
 	aTabs viewModel removeTab: (aTabs viewModel tabs at: 2).
 	aSpace := aSpace asWeakReference.
-	Smalltalk garbageCollect.
+	2 timesRepeat: [ Smalltalk garbageCollect ].
 	self assert: (aSpace at: 1) equals: nil.
 	^ aWorld
 ]
