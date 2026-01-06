@@ -2900,7 +2900,9 @@ GtWorldByScripterExamples >> worldElementInScripter [
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self scripter.
-	aScripter element: GtWorldElement new.
+	aScripter
+		element: (GtWorldElement new
+				knowledgeBase: LeDatabasesRegistry uniqueInstance currentLoadedDefaultLogicalDatabase).
 	^ aScripter
 ]
 
