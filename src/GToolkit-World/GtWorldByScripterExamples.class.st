@@ -2078,13 +2078,6 @@ GtWorldByScripterExamples >> openWorldMenu [
 ]
 
 { #category : #'examples - world' }
-GtWorldByScripterExamples >> openWorldMenuOutsideScripter [
-	<gtExample>
-	<return: #GtWorldElement>
-	^ self openWorldMenu elementWithoutParent
-]
-
-{ #category : #'examples - world' }
 GtWorldByScripterExamples >> openWorldMenuTranscript [
 	<gtExample>
 	<return: #BlScripter>
@@ -2913,13 +2906,6 @@ GtWorldByScripterExamples >> worldElementInScripter [
 		element: (GtWorldElement new
 				knowledgeBase: LeDatabasesRegistry uniqueInstance currentLoadedDefaultLogicalDatabase).
 	^ aScripter
-]
-
-{ #category : #'examples - world' }
-GtWorldByScripterExamples >> worldElementOutsideScripter [
-	<gtExample>
-	<return: #GtWorldElement>
-	^ self worldElementInScripter elementWithoutParent
 ]
 
 { #category : #'examples - world' }
