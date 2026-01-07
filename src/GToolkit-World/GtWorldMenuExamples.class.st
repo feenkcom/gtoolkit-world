@@ -1,11 +1,19 @@
 "
-Examples of tools from the GtWorld menu.
+Examples of tools from the GtWorld menu used especially in “A quick tour of GT”.
 "
 Class {
 	#name : #GtWorldMenuExamples,
 	#superclass : #Object,
 	#category : #'GToolkit-World-Examples'
 }
+
+{ #category : #'as yet unclassified' }
+GtWorldMenuExamples >> coderElement [
+	"A new Coder not focused on any class."
+
+	<gtExample>
+	^ GtCoderElement new createInPager maximized
+]
 
 { #category : #'as yet unclassified' }
 GtWorldMenuExamples >> knowledgeBasesElement [
