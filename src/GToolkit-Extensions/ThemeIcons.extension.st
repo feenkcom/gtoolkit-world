@@ -5,7 +5,7 @@ ThemeIcons >> gtIconsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Icons';
-		items: [ icons associations sorted: #key ascending ];
+		items: [ self icons associations sorted: #key ascending ];
 		column: 'Icon'
 			icon: [ :anAssoc | anAssoc value asElement ]
 			width: 150;
