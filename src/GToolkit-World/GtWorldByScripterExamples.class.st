@@ -2059,6 +2059,7 @@ GtWorldByScripterExamples >> nonExistentClass [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> openWorldMenu [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self worldElementInScripter.
 	aScripter
@@ -2079,6 +2080,7 @@ GtWorldByScripterExamples >> openWorldMenu [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> openWorldMenuTranscript [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self openWorldMenu.
 	aScripter
@@ -2900,7 +2902,9 @@ GtWorldByScripterExamples >> worldElementInScripter [
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self scripter.
-	aScripter element: GtWorldElement new.
+	aScripter
+		element: (GtWorldElement new
+				knowledgeBase: LeDatabasesRegistry uniqueInstance currentLoadedDefaultLogicalDatabase).
 	^ aScripter
 ]
 
