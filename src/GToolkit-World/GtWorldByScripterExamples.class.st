@@ -970,7 +970,7 @@ GtWorldByScripterExamples >> clickBackOnPlaygroundInTheFirstPane [
 				clickStep: [ :s | 
 					s
 						onPagerPaneWithIndex: 1;
-						onBreadthFirstChildOfClass: GtSourceCoderEditorElement ].
+						onBreadthFirstChildOfClass: GtSourceCoderElement ].
 
 			aStep
 				checkStep: [ :s | 
@@ -1511,7 +1511,7 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 				combination: BlKeyCombination primaryG;
 				id: GtWorldTabGroupId;
 				onPagerPaneWithIndex: 1;
-				onBreadthFirstChildOfClass: GtSourceCoderEditorElement;
+				onBreadthFirstChildOfClass: GtSourceCoderElement;
 				play.
 
 			aStep
