@@ -744,7 +744,8 @@ GtWorldByScripterExamples >> browseImplementorsInTheSecondLepiterPagePane [
 						label: 'Browse implementors';
 						combination: BlKeyCombination primaryM;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 
 			aStep
@@ -805,7 +806,8 @@ GtWorldByScripterExamples >> browseSendersInTheSecondLepiterPagePane [
 						label: 'Browse senders';
 						combination: BlKeyCombination primaryN;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 
 			aStep
@@ -1512,6 +1514,7 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 				id: GtWorldTabGroupId;
 				onPagerPaneWithIndex: 1;
 				onBreadthFirstChildOfClass: GtSourceCoderElement;
+				// GtSourceCoderEditorInnerId;
 				play.
 
 			aStep
@@ -1701,7 +1704,8 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 						label: 'Format script';
 						combination: BlKeyCombination primaryShiftF;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 			aStep
 				assertStep: [ :s | 
@@ -1811,6 +1815,7 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 				combination: BlKeyCombination builder primary end build;
 				onPagerPaneWithIndex: 1;
 				id: GtSourceCoderEditorId;
+				// GtSourceCoderEditorInnerId;
 				play.
 
 			aStep shortcut
@@ -1818,6 +1823,7 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 				combination: BlKeyCombination builder primary return build;
 				onPagerPaneWithIndex: 1;
 				id: GtSourceCoderEditorId;
+				// GtSourceCoderEditorInnerId;
 				play ].
 
 	aScripter
@@ -2149,7 +2155,8 @@ GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
 						label: 'Play and print Pharo script';
 						combination: BlKeyCombination primaryP;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 			aStep
 				assertStep: [ :s | 
@@ -2330,6 +2337,7 @@ GtWorldByScripterExamples >> removeMethodAddedByEpiceaSnippet [
 GtWorldByScripterExamples >> removeNonExistentClass [
 	| aClass aPackage |
 	aClass := self nonExistentClass.
+	aClass ifNil: [ ^ self ].
 	aPackage := aClass package.
 	aClass removeFromSystem.
 	aPackage removeFromSystem
