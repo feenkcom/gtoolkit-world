@@ -1475,21 +1475,21 @@ GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 		assertNumberOfPaneElements: 3;
 		dragInspectorPlaygroundAtPaneColumn: 2
 			row: 1
-			verticallyBy: -150;
+			verticallyBy: -200;
 		dragInspectorPlaygroundAtPaneColumn: 3
 			row: 1
-			verticallyBy: -150;
+			verticallyBy: -200;
 		play.
 
 	aScripter methodCoder
+		onPagerPaneWithIndex: 3;
+		// #playground;
+		// GtSourceCoderEditorId;
 		click;
 		assertHasFocus;
 		selectAll;
 		type: Object name;
 		browseBehavior;
-		onPagerPaneWithIndex: 3;
-		// #playground;
-		// GtSourceCoderEditorId;
 		play.
 
 	aScripter treePager
@@ -2852,12 +2852,12 @@ GtWorldByScripterExamples >> twoContextualPlaygroundsOfTheSameKindOfObjects [
 		play.
 
 	aScripter editor
+		onTreePagerPaneColumn: 3;
+		id: GtSourceCoderEditorId index: 1;
 		click;
 		moveToEnd;
 		pressPrimaryReturn;
 		type: 'self selec';
-		onTreePagerPaneColumn: 3;
-		id: GtSourceCoderEditorId index: 1;
 		play.
 
 	aScripter click
