@@ -143,6 +143,15 @@ GtWorldTabElement >> createBaseTab: aSpace [
 ]
 
 { #category : #'api - opening' }
+GtWorldTabElement >> createTabCloseHandlerFor: aTab [
+	^ BlEventHandler
+		on: BlMouseDownEvent
+		do: [ :aBlMouseDownEvent | 
+			aBlMouseDownEvent button = BlMouseMiddleButton uniqueInstance
+				ifTrue: [ tabs viewModel removeTab: aTab viewModel ] ]
+]
+
+{ #category : #'api - opening' }
 GtWorldTabElement >> createTabDragHandler [
 	^ BlDragHandler new
 		restrictDragToHorizontal;
@@ -400,6 +409,8 @@ GtWorldTabElement >> showSpace: aSpace select: shouldBeSelected [
 		actionbarStencil: [ :aTabModel | self newToolbarForTabModel: aTabModel ].
 
 	aTab addEventHandler: self createTabDragHandler.
+
+	aTab addEventHandler: (self createTabCloseHandlerFor: aTab).
 
 	aTab
 		addAptitude: (BrLazyStyleCommonAptitude new
