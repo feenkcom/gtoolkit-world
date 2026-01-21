@@ -1,3 +1,13 @@
+"
+Theis class checks that pages in the GT book not contain missing references to missing classes or methods.
+Violations are reported in the *Issues* tab.
+
+*Caveat:* Some pages are tutorials containing references to classes and methods that are only created by the user in the course of the tutorial, *e.g.*, by evaluating *changes* snippets. To prevent these pages from being reported as issues, simply include a link in such pages to the GT book page:
+`Pages containing missing references - allowed failures`
+
+
+
+"
 Class {
 	#name : #GtGlamorousToolkitBookPagesContainingMissingReferences,
 	#superclass : #GtPharoConstraint,
