@@ -34,10 +34,29 @@ RGMethodDefinition >> gtImplementorsFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-RGMethodDefinition >> gtSendersFor: aView [
+RGMethodDefinition >> gtLepiterReferencesFor: aView [
 	<gtView>
 	^ aView forward
-		title: 'Senders';
+		title: 'Lepiter references';
+		priority: 23;
+		object: [ 
+			| searchContext |
+			searchContext := nil.
+			self isDefined ifTrue: [
+				searchContext := GtSearchMethodCoderFilterContext new 
+					behavior: self methodClass;
+					nodeInPosition: self method ast;
+					selectorInPosition: self selector ].
+			self selector leReferences
+				requesterContext: searchContext ];
+		view: #gtItemsFor: 
+]
+
+{ #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> gtReferencesFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'References';
 		priority: 22;
 		object: [ 
 			| searchContext |
