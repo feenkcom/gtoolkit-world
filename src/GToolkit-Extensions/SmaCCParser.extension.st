@@ -17,8 +17,8 @@ SmaCCParser class >> gtStylersFor: aView [
 	| someStylers |
 	self name = #SmaCCParser ifTrue: [ ^ aView empty ].
 	self name = #SmaCCGLRParser ifTrue: [ ^ aView empty ].
-	someStylers := self gtStylers ifNil: [ ^ aView empty ].
-	someStylers ifEmpty: [ ^ aView empty ].
+	[ someStylers := self gtStylers.
+	someStylers ifEmpty: [ ^ aView empty ] ] on: Error do: [ :ex | ^ aView empty ].
 
 	^ aView columnedList
 		title: 'Stylers';
