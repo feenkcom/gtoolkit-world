@@ -79,10 +79,9 @@ GtImageSetup class >> copyDataAndDocsFolders [
 		add: (gtoolkitRepoFolders asFileReference / 'JSLink' / 'js');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-scenery' / 'scenery-help');
+		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-demos' / 'vrTutorialLepiter');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-roadmaps' / 'gtbook-examples');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-roadmaps' / 'roadmaps-help').
-
-		
 		
 	self copyDocFolders: docFolders.
 
