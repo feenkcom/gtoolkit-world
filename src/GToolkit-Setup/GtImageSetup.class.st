@@ -87,8 +87,10 @@ GtImageSetup class >> copyDataAndDocsFolders [
 
 	"JSLink needs to be told where to find its runtime files.
 	This should be a FileLocator so that it uses the local location, not the CI's"
-
 	JSLinkPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/JSLink/js'.
+
+	"Add a template gt4gemstone.properties file"
+	self createGt4GemStoneProperties.
 ]
 
 { #category : #utilities }
@@ -104,6 +106,61 @@ GtImageSetup class >> copyDocFolders: docFolders [
 		[each copyAllTo: (GtResourcesUtilityConstants localGtDirectory asFileReference / localPath) ] 
 			on: FileExists 
 			do: [ :e | e printString traceCr ]].
+]
+
+{ #category : #utilities }
+GtImageSetup class >> createGt4GemStoneProperties [
+		| fileReference contents |
+	
+	fileReference := GtResourcesUtilityConstants localGtDirectory asFileReference / 
+		'gt4gemstone' / 'feenkcom' / 'gt4gemstone.properties'.
+	fileReference parent ensureCreateDirectory.
+	contents :=
+'{
+	"__schema" : "4.1",
+	"namedConnectors" : {
+		"systemuser" : {
+			"__type" : "gemstoneGciConnector",
+			"name" : "systemuser",
+			"host" : "localhost",
+			"serviceName" : "gemnetobject",
+			"iconName" : "gemStone",
+			"maxKeepAlive" : 30,
+			"stone" : "gs64stone",
+			"netldi" : "50377",
+			"username" : "SystemUser",
+			"password" : "swordfish",
+			"hostUsername" : "",
+			"hostPassword" : "",
+			"libraryPath" : {
+				"__type" : "file",
+				"filename" : "remote-gemstone"
+			},
+			"gemstoneVersion" : "3.7.2.1"
+		},
+		"datacurator" : {
+			"__type" : "gemstoneGciConnector",
+			"name" : "datacurator",
+			"host" : "localhost",
+			"serviceName" : "gemnetobject",
+			"iconName" : "gemStone",
+			"maxKeepAlive" : 30,
+			"stone" : "gs64stone",
+			"netldi" : "50377",
+			"username" : "DataCurator",
+			"password" : "swordfish",
+			"hostUsername" : "nil",
+			"hostPassword" : "nil",
+			"libraryPath" : {
+				"__type" : "file",
+				"filename" : "remote-gemstone"
+			},
+			"gemstoneVersion" : "3.7.2.1"
+		}
+	}
+}'.
+	fileReference writeStreamDo: [ :stream |
+		stream nextPutAll: contents ].
 ]
 
 { #category : #actions }
