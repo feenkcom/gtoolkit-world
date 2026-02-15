@@ -54,7 +54,7 @@ GtHomeLepiterVerticalBaseCard >> create [
 GtHomeLepiterVerticalBaseCard >> createContainer [
 	^ BrButton new
 		layout: BlLinearLayout horizontal;
-		exact: 400 @ 400;
+		exact: 500 @ 400;
 		background: BlTheme default default contentBackground;
 		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude2 new;
 		label: self description;
