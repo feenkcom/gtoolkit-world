@@ -11,16 +11,18 @@ Class {
 { #category : #'view creation' }
 GtHomeLepiterVerticalBaseCard >> create [
 	| container detailsPane contents |
-	detailsPane := BrVerticalPane new hMatchParent; vFitContent.
+	detailsPane := BrVerticalPane new
+			hMatchParent;
+			vFitContent.
 	detailsPane
 		addChild: self createTitleElement;
-"		addChild: self createDatabaseDescriptionElement;
-"		addChild: self createToolbarElement.
+		addChild: self createDatabaseDescriptionElement.
 
 	contents := BrVerticalPane new matchParent.
 	contents addChild: detailsPane.
-	contents addChild: self createTabGroup.
-
+	contents
+		addChild: self createTabGroup;
+		addChild: self createToolbarElement.
 	container := self createContainer.
 	container addChild: contents.
 	container
@@ -52,7 +54,7 @@ GtHomeLepiterVerticalBaseCard >> create [
 GtHomeLepiterVerticalBaseCard >> createContainer [
 	^ BrButton new
 		layout: BlLinearLayout horizontal;
-		exact: 500 @ 500;
+		exact: 400 @ 400;
 		background: BlTheme default default contentBackground;
 		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude2 new;
 		label: self description;
@@ -74,7 +76,9 @@ GtHomeLepiterVerticalBaseCard >> createContainer [
 GtHomeLepiterVerticalBaseCard >> createDatabaseDescriptionElement [
 	^ GtHomeLepiterKnowledgeBaseDescriptionElement new
 		databaseViewModel: self database asContentUIModel;
-		details: self details
+		details: self details;
+		hMatchParent;
+		vFitContent
 ]
 
 { #category : #'private - widgets' }
@@ -89,7 +93,7 @@ GtHomeLepiterVerticalBaseCard >> createTitleElement [
 	^ BrEditor new
 		hMatchParent
 		vFitContent;
-		padding: (BlInsets all: 10);
+		padding: (BlInsets top: 10 left: 10 bottom: 0 right: 10);
 		aptitude: (BrGlamorousRegularEditorAptitude new bold; fontSize: 18);
 		text: self title
 ]
