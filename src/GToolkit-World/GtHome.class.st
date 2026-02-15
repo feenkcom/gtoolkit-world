@@ -65,6 +65,15 @@ GtHome >> createVersionLabel [
 ]
 
 { #category : #sections }
+GtHome >> gemstoneSection [
+	<gtHomeSection>
+
+	(FileLocator documents / 'lepiter/gt4gemstone.properties') exists ifFalse: [ ^ GtHomeEmptySection new ].
+	^ GtGemStoneHomeSection new
+		priority: 10
+]
+
+{ #category : #sections }
 GtHome >> getStartedSection [
 	<gtHomeSection>
 	<gtExample>

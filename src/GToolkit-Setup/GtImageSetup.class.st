@@ -113,7 +113,7 @@ GtImageSetup class >> createGt4GemStoneProperties [
 		| fileReference contents |
 	
 	fileReference := GtResourcesUtilityConstants localGtDirectory asFileReference / 
-		'gt4gemstone' / 'feenkcom' / 'gt4gemstone.properties'.
+		'feenkcom' / 'gt4gemstone' / 'gt4gemstone.properties'.
 	fileReference parent ensureCreateDirectory.
 	contents :=
 '{
