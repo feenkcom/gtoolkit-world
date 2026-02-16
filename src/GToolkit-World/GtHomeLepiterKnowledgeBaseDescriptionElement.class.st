@@ -38,21 +38,19 @@ GtHomeLepiterKnowledgeBaseDescriptionElement >> initialize [
 	isReloading := false.
 	isUnloaded := true.
 	self initializeUpdater.
-	
-	self initializeDescriptionElement.
+	self layout: BlLinearLayout vertical.
+	descriptionElement := BrEditor new
+			hMatchParent;
+			vFitContent;
+			preventMeAndChildrenMouseEvents;
+			aptitude: BrGlamorousRegularEditorAptitude;
+			text: ''.	
+	"padding: (BlInsets all: 10);"
 	self addChild: descriptionElement as: #'gt-home--lepiter-db-desciption'.
 
-	self matchParent.
-	self padding: (BlInsets all: 10)
-]
-
-{ #category : #initialization }
-GtHomeLepiterKnowledgeBaseDescriptionElement >> initializeDescriptionElement [
-	descriptionElement := BrEditor new
-			preventMeAndChildrenMouseEvents;
-			padding: (BlInsets all: 10);
-			aptitude: BrGlamorousRegularEditorAptitude;
-			text: ''
+	self hMatchParent.
+	self vFitContent.
+	self padding: (BlInsets left: 5 right: 5)
 ]
 
 { #category : #initialization }

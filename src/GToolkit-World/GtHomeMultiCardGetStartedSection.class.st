@@ -73,8 +73,8 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 			| snippets somePages |
 			somePages := db pages select: #shouldAppearInIndexOrDailyNotes.
 			snippets := somePages flatCollect: #allChildrenDepthFirst.
-			'The book is expressed as a knowledge base. It documents the environment in '
-				, somePages size asString , ' lovely pages containing '
+			'The book is expressed as a knowledge base and documents the environment in '
+				, somePages size asString , ' pages containing '
 				, snippets size asString , ' snippets of '
 				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
 				yourself
