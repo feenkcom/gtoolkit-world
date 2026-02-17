@@ -110,11 +110,18 @@ GtImageSetup class >> copyDocFolders: docFolders [
 
 { #category : #utilities }
 GtImageSetup class >> createGt4GemStoneProperties [
-		| fileReference contents |
+		| fileReference |
 	
 	fileReference := GtResourcesUtilityConstants localGtDirectory asFileReference / 
 		'feenkcom' / 'gt4gemstone' / 'gt4gemstone.properties'.
 	fileReference parent ensureCreateDirectory.
+	self createGt4GemStonePropertiesIn: fileReference.
+]
+
+{ #category : #utilities }
+GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference [
+		| contents |
+	
 	contents :=
 '{
 	"__schema" : "4.1",
@@ -159,8 +166,18 @@ GtImageSetup class >> createGt4GemStoneProperties [
 		}
 	}
 }'.
-	fileReference writeStreamDo: [ :stream |
+	aFileReference writeStreamDo: [ :stream |
 		stream nextPutAll: contents ].
+]
+
+{ #category : #utilities }
+GtImageSetup class >> createLocalGt4GemStoneProperties [
+		| fileReference |
+	
+	fileReference := FileLocator localDirectory asFileReference / 
+		'lepiter' / 'gt4gemstone.properties'.
+	fileReference parent ensureCreateDirectory.
+	self createGt4GemStonePropertiesIn: fileReference.
 ]
 
 { #category : #actions }
