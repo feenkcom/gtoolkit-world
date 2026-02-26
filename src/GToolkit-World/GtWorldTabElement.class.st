@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'tabs',
-		'home'
+		'home',
+		'toolbarUpdater'
 	],
 	#category : #'GToolkit-World-UI'
 }
@@ -205,6 +206,7 @@ GtWorldTabElement >> initialize [
 	self initializeElement.
 	self initializeShortcuts.
 	self initializeListeners.
+	self initializeUpdaters.
 ]
 
 { #category : #initialization }
@@ -237,6 +239,13 @@ GtWorldTabElement >> initializeTabGroup [
 { #category : #initialization }
 GtWorldTabElement >> initializeTabs [
 	tabs addTab: self defaultHomeTab
+]
+
+{ #category : #initialization }
+GtWorldTabElement >> initializeUpdaters [
+	toolbarUpdater := BrElementUpdater new 
+		element: self
+		selector: #updateToolbarActions.
 ]
 
 { #category : #accessing }
@@ -360,6 +369,12 @@ GtWorldTabElement >> refreshContent [
 	Subclasses may trigger relevant actions."
 ]
 
+{ #category : #updating }
+GtWorldTabElement >> requestToolbarUpdate [
+	toolbarUpdater ifNil: [ ^ self ].
+	toolbarUpdater requestUpdate
+]
+
 { #category : #'api - shutdown' }
 GtWorldTabElement >> showShutdownPrompt [
 	self
@@ -445,4 +460,15 @@ GtWorldTabElement >> topMostParent [
 	But popups still should appear in the world not in Driller."
 
 	^ self
+]
+
+{ #category : #updating }
+GtWorldTabElement >> updateToolbarActions [
+	| toolbarElement|
+	toolbarElement := (((tabs  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne.
+	toolbarElement removeAllItems.
+	
+	self newActionItemsInto: toolbarElement.
 ]

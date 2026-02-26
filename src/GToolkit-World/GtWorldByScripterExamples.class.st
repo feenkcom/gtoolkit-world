@@ -2917,6 +2917,28 @@ GtWorldByScripterExamples >> worldElementInScripter [
 ]
 
 { #category : #'examples - world' }
+GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter actionsCount updatedActionsCount |
+	aScripter := self worldElementInScripter.
+	
+	actionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount > 0.
+
+	aScripter element updateToolbarActions.
+	
+	updatedActionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount equals: updatedActionsCount.
+		
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
 GtWorldByScripterExamples >> worldSpotter_ResizeVertically [
 	<gtExample>
 	<return: #BlScripter>

@@ -112,6 +112,28 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_04_checkSpaceGarbageCollect
 	^ aScripter
 ]
 
+{ #category : #'examples - by scripter' }
+GtWorldTabElementExamples >> showSpaceSelectScripter_updateToolbarActions [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter actionsCount updatedActionsCount |
+	aScripter := self showSpaceSelectScripter.
+	
+	actionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount equals: 0.
+
+	aScripter element updateToolbarActions.
+	
+	updatedActionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount equals: updatedActionsCount.
+		
+	^ aScripter
+]
+
 { #category : #'examples - show space' }
 GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnSelectedTabCloseAction [
 	<gtExample>

@@ -22,6 +22,12 @@ GtWorldElement class >> onShowWorldSpotterPreview: anAnnouncement [
 ]
 
 { #category : #accessing }
+GtWorldElement class >> requestAllInstancesToolbarUpdate [
+	self allInstances do: [ :aGtWorld |
+		aGtWorld requestToolbarUpdate ] 
+]
+
+{ #category : #accessing }
 GtWorldElement class >> showWorldSpotterPreview: aBoolean [
 	IsWorldSpotterPreviewDisplayed := aBoolean
 ]
@@ -262,7 +268,7 @@ GtWorldElement >> newStatusButton [
 	"Answer a dropdown button for the  status of knowledge base associated with the current world"
 
 	^ LeWorldStatusDropdown new
-		leWorldElement: self
+			leWorldElement: self
 ]
 
 { #category : #'private - instance creation' }
