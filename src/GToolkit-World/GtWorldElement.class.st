@@ -2,9 +2,6 @@ Class {
 	#name : #GtWorldElement,
 	#superclass : #GtWorldTabElement,
 	#instVars : [
-		'spotterDropdown',
-		'subSpaceDropdown',
-		'notificationsDropdown',
 		'announcer'
 	],
 	#classVars : [
@@ -91,7 +88,7 @@ GtWorldElement >> gtWorldNotificationsActionFor: anAction [
 
 { #category : #'toolbar actions' }
 GtWorldElement >> gtWorldSpotterActionFor: anAction [
-	<gtAction>
+	<gtWorldAction>
 	
 	^ anAction explicit
 		priority: 20;
