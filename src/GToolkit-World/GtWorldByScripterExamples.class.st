@@ -2942,6 +2942,7 @@ GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
 GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	<gtExample>
 	<return: #BlScripter>
+	<noTest>
 	| registry world scripter |
 	
 	registry := GtLChatRegistry new.
