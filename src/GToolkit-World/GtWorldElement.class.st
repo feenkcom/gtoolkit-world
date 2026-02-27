@@ -2,7 +2,8 @@ Class {
 	#name : #GtWorldElement,
 	#superclass : #GtWorldTabElement,
 	#instVars : [
-		'announcer'
+		'announcer',
+		'llmChatRegistry'
 	],
 	#classVars : [
 		'IsWorldSpotterPreviewDisplayed',
@@ -96,6 +97,15 @@ GtWorldElement >> gtWorldChatRegistryActionFor: anAction [
 ]
 
 { #category : #'toolbar actions' }
+GtWorldElement >> gtWorldLepiterStatusActionFor: anAction [
+	<gtWorldAction>
+	
+	^ anAction explicit
+		priority: 30;
+		stencil: [ self newLepiterStatusButton ]
+]
+
+{ #category : #'toolbar actions' }
 GtWorldElement >> gtWorldNotificationsActionFor: anAction [
 	<gtWorldAction>
 	
@@ -111,15 +121,6 @@ GtWorldElement >> gtWorldSpotterActionFor: anAction [
 	^ anAction explicit
 		priority: 20;
 		stencil: [ self newSpotterButton ]
-]
-
-{ #category : #'toolbar actions' }
-GtWorldElement >> gtWorldStatusActionFor: anAction [
-	<gtWorldAction>
-	
-	^ anAction explicit
-		priority: 30;
-		stencil: [ self newStatusButton ]
 ]
 
 { #category : #'toolbar actions' }
@@ -240,6 +241,14 @@ GtWorldElement >> newChatRegistryDropdown [
 	^ GtLChatRegistryDropdown new
 ]
 
+{ #category : #'instance creation' }
+GtWorldElement >> newLepiterStatusButton [
+	"Answer a dropdown button for the  status of knowledge base associated with the current world"
+
+	^ LeWorldStatusDropdown new
+			leWorldElement: self
+]
+
 { #category : #'private - instance creation' }
 GtWorldElement >> newNotificationsBadge [
 	 ^ GtNotificationsBadgeElement new
@@ -278,14 +287,6 @@ GtWorldElement >> newSpotterButton [
 			anEvent object gtSpotterActDefaultFrom: self currentSpotterButton ].
 
 	^ newspotterDropdown
-]
-
-{ #category : #'instance creation' }
-GtWorldElement >> newStatusButton [
-	"Answer a dropdown button for the  status of knowledge base associated with the current world"
-
-	^ LeWorldStatusDropdown new
-			leWorldElement: self
 ]
 
 { #category : #'private - instance creation' }
