@@ -198,6 +198,11 @@ GtWorld >> knowledgeBase: aKnowledgeBase [
 	worldElement knowledgeBase: aKnowledgeBase.
 ]
 
+{ #category : #accessing }
+GtWorld >> llmChatRegistry: anLlmChatRegistry [
+	worldElement llmChatRegistry: anLlmChatRegistry.
+]
+
 { #category : #actions }
 GtWorld >> markAsDefault [
 	"Mark this instance as being the one that is saved and automatically opened when

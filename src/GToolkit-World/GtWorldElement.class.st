@@ -225,6 +225,22 @@ GtWorldElement >> knowledgeBase: aKnowledgeBase [
 		source: self)
 ]
 
+{ #category : #accessing }
+GtWorldElement >> llmChatRegistry [
+	llmChatRegistry ifNil: [
+		self llmChatRegistry: GtL registry ].
+	^ llmChatRegistry
+]
+
+{ #category : #accessing }
+GtWorldElement >> llmChatRegistry: anLlmChatRegistry [
+	llmChatRegistry := anLlmChatRegistry.
+	self announcer announce: (GtWorldElementChatRegistryChangedAnnouncement new
+		chatRegistry: anLlmChatRegistry;
+		worldElement: self;
+		source: self)
+]
+
 { #category : #initialization }
 GtWorldElement >> newActionItemsInto: anActionbar [
 	super newActionItemsInto: anActionbar.
@@ -238,7 +254,8 @@ GtWorldElement >> newActionItemsInto: anActionbar [
 
 { #category : #private }
 GtWorldElement >> newChatRegistryDropdown [
-	^ GtLChatRegistryDropdown new
+	^ GtLWorldChatRegistryDropdown new
+		initializeForWorldElement: self
 ]
 
 { #category : #'instance creation' }
