@@ -83,6 +83,18 @@ GtWorldElement >> defaultHomeElement [
 	^ GtHome new
 ]
 
+{ #category : #'world-toolbar' }
+GtWorldElement >> gtWorldChatRegistryActionFor: anAction [
+	<gtWorldAction>
+	
+	GtLConnectionRegistry instance hasConnectableDefaultConnection
+		ifFalse: [ ^ anAction empty ].
+	
+	^ anAction explicit
+		priority: 35;
+		stencil: [ self newChatRegistryDropdown ]
+]
+
 { #category : #'toolbar actions' }
 GtWorldElement >> gtWorldNotificationsActionFor: anAction [
 	<gtWorldAction>
@@ -221,6 +233,11 @@ GtWorldElement >> newActionItemsInto: anActionbar [
 			asElement: [ :actionElement | 
 				anActionbar addItem: actionElement ]
 			withHostElement: anActionbar ]
+]
+
+{ #category : #private }
+GtWorldElement >> newChatRegistryDropdown [
+	^ GtLChatRegistryDropdown new
 ]
 
 { #category : #'private - instance creation' }
