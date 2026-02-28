@@ -2,7 +2,8 @@ Class {
 	#name : #GtWorldElement,
 	#superclass : #GtWorldTabElement,
 	#instVars : [
-		'announcer'
+		'announcer',
+		'llmChatRegistry'
 	],
 	#classVars : [
 		'IsWorldSpotterPreviewDisplayed',
@@ -83,6 +84,27 @@ GtWorldElement >> defaultHomeElement [
 	^ GtHome new
 ]
 
+{ #category : #'world-toolbar' }
+GtWorldElement >> gtWorldChatRegistryActionFor: anAction [
+	<gtWorldAction>
+	
+	GtLConnectionRegistry instance hasConnectableDefaultConnection
+		ifFalse: [ ^ anAction empty ].
+	
+	^ anAction explicit
+		priority: 35;
+		stencil: [ self newChatRegistryDropdown ]
+]
+
+{ #category : #'toolbar actions' }
+GtWorldElement >> gtWorldLepiterStatusActionFor: anAction [
+	<gtWorldAction>
+	
+	^ anAction explicit
+		priority: 30;
+		stencil: [ self newLepiterStatusButton ]
+]
+
 { #category : #'toolbar actions' }
 GtWorldElement >> gtWorldNotificationsActionFor: anAction [
 	<gtWorldAction>
@@ -99,15 +121,6 @@ GtWorldElement >> gtWorldSpotterActionFor: anAction [
 	^ anAction explicit
 		priority: 20;
 		stencil: [ self newSpotterButton ]
-]
-
-{ #category : #'toolbar actions' }
-GtWorldElement >> gtWorldStatusActionFor: anAction [
-	<gtWorldAction>
-	
-	^ anAction explicit
-		priority: 30;
-		stencil: [ self newStatusButton ]
 ]
 
 { #category : #'toolbar actions' }
@@ -212,6 +225,22 @@ GtWorldElement >> knowledgeBase: aKnowledgeBase [
 		source: self)
 ]
 
+{ #category : #accessing }
+GtWorldElement >> llmChatRegistry [
+	llmChatRegistry ifNil: [
+		self llmChatRegistry: GtL registry ].
+	^ llmChatRegistry
+]
+
+{ #category : #accessing }
+GtWorldElement >> llmChatRegistry: anLlmChatRegistry [
+	llmChatRegistry := anLlmChatRegistry.
+	self announcer announce: (GtWorldElementChatRegistryChangedAnnouncement new
+		chatRegistry: anLlmChatRegistry;
+		worldElement: self;
+		source: self)
+]
+
 { #category : #initialization }
 GtWorldElement >> newActionItemsInto: anActionbar [
 	super newActionItemsInto: anActionbar.
@@ -221,6 +250,20 @@ GtWorldElement >> newActionItemsInto: anActionbar [
 			asElement: [ :actionElement | 
 				anActionbar addItem: actionElement ]
 			withHostElement: anActionbar ]
+]
+
+{ #category : #private }
+GtWorldElement >> newChatRegistryDropdown [
+	^ GtLWorldChatRegistryDropdown new
+		initializeForWorldElement: self
+]
+
+{ #category : #'instance creation' }
+GtWorldElement >> newLepiterStatusButton [
+	"Answer a dropdown button for the  status of knowledge base associated with the current world"
+
+	^ LeWorldStatusDropdown new
+			leWorldElement: self
 ]
 
 { #category : #'private - instance creation' }
@@ -261,14 +304,6 @@ GtWorldElement >> newSpotterButton [
 			anEvent object gtSpotterActDefaultFrom: self currentSpotterButton ].
 
 	^ newspotterDropdown
-]
-
-{ #category : #'instance creation' }
-GtWorldElement >> newStatusButton [
-	"Answer a dropdown button for the  status of knowledge base associated with the current world"
-
-	^ LeWorldStatusDropdown new
-			leWorldElement: self
 ]
 
 { #category : #'private - instance creation' }

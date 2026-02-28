@@ -2938,6 +2938,42 @@ GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
 	^ aScripter
 ]
 
+{ #category : #examples }
+GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
+	<gtExample>
+	<return: #BlScripter>
+	<noTest>
+	| registry world scripter |
+	
+	registry := GtLChatRegistry new.
+	registry newChat.
+	registry newChat.
+
+	world := GtWorldElement new
+		llmChatRegistry: registry.
+
+	scripter := BlScripter new
+		model: registry;
+		element: world.
+
+	scripter click
+		label: 'Open chats registry';
+		onSpaceRoot;
+		// GtLWorldChatRegistryDropdown;
+		// BrButton;
+		onChildAt: 1;
+		play.
+
+	scripter assert
+		label: 'List shows two chats';
+		value: [ :aList | aList items size ] equals: 2;
+		onSpaceRoot;
+		// BrColumnedList;
+		play.
+
+	^ scripter
+]
+
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> worldSpotter_ResizeVertically [
 	<gtExample>
