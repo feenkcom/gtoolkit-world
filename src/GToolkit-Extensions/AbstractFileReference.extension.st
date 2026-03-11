@@ -10,6 +10,20 @@ AbstractFileReference >> contentsUtf8Lossy [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+AbstractFileReference >> gtDeleteFileActionFor: anAction [
+	<gtAction>
+	(self exists and: [ self isFile ]) ifFalse: [ ^ anAction noAction ].
+
+	^ anAction button
+		icon: BrGlamorousVectorIcons bin;
+		tooltip: 'Delete file';
+		target: GtPhlowObjectContextMenuTarget;
+		menuItemGroup: BrMenuItemGroupConfiguration removal;
+		menuItemPreview: [ self basename ];
+		action: [ :aButton | self ensureDelete ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AbstractFileReference >> gtLepiterDuplicateJsonFor: aView [
 	<gtView>
 	(self isFile and: [ self extension = 'duplicate' ]) ifFalse: [ ^ aView empty ].
