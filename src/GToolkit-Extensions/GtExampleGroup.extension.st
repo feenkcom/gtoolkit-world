@@ -99,51 +99,75 @@ GtExampleGroup >> buildListViewFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-GtExampleGroup >> gtExamplesFor: aView [
+GtExampleGroup >> gtExamplesFor: aView context: aPhlowContext [
 	<gtView>
+	| anExampleViewModel |
+	anExampleViewModel := GtPharoCoderUIUtility
+			exampleViewModelCachedAs: #exampleViewModelHandler_gtExamplesForContext
+			inPhlowContext: aPhlowContext.
+
+	anExampleViewModel pharoExampleSuite stream: self examples asAsyncStream.
+
 	^ aView explicit
 		title: 'List';
 		priority: 11;
-		actionButtonIcon: BrGlamorousVectorIcons play
-			tooltip: 'Run all examples'
-			action: [ :aButton :aTab | 
-				self runAllExamplesFrom: aButton.
-				aTab viewContentElement phlow update ];
+		actionStencil: [ :aBrTab | 
+			GtPharoCoderUIUtility newExamplesDropdownButtonForViewModel: anExampleViewModel ];
 		actionUpdateButtonTooltip: 'Update example list';
 		stencil: [ | aContainer aButtonsContainer aListView |
 			aContainer := BlElement new
-				layout: BlLinearLayout vertical;
-				constraintsDo: [ :c | 
-					c padding: (BlInsets all: 3).
-					c horizontal matchParent.
-					c vertical matchParent ].
+					layout: BlLinearLayout vertical;
+					constraintsDo: [ :c | 
+						c padding: (BlInsets all: 3).
+						c horizontal matchParent.
+						c vertical matchParent ].
 			aButtonsContainer := BlElement new
-				layout: (BlLinearLayout horizontal cellSpacing: 3);
-				constraintsDo: [ :c | 
-					c padding: (BlInsets all: 3).
-					c horizontal fitContent.
-					c vertical fitContent.
-					c linear horizontal alignCenter ].
+					layout: (BlLinearLayout horizontal cellSpacing: 3);
+					constraintsDo: [ :c | 
+						c padding: (BlInsets all: 3).
+						c horizontal fitContent.
+						c vertical fitContent.
+						c linear horizontal alignCenter ].
 			aContainer addChild: aButtonsContainer.
 			aListView := self buildListViewFor: aView.
 			aListView
 				asElementDo: [ :anElement | 
 					| aBuilder anUpdater |
-					aBuilder := [  
-						self buildButtonsContainer: aButtonsContainer listWidget: anElement ].
+					aBuilder := [ self
+							buildButtonsContainer: aButtonsContainer
+							listWidget: anElement ].
 					anUpdater := BrElementUpdater new
-						element: anElement;
-						action: (MessageSend receiver: aBuilder selector: #value).
+							element: anElement;
+							action: (MessageSend receiver: aBuilder selector: #value).
 
-					anElement userData at: #exampleAnnouncementHandler_gtExamplesFor put: anUpdater.
-										
+					anElement userData
+						at: #exampleAnnouncementHandler_gtExamplesFor
+						put: anUpdater.
+
 					self announcer weak
 						when: GtExamplesExecuted , GtExampleExecuted
 						send: #requestUpdate
 						to: anUpdater.
 					aContainer addChild: anElement.
-					self
-						buildButtonsContainer: aButtonsContainer
-						listWidget: anElement ].
+					self buildButtonsContainer: aButtonsContainer listWidget: anElement ].
 			aContainer ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtExampleGroup >> gtExpandableExamplesFor: aView context: aPhlowContext [
+	<gtView>
+	| anExampleViewModel |
+	anExampleViewModel := GtPharoCoderUIUtility
+			exampleViewModelCachedAs: #exampleViewModelHandler_gtExamplesForContext
+			inPhlowContext: aPhlowContext.
+
+	anExampleViewModel pharoExampleSuite stream: self examples asAsyncStream.
+
+	^ aView explicit
+		title: 'Methods';
+		priority: 1;
+		stencil: [ GtExampleGroupCoder new
+				forItems: (self examples sorted: GtMethodsSortFunction new) ];
+		actionStencil: [ :aBrTab | 
+			GtPharoCoderUIUtility newExamplesDropdownButtonForViewModel: anExampleViewModel ]
 ]
