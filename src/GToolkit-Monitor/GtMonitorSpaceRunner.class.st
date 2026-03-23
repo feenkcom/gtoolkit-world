@@ -88,23 +88,23 @@ GtMonitorSpaceRunner >> createSignalTreeNode: aSignalClass logger: aLogger [
 	| aContainer aNode theSignals |
 	aContainer := BrHorizontalPane new fitContent.
 	aNode := BrEditor new
-		aptitude: BrGlamorousRegularEditorAptitude new;
-		fitContent;
-		constraintsDo: [ :c | c maxWidth: 100 ];
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
-		padding: (BlInsets all: 5);
-		border: (BlBorder paint: Color gray width: 1);
-		background: Color veryVeryLightGray;
-		text: aSignalClass label;
-		preventMeAndChildrenMouseEvents.
+			aptitude: BrGlamorousRegularEditorAptitude new;
+			fitContent;
+			constraintsDo: [ :c | c maxWidth: 100 ];
+			geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
+			padding: (BlInsets all: 5);
+			border: (BlBorder paint: Color gray width: 1);
+			background: Color veryVeryLightGray;
+			text: aSignalClass label;
+			preventMeAndChildrenMouseEvents.
 	theSignals := OrderedCollection new.
 	aLogger announcer
 		when: aSignalClass
 		do: [ :aSignal | 
 			theSignals add: aSignal.
 			aNode background: self theme status successBackgroundColor.
-			aNode
-				border: (BlBorder paint: self theme status successBorderColor width: 1) ].
+			aNode border: (BlBorder paint: self theme status successBorderColor width: 1) ]
+		for: self.
 	aContainer
 		when: BlClickEvent
 		do: [ :anEvent | 
