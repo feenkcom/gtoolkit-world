@@ -2082,6 +2082,36 @@ GtWorldByScripterExamples >> openWorldMenu [
 
 			aStep menuStep
 				assertMenuContainerExist;
+				play.
+
+			aStep assert
+				label: 'Assert dropdown handle bounds';
+				satisfies: [ :aHandle | 
+					| aButton |
+					aButton := (aHandle space root query // GtWorldMenuElementId) anyOne.
+					aHandle bounds inSpace asRectangle = aButton bounds inSpace asRectangle ];
+				onPopover;
+				onChildAt: 1;
+				play.
+
+			aStep assert
+				label: 'Assert dropdown contents top position';
+				satisfies: [ :aContents | 
+					| aHandle |
+					aHandle := aContents parent childAt: 1.
+					aContents bounds inSpace top + 1 = aHandle bounds inSpace bottom ];
+				onPopover;
+				onChildAt: 2;
+				play.
+
+			aStep assert
+				label: 'Assert dropdown contents right position';
+				satisfies: [ :aContents | 
+					| aHandle |
+					aHandle := aContents parent childAt: 1.
+					aContents bounds inSpace right = aHandle bounds inSpace right ];
+				onPopover;
+				onChildAt: 2;
 				play ].
 
 	^ aScripter
@@ -2114,6 +2144,61 @@ GtWorldByScripterExamples >> openWorldMenuTranscript [
 			aStep assert
 				label: 'Assert two world tabs';
 				value: [ :anElement | anElement tabs tabs size ] equals: 2;
+				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> openWorldMenu_tooltip [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+
+	aScripter
+		substep: 'Show world menu tooltip'
+		do: [ :aStep | 
+			aStep mouseMoveOver
+				// GtWorldMenuElementId;
+				play.
+
+			aStep menuStep
+				assertMenuContainerExist;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip width';
+				satisfies: [ :aLabel | aLabel width < 60 ];
+				onPopover;
+				// BrMenuLabelItemElement;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip height';
+				satisfies: [ :aLabel | aLabel height < 30 ];
+				onPopover;
+				// BrMenuLabelItemElement;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip handle top position';
+				satisfies: [ :aHandle | 
+					| aButton |
+					aButton := (aHandle space root query // GtWorldMenuElementId) anyOne.
+					aHandle bounds inSpace top = aButton bounds inSpace bottom ];
+				onPopover;
+				onChildAt: 1;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip label top position';
+				satisfies: [ :aLabel | 
+					| aHandle |
+					aHandle := aLabel parent childAt: 1.
+					aLabel bounds inSpace top = aHandle bounds inSpace bottom ];
+				onPopover;
+				onChildAt: 2;
 				play ].
 
 	^ aScripter

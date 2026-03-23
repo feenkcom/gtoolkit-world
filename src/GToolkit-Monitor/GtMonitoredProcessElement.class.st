@@ -31,7 +31,7 @@ GtMonitoredProcessElement >> service: aGtMonitoredProcess [
 	| process |
 	super service: aGtMonitoredProcess.
 	process := aGtMonitoredProcess service.
-	debugSession := DebugSession
+	debugSession := GtDebugSession
 		                named: 'Debug ' , process name
 		                on: process
 		                startedAt: process suspendedContext.

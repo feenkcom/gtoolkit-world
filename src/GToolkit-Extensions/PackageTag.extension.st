@@ -14,6 +14,15 @@ PackageTag >> gtClassHierarchyFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+PackageTag >> gtExamplesFor: aView context: aPhlowContext [
+	<gtView>
+	<gtPackageTagView>
+	
+	^ (GtExampleGroup withAll: self gtExamplesAllContained)
+			gtExamplesFor: aView context: aPhlowContext
+]
+
+{ #category : #'*GToolkit-Extensions' }
 PackageTag >> gtTestsFor: aView context: aPhlowConetxt [
 	<gtView>
 	<gtPackageTagView>
