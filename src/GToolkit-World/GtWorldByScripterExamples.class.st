@@ -1343,6 +1343,7 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self inspectRustRemoteObject.
@@ -1363,6 +1364,7 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDefiningMethod [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self displayRustObjectDefiningMethodContextMenu.
@@ -1379,6 +1381,7 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDef
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_inspectDefiningMethod [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self displayRustObjectDefiningMethodContextMenu.
@@ -1775,6 +1778,7 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> inspectRustRemoteObject [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
