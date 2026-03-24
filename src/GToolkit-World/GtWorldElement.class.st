@@ -87,10 +87,9 @@ GtWorldElement >> defaultHomeElement [
 { #category : #'world-toolbar' }
 GtWorldElement >> gtWorldChatRegistryActionFor: anAction [
 	<gtWorldAction>
-	
-	GtLConnectionRegistry instance hasConnectableDefaultConnection
-		ifFalse: [ ^ anAction empty ].
-	
+	(GtLConnectionRegistry instance hasConnectableDefaultConnection
+		or: [ self llmChatRegistry hasChats ]) ifFalse: [ ^ anAction empty ].
+
 	^ anAction explicit
 		priority: 35;
 		stencil: [ self newChatRegistryDropdown ]

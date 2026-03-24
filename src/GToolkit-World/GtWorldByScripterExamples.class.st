@@ -3055,7 +3055,7 @@ GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	scripter assert
 		label: 'List shows two chats';
 		value: [ :aList | aList items size ] equals: 2;
-		onSpaceRoot;
+		onPopover;
 		// BrColumnedList;
 		play.
 
