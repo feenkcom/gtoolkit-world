@@ -3030,6 +3030,7 @@ GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
 { #category : #examples }
 GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| registry world scripter |
 	
