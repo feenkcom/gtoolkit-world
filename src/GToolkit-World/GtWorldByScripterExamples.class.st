@@ -3030,13 +3030,13 @@ GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
 { #category : #examples }
 GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	<gtExample>
-	<return: #BlScripter>
 	<noTest>
+	<return: #BlScripter>
 	| registry world scripter |
 	
 	registry := GtLChatRegistry new.
-	registry newChat.
-	registry newChat.
+	registry newChatWithProvider: GtLOpenAIProviderStub new.
+	registry newChatWithProvider: GtLOpenAIProviderStub new.
 
 	world := GtWorldElement new
 		llmChatRegistry: registry.
@@ -3056,7 +3056,7 @@ GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	scripter assert
 		label: 'List shows two chats';
 		value: [ :aList | aList items size ] equals: 2;
-		onSpaceRoot;
+		onPopover;
 		// BrColumnedList;
 		play.
 
