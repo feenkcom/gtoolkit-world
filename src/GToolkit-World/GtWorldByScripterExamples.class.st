@@ -3031,12 +3031,11 @@ GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
 GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	<gtExample>
 	<return: #BlScripter>
-	<noTest>
 	| registry world scripter |
 	
 	registry := GtLChatRegistry new.
-	registry newChat.
-	registry newChat.
+	registry newChatWithProvider: GtLOpenAIProviderStub new.
+	registry newChatWithProvider: GtLOpenAIProviderStub new.
 
 	world := GtWorldElement new
 		llmChatRegistry: registry.
