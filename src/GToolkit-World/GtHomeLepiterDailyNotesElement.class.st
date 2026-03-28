@@ -52,7 +52,7 @@ GtHomeLepiterDailyNotesElement >> initializeGroupedListElement [
 					aptitude: (BrGlamorousLabelAptitude new foreground: Color gray);
 					hMatchParent;
 					vFitContent;
-					margin: (BlInsets top: 10 left: 0) ];
+					margin: (BlInsets top: 5 left: 0) ];
 			headerDataBinder: [ :aLabelElement :aGroup | 
 				aLabelElement text: aGroup domainObject asString ];
 			when: BrSelectionDoubleClicked
