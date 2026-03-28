@@ -69,7 +69,7 @@ GtHomeListItemElement >> newActOnButton [
 GtHomeListItemElement >> newCandidateLabel [
 	^ BrLabel new
 		hMatchParent;
-		beSmallSize;
+		"beSmallSize;"
 		aptitude: BrGlamorousLabelAptitude new;
 		addAptitude: GtHomeLepiterCardListItemAptitude new
 ]
