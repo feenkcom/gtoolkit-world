@@ -73,10 +73,8 @@ GtHomeMultiCardGetStartedSection >> gtBookCard [
 			| snippets somePages |
 			somePages := db pages select: #shouldAppearInIndexOrDailyNotes.
 			snippets := somePages flatCollect: #allChildrenDepthFirst.
-			'The book is expressed as a knowledge base and documents the environment in '
-				, somePages size asString , ' pages containing '
-				, snippets size asString , ' snippets of '
-				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
+			somePages size asString , ' pages | '
+				, snippets size asString , ' snippets' ]
 				yourself
 ]
 
@@ -115,10 +113,8 @@ GtHomeMultiCardGetStartedSection >> gtUsedKnowledgeBaseCard [
 			| snippets somePages |
 			somePages := db pages select: #shouldAppearInIndexOrDailyNotes.
 			snippets := somePages flatCollect: #allChildrenDepthFirst.
-			'Your local knowledge base includes '
-				, somePages size asString , ' pages containing '
-				, snippets size asString , ' snippets of '
-				, (snippets groupedBy: #class) size asString , ' different kinds.' ]
+			somePages size asString , ' pages | '
+				, snippets size asString , ' snippets' ]
 				yourself
 ]
 
