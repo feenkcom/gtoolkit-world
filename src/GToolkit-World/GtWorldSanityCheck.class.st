@@ -48,7 +48,7 @@ GtWorldSanityCheck class >> createCheckProcessForImageFile: aFileReference [
 			'new'.
 			'checkImage'.
 			'--'.
-			'--detachChangesFromFileSystem'.
+			'--detachChanges'.
 			'--epiceaMemoryStore'.
 			'--noLepiterReload'.
 			'--noGtImageUpdate'}.

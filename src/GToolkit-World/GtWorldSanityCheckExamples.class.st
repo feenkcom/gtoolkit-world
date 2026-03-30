@@ -6,7 +6,7 @@ Class {
 
 { #category : #utils }
 GtWorldSanityCheckExamples >> createSanityCheckCommandString [
-	^ '{1} --interactive {2} clap eval GtWorldSanityCheck new checkImage -- --detachChangesFromFileSystem --epiceaMemoryStore --noLepiterReload --noGtImageUpdate' format:  {
+	^ '{1} --interactive {2} clap eval GtWorldSanityCheck new checkImage -- --detachChanges --epiceaMemoryStore --noLepiterReload --noGtImageUpdate' format:  {
 			LanguageLinkSettings pharoDefaultSettings serverExecutable fullName.
 			Smalltalk imageFile resolve fullName}
 ]
