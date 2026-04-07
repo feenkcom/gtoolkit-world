@@ -18,18 +18,14 @@ GtHomeLepiterTableOfContentsElement >> initialize [
 	self addChild: treeElement as: #toc.
 
 	self matchParent.
-	self padding: (BlInsets all: 3)
+	self padding: (BlInsets all: 5)
 ]
 
 { #category : #accessing }
 GtHomeLepiterTableOfContentsElement >> initializeTreeElement [
 	treeElement := BrSimpleTree new.
 	treeElement
-		padding: (BlInsets
-				top: 3
-				right: 5
-				bottom: 3
-				left: 3);
+		padding: (BlInsets all: 5);
 		nodeStencil: [ GtHomeListItemElement new ];
 		nodeDataBinder: [ :aLabel :aNode | aLabel item: aNode ];
 		when: BrSelectionDoubleClicked
