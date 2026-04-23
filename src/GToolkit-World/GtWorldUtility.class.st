@@ -1,6 +1,3 @@
-"
-Use {{gtClass:GtPhlowSpaceBuilder}} instead.
-"
 Class {
 	#name : #GtWorldUtility,
 	#superclass : #Object,
