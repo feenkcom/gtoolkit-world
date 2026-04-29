@@ -28,20 +28,8 @@ GtImageSetup class >> captureRepositoryRegistryHistory [
 ]
 
 { #category : #actions }
-GtImageSetup class >> cleanUpChangeSets [
-	ChangeSet removeChangeSetsNamedSuchThat: [ :each | true ].
-	ChangeSet resetCurrentToNewUnnamedChangeSet.
-]
-
-{ #category : #actions }
 GtImageSetup class >> cleanUpImageAfterLoad [
 	self cleanUpMonticelloCaches.
-	
-	self 
-		forPharo12AndNewer: [] 
-		forPharo11: [
-			self cleanUpChangeSets.
-			Smalltalk organization sortCategories. ].
 
 	3
 		timesRepeat: [ 
