@@ -32,7 +32,7 @@ String >> gtItemsFor: aView [
 	"override"
 
 	^ aView columnedList
-		title: 'Items';
+		title: 'Characters';
 		priority: 16;
 		items: [ self ];
 		actionUpdateButtonTooltip: 'Update item list';
