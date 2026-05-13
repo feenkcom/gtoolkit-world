@@ -81,5 +81,5 @@ AbstractFileReference >> gtStyledCodeFor: aView [
 				BrGlamorousSimpleContextMenuContent new
 					items: menuItems;
 					hMatchParent;
-					vMatchParent ]
+					vFitContent ]
 ]
