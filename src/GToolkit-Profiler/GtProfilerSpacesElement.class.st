@@ -21,8 +21,10 @@ GtProfilerSpacesElement class >> open [
 GtProfilerSpacesElement >> allOpenedSpaces [
 	| openedSpaces |
 
-	openedSpaces := BlSpace allSubInstances
-		select: [ :eachSpace | eachSpace isOpened and: [ eachSpace ~~ self space ] ].
+	openedSpaces := Array streamContents: [ :s |
+		BlSpace allOpenSpacesDo: [ :eachSpace |
+			eachSpace ~~ self space
+				ifTrue: [ s nextPut: eachSpace ] ] ].
 
 	openedSpaces := openedSpaces sorted: [ :a :b | a title < b title ].
 	openedSpaces := openedSpaces collect: [ :eachSpace | GtProfilerSpace new space: eachSpace ].

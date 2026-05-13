@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : #enumerating }
+GtWorld class >> allOpenWorlds [
+	^ Array
+		streamContents: [ :s | self allOpenWorldsDo: [ :eachWorld | s nextPut: eachWorld ] ]
+]
+
+{ #category : #enumerating }
 GtWorld class >> allOpenWorldsDo: aBlock [
 	self
 		allOpenSpacesDo: [ :eachSpace | (eachSpace isKindOf: self) ifTrue: [ aBlock value: eachSpace ] ]
