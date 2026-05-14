@@ -53,7 +53,7 @@ GtMonitor class >> printSpacesOn: aTranscript [
 		nextPutAll: '         Spaces'; cr;
 		nextPutAll: '========================='; cr.
 
-	allSpaces := BlSpace allSubInstances sorted: [ :a :b | a id < b id ].
+	allSpaces := BlSpace allOpenSpaces sorted: [ :a :b | a id < b id ].
 	allSpaces do: [ :eachSpace |
 		aTranscript
 			nextPutAll: eachSpace class name;
@@ -239,7 +239,7 @@ GtMonitor >> gtSpacesFor: aView [
 				icon: BrGlamorousVectorIcons bin asElement;
 				label: 'Close all spaces';
 				action:  [ :aButton |
-					(BlSpace allSubInstances copyWithout: aButton space) do: [ :eachSpace |
+					(BlSpace allOpenSpaces copyWithout: aButton space) do: [ :eachSpace |
 						eachSpace isOpened
 							ifTrue: [ eachSpace close ] ].
 					Smalltalk garbageCollect ] ]

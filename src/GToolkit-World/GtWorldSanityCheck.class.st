@@ -79,7 +79,7 @@ GtWorldSanityCheck >> runChecks [
 
 	self waitForWorldToInitialize.
 	
-	gtWorld := GtWorld allInstances anyOne.
+	gtWorld := GtWorld allOpenWorlds anyOne.
 	self assert: gtWorld isOpened.
 	
 	self runChecksForWorld: gtWorld.
