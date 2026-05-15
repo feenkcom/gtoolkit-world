@@ -32,10 +32,10 @@ GtDependencyAnalyzerEasy class >> analyzePackageNamed: aPackageNamed [
 
 { #category : #baselines }
 GtDependencyAnalyzerEasy class >> preloadedBaselines [
-	^ { BaselineOfPharoBootstrap . 
-		BaselineOfMorphic . 
-		BaselineOfMetacello . 
-		BaselineOfMonticello . 
+	^ {BaselineOfPharoBootstrap.
+		BaselineOfMorphic.
+		BaselineOfMetacello.
+		BaselineOfMonticello.
 		BaselineOfIceberg.
 		BaselineOfUI.
 		BaselineOfBasicTools.
@@ -43,5 +43,7 @@ GtDependencyAnalyzerEasy class >> preloadedBaselines [
 		BaselineOfEpicea.
 		BaselineOfGeneralTests.
 		BaselineOfGToolkitPrerequisites.
-		BaselineOfDisplay }
+		BaselineOfDisplay.
+		BaselineOfUnifiedFFI.
+		BaselineOfClap}
 ]
