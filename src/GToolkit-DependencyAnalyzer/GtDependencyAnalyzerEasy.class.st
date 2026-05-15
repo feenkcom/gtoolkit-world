@@ -44,5 +44,6 @@ GtDependencyAnalyzerEasy class >> preloadedBaselines [
 		BaselineOfGeneralTests.
 		BaselineOfGToolkitPrerequisites.
 		BaselineOfDisplay.
-		BaselineOfUnifiedFFI}
+		BaselineOfUnifiedFFI.
+		BaselineOfClap}
 ]
