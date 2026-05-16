@@ -89,7 +89,7 @@ GtMonitoredBlocSpacesElement >> updateList [
 				futureConfiguration: GtMonitorConfiguration defaultFutureConfiguration;
 				element: self;
 				action: [ | allSpaces |
-					allSpaces := BlSpace allSubInstances
+					allSpaces := BlSpace allOpenSpaces
 						sorted: [ :a :b | a title < b title ].
 					allSpaces := allSpaces sorted: [ :a :b | a isOpened ].
 					allSpaces := allSpaces

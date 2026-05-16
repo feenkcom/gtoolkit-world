@@ -266,8 +266,8 @@ GtWorldTabElement >> maximizeButtonFor: aTabModel [
 { #category : #accessing }
 GtWorldTabElement >> moveOptions [
 	| gtWorlds space |
-	gtWorlds := GtWorld allInstances
-			select: [ :e | e isOpened and: [ (tabs == e tabGroup) not ] ].
+	gtWorlds := GtWorld allOpenWorlds
+			select: [ :e | (tabs == e tabGroup) not ].
 	^ gtWorlds
 		collect: [ :e | 
 			e tabGroup viewModel selectedTab tabLabel text
