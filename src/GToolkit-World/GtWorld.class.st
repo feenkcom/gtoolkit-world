@@ -70,6 +70,11 @@ GtWorld class >> defaultWorld [
 	^ oldestWorld
 ]
 
+{ #category : #accessing }
+GtWorld class >> defaultWorldDo: aBlock [
+	^ self defaultWorld ifNotNil: aBlock
+]
+
 { #category : #'class initialization' }
 GtWorld class >> initialize [
 	"Register the handler to execute after the default priority that reads preferences."
