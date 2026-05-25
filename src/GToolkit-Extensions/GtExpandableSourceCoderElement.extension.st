@@ -7,7 +7,7 @@ GtExpandableSourceCoderElement >> gtActionInspectInnerTextEditorFor: anAction [
 		priority: 80;
 		target: GtPhlowObjectContextMenuTarget;
 		icon: BrGlamorousVectorIcons inspect;
-		tooltip: 'Inspect inner text editor';
+		tooltip: 'Inspect inner text editor element';
 		id: GtInspectorInspectButtonId;
 		menuItemGroup: BrMenuItemGroupConfiguration navigation;
 		menuItemPreview: [ (self query // GtSourceCoderEditorInnerId) anyOne gtDisplayText ];
