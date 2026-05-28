@@ -16,7 +16,7 @@ GtPhlowDefiningMethods >> gtSourceFor: aView [
 					c horizontal matchParent ].
 			self methods do: [ :eachMethod | 
 				aContainer addChild: (
-					(GtPharoMethodCoder forMethod: eachMethod) asCoderViewModel
+					(GtPharoMethodCoder forMethod: eachMethod compiledMethod) asCoderViewModel
 						withHeader;
 						expanded: true;
 						asElement) ].
