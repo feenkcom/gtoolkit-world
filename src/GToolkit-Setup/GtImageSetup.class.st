@@ -256,6 +256,10 @@ GtImageSetup class >> performLocalSetup [
 	self resetFFIMethods.
 	self printNotRegisteredFFIMethods.
 	
+	"We want to use the incemental parser by default in a production too.
+	See https://github.com/feenkcom/gtoolkit-editor/issues/13"
+	GtTextualCoder useIncrementalParsing: true.
+	
 	self recordSpaceTallyAtEnd.
 ]
 
