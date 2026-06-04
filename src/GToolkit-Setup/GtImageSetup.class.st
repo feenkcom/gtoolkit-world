@@ -131,7 +131,7 @@ GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference [
 				"__type" : "file",
 				"filename" : "remote-gemstone"
 			},
-			"gemstoneVersion" : "3.7.2.1"
+			"gemstoneVersion" : "3.7.5"
 		},
 		"datacurator" : {
 			"__type" : "gemstoneGciConnector",
@@ -150,7 +150,7 @@ GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference [
 				"__type" : "file",
 				"filename" : "remote-gemstone"
 			},
-			"gemstoneVersion" : "3.7.2.1"
+			"gemstoneVersion" : "3.7.5"
 		}
 	}
 }'.
