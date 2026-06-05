@@ -18,9 +18,11 @@ RGMethodDefinition >> gtBasicSourceFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtImplementorsFor: aView [
 	<gtView>
+	<gtToolView>
+	
 	^ aView forward
 		title: 'Implementors';
-		priority: 23;
+		priority: 22;
 		object: [ 
 			| searchContext |
 			searchContext := nil.
@@ -36,9 +38,11 @@ RGMethodDefinition >> gtImplementorsFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtLepiterReferencesFor: aView [
 	<gtView>
+	<gtToolView>
+	
 	^ aView forward
 		title: 'Lepiter references';
-		priority: 23;
+		priority: 24;
 		object: [ 
 			| searchContext |
 			searchContext := nil.
@@ -55,9 +59,11 @@ RGMethodDefinition >> gtLepiterReferencesFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtReferencesFor: aView [
 	<gtView>
+	<gtToolView>
+	
 	^ aView forward
 		title: 'References';
-		priority: 22;
+		priority: 23;
 		object: [ 
 			| searchContext |
 			searchContext := nil.
@@ -74,9 +80,11 @@ RGMethodDefinition >> gtReferencesFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtWithinSelfMessagesFor: aView [
 	<gtView>
+	<gtToolView>
+	
 	^ aView mondrian
 		title: 'Within self messages';
-		priority: 30;
+		priority: 43;
 		painting: [ :m | self paintWithinSelfMessagesWith: m ]
 ]
 
