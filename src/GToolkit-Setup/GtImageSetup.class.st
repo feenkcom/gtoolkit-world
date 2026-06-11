@@ -260,9 +260,6 @@ GtImageSetup class >> performLocalSetup [
 	See https://github.com/feenkcom/gtoolkit-editor/issues/13"
 	GtTextualCoder useIncrementalParsing: true.
 	
-	"Enable force stepping for developing"
-	GtDebugSession enableForceStepping.
-	
 	self recordSpaceTallyAtEnd.
 ]
 
