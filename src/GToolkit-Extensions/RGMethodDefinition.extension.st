@@ -91,7 +91,7 @@ RGMethodDefinition >> gtWithinSelfMessagesFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> isClassSide [
 	"For compatibility with CompiledMethod"
-	^self isMetaSide
+	^self isMeta
 ]
 
 { #category : #'*GToolkit-Extensions' }
