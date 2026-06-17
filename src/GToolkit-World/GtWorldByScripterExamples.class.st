@@ -1152,7 +1152,7 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	aScripter memoryLogger
 		runFor: GtInspectorSampleBOneForwardObjectSignal , GtPhlowForwarderFutureElementSignal
 				, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
-				, GtInspectorSelectTabSignal
+				, GtPhlowSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				selectAll;
@@ -1176,7 +1176,7 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	aScripter memoryLogger
 		runFor: GtInspectorSampleBOneForwardObjectSignal , GtPhlowForwarderFutureElementSignal
 				, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
-				, GtInspectorSelectTabSignal
+				, GtPhlowSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				playAndInspect;
