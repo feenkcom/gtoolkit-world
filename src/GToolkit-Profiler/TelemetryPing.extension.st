@@ -119,6 +119,9 @@ TelemetryPing >> gtPingToSpawn: aTelemetryPing [
 { #category : #'*GToolkit-Profiler' }
 TelemetryPing >> gtSourceFor: aView [
 	<gtView>
+	
+	sender ifNil: [ ^ aView empty ].
+	
 	^ aView forward
 		title: 'Source';
 		priority: 2;
