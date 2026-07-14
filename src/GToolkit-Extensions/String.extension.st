@@ -28,6 +28,17 @@ String >> gtGetUrlFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+String >> gtHexDumpFor: aView [
+	<gtView>
+	 
+	^ aView forward
+			title: 'Hex dump';
+			priority: 70;
+			object: [ (self takeFirst: 1000000) asByteArray ];
+			view: #gtHexDumpFor:
+]
+
+{ #category : #'*GToolkit-Extensions' }
 String >> gtItemsFor: aView [
 	"override"
 
