@@ -160,6 +160,10 @@ GtWorldElement >> initializeListeners [
 		do: [ :anEvent | 
 			anEvent consumed: true.
 			self currentSpotterButton dispatchEvent: BrDropdownShowWish new ].
+
+	self
+		when: GtPhlowObjectToSpawn
+		do: [ :anEvent | self onGtPhlowObjectToSpawn: anEvent ]
 ]
 
 { #category : #initialization }
@@ -355,6 +359,16 @@ GtWorldElement >> onAddedToSceneGraph [
 		when: MethodAnnouncement
 		send: #update:
 		to: self home. 
+]
+
+{ #category : #'private - event handling' }
+GtWorldElement >> onGtPhlowObjectToSpawn: anEvent [
+	anEvent consumed: true.
+
+	BlSpace new
+		withCommonSettings;
+		inPager: anEvent tool;
+		showFrom: self
 ]
 
 { #category : #'hooks - children' }
