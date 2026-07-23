@@ -4,7 +4,7 @@ Class {
 	#category : #'GToolkit-World-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'steps - checks' }
 GtWorldElementStep >> assertTabAtIndex: anIndex hasLabel: aString [
 	| step |
 	
@@ -36,7 +36,7 @@ GtWorldElementStep >> assertTabAtIndex: anIndex hasLabel: aString [
 	^ step
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'steps - checks' }
 GtWorldElementStep >> assertTabHasToolAndContentIconAtIndex: anIndex [ 
 	| step |
 	
@@ -74,7 +74,7 @@ GtWorldElementStep >> assertTabHasToolAndContentIconAtIndex: anIndex [
 	^ step
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'steps - interactions' }
 GtWorldElementStep >> showInNewTabObject: anObject [
 	^ self do
 		label: 'Spawn object into a new world tab';
