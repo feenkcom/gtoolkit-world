@@ -296,7 +296,7 @@ GtWorld >> withWorldPreviewer [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Open Previewer';
 				repeatable: false;
-				combination: BlKeyCombination builder primary shift t build;
+				spaceShortcutId: BlSpaceShortcutIds default openPreviewerShortcutId;
 				action: [ worldElement fireEvent: GtWorldPreviewerShowWish new ]).
 	worldElement addEventHandler: GtWorldPreviewerEventHandler new
 ]
