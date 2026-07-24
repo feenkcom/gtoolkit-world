@@ -173,13 +173,13 @@ GtWorldElement >> initializeShortcuts [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Open global Spotter';
 				repeatable: false;
-				combination: BlKeyCombination shiftReturn;
+				spaceShortcutId: BlSpaceShortcutIds default openSpotterShortcutId;
 				action: [ self dispatchEvent: GtSpawnSpotter new ]).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Open global menu';
 				repeatable: false;
-				combination: BlKeyCombination primaryT;
+				spaceShortcutId: BlSpaceShortcutIds default openGlobalMenuShortcutId;
 				action: [ self currentSubSpaceButton
 						ifNotNil: [ self currentSubSpaceButton
 								dispatchEvent: (BrDropdownShowWish new
@@ -189,20 +189,19 @@ GtWorldElement >> initializeShortcuts [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Select previous tab';
 				repeatable: true;
-				combination: (BlKeyCombinationBuilder new primary shift key: BlKeyboardKey leftBracket) build;
+				spaceShortcutId: BlSpaceShortcutIds default selectPreviousTabShortcutId;
 				action: [ self tabs selectTabToTheLeft ]).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Select next tab';
 				repeatable: true;
-				combination: (BlKeyCombinationBuilder new primary shift key: BlKeyboardKey rightBracket)
-						build;
+				spaceShortcutId: BlSpaceShortcutIds default selectNextTabShortcutId;
 				action: [ self tabs selectTabToTheRight ]).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Close tab';
 				repeatable: true;
-				combination: BlKeyCombination primaryW;
+				spaceShortcutId: BlSpaceShortcutIds default closeTabShortcutId;
 				action: (BrTabGroupPreventableSelectedTabCloseAction new
 					tabGroup: self tabs;
 					keepContentElement: home;
@@ -211,7 +210,7 @@ GtWorldElement >> initializeShortcuts [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Close world';
 				repeatable: true;
-				combination: BlKeyCombination primaryQ;
+				spaceShortcutId: BlSpaceShortcutIds default closeWorldShortcutId;
 				action: [ self spaceDo: [ :aSpace | aSpace requestClose ] ])
 ]
 

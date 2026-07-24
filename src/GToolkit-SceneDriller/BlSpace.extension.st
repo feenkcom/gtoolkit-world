@@ -13,7 +13,7 @@ BlSpace >> withScreenshotHandler [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Take screenshot';
 				repeatable: false;
-				combination: BlKeyCombination primaryShiftP;
+				spaceShortcutId: BlSpaceShortcutIds default takeScreenshotShortcutId;
 				action: [ :aShortcutEvent :aShortcut | 
 					aShortcutEvent currentTarget dispatchEvent: GtTakePicture new ]).
 	self root
@@ -30,38 +30,23 @@ BlSpace >> withScreenshotHandler [
 
 { #category : #'*GToolkit-SceneDriller' }
 BlSpace >> withZoomInOutShortcuts [
-	"self addShortcut: (BlShortcutWithAction new
-		name: 'Increase font size';
-		combination: BlKeyCombination builder primary equal build;
-		action: [ self increaseFontSize ]).
-		
-	self addShortcut: (BlShortcutWithAction new
-		name: 'Decrease font size';
-		combination: BlKeyCombination builder primary minus build;
-		action: [ self decreaseFontSize ]).
-		
-	self addShortcut: (BlShortcutWithAction new
-		name: 'Reset to default font size';
-		combination: (BlKeyCombination builder primary key: BlKeyboardKey zero) build;
-		action: [ self resetFontSize ])."
-
 	<spaceCommonSettings>
 	self root
 		addShortcut: (BlShortcutWithAction new
 				name: 'Zoom in';
 				repeatable: false;
-				combination: BlKeyCombination builder primary equal build;
+				spaceShortcutId: BlSpaceShortcutIds default zoomInShortcutId;
 				action: [ :aShortcutEvent :aShortcut | BlSpace userScale: BlSpace userScale + 0.1 ]).
 	self root
 		addShortcut: (BlShortcutWithAction new
 				name: 'Zoom out';
 				repeatable: false;
-				combination: BlKeyCombination builder primary minus build;
+				spaceShortcutId: BlSpaceShortcutIds default zoomOutShortcutId;
 				action: [ :aShortcutEvent :aShortcut | BlSpace userScale: BlSpace userScale - 0.1 ]).
 	self root
 		addShortcut: (BlShortcutWithAction new
 				name: 'Zoom normal';
 				repeatable: false;
-				combination: (BlKeyCombination builder primary key: BlKeyboardKey zero) build;
+				spaceShortcutId: BlSpaceShortcutIds default zoomNormalShortcutId;
 				action: [ :aShortcutEvent :aShortcut | BlSpace userScale: 1 ])
 ]
