@@ -1574,7 +1574,7 @@ GtWorldByScripterExamples >> expandMethodCoder [
 					assertMethodExpandersCountIs: 1;
 					assertSelfObjectIs: FileLocator;
 					assertTargetBehaviorIs: FileLocator class;
-					assertExplicitProviderClassIs: FileLocator class ];
+					assertExplicitReceiverClassIs: FileLocator class ];
 		onPagerPaneWithIndex: 1;
 		id: LeSnippetElementId index: 1;
 		play.
@@ -1990,7 +1990,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
 					insideDo: [ :insideStep | 
 						insideStep
 							assertTargetBehaviorIs: self nonExistentClass;
-							assertExplicitProviderClassIs: nil;
+							assertExplicitReceiverClassIs: nil;
 							assertBinding: #anInteger is: 72;
 							assertBinding: #anInteger1 is: 144 ];
 				// GtSourceCoderEditorId;
@@ -2037,7 +2037,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
 					insideDo: [ :insideStep | 
 						insideStep
 							assertTargetBehaviorIs: self nonExistentClass;
-							assertExplicitProviderClassIs: self nonExistentClass;
+							assertExplicitReceiverClassIs: self nonExistentClass;
 							assertBinding: #arg1 is: 72;
 							assertBinding: #arg2 is: 144 ];
 				// aSecondSnippetId;
