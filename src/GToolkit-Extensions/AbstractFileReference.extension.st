@@ -83,3 +83,17 @@ AbstractFileReference >> gtStyledCodeFor: aView [
 					hMatchParent;
 					vFitContent ]
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+AbstractFileReference >> gtViewBeaconJsonLogFor: aView [
+	<gtView>
+	self extension = 'log' ifFalse: [ ^ aView empty ].
+	(self basename includesSubstring: 'beacon') ifFalse: [ ^ aView empty ].
+	self exists ifFalse: [ ^ aView empty ].
+
+	^ aView forward
+		title: 'Entries';
+		priority: 10;
+		object: [ GtBeaconJsonLogReader new filename: self ];
+		view: #gtSignalsFor:
+]
