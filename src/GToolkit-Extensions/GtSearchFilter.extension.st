@@ -154,6 +154,15 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 				dataBinder: [ :anElement :assoc | 
 					anElement updateForClass: assoc key ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderClassTarget
+						menuItemsForObject: aCollection first key
+						hostElement: anElement ]
+				ifFalse: [ GtCoderClassesTarget
+						menuItemsForObject: (GtPharoClassGroup withAll: (aCollection 
+							collect: [ :each | each key ]))
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreAssociations :selectionIndexes |
 			selectionIndexes size = 1
 				ifTrue: [ GtSearchFixedMethodsFilter new 
@@ -258,6 +267,15 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 							ifNil: [ '<Obsolete>' ] 
 							ifNotNil: [:aPackage | aPackage name ] ) ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderPackageTarget
+						menuItemsForObject: aCollection first key
+						hostElement: anElement ]
+				ifFalse: [ GtCoderPackagesTarget
+						menuItemsForObject: (GtPharoPackageGroup withAll: (aCollection 
+							collect: [ :each | each key ]))
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreAssociations :selectionIndexes |
 			selectionIndexes size = 1
 				ifTrue: [GtSearchFixedMethodsFilter new 
