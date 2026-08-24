@@ -7,6 +7,55 @@ GtSearchFilter >> children [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtActionCopyCreationCodeInspectFor: anAction [
+	<gtAction>
+	^ anAction button
+		priority: 90;
+		target: GtPhlowObjectContextMenuTarget;
+		icon: BrGlamorousVectorIcons clipboard;
+		tooltip: 'Copy creation code';
+		menuItemGroup: BrMenuItemGroupConfiguration editing;
+		menuItemPreview: ([ (self creationCodeString
+				copyWithout: Character tab) takeFirst: 50 ]
+			on: Error 
+			do: [ :e | e printString asRopedText foreground: Color red ]);
+		action: [ :aButton |
+			GtClipboard clipboardText: self creationCodeString ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtActionInspectCreationCodeBuilderFor: anAction [
+	<gtAction>
+	^ anAction button
+		priority: 100;
+		target: GtPhlowObjectContextMenuTarget;
+		icon: BrGlamorousVectorIcons inspect;
+		tooltip: 'Inspect creation code';
+		"id: GtInspectorInspectButtonId;"
+		menuItemGroup: BrMenuItemGroupConfiguration navigation;
+		menuItemPreview: ([ (self creationCodeString
+				copyWithout: Character tab) takeFirst: 50 ]
+			on: Error 
+			do: [ :e | e printString asRopedText foreground: Color red ]);
+		action: [ :aButton |
+			aButton phlow spawnObject: self creationCode ];
+		primaryModifierAction: [ :aButton |
+			BlSpace new
+				withCommonSettings;
+				objectInPager: self creationCode;
+				showFrom: aButton ]
+			mouseCursor: BlCopyCursor new
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtActionObjectDropdownFor: anAction [
+	<gtAction>
+	<gtToolAction>
+	
+	^super gtActionObjectDropdownFor: anAction
+]
+
+{ #category : #'*GToolkit-Extensions' }
 GtSearchFilter >> gtAreAllGtSearchMethodsFilterKind [
 	^ false
 ]
@@ -105,11 +154,23 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 				dataBinder: [ :anElement :assoc | 
 					anElement updateForClass: assoc key ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderClassTarget
+						menuItemsForObject: aCollection first key
+						hostElement: anElement ]
+				ifFalse: [ GtCoderClassesTarget
+						menuItemsForObject: (GtPharoClassGroup withAll: (aCollection 
+							collect: [ :each | each key ]))
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreAssociations :selectionIndexes |
 			selectionIndexes size = 1
 				ifTrue: [ GtSearchFixedMethodsFilter new 
 					withDefinedMethodsFrom: oneOrMoreAssociations value ;
 					highlighter: self highlighter;
+					associatedSearchFilter: (self 
+						& GtSearchImageMethodsFilter new
+						& (GtSearchMethodsInClassFilter forClass: oneOrMoreAssociations key) );
 					label: self gtDisplayString
 						, ' & '
 						, oneOrMoreAssociations key name, ' class' ]
@@ -118,6 +179,13 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 						withDefinedMethodsFrom: (oneOrMoreAssociations
 							flatCollect: [ :each | each value])  ;
 						highlighter: self highlighter;
+						associatedSearchFilter: self 
+							& GtSearchImageMethodsFilter new
+							& (oneOrMoreAssociations copyWithoutFirst
+								inject: (GtSearchMethodsInClassFilter 
+									forClass: (oneOrMoreAssociations first key )) 
+								into: [ :aCompositeFilter :assoc |
+									aCompositeFilter | (GtSearchMethodsInClassFilter forClass: assoc key ) ]);
 						label: self gtDisplayString
 							, ' & ('
 							, (String streamContents: [ :s | 
@@ -199,11 +267,24 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 							ifNil: [ '<Obsolete>' ] 
 							ifNotNil: [:aPackage | aPackage name ] ) ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderPackageTarget
+						menuItemsForObject: aCollection first key
+						hostElement: anElement ]
+				ifFalse: [ GtCoderPackagesTarget
+						menuItemsForObject: (GtPharoPackageGroup withAll: (aCollection 
+							collect: [ :each | each key ]))
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreAssociations :selectionIndexes |
 			selectionIndexes size = 1
 				ifTrue: [GtSearchFixedMethodsFilter new 
 					withDefinedMethodsFrom: oneOrMoreAssociations value ;
 					highlighter: self highlighter;
+					associatedSearchFilter: (self 
+						& GtSearchImageMethodsFilter new
+						& (GtSearchMethodsInPackageFilter 
+							forPackageOrUndefined: (oneOrMoreAssociations key )) );
 					label: (self gtDisplayString
 						, ' & '
 						, (oneOrMoreAssociations key 
@@ -214,6 +295,14 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 					withDefinedMethodsFrom: (oneOrMoreAssociations
 						flatCollect: [ :each | each value]) ;
 					highlighter: self highlighter;
+					associatedSearchFilter: self 
+						& GtSearchImageMethodsFilter new
+						& (oneOrMoreAssociations copyWithoutFirst
+								inject: (GtSearchMethodsInPackageFilter 
+									forPackageOrUndefined: (oneOrMoreAssociations first key )) 
+								into: [ :aCompositeFilter :assoc |
+									aCompositeFilter | (GtSearchMethodsInPackageFilter 
+										forPackageOrUndefined: assoc key) ]);
 					label: (self gtDisplayString
 						, ' & ('
 						, (String streamContents: [ :s | 
