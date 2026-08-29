@@ -21,6 +21,31 @@ GtWorldSpotterSearchStart >> configureLepiterSnippetInPageFor: aSearch [
 ]
 
 { #category : #searches }
+GtWorldSpotterSearchStart >> gtCreateNewCustomPageFor: aSearch [
+	<gtSearch>
+	^ aSearch list
+		priority: 24;
+		items: [ (LeNamedPageType withAllSubclasses
+				remove: LeUnknownNamedPageType;
+				remove: LeExampleCustomPageType;
+				yourself) sorted: #name ascending ];
+		title: 'Create a New Custom Page Named:';
+		filter: GtSpotterReturnAllItemsFilter new;
+		itemName: #niceClassName;
+		previewElement: [ :aStencil | BlElement new ];
+		sendTool: [ :aCategoryToSend :aRawCategory :aStep :aSpotterSearch | 
+			| database newPage |
+			database := LeDatabasesRegistry defaultPrimaryDatabase.
+			newPage := LePage new.
+			newPage type: (aCategoryToSend new page: newPage).
+			newPage type title: aStep searchQuery.
+			database addPage: newPage.
+			newPage gtDefaultInspectorTool ];
+		withoutItemAction;
+		wantsToDisplayOnEmptyQuery: true
+]
+
+{ #category : #searches }
 GtWorldSpotterSearchStart >> gtNewSnippetFor: aSearch [
 	<gtSearch>
 	self hasKnowledgeBase ifFalse: [ ^ aSearch empty ].
@@ -64,11 +89,12 @@ GtWorldSpotterSearchStart >> gtSearchPagesByTitleFor: aSearch [
 		title: 'Named pages';
 		priority: 22;
 		search: [ :aContext | self knowledgeBase asyncPagesForWord: aContext searchQuery ];
+		previewElement: [:each| each type defaultPhlowTool asElement ];
 		itemName: #title;
 		wantsToDisplayOnEmptyQuery: false
 ]
 
-{ #category : #spotter }
+{ #category : #searches }
 GtWorldSpotterSearchStart >> gtSpotterContainingSubPartsFor: aSearch [
 	<gtSearch>
 	self hasKnowledgeBase
@@ -95,6 +121,7 @@ GtWorldSpotterSearchStart >> gtSpotterContainingSubPartsFor: aSearch [
 			results asAsyncStream
 			] asAsyncFuture asAsyncStream flatten
 		];
+		previewElement: [:each| each type defaultPhlowTool asElement ];
 		itemName: #spotterItemName
 ]
 
