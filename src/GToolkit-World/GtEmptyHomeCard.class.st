@@ -5,7 +5,7 @@ I am an empty card that displays nothing. Like an empty view or action, I can be
 Class {
 	#name : #GtEmptyHomeCard,
 	#superclass : #GtHomeCard,
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #accessing }

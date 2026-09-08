@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'shouldDisableAnnotation'
 	],
-	#category : #'GToolkit-World-Utilities'
+	#category : 'GToolkit-World-Utilities'
 }
 
 { #category : #accessing }

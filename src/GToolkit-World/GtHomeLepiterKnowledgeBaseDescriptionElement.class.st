@@ -8,7 +8,7 @@ Class {
 		'isReloading',
 		'isUnloaded'
 	],
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #'api - details' }

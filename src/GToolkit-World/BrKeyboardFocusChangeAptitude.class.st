@@ -5,7 +5,7 @@ Class {
 		'rootValuable',
 		'onReturnKeyPressDo'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #accessing }

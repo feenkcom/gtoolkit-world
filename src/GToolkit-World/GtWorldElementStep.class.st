@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldElementStep,
 	#superclass : #BlDevScripterToolActionStep,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #'steps - checks' }

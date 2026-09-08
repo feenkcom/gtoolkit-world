@@ -1,7 +1,7 @@
 Class {
 	#name : #GtToolStencil,
 	#superclass : #BrStencil,
-	#category : #'GToolkit-World-Stencils'
+	#category : 'GToolkit-World-Stencils'
 }
 
 { #category : #testing }

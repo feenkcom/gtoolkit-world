@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldShutdownPromptId,
 	#superclass : #BlElementUniqueId,
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #converting }

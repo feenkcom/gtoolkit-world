@@ -1,7 +1,7 @@
 Class {
 	#name : #GtFeedSectionsCollector,
 	#superclass : #GtHomeSectionsCollector,
-	#category : #'GToolkit-World-Utilities'
+	#category : 'GToolkit-World-Utilities'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldPreviewerExamples,
 	#superclass : #Object,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #accessing }

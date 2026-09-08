@@ -12,7 +12,7 @@ I summarize a class comment for a given {{gtMethod:GtHomeClassCommentCardElement
 Class {
 	#name : #GtHomeClassCommentCardElement,
 	#superclass : #GtHomeDocumentCardElement,
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #'private - accessing' }

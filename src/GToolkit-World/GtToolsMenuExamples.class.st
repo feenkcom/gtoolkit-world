@@ -1,7 +1,7 @@
 Class {
 	#name : #GtToolsMenuExamples,
 	#superclass : #Object,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #examples }

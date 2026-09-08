@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'spaceId'
 	],
-	#category : #'GToolkit-World-UI - ID'
+	#category : 'GToolkit-World-UI - ID'
 }
 
 { #category : #'api - instance creation' }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'bar'
 	],
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #initialization }

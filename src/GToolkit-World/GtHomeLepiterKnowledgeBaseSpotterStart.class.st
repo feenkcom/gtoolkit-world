@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'databaseProvider'
 	],
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }

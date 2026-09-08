@@ -8,7 +8,7 @@ Class {
 		'openAction',
 		'closeAction'
 	],
-	#category : #'GToolkit-World-Notifications'
+	#category : 'GToolkit-World-Notifications'
 }
 
 { #category : #accessing }

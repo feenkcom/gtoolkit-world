@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldSpotterSearchElementId,
 	#superclass : #GtWorldToolbarItemId,
-	#category : #'GToolkit-World-UI - ID'
+	#category : 'GToolkit-World-UI - ID'
 }
 
 { #category : #converting }

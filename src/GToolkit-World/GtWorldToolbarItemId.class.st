@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldToolbarItemId,
 	#superclass : #GtWorldContentId,
-	#category : #'GToolkit-World-UI - ID'
+	#category : 'GToolkit-World-UI - ID'
 }
 
 { #category : #testing }

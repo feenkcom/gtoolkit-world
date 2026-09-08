@@ -1,7 +1,7 @@
 Class {
 	#name : #GtHomeCardExamples,
 	#superclass : #Object,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #example }

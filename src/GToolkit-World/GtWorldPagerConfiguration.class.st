@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'contentElementActions'
 	],
-	#category : #'GToolkit-World-Utilities'
+	#category : 'GToolkit-World-Utilities'
 }
 
 { #category : #'api - applying' }

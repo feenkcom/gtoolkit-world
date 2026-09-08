@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'url'
 	],
-	#category : #'GToolkit-World-Feed'
+	#category : 'GToolkit-World-Feed'
 }
 
 { #category : #printing }
