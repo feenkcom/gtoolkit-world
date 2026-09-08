@@ -7,7 +7,7 @@ Class {
 	#classInstVars : [
 		'defaultId'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #enumerating }

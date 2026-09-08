@@ -1,6 +1,6 @@
 Trait {
 	#name : #TGtHomeLepiterPageFinder,
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }

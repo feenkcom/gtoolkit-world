@@ -37,7 +37,7 @@ Class {
 		'sectionTitle',
 		'loadLepiter'
 	],
-	#category : #'GToolkit-World-Deprecated'
+	#category : 'GToolkit-World-Deprecated'
 }
 
 { #category : #accessing }

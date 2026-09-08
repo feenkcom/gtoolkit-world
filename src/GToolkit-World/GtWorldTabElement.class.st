@@ -6,7 +6,7 @@ Class {
 		'home',
 		'toolbarUpdater'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #accessing }
@@ -193,13 +193,12 @@ GtWorldTabElement >> home [
 { #category : #initialization }
 GtWorldTabElement >> initialize [
 	super initialize.
-	
 	self beFocusable.
 	self layout: BlLinearLayout vertical.
-	self constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ].
-	
+	self constraintsDo: 
+			[:c |
+			c horizontal matchParent.
+			c vertical matchParent].
 	self initializeHomeElement.
 	self initializeTabGroup.
 	self initializeTabs.
@@ -207,6 +206,8 @@ GtWorldTabElement >> initialize [
 	self initializeShortcuts.
 	self initializeListeners.
 	self initializeUpdaters.
+	LwDualTabGroup installSideTabGroupOn: self.
+	self lwInstallReopenClosedTab
 ]
 
 { #category : #initialization }
@@ -281,11 +282,6 @@ GtWorldTabElement >> moveOptions [
 ]
 
 { #category : #'private - instance creation' }
-GtWorldTabElement >> newActionItemsInto: anActionbar [
-	"Subclasses may add action items into the World toolbar"
-]
-
-{ #category : #'private - instance creation' }
 GtWorldTabElement >> newActionbar [
 	| anActionbar |
 
@@ -295,6 +291,11 @@ GtWorldTabElement >> newActionbar [
 	self newActionItemsInto: anActionbar.
 
 	^ anActionbar
+]
+
+{ #category : #'private - instance creation' }
+GtWorldTabElement >> newActionItemsInto: anActionbar [
+	"Subclasses may add action items into the World toolbar"
 ]
 
 { #category : #'private - instance creation' }
@@ -451,6 +452,11 @@ GtWorldTabElement >> tabContextMenu [
 GtWorldTabElement >> tabs [
 	<return: #BrTabGroup>
 	^ tabs
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> testMethod [
+	^'This method should not really be in image'
 ]
 
 { #category : #'children - accessing' }

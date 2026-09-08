@@ -6,7 +6,7 @@ Class {
 		'feedSources',
 		'persistenceStrategy'
 	],
-	#category : #'GToolkit-World-Feed'
+	#category : 'GToolkit-World-Feed'
 }
 
 { #category : #accessing }

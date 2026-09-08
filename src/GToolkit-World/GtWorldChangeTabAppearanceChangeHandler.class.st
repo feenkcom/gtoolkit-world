@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tabReference'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #visiting }

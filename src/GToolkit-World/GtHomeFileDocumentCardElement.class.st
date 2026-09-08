@@ -14,7 +14,7 @@ I summarize a file content for a given {{gtMethod:GtHomeFileDocumentCardElement>
 Class {
 	#name : #GtHomeFileDocumentCardElement,
 	#superclass : #GtHomeDocumentCardElement,
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #'private - accessing' }

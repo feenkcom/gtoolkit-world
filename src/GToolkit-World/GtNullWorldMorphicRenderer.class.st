@@ -7,7 +7,7 @@ Class {
 	#classVars : [
 		'isEnabled'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #protocol }

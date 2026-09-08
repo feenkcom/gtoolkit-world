@@ -5,7 +5,7 @@ Class {
 		'details',
 		'toolbarStencil'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #'view creation' }

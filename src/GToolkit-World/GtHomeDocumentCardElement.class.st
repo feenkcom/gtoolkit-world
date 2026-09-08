@@ -6,7 +6,7 @@ Class {
 		'titleElement',
 		'document'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #'instance creation' }

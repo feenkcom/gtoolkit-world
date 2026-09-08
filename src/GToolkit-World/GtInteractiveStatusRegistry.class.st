@@ -5,7 +5,7 @@ Class {
 		'statusesById',
 		'persistenceStrategy'
 	],
-	#category : #'GToolkit-World-Notifications'
+	#category : 'GToolkit-World-Notifications'
 }
 
 { #category : #accessing }

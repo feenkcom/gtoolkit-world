@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'posts'
 	],
-	#category : #'GToolkit-World-Utilities'
+	#category : 'GToolkit-World-Utilities'
 }
 
 { #category : #'gt-extension' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldTabToolbarButtonAptitude,
 	#superclass : #BrStyleCommonAptitude,
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #initialization }

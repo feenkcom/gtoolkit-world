@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldContentId,
 	#superclass : #BlElementUniqueId,
-	#category : #'GToolkit-World-UI - ID'
+	#category : 'GToolkit-World-UI - ID'
 }
 
 { #category : #testing }

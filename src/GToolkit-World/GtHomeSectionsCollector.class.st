@@ -1,7 +1,7 @@
 Class {
 	#name : #GtHomeSectionsCollector,
 	#superclass : #GtPhlowCollector,
-	#category : #'GToolkit-World-Utilities'
+	#category : 'GToolkit-World-Utilities'
 }
 
 { #category : #accessing }

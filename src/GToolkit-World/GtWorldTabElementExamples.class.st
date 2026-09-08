@@ -5,7 +5,7 @@ I exemplify {{gtClass:GtWorldTabElement}}.
 Class {
 	#name : #GtWorldTabElementExamples,
 	#superclass : #Object,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #'examples - by scripter' }

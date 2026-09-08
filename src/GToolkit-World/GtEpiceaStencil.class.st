@@ -1,7 +1,7 @@
 Class {
 	#name : #GtEpiceaStencil,
 	#superclass : #GtToolStencil,
-	#category : #'GToolkit-World-Stencils'
+	#category : 'GToolkit-World-Stencils'
 }
 
 { #category : #accessing }

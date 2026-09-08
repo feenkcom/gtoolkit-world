@@ -4,7 +4,7 @@ I am obsolete. Use {{gtClass:name=GtHomeMultiCardGetStartedSection}} instead.
 Class {
 	#name : #GtHomeGetStartedSection,
 	#superclass : #GtHomeSection,
-	#category : #'GToolkit-World-Deprecated'
+	#category : 'GToolkit-World-Deprecated'
 }
 
 { #category : #accessing }

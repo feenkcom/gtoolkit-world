@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'world'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #'system startup' }

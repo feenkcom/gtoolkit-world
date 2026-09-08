@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldCloseEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #'api - accessing' }

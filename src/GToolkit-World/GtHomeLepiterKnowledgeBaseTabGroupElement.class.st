@@ -10,7 +10,7 @@ Class {
 		'dailyNotesTab',
 		'updater'
 	],
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #'private - updating' }

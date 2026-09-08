@@ -5,7 +5,7 @@ Class {
 		'databaseFinder',
 		'pageFinder'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #private }

@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldSanityCheck,
 	#superclass : #Object,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #accessing }
