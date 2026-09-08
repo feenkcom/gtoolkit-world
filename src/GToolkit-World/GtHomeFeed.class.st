@@ -1,7 +1,7 @@
 Class {
 	#name : #GtHomeFeed,
 	#superclass : #BlElement,
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #updating }

@@ -5,7 +5,7 @@ I exemplify {{gtClass:GtHomeFileDocumentCardElement}}.
 Class {
 	#name : #GtHomeFileDocumentCardElementExamples,
 	#superclass : #GtHomeDocumentCardElementExamples,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #'examples - basic' }

@@ -7,7 +7,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'TGtInteractiveStatusInstantiation',
 	#classTraits : 'TGtInteractiveStatusInstantiation classTrait',
-	#category : #'GToolkit-World-Notifications'
+	#category : 'GToolkit-World-Notifications'
 }
 
 { #category : #accessing }

@@ -10,7 +10,7 @@ Class {
 		'repo',
 		'loadLepiterBaseline'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #accessing }

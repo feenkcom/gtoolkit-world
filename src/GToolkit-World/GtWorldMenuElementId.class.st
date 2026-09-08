@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldMenuElementId,
 	#superclass : #GtWorldToolbarItemId,
-	#category : #'GToolkit-World-UI - ID'
+	#category : 'GToolkit-World-UI - ID'
 }
 
 { #category : #converting }

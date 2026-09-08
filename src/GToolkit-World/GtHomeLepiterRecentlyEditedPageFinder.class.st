@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'TGtHomeLepiterPageFinder',
 	#classTraits : 'TGtHomeLepiterPageFinder classTrait',
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }

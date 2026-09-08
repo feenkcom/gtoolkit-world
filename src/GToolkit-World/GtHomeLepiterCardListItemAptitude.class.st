@@ -1,7 +1,7 @@
 Class {
 	#name : #GtHomeLepiterCardListItemAptitude,
 	#superclass : #BrLazyStyleCommonAptitude,
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #initialization }

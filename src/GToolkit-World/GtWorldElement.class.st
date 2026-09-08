@@ -9,7 +9,7 @@ Class {
 		'IsWorldSpotterPreviewDisplayed',
 		'WorldSpotterSize'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #accessing }

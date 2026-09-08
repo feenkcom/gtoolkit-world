@@ -1,7 +1,7 @@
 Class {
 	#name : #GtFeedDisabledStatus,
 	#superclass : #GtFeedStatus,
-	#category : #'GToolkit-World-Feed'
+	#category : 'GToolkit-World-Feed'
 }
 
 { #category : #accessing }

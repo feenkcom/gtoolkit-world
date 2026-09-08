@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'card'
 	],
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #'api - instantiation' }

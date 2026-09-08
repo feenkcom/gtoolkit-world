@@ -1,7 +1,7 @@
 Class {
 	#name : #GtHomeNotifications,
 	#superclass : #BlElement,
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #updating }

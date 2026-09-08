@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'TGtInteractiveStatusInstantiation',
 	#classTraits : 'TGtInteractiveStatusInstantiation classTrait',
-	#category : #'GToolkit-World-Feed'
+	#category : 'GToolkit-World-Feed'
 }
 
 { #category : #accessing }

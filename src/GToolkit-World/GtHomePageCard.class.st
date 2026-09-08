@@ -6,7 +6,7 @@ Class {
 		'pageName',
 		'page'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ I illustrate a typical usage of a multi-card home section:
 Class {
 	#name : #GtHomeMultiCardGetStartedSection,
 	#superclass : #GtHomeMultiCardSection,
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #example }

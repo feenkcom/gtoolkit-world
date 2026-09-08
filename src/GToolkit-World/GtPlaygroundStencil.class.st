@@ -7,7 +7,7 @@ Class {
 	#classInstVars : [
 		'playgroundClassName'
 	],
-	#category : #'GToolkit-World-Stencils'
+	#category : 'GToolkit-World-Stencils'
 }
 
 { #category : #accessing }

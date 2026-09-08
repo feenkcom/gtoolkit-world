@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'TBlDevScripterExamples + TGtScripterDebuggerExamples',
 	#classTraits : 'TBlDevScripterExamples classTrait + TGtScripterDebuggerExamples classTrait',
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #'examples - coder' }

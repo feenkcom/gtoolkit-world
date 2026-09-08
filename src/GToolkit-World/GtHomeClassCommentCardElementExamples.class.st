@@ -5,7 +5,7 @@ I exemplify {{gtClass:GtHomeClassCommentCardElement}}.
 Class {
 	#name : #GtHomeClassCommentCardElementExamples,
 	#superclass : #GtHomeDocumentCardElementExamples,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #'examples - basic' }

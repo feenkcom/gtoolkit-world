@@ -1,7 +1,7 @@
 Class {
 	#name : #GtHomeListItemWithSummaryElement,
 	#superclass : #GtHomeListItemElement,
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }

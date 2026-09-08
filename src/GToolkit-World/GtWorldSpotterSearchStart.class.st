@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'knowledgeBase'
 	],
-	#category : #'GToolkit-World-Search'
+	#category : 'GToolkit-World-Search'
 }
 
 { #category : #private }

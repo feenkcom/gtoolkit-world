@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'knowledgeBaseComputation'
 	],
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #'gt - extensions' }
@@ -15,6 +15,17 @@ GtHomeToolsSection class >> gtAllButtonStencilsFor: aView [
 		title: 'Tool buttons';
 		object: [ self new ];
 		view: #gtAllButtonStencilsFor:
+]
+
+{ #category : #'private - accessing' }
+GtHomeToolsSection >> allButtons [
+	"Answer the buttons to be displayed in the GT home tab.
+	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
+
+	^ self allButtonStencils collect: [ :stencil |
+		[ stencil create ]
+			on: Error
+			do: [ :ex | (self handleButtonCreationException: ex) create ] ]
 ]
 
 { #category : #'private - accessing' }
@@ -30,17 +41,6 @@ GtHomeToolsSection >> allButtonStencils [
 				on: Error
 				do: [ :ex | self handleButtonCreationException: ex ] ])
 					sorted: #priority ascending
-]
-
-{ #category : #'private - accessing' }
-GtHomeToolsSection >> allButtons [
-	"Answer the buttons to be displayed in the GT home tab.
-	Buttons are defined by methods with the #gtToolButton pragma and sorted by priority."
-
-	^ self allButtonStencils collect: [ :stencil |
-		[ stencil create ]
-			on: Error
-			do: [ :ex | (self handleButtonCreationException: ex) create ] ]
 ]
 
 { #category : #'api - instantiation' }

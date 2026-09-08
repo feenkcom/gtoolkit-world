@@ -5,7 +5,7 @@ See {{gtClass:name=GtHomeToolsSection}} for the source buttons.
 Class {
 	#name : #GtWorldMenuExamples,
 	#superclass : #Object,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #'as yet unclassified' }

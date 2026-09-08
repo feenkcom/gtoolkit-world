@@ -1,6 +1,6 @@
 Trait {
 	#name : #TGtInteractiveStatusInstantiation,
-	#category : #'GToolkit-World-Notifications'
+	#category : 'GToolkit-World-Notifications'
 }
 
 { #category : #'instance creation' }

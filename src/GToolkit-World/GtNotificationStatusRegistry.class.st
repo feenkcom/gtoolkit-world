@@ -7,7 +7,7 @@ I hold a list of status objects for neews and know how to persists it and read i
 Class {
 	#name : #GtNotificationStatusRegistry,
 	#superclass : #GtInteractiveStatusRegistry,
-	#category : #'GToolkit-World-Notifications'
+	#category : 'GToolkit-World-Notifications'
 }
 
 { #category : #accessing }

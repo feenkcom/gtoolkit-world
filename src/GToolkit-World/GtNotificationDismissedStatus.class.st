@@ -1,7 +1,7 @@
 Class {
 	#name : #GtNotificationDismissedStatus,
 	#superclass : #GtNotificationStatus,
-	#category : #'GToolkit-World-Notifications'
+	#category : 'GToolkit-World-Notifications'
 }
 
 { #category : #accessing }
