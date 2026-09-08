@@ -8,7 +8,7 @@ Class {
 		'paneElement',
 		'paneModel'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #'api - converting' }

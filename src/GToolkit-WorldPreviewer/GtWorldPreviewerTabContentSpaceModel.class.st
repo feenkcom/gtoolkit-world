@@ -1,7 +1,7 @@
 Class {
 	#name : #GtWorldPreviewerTabContentSpaceModel,
 	#superclass : #GtWorldPreviewerTabContentModel,
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #'api - converting' }

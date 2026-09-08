@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'tabModel'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #'api - tab model' }

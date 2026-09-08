@@ -3,7 +3,7 @@ Class {
 	#superclass : #GtWorldPreviewerFormElement,
 	#traits : 'TGtWorldWithPreviewerPagerPageModel',
 	#classTraits : 'TGtWorldWithPreviewerPagerPageModel classTrait',
-	#category : #'GToolkit-WorldPreviewer-UI'
+	#category : 'GToolkit-WorldPreviewer-UI'
 }
 
 { #category : #accessing }

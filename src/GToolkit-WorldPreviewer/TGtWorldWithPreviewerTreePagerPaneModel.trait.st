@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'treePagerPaneModel'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #'api - tree pager pane model' }

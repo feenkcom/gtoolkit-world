@@ -5,7 +5,7 @@ Class {
 		'previewScale',
 		'treePagerPaneElementClass'
 	],
-	#category : #'GToolkit-WorldPreviewer-UI'
+	#category : 'GToolkit-WorldPreviewer-UI'
 }
 
 { #category : #'children - enumerating' }

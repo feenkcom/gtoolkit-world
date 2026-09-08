@@ -1,7 +1,7 @@
 Class {
 	#name : #GtGemStoneHomeSection,
 	#superclass : #GtHomeMultiCardSection,
-	#category : #'GToolkit-World-Sections'
+	#category : 'GToolkit-World-Sections'
 }
 
 { #category : #accessing }

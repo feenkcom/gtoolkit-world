@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'knowledgeBase'
 	],
-	#category : #'GToolkit-World-Search'
+	#category : 'GToolkit-World-Search'
 }
 
 { #category : #private }
@@ -33,25 +33,6 @@ GtWorldSpotterSearchStart >> gtNewSnippetFor: aSearch [
 					wantsToDisplayOnEmptyQuery: true;
 					priority: 0;
 					itemsLimit: 5
-]
-
-{ #category : #searches }
-GtWorldSpotterSearchStart >> gtSearchForToolsFor: aSearch [
-	<gtSearch>
-	^ aSearch list
-		priority: 1;
-		items: [ {
-				LeLepiterToolStencil new knowledgeBase: self knowledgeBase.
-				GtCoderStencil new.
-				GtMonitorStencil new.
-				GtGitStencil new.
-				GtEpiceaStencil new.
-				GtTranscriptStencil new.
-				GtFileSystemStencil new} ];
-		title: 'Tools';
-		filterBySubstring;
-		previewElement: [ :aStencil | aStencil asPreviewElement asElement ];
-		wantsToDisplayOnEmptyQuery: true
 ]
 
 { #category : #searches }

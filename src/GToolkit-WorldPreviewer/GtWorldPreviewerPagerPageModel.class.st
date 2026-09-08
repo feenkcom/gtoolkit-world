@@ -8,7 +8,7 @@ Class {
 		'pageIndex',
 		'pager'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #converting }

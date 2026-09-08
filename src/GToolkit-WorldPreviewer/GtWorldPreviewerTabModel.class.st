@@ -8,7 +8,7 @@ Class {
 	#classVars : [
 		'IsTreePagerEnabled'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #settings }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'previewerOverlay'
 	],
-	#category : #'GToolkit-WorldPreviewer-Support'
+	#category : 'GToolkit-WorldPreviewer-Support'
 }
 
 { #category : #accessing }

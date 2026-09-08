@@ -5,7 +5,7 @@ Class {
 		'tabModelWithSpace',
 		'element'
 	],
-	#category : #'GToolkit-WorldPreviewer-Support'
+	#category : 'GToolkit-WorldPreviewer-Support'
 }
 
 { #category : #'api - instantiation' }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'rootElement'
 	],
-	#category : #'GToolkit-WorldPreviewer-Support'
+	#category : 'GToolkit-WorldPreviewer-Support'
 }
 
 { #category : #'api - instantiation' }

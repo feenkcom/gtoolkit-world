@@ -5,7 +5,7 @@ Class {
 		'world',
 		'worldElement'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ GtWorldPreviewerModel >> worldElement: aWorldElement [
 { #category : #accessing }
 GtWorldPreviewerModel >> worldTabs [
 	| tabs |
-	tabs := worldElement children first viewModel tabs.
+	tabs := (worldElement childNamed: LwDualTabGroup tabGroupId) viewModel tabs , (worldElement childNamed: LwDualTabGroup sidebarId ifFound: [:s | s viewModel tabs] ifNone: [#()]).
 	^ (tabs reject: [ :eachTabSpace | eachTabSpace tabLabel text asString = 'Home' ])
 		collect: [ :eachTabSpace | GtWorldPreviewerTabModel new tabSpace: eachTabSpace ]
 ]

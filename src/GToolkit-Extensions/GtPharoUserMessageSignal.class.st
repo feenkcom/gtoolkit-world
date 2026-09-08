@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'message'
 	],
-	#category : #'GToolkit-Extensions-Examples'
+	#category : 'GToolkit-Extensions-Examples'
 }
 
 { #category : #emitting }

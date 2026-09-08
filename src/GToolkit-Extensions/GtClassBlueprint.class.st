@@ -7,7 +7,7 @@ Class {
 		'attributesToElements',
 		'classesToElements'
 	],
-	#category : #'GToolkit-Extensions-Visualization'
+	#category : 'GToolkit-Extensions-Visualization'
 }
 
 { #category : #rendering }

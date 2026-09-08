@@ -12,7 +12,7 @@ Class {
 		'previousSpace',
 		'actualSpace'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #'private - accessing' }

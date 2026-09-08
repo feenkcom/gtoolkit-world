@@ -7,7 +7,7 @@ Class {
 		'previewElement',
 		'previewScale'
 	],
-	#category : #'GToolkit-WorldPreviewer-UI'
+	#category : 'GToolkit-WorldPreviewer-UI'
 }
 
 { #category : #initialization }

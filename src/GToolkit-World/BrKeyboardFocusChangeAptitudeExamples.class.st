@@ -1,7 +1,7 @@
 Class {
 	#name : #BrKeyboardFocusChangeAptitudeExamples,
 	#superclass : #Object,
-	#category : #'GToolkit-World-Examples'
+	#category : 'GToolkit-World-Examples'
 }
 
 { #category : #examples }

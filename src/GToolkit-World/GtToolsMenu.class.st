@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'world'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #'system startup' }
@@ -203,11 +203,6 @@ GtToolsMenu >> renameFrom: aButton [
 							icon: BrGlamorousVectorIcons accept;
 							action: saveActionBlock}.
 	^container
-]
-
-{ #category : #'private (writing)' }
-GtToolsMenu >> renameImageTo: aFilename [
-	SmalltalkImage current saveAs: aFilename
 ]
 
 { #category : #initialization }

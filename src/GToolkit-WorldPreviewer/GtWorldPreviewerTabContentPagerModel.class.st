@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'pagerElement'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #'api - converting' }

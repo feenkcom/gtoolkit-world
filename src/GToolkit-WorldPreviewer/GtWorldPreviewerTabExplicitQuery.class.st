@@ -5,7 +5,7 @@ Class {
 		'queryStencilBuilder',
 		'itemModelStencilBuilder'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #queries }

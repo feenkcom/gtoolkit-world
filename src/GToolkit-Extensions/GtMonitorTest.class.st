@@ -5,7 +5,7 @@ Class {
 		'forkedProcesses',
 		'monitor'
 	],
-	#category : #'GToolkit-Extensions-Processes'
+	#category : 'GToolkit-Extensions-Processes'
 }
 
 { #category : #'private - helpers' }

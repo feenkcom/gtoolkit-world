@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'worldTabPreview'
 	],
-	#category : #'GToolkit-WorldPreviewer-Events'
+	#category : 'GToolkit-WorldPreviewer-Events'
 }
 
 { #category : #accessing }

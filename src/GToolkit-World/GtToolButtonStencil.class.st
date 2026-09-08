@@ -12,7 +12,7 @@ Class {
 		'elementId',
 		'definingMethod'
 	],
-	#category : #'GToolkit-World-Stencils'
+	#category : 'GToolkit-World-Stencils'
 }
 
 { #category : #accessing }

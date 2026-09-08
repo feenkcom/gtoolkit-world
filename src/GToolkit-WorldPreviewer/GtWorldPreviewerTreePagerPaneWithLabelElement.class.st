@@ -9,7 +9,7 @@ Class {
 		'iconElement',
 		'headerElement'
 	],
-	#category : #'GToolkit-WorldPreviewer-UI'
+	#category : 'GToolkit-WorldPreviewer-UI'
 }
 
 { #category : #initialization }

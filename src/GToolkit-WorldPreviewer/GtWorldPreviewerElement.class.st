@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'listElement'
 	],
-	#category : #'GToolkit-WorldPreviewer-UI'
+	#category : 'GToolkit-WorldPreviewer-UI'
 }
 
 { #category : #initialization }

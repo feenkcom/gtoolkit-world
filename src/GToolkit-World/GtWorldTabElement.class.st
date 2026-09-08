@@ -6,7 +6,7 @@ Class {
 		'home',
 		'toolbarUpdater'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #accessing }
@@ -87,21 +87,6 @@ GtWorldTabElement >> addContextMoveActionsTo: contextMenu [
 						yourself) ]
 ]
 
-{ #category : #'api - opening' }
-GtWorldTabElement >> aptitudeForSpaceTab: aTab [ 
-	| aTabViewModel |
-	aTabViewModel := aTab viewModel.
-	^ BrGlamorousSpaceTabWithIconAndLabelAptitude new
-		+ ((BrGlamorousWithExplicitTooltipAptitude
-				content: [ BrElementAsFormPreview
-					forElement: (aTabViewModel
-					cachedContentElementDo: [ :anElement | anElement ]
-										ifAbsent: [ BlElement new ])
-					preferredExtent: 400 @ 400 ])
-				hideDelay: 50 milliSeconds;
-				showDelay: 100 milliSeconds)
-]
-
 { #category : #accessing }
 GtWorldTabElement >> closeAllTabs [
 	[ tabs tabs size = 1 ] whileFalse: [ tabs viewModel removeTab: tabs tabs last ]
@@ -116,7 +101,7 @@ GtWorldTabElement >> closeButtonFor: aTabModel [
 		label: 'Close';
 		model: aTabModel;
 		containerName: self class spaceCloseButtonName;
-		action: [ :aButtonElement | tabs viewModel removeTab: aButtonElement model ]
+		action: [ :aButtonElement | (LwDualTabGroup tabGroupForButton: aButtonElement in: self) viewModel removeTab: aButtonElement model ]
 ]
 
 { #category : #accessing }
@@ -129,18 +114,6 @@ GtWorldTabElement >> closeTabsLeftTo: tab [
 GtWorldTabElement >> closeTabsRightTo: tab [
 	[ tab == tabs tabs last ]
 		whileFalse: [ tabs viewModel removeTab: tabs tabs last ]
-]
-
-{ #category : #accessing }
-GtWorldTabElement >> createBaseTab: aSpace [
-	| aTab |
-	aTab := BrTab new.
-	aTab
-		vExact: 36;
-		aptitude: BrGlamorousSpaceTabWithIconAndLabelAptitude;
-		label: aSpace title;
-		icon: (aSpace icon ifNil: [ BrGlamorousVectorIcons noIcon ]).
-	^ aTab
 ]
 
 { #category : #'api - opening' }
@@ -193,13 +166,12 @@ GtWorldTabElement >> home [
 { #category : #initialization }
 GtWorldTabElement >> initialize [
 	super initialize.
-	
 	self beFocusable.
 	self layout: BlLinearLayout vertical.
-	self constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ].
-	
+	self constraintsDo: 
+			[:c |
+			c horizontal matchParent.
+			c vertical matchParent].
 	self initializeHomeElement.
 	self initializeTabGroup.
 	self initializeTabs.
@@ -207,6 +179,8 @@ GtWorldTabElement >> initialize [
 	self initializeShortcuts.
 	self initializeListeners.
 	self initializeUpdaters.
+	self lwInstallReopenClosedTab.
+	LwDualTabGroup installSideTabGroupOn: self
 ]
 
 { #category : #initialization }
@@ -248,6 +222,108 @@ GtWorldTabElement >> initializeUpdaters [
 		selector: #updateToolbarActions.
 ]
 
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwClosedTabs [
+	^self userData at: #lwClosedTabs ifAbsentPut: [OrderedCollection new]
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwClosedTabsLimit [
+	^10
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwInstallReopenClosedTab [
+	| someShortcuts |
+	self lwTabGroupsToTrack do: 
+			[:eachGroup |
+			eachGroup removeEventHandlersSuchThat: 
+					[:eachHandler |
+					[eachHandler action method selector == #lwInstallReopenClosedTab]
+						on: Error
+						do: [:anError | false]].
+			eachGroup addEventHandlerOn: BrTabRemovedEvent
+				do: [:anEvent | self lwRememberClosedTab: anEvent tab]].
+	self lwRehomeWorldPreviewerShortcut.
+	someShortcuts := self shortcuts select: 
+					[:each |
+					[each action method selector == #lwInstallReopenClosedTab]
+						on: Error
+						do: [:anError | false]].
+	someShortcuts do: [:each | self removeShortcut: each].
+	self addShortcut: ((BlShortcutWithAction new)
+			name: 'Reopen last closed tab';
+			repeatable: true;
+			combination: (BlKeyCombinationBuilder new primary shift key: BlKeyboardKey t) build;
+			action: [:aShortcutEvent | self lwReopenLastClosedTab])
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwIsTabCurrentlyShown: aTabModel [
+	^LwDualTabGroup allWorldTabElements anySatisfy: 
+			[:eachWorld |
+			eachWorld lwTabGroupsToTrack anySatisfy: 
+					[:eachGroup | eachGroup viewModel tabs anySatisfy: [:each | each == aTabModel]]]
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwRehomeWorldPreviewerShortcut [
+	| anId someShortcuts |
+	anId := BlSpaceShortcutIds default openPreviewerShortcutId.
+	someShortcuts := self shortcuts select: 
+					[:each | [each shortcutId == anId] on: Error do: [:anError | false]].
+	someShortcuts ifEmpty: [^self].
+	someShortcuts do: [:each | self removeShortcut: each].
+	self addShortcut: ((BlShortcutWithAction new)
+			name: 'Open Previewer';
+			repeatable: false;
+			spaceShortcutId: anId;
+			action: [self fireEvent: GtWorldPreviewerShowWish new])
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwReleaseClosedTab: aTabModel [
+	aTabModel
+		cachedContentElementDo: 
+				[:aContentElement |
+				BrWidgetPermanentlyRemovedEvent notifyWithAllChildren: aContentElement]
+		ifAbsent: []
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwRememberClosedTab: aTabModel [
+	| someTabs |
+	(aTabModel model isKindOf: BlSpace) ifFalse: [^self].
+	someTabs := self lwClosedTabs.
+	someTabs removeAllSuchThat: [:each | each == aTabModel].
+	someTabs addLast: aTabModel.
+	[someTabs size > self lwClosedTabsLimit]
+		whileTrue: [self lwReleaseClosedTab: someTabs removeFirst]
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwReopenLastClosedTab [
+	| someTabs aTabModel |
+	someTabs := self lwClosedTabs.
+	aTabModel := nil.
+	[aTabModel isNil and: [someTabs notEmpty]] whileTrue: 
+			[| aCandidate |
+			aCandidate := someTabs removeLast.
+			(self lwIsTabCurrentlyShown: aCandidate) ifFalse: [aTabModel := aCandidate]].
+	aTabModel ifNil: [^self].
+	self tabs viewModel addTab: aTabModel.
+	aTabModel select
+]
+
+{ #category : #'as yet unclassified' }
+GtWorldTabElement >> lwTabGroupsToTrack [
+	| result |
+	result := OrderedCollection new.
+	result add: self tabs.
+	self childNamed: LwDualTabGroup sidebarId ifFound: [:s | result add: s] ifNone: [].
+	^result
+]
+
 { #category : #accessing }
 GtWorldTabElement >> maximizeButtonFor: aTabModel [
 	^ BrButton new
@@ -257,7 +333,7 @@ GtWorldTabElement >> maximizeButtonFor: aTabModel [
 		model: aTabModel;
 		label: 'Open in a new window';
 		action: [ :aButtonElement | 
-			tabs viewModel removeTab: aButtonElement model.
+			(LwDualTabGroup tabGroupForButton: aButtonElement in: self) viewModel removeTab: aButtonElement model.
 			self space class
 				openWithSpaces: {aButtonElement model model}
 				from: self space ]
@@ -265,24 +341,19 @@ GtWorldTabElement >> maximizeButtonFor: aTabModel [
 
 { #category : #accessing }
 GtWorldTabElement >> moveOptions [
-	| gtWorlds space |
-	gtWorlds := GtWorld allOpenWorlds
-			select: [ :e | (tabs == e tabGroup) not ].
-	^ gtWorlds
-		collect: [ :e | 
-			e tabGroup viewModel selectedTab tabLabel text
-				-> [ :aButtonElement | 
-					| myTab |
-					space := aButtonElement space.	"remember the space before moving"
+	| gtWorlds |
+	gtWorlds := GtWorld allInstances
+				select: [:e | e isOpened and: [(tabs == e tabGroup) not]].
+	^gtWorlds collect: 
+			[:e |
+			e tabGroup viewModel selectedTab tabLabel text -> 
+					[:aButtonElement |
+					| myTab space |
+					space := aButtonElement space.
 					myTab := aButtonElement viewModel.
 					tabs viewModel removeTab: myTab.
 					e showSpace: myTab model.
-					tabs tabs size = 1 ifTrue: [ space close ] ] ]
-]
-
-{ #category : #'private - instance creation' }
-GtWorldTabElement >> newActionItemsInto: anActionbar [
-	"Subclasses may add action items into the World toolbar"
+					tabs tabs size = 1 ifTrue: [space close]]]
 ]
 
 { #category : #'private - instance creation' }
@@ -295,6 +366,11 @@ GtWorldTabElement >> newActionbar [
 	self newActionItemsInto: anActionbar.
 
 	^ anActionbar
+]
+
+{ #category : #'private - instance creation' }
+GtWorldTabElement >> newActionItemsInto: anActionbar [
+	"Subclasses may add action items into the World toolbar"
 ]
 
 { #category : #'private - instance creation' }
@@ -443,6 +519,7 @@ GtWorldTabElement >> tabContextMenu [
 			c horizontal fitContent.
 			c vertical fitContent ].
 	self addContextMenuTabActionsTo: contextMenu.
+	LwDualTabGroup addContextDualTabMoveActionsTo: contextMenu in: self.
 	self addContextMoveActionsTo: contextMenu.
 	^ contextMenu
 ]

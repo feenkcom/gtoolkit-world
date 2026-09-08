@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'pagerPagePreview'
 	],
-	#category : #'GToolkit-WorldPreviewer-Events'
+	#category : 'GToolkit-WorldPreviewer-Events'
 }
 
 { #category : #accessing }

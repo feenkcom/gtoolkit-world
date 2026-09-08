@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'tabModelWithSpace'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #accessing }

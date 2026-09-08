@@ -7,7 +7,7 @@ Class {
 	#classInstVars : [
 		'defaultId'
 	],
-	#category : #'GToolkit-World-UI'
+	#category : 'GToolkit-World-UI'
 }
 
 { #category : #enumerating }
@@ -40,11 +40,6 @@ GtWorld class >> defaultId [
 GtWorld class >> defaultId: anId [
 	"Set the id of the default space opened initially."
 	defaultId := anId
-]
-
-{ #category : #defaults }
-GtWorld class >> defaultTitle [
-	^ 'Glamorous Toolkit'
 ]
 
 { #category : #accessing }
@@ -282,7 +277,7 @@ GtWorld >> showSpace: aSpace [
 
 { #category : #'as yet unclassified' }
 GtWorld >> tabGroup [
-	^ worldElement children first
+	^ worldElement tabs
 ]
 
 { #category : #initialization }

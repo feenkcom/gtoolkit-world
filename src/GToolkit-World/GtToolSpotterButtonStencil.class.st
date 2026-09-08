@@ -13,7 +13,7 @@ Class {
 		'objectActOn',
 		'espaceActOn'
 	],
-	#category : #'GToolkit-World-Stencils'
+	#category : 'GToolkit-World-Stencils'
 }
 
 { #category : #accessing }

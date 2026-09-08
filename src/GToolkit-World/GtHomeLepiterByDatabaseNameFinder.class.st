@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'databaseName'
 	],
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }

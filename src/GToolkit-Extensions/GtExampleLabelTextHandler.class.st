@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'element'
 	],
-	#category : #'GToolkit-Extensions-Examples'
+	#category : 'GToolkit-Extensions-Examples'
 }
 
 { #category : #accessing }

@@ -5,7 +5,7 @@ Class {
 		'rule',
 		'parserClass'
 	],
-	#category : #'GToolkit-Extensions-SmaCC'
+	#category : 'GToolkit-Extensions-SmaCC'
 }
 
 { #category : #'gt - extensions' }

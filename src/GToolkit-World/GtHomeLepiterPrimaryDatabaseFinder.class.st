@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'TGtHomeLepiterKnowledgeBaseFinder',
 	#classTraits : 'TGtHomeLepiterKnowledgeBaseFinder classTrait',
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }

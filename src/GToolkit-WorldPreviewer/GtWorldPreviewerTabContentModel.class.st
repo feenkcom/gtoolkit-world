@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'TGtWorldWithTabModelWithSpace',
 	#classTraits : 'TGtWorldWithTabModelWithSpace classTrait',
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #'api - converting' }

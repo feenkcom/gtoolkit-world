@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'pageName'
 	],
-	#category : #'GToolkit-World-Helpers'
+	#category : 'GToolkit-World-Helpers'
 }
 
 { #category : #accessing }

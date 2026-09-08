@@ -5,7 +5,7 @@ Class {
 		'textualCoderViewModel',
 		'subscriber'
 	],
-	#category : #'GToolkit-Extensions-Utilities'
+	#category : 'GToolkit-Extensions-Utilities'
 }
 
 { #category : #accessing }

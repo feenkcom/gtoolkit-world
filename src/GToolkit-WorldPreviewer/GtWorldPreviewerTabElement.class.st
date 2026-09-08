@@ -8,7 +8,7 @@ Class {
 		'screenshotButton',
 		'contentContainerElement'
 	],
-	#category : #'GToolkit-WorldPreviewer-UI'
+	#category : 'GToolkit-WorldPreviewer-UI'
 }
 
 { #category : #'private - event handling' }

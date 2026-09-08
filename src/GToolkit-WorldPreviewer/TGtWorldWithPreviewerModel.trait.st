@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'previewer'
 	],
-	#category : #'GToolkit-WorldPreviewer-Model'
+	#category : 'GToolkit-WorldPreviewer-Model'
 }
 
 { #category : #'api - previewer' }
