@@ -23,6 +23,13 @@ GtHome >> collectHomeSectionStencils [
 ]
 
 { #category : #building }
+GtHome >> createSectionsHolder [
+	^ BrVerticalPane new
+		hMatchParent;
+		vFitContent
+]
+
+{ #category : #building }
 GtHome >> createSectionWrapperFor: aSectionStencil [
 	^ BrAsyncWidget new
 			margin: (BlInsets all: self spaceGap);
@@ -33,13 +40,6 @@ GtHome >> createSectionWrapperFor: aSectionStencil [
 			postAction: [ :theLazyElement | theLazyElement constraintsDo: [ :c | 
 				c vertical fitContent ] ];
 			stencil: aSectionStencil
-]
-
-{ #category : #building }
-GtHome >> createSectionsHolder [
-	^ BrVerticalPane new
-		hMatchParent;
-		vFitContent
 ]
 
 { #category : #building }
