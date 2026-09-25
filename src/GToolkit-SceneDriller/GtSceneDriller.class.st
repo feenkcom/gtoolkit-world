@@ -362,7 +362,7 @@ GtSceneDriller >> selectElement: anElement [
 			ifFound: [ :aPager |
 				(aPager isKindOf: GtPager)
 					ifTrue: [ aPager maximizePageContentIn: aPager pages first contentElement ]
-					ifFalse: [ aPager pages first requestMaximizePane ] ]
+					ifFalse: [ aPager pages first maximize ] ]
 			ifNone: [  ] ]
 ]
 

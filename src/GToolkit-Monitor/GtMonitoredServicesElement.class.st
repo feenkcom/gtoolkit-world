@@ -54,7 +54,7 @@ GtMonitoredServicesElement >> updateList [
 				action: [ self retreiveNewServiceList ];
 				element: self;
 				onFailureEnqueueAction: [ :anException | 
-					'Failed to update TaskIt services list' traceCr.
+					'Failed to update monitored services list' traceCr.
 					anException traceCr ];
 				onSuccessEnqueueAction: [ :theServices | 
 					servicesList items: theServices.

@@ -28,20 +28,8 @@ GtImageSetup class >> captureRepositoryRegistryHistory [
 ]
 
 { #category : #actions }
-GtImageSetup class >> cleanUpChangeSets [
-	ChangeSet removeChangeSetsNamedSuchThat: [ :each | true ].
-	ChangeSet resetCurrentToNewUnnamedChangeSet.
-]
-
-{ #category : #actions }
 GtImageSetup class >> cleanUpImageAfterLoad [
 	self cleanUpMonticelloCaches.
-	
-	self 
-		forPharo12AndNewer: [] 
-		forPharo11: [
-			self cleanUpChangeSets.
-			Smalltalk organization sortCategories. ].
 
 	3
 		timesRepeat: [ 
@@ -79,17 +67,18 @@ GtImageSetup class >> copyDataAndDocsFolders [
 		add: (gtoolkitRepoFolders asFileReference / 'JSLink' / 'js');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-external-process' / 'tests');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-scenery' / 'scenery-help');
+		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-demos' / 'vrTutorialLepiter');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-roadmaps' / 'gtbook-examples');
 		add: (gtoolkitRepoFolders asFileReference / 'gtoolkit-roadmaps' / 'roadmaps-help').
-
-		
 		
 	self copyDocFolders: docFolders.
 
 	"JSLink needs to be told where to find its runtime files.
 	This should be a FileLocator so that it uses the local location, not the CI's"
-
 	JSLinkPharoPlatform runtimeSourceDirectory: GtResourcesUtilityConstants localGtDirectory / 'feenkcom/JSLink/js'.
+
+	"Add a template gt4gemstone.properties file"
+	self createGt4GemStoneProperties.
 ]
 
 { #category : #utilities }
@@ -105,6 +94,78 @@ GtImageSetup class >> copyDocFolders: docFolders [
 		[each copyAllTo: (GtResourcesUtilityConstants localGtDirectory asFileReference / localPath) ] 
 			on: FileExists 
 			do: [ :e | e printString traceCr ]].
+]
+
+{ #category : #utilities }
+GtImageSetup class >> createGt4GemStoneProperties [
+		| fileReference |
+	
+	fileReference := GtResourcesUtilityConstants localGtDirectory asFileReference / 
+		'feenkcom' / 'gt4gemstone' / 'gt4gemstone.properties'.
+	fileReference parent ensureCreateDirectory.
+	self createGt4GemStonePropertiesIn: fileReference.
+]
+
+{ #category : #utilities }
+GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference [
+		| contents |
+	
+	contents :=
+'{
+	"__schema" : "4.1",
+	"namedConnectors" : {
+		"systemuser" : {
+			"__type" : "gemstoneGciConnector",
+			"name" : "systemuser",
+			"host" : "localhost",
+			"serviceName" : "gemnetobject",
+			"iconName" : "gemStone",
+			"maxKeepAlive" : 30,
+			"stone" : "gs64stone",
+			"netldi" : "50377",
+			"username" : "SystemUser",
+			"password" : "swordfish",
+			"hostUsername" : "",
+			"hostPassword" : "",
+			"libraryPath" : {
+				"__type" : "file",
+				"filename" : "remote-gemstone"
+			},
+			"gemstoneVersion" : "3.7.5"
+		},
+		"datacurator" : {
+			"__type" : "gemstoneGciConnector",
+			"name" : "datacurator",
+			"host" : "localhost",
+			"serviceName" : "gemnetobject",
+			"iconName" : "gemStone",
+			"maxKeepAlive" : 30,
+			"stone" : "gs64stone",
+			"netldi" : "50377",
+			"username" : "DataCurator",
+			"password" : "swordfish",
+			"hostUsername" : "nil",
+			"hostPassword" : "nil",
+			"libraryPath" : {
+				"__type" : "file",
+				"filename" : "remote-gemstone"
+			},
+			"gemstoneVersion" : "3.7.5"
+		}
+	}
+}'.
+	aFileReference writeStreamDo: [ :stream |
+		stream nextPutAll: contents ].
+]
+
+{ #category : #utilities }
+GtImageSetup class >> createLocalGt4GemStoneProperties [
+		| fileReference |
+	
+	fileReference := FileLocator localDirectory asFileReference / 
+		'lepiter' / 'gt4gemstone.properties'.
+	fileReference parent ensureCreateDirectory.
+	self createGt4GemStonePropertiesIn: fileReference.
 ]
 
 { #category : #actions }
@@ -177,7 +238,7 @@ GtImageSetup class >> performLocalSetup [
 	self recordSpaceTallyAtBeginning.
 	
 	self installOmbuFileStore.
-
+	self captureRepositoryRegistryHistory.
 	self installLogo.
 	self registerTools.
 	self updateLocalVersion.
@@ -191,6 +252,13 @@ GtImageSetup class >> performLocalSetup [
 		forPharo11: [
 			self registerGTNamespace.
 			self patchForStringSymbolStringComparison ].
+			
+	self resetFFIMethods.
+	self printNotRegisteredFFIMethods.
+	
+	"We want to use the incemental parser by default in a production too.
+	See https://github.com/feenkcom/gtoolkit-editor/issues/13"
+	GtTextualCoder useIncrementalParsing: true.
 	
 	self recordSpaceTallyAtEnd.
 ]
@@ -215,22 +283,27 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	
 	self recordSpaceTallyAtBeginning.
 	
-	self installOmbuFileStore.
-	
 	self copyDataAndDocsFolders.
+	
+	self installOmbuFileStore.
 	self captureRepositoryRegistryHistory.
 	self installLogo.
 	self registerTools.
 	self updateNextReleaseVersion: (GtRlSemanticVersionComputation named: aVersionComputationName).
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
-	self registerGTNamespace.
 	self installGtSessionManager.
-	self recordSpaceTallyAtEnd.
-	self resetFFIMethods.
-	self patchForStringSymbolStringComparison.
 	
+	self 
+		forPharo12AndNewer: [] 
+		forPharo11: [
+			self registerGTNamespace.
+			self patchForStringSymbolStringComparison ].
+	
+	self resetFFIMethods.
 	self printNotRegisteredFFIMethods.
+	
+	self recordSpaceTallyAtEnd.
 ]
 
 { #category : #api }
@@ -241,10 +314,6 @@ GtImageSetup class >> preparePharoCompletionCache [
 { #category : #api }
 GtImageSetup class >> printNotRegisteredFFIMethods [
 	self notRegisteredSystemFFIMethods 
-		ifEmpty: [
-			Stdio stderr 
-				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: all FFI methods are registered!');
-				lf . ] 
 		ifNotEmpty: [ :aCollection |
 			Stdio stderr 
 				nextPutAll: ('GtImageSetup>>printNotRegisteredFFIMethods: found {1} FFI methods not in the registry:'
@@ -262,11 +331,15 @@ GtImageSetup class >> printNotRegisteredFFIMethods [
 
 { #category : #api }
 GtImageSetup class >> recordSpaceTallyAtBeginning [
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
 	GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Image Setup Start'
 ]
 
 { #category : #api }
 GtImageSetup class >> recordSpaceTallyAtEnd [
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
 	GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Image Setup End'
 ]
 

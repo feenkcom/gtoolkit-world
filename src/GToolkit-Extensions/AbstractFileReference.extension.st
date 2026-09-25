@@ -10,6 +10,20 @@ AbstractFileReference >> contentsUtf8Lossy [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+AbstractFileReference >> gtDeleteFileActionFor: anAction [
+	<gtAction>
+	(self exists and: [ self isFile ]) ifFalse: [ ^ anAction noAction ].
+
+	^ anAction button
+		icon: BrGlamorousVectorIcons bin;
+		tooltip: 'Delete file';
+		target: GtPhlowObjectContextMenuTarget;
+		menuItemGroup: BrMenuItemGroupConfiguration removal;
+		menuItemPreview: [ self basename ];
+		action: [ :aButton | self ensureDelete ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
 AbstractFileReference >> gtLepiterDuplicateJsonFor: aView [
 	<gtView>
 	(self isFile and: [ self extension = 'duplicate' ]) ifFalse: [ ^ aView empty ].
@@ -67,5 +81,19 @@ AbstractFileReference >> gtStyledCodeFor: aView [
 				BrGlamorousSimpleContextMenuContent new
 					items: menuItems;
 					hMatchParent;
-					vMatchParent ]
+					vFitContent ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+AbstractFileReference >> gtViewBeaconJsonLogFor: aView [
+	<gtView>
+	self extension = 'log' ifFalse: [ ^ aView empty ].
+	(self basename includesSubstring: 'beacon') ifFalse: [ ^ aView empty ].
+	self exists ifFalse: [ ^ aView empty ].
+
+	^ aView forward
+		title: 'Entries';
+		priority: 10;
+		object: [ GtBeaconJsonLogReader new filename: self ];
+		view: #gtSignalsFor:
 ]

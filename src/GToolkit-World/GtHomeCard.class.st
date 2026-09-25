@@ -56,7 +56,7 @@ GtHomeCard class >> lepiterBase [
 
 { #category : #example }
 GtHomeCard class >> lepiterBaseWithTableOfContents [
-	^ GtHomeLepiterBaseCard new
+	^ GtHomeLepiterVerticalBaseCard new
 		definingMethod: (GtPhlowDefiningMethodsCollector forContext: thisContext) collect
 ]
 

@@ -12,7 +12,7 @@ GtCreateStandaloneAppHowToGuide >> closeGtWorlds [
 	<gtExample>
 	<noTest>
 	
-	^ GtWorld allInstances do: [ :eachWorld | eachWorld close ]
+	^ GtWorld allOpenWorldsDo: [ :eachWorld | eachWorld close ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtCreateStandaloneAppHowToGuide >> disableGtWorldShutdownHandler [
 	<gtExample>
 	<noTest>
 	
-	^ GtWorld allInstances do: [ :eachWorld | eachWorld removeShutdownListener ]
+	^ GtWorld allOpenWorldsDo: [ :eachWorld | eachWorld removeShutdownListener ]
 ]
 
 { #category : #examples }

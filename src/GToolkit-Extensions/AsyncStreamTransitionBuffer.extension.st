@@ -9,3 +9,14 @@ AsyncStreamTransitionBuffer >> gtBufferedItemsFor: aView [
 		object: [ newBuffer ];
 		view: #gtBufferedItemsFor:
 ]
+
+{ #category : #'*GToolkit-Extensions' }
+AsyncStreamTransitionBuffer >> gtPendingScanPromisesFor: aView [
+	<gtView>
+	pendingScanPromises ifNil: [ ^ aView empty ].
+	
+	^ aView forward
+		title: 'Pending scan promises';
+		object: [ pendingScanPromises ];
+		view: #gtItemsFor:
+]

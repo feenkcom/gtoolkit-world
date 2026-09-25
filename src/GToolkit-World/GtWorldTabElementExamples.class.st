@@ -142,6 +142,25 @@ GtWorldTabElementExamples >> showSpaceSelectScripter_05_middleMouseButtonClickCl
 				value: [ :theTabGroup | theTabGroup tabs size ] equals: 1;
 				onChildFromMessage: #tabs ].
 
+{ #category : #'examples - by scripter' }
+GtWorldTabElementExamples >> showSpaceSelectScripter_updateToolbarActions [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter actionsCount updatedActionsCount |
+	aScripter := self showSpaceSelectScripter.
+	
+	actionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount equals: 0.
+
+	aScripter element updateToolbarActions.
+	
+	updatedActionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount equals: updatedActionsCount.
+		
 	^ aScripter
 ]
 
@@ -156,7 +175,7 @@ GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnSelectedTabCloseActio
 	aTabs := aWorld tabs.
 	aTabs viewModel removeTab: (aTabs viewModel tabs at: 2).
 	aSpace := aSpace asWeakReference.
-	Smalltalk garbageCollect.
+	2 timesRepeat: [ Smalltalk garbageCollect ].
 	self assert: (aSpace at: 1) equals: nil.
 	^ aWorld
 ]
@@ -172,7 +191,7 @@ GtWorldTabElementExamples >> showSpaceSelect_ReleaseSpaceOnUnselectedTabCloseAct
 	aTabs := aWorld tabs.
 	aTabs viewModel removeTab: (aTabs viewModel tabs at: 2).
 	aSpace := aSpace asWeakReference.
-	Smalltalk garbageCollect.
+	2 timesRepeat: [ Smalltalk garbageCollect ].
 	self assert: (aSpace at: 1) equals: nil.
 	^ aWorld
 ]

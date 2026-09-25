@@ -28,11 +28,22 @@ String >> gtGetUrlFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+String >> gtHexDumpFor: aView [
+	<gtView>
+	 
+	^ aView forward
+			title: 'Hex dump';
+			priority: 70;
+			object: [ (self takeFirst: 1000000) asByteArray ];
+			view: #gtHexDumpFor:
+]
+
+{ #category : #'*GToolkit-Extensions' }
 String >> gtItemsFor: aView [
 	"override"
 
 	^ aView columnedList
-		title: 'Items';
+		title: 'Characters';
 		priority: 16;
 		items: [ self ];
 		actionUpdateButtonTooltip: 'Update item list';
@@ -125,7 +136,8 @@ String >> gtLiveFor: aView [
 		title: 'Live';
 		priority: 15;
 		stencil: [
-		| container list editor |
+		| container list editor limitedString |
+		limitedString := self takeFirst: 1000000.
 		container := BlElement new
 			constraintsDo: [:c | 
 				c vertical matchParent. 
@@ -138,7 +150,7 @@ String >> gtLiveFor: aView [
 					c horizontal matchParent.
 					c linear weight: 4 ];
 				editor: (BrTextEditorModel new
-				text: (self asRopedText glamorousCodeFont);
+				text: (limitedString asRopedText glamorousCodeFont);
 				when: BrTextEditorCursorMovedEvent do: [:e | 
 					list selectOne: (e newIndex max: 1).
 					list children first scrollToPosition: (e newIndex max: 1) ];
@@ -153,7 +165,7 @@ String >> gtLiveFor: aView [
 				c vertical matchParent. 
 				c horizontal matchParent ];
 			
-			items: (self asOrderedCollection collectWithIndex: [ :char :index | char -> index ]);
+			items: (limitedString asOrderedCollection collectWithIndex: [ :char :index | char -> index ]);
 			when: BrSelectionChanged do: [ :event | 
 				event selectedInterval ifNotNil: [ 
 					editor editor text clearAttributes: [ :each | each isKindOf: BlTextHighlightAttribute ].

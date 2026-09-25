@@ -29,15 +29,9 @@ GtToolButtonStencil >> action: anObject [
 GtToolButtonStencil >> create [
 	<return: #BrButton>
 	| button |
-	button := self createBasicButton.
+	button := self createWithoutKeyboardFocus.
 	button
-		margin: self margin;
-		action: self action;
-		aptitude: BrGlamorousButtonExteriorAptitude new;
-		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude2 new;
-		addAptitude: (GtPhlowBrowseDefinitionAptitude new definition: [ definingMethod ]);
 		addAptitude: BrGlamorousToolsDropdownKeyboardFocusChangeAptitude new.
-	elementId ifNotNil: [ button id: elementId ].
 	^ button
 ]
 
@@ -60,6 +54,22 @@ GtToolButtonStencil >> createBasicButton [
 		layout: BlLinearLayout vertical alignCenter;
 		addChild: iconElement;
 		addChild: labelElement.
+	^ button
+]
+
+{ #category : #'api - instantiation' }
+GtToolButtonStencil >> createWithoutKeyboardFocus [
+	<return: #BrButton>
+	| button |
+	button := self createBasicButton.
+	button
+		margin: self margin;
+		action: self action;
+		aptitude: BrGlamorousButtonExteriorAptitude new;
+		addAptitude: BrGlamorousButtonWithLabelTooltipAptitude2 new;
+		addAptitude: (GtPhlowBrowseDefinitionAptitude new 
+			definition: [ definingMethod ]).
+	elementId ifNotNil: [ button id: elementId ].
 	^ button
 ]
 

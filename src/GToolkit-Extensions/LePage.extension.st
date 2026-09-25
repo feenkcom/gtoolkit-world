@@ -4,6 +4,7 @@ Extension { #name : #LePage }
 LePage >> gtLePageGitButtonFor: anAction [
 	<gtAction>
 	
+	self database monitor ifNil: [ ^ anAction noAction ].
 	(self database monitor isLocalStore not or: [ self icebergRepo isNil ]) ifTrue: 
 		[ ^ anAction empty ].
 	^ anAction button

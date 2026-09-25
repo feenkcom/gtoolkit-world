@@ -18,7 +18,7 @@ GtWorldPreviewerTabContentTreePagerModel >> asElement [
 { #category : #'api - exporting' }
 GtWorldPreviewerTabContentTreePagerModel >> computeScreenshot [
 	<return: #FileReference>
-	| screenshot scripter |
+	| screenshot scripter element |
 	screenshot := GtWorldPreviewerTabContentTreePagerElement new
 			treePagerPaneElementClass: GtWorldPreviewerTreePagerPaneElement;
 			background: Color white;
@@ -30,7 +30,8 @@ GtWorldPreviewerTabContentTreePagerModel >> computeScreenshot [
 			maxPulseElapsedTime: 30 seconds;
 			element: screenshot.
 	
-	^ scripter element exportAsPNG
+	element := scripter element.
+	^ BlExporter png element: element; scaled: 2; export
 ]
 
 { #category : #accessing }

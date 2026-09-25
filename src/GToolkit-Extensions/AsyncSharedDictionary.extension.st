@@ -3,33 +3,30 @@ Extension { #name : #AsyncSharedDictionary }
 { #category : #'*GToolkit-Extensions' }
 AsyncSharedDictionary >> gtItemsFor: aView [
 	<gtView>
-	dictionary ifNil: [ ^ aView empty ].
 
-	^ aView columnedList
+	^ aView columnedTree
 		title: 'Items';
 		priority: 1;
-		items: [ monitor critical: [ dictionary copy associations ] ];
-		column: '' text: [ :_ :anIndex | anIndex ] width: 40;
-		column: 'Key'
-			stencil: [ :anAssoc | 
-				BrButton new
-					aptitude: BrGlamorousButtonWithIconAptitude;
-					fitContent;
-					beTinySize;
-					icon: BrGlamorousVectorIcons inspect;
-					label: 'Inspect key';
-					action: [ :aButton | aButton phlow spawnObject: anAssoc key ] ] width: 35;
-		column: '' text: #key;
-		column: 'Value'
-			stencil: [ :anAssoc | 
-				BrButton new
-					aptitude: BrGlamorousButtonWithIconAptitude;
-					fitContent;
-					beTinySize;
-					icon: BrGlamorousVectorIcons inspect;
-					label: 'Inspect value';
-					action: [ :aButton | aButton phlow spawnObject: anAssoc value ] ] width: 35;
-		column: '' text: #value;
-		send: #value;
-		actionUpdateButton
+		items: [ self associations sort: (#key collatedBy: #asString) ];
+		children: [ :each | 
+			each value isDictionary
+				ifTrue: [ each value associations sort: (#key collatedBy: #asString) ]
+				ifFalse: [ 
+					(each value isArray and: [ each value allSatisfy: #isDictionary ])
+						ifTrue: [ each value collectWithIndex: [ :x :i | i -> x ] ]
+						ifFalse: [ #() ] ] ];
+		column: 'Key' text: [ :assoc | assoc key ];
+		column: 'Value' text: [ :assoc | assoc value ] weight: 3;
+		contextItemLabel: 'Inspect key' action: [ :anElement :anAssoc | 
+			anElement phlow spawnObject: anAssoc key ];
+		contextItemLabel: 'Inspect value' action: [ :anElement :anAssoc | 
+			anElement phlow spawnObject: anAssoc value ];
+		contextItemLabel: 'Inspect association' action: [ :anElement :anAssoc | 
+			anElement phlow spawnObject: anAssoc ];
+		contextItemLabel: 'Remove key and value' action: [ :anElement :anAssoc | 
+			self removeKey: anAssoc key ifAbsent: [ "ignore" ].
+			anElement phlow contextMenuUpdateViewContent ];
+		send: [ :assoc | assoc value ].
+		
+	"Implementation note: association sorting uses #collatedBy: to avoid a 'Symbol DNU value: value: error'"
 ]

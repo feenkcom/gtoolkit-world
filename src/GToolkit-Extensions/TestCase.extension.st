@@ -1,7 +1,7 @@
 Extension { #name : #TestCase }
 
 { #category : #'*GToolkit-Extensions' }
-TestCase >> gtTestMethodFor: aView [
+TestCase >> gtSourceCodeFor: aView [
 
 	<gtView>
 	self selector ifNil: [ ^ aView empty ].

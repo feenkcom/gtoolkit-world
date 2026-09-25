@@ -66,51 +66,53 @@ GtProfilerTelemetrySignalsChartElement >> unsubscribeFromProfilerTelemetrySignal
 { #category : #'private - updating' }
 GtProfilerTelemetrySignalsChartElement >> updateChart [
 	| aData theRecordings anIndexMap aBarChart |
-	
 	self removeChildren.
-	
-	theRecordings := self profilerTelemetrySignalsViewModel profilerTelemetrySignalViewModels collect: [ :eachSignalViewModel |
-		eachSignalViewModel signal ].
-	
-	anIndexMap := (theRecordings collectWithIndex: [ :eachSignal :eachIndex | eachSignal task -> eachIndex ]) asDictionary.
-	
-	aData := GtPlotterDataGroup new values: (theRecordings collect: [ :eachSignal | eachSignal task ]).
+
+	theRecordings := self profilerTelemetrySignalsViewModel
+			profilerTelemetrySignalViewModels
+			collect: [ :eachSignalViewModel | eachSignalViewModel signal ].
+
+	anIndexMap := (theRecordings
+			collectWithIndex: [ :eachSignal :eachIndex | eachSignal task -> eachIndex ])
+			asDictionary.
+
+	aData := GtPlotterDataGroup new
+			values: (theRecordings collect: [ :eachSignal | eachSignal task ]).
 	aData := aData labelled: [ :eachTask | (anIndexMap at: eachTask) asString ].
-	aData := aData background: [ :eachTask |
-		eachTask durationInMilliseconds <= 16
-			ifTrue: [ BrGlamorousColors primaryBorderColor ]
-			ifFalse: [ BrGlamorousColors errorBorderColor ] ].
-	
+	aData := aData
+			background: [ :eachTask | 
+				eachTask durationInMilliseconds <= 16
+					ifTrue: [ BrGlamorousColors primaryBorderColor ]
+					ifFalse: [ BrGlamorousColors errorBorderColor ] ].
+
 	aBarChart := GtPlotter new horizontalBarChart
-		with: aData;
-		barGap: 0;
-		groupSpacing: 0;
-		barLabelWidth: 40;
-		barWidthData: [ :eachTask | eachTask durationInMilliseconds ];
-		barWidthScale: (GtPlotterLinearScale new domainFrom: 0 to: 100.0);
-		barHeightScale: (GtPlotterConstantScale new constant: 8);
-		tickLabelFormat: [ :eachDuration | eachDuration asString, ' ms' ];
-		barElement: [ :aGtPlotterScaleContext |
-			| aTaskDuration aGcPart |
-			
-			aTaskDuration := aGtPlotterScaleContext originalValue durationInMilliseconds.
-			aGcPart := aTaskDuration isZero
-				ifTrue: [ 0 ]
-				ifFalse: [ (aGtPlotterScaleContext originalValue gcDurationInMilliseconds / aTaskDuration) asFloat ].
-			
-			BlElement new
-				addChild: (BlElement new
-					background: Color black;
-					constraintsDo: [ :c |
-						c ignoreByLayout.
-						c vertical exact: 2.
-						c horizontal matchParent.
-						c ignored horizontal weight: aGcPart.
-						c ignored vertical alignCenter
-					]
-				) ];
-		asElement.
-		
+			with: aData;
+			barGap: 0;
+			groupSpacing: 0;
+			barLabelSpacing: 40;
+			barWidthData: [ :eachTask | eachTask durationInMilliseconds ];
+			barWidthScale: (GtPlotterLinearScale new domainFrom: 0 to: 100.0);
+			barHeightScale: (GtPlotterConstantScale new constant: 8);
+			tickLabelFormat: [ :eachDuration | eachDuration asString , ' ms' ];
+			barElement: [ :aGtPlotterScaleContext | 
+				| aTaskDuration aGcPart |
+				aTaskDuration := aGtPlotterScaleContext originalValue durationInMilliseconds.
+				aGcPart := aTaskDuration isZero
+						ifTrue: [ 0 ]
+						ifFalse: [ (aGtPlotterScaleContext originalValue gcDurationInMilliseconds / aTaskDuration)
+								asFloat ].
+
+				BlElement new
+					addChild: (BlElement new
+							background: Color black;
+							constraintsDo: [ :c | 
+								c ignoreByLayout.
+								c vertical exact: 2.
+								c horizontal matchParent.
+								c ignored horizontal weight: aGcPart.
+								c ignored vertical alignCenter ]) ];
+			asElement.
+
 	aBarChart
 		allChildrenBreadthFirstDetect: [ :eachElement | eachElement isKindOf: BrSimpleList ]
 		ifFound: [ :aList | aList scrollToIndex: aList items size ].

@@ -14,7 +14,7 @@ GtWorldCloseEventHandler >> spaceCloseRequest: anEvent [
 	"fallback to the default action (close) if this is not the last world"
 	| otherSpaces |
 	
-	otherSpaces := ((BlSpace allSubInstances
+	otherSpaces := ((BlSpace allOpenSpaces
 		select: [ :eachSpace | eachSpace isOpened ])
 		select: [ :eachSpace | eachSpace ~~ anEvent currentTarget ])
 		select: [ :eachSpace | eachSpace eventDispatcher

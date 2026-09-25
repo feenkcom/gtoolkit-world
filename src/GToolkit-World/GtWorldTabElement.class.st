@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'tabs',
-		'home'
+		'home',
+		'toolbarUpdater'
 	],
 	#category : #'GToolkit-World-UI'
 }
@@ -214,6 +215,7 @@ GtWorldTabElement >> initialize [
 	self initializeElement.
 	self initializeShortcuts.
 	self initializeListeners.
+	self initializeUpdaters.
 ]
 
 { #category : #initialization }
@@ -248,6 +250,13 @@ GtWorldTabElement >> initializeTabs [
 	tabs addTab: self defaultHomeTab
 ]
 
+{ #category : #initialization }
+GtWorldTabElement >> initializeUpdaters [
+	toolbarUpdater := BrElementUpdater new 
+		element: self
+		selector: #updateToolbarActions.
+]
+
 { #category : #accessing }
 GtWorldTabElement >> maximizeButtonFor: aTabModel [
 	^ BrButton new
@@ -266,8 +275,8 @@ GtWorldTabElement >> maximizeButtonFor: aTabModel [
 { #category : #accessing }
 GtWorldTabElement >> moveOptions [
 	| gtWorlds space |
-	gtWorlds := GtWorld allInstances
-			select: [ :e | e isOpened and: [ (tabs == e tabGroup) not ] ].
+	gtWorlds := GtWorld allOpenWorlds
+			select: [ :e | (tabs == e tabGroup) not ].
 	^ gtWorlds
 		collect: [ :e | 
 			e tabGroup viewModel selectedTab tabLabel text
@@ -369,6 +378,12 @@ GtWorldTabElement >> refreshContent [
 	Subclasses may trigger relevant actions."
 ]
 
+{ #category : #updating }
+GtWorldTabElement >> requestToolbarUpdate [
+	toolbarUpdater ifNil: [ ^ self ].
+	toolbarUpdater requestUpdate
+]
+
 { #category : #'api - shutdown' }
 GtWorldTabElement >> showShutdownPrompt [
 	self
@@ -456,4 +471,15 @@ GtWorldTabElement >> topMostParent [
 	But popups still should appear in the world not in Driller."
 
 	^ self
+]
+
+{ #category : #updating }
+GtWorldTabElement >> updateToolbarActions [
+	| toolbarElement|
+	toolbarElement := (((tabs  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne.
+	toolbarElement removeAllItems.
+	
+	self newActionItemsInto: toolbarElement.
 ]

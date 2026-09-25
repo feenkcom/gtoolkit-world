@@ -10,6 +10,18 @@ Class {
 	#category : #'GToolkit-World-UI'
 }
 
+{ #category : #enumerating }
+GtWorld class >> allOpenWorlds [
+	^ Array
+		streamContents: [ :s | self allOpenWorldsDo: [ :eachWorld | s nextPut: eachWorld ] ]
+]
+
+{ #category : #enumerating }
+GtWorld class >> allOpenWorldsDo: aBlock [
+	self
+		allOpenSpacesDo: [ :eachSpace | (eachSpace isKindOf: self) ifTrue: [ aBlock value: eachSpace ] ]
+]
+
 { #category : #'instance creation' }
 GtWorld class >> buildWithDefaultTitle [
 	| aSpace |
@@ -35,6 +47,34 @@ GtWorld class >> defaultTitle [
 	^ 'Glamorous Toolkit'
 ]
 
+{ #category : #accessing }
+GtWorld class >> defaultWorld [
+	"Return the current default word space if it's still open.
+	If the world that was marked as default is no longer open,
+	attempt to find the oldest opened World and promote it as a default"
+
+	| oldestWorldId oldestWorld |
+	self spaceWithId: self defaultId do: [ :aWorld | ^ aWorld ].
+
+	oldestWorldId := SmallInteger maxVal.
+	oldestWorld := nil.
+
+	self
+		allOpenWorldsDo: [ :eachSpace | 
+			eachSpace id < oldestWorldId
+				ifTrue: [ oldestWorldId := eachSpace id.
+					oldestWorld := eachSpace ] ].
+
+	oldestWorld ifNotNil: [ :aSpace | self defaultId: aSpace id ].
+
+	^ oldestWorld
+]
+
+{ #category : #accessing }
+GtWorld class >> defaultWorldDo: aBlock [
+	^ self defaultWorld ifNotNil: aBlock
+]
+
 { #category : #'class initialization' }
 GtWorld class >> initialize [
 	"Register the handler to execute after the default priority that reads preferences."
@@ -46,12 +86,8 @@ GtWorld class >> initialize [
 
 { #category : #'class initialization' }
 GtWorld class >> notifyDefaultInstance [
-	self defaultId ifNil: [ ^ self ].
- 	self
-		spaceWithId: self defaultId 
-		do: [ :aSpace | 
-			aSpace enqueueTask: (BlTaskAction new action: [ 
-				aSpace refreshContent ]) ] 
+	self defaultWorld
+		ifNotNil: [ :aSpace | aSpace enqueueTask: (BlTaskAction new action: [ aSpace refreshContent ]) ]
 ]
 
 { #category : #'instance creation' }
@@ -126,16 +162,13 @@ GtWorld class >> openWithSpaces: aCollectionOfSpaces from: aSpace [
 
 { #category : #updating }
 GtWorld class >> requestAllInstancesHomeUpdate [
-	self allInstances do: [ :aGtWorld |
-		aGtWorld requestHomeUpdate ]
+	self allOpenWorldsDo: [ :aGtWorld | aGtWorld requestHomeUpdate ]
 ]
 
 { #category : #'api - notification' }
 GtWorld class >> showNotification: aNotification [
-	BlSpace
-		spaceWithId: self defaultId 
-		do: [ :aSpace | 
-			aSpace showNotification: aNotification ].
+	self defaultWorld
+		ifNotNil: [ :aSpace | aSpace showNotification: aNotification ]
 ]
 
 { #category : #'class initialization' }
@@ -198,6 +231,11 @@ GtWorld >> knowledgeBase: aKnowledgeBase [
 	worldElement knowledgeBase: aKnowledgeBase.
 ]
 
+{ #category : #accessing }
+GtWorld >> llmChatRegistry: anLlmChatRegistry [
+	worldElement llmChatRegistry: anLlmChatRegistry.
+]
+
 { #category : #actions }
 GtWorld >> markAsDefault [
 	"Mark this instance as being the one that is saved and automatically opened when
@@ -258,7 +296,7 @@ GtWorld >> withWorldPreviewer [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Open Previewer';
 				repeatable: false;
-				combination: BlKeyCombination builder primary shift t build;
+				spaceShortcutId: BlSpaceShortcutIds default openPreviewerShortcutId;
 				action: [ worldElement fireEvent: GtWorldPreviewerShowWish new ]).
 	worldElement addEventHandler: GtWorldPreviewerEventHandler new
 ]

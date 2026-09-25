@@ -18,9 +18,11 @@ RGMethodDefinition >> gtBasicSourceFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtImplementorsFor: aView [
 	<gtView>
+	<gtToolView>
+	
 	^ aView forward
 		title: 'Implementors';
-		priority: 23;
+		priority: 22;
 		object: [ 
 			| searchContext |
 			searchContext := nil.
@@ -34,11 +36,34 @@ RGMethodDefinition >> gtImplementorsFor: aView [
 ]
 
 { #category : #'*GToolkit-Extensions' }
-RGMethodDefinition >> gtSendersFor: aView [
+RGMethodDefinition >> gtLepiterReferencesFor: aView [
 	<gtView>
+	<gtToolView>
+	
 	^ aView forward
-		title: 'Senders';
-		priority: 22;
+		title: 'Lepiter references';
+		priority: 24;
+		object: [ 
+			| searchContext |
+			searchContext := nil.
+			self isDefined ifTrue: [
+				searchContext := GtSearchMethodCoderFilterContext new 
+					behavior: self methodClass;
+					nodeInPosition: self method ast;
+					selectorInPosition: self selector ].
+			self selector leReferences
+				requesterContext: searchContext ];
+		view: #gtItemsFor: 
+]
+
+{ #category : #'*GToolkit-Extensions' }
+RGMethodDefinition >> gtReferencesFor: aView [
+	<gtView>
+	<gtToolView>
+	
+	^ aView forward
+		title: 'References';
+		priority: 23;
 		object: [ 
 			| searchContext |
 			searchContext := nil.
@@ -55,16 +80,18 @@ RGMethodDefinition >> gtSendersFor: aView [
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> gtWithinSelfMessagesFor: aView [
 	<gtView>
+	<gtToolView>
+	
 	^ aView mondrian
 		title: 'Within self messages';
-		priority: 30;
+		priority: 43;
 		painting: [ :m | self paintWithinSelfMessagesWith: m ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
 RGMethodDefinition >> isClassSide [
 	"For compatibility with CompiledMethod"
-	^self isMetaSide
+	^self isMeta
 ]
 
 { #category : #'*GToolkit-Extensions' }
@@ -81,20 +108,23 @@ RGMethodDefinition >> paintWithinSelfMessagesWith: m [
 					select: [ :each | each selfMessages anySatisfy: [ :message | message = method selector ] ] ].
 	calledMethods := self method
 			deepCollect: [ :each | each selfMessages collect: [ :method | self methodClass lookupSelector: method ] ].
-	methods := {self} , ((callingMethods , calledMethods) collect: #methodReference).
+	methods := {self} , (callingMethods , calledMethods collect: #methodReference).
 	m nodes
 		stencil: [ :method | 
 			BlElement new
 				geometry: BlCircleGeometry new;
 				size: 10 @ 10;
-				border: (BlBorder paint: (method compiledMethod = self compiledMethod
-						ifTrue: [ BrGlamorousColors primaryBorderColor  ]
-						ifFalse: [ Color lightGray ]) width: 2);
+				border: (BlBorder
+						paint: (method compiledMethod = self compiledMethod
+								ifTrue: [ BrGlamorousColors primaryBorderColor ]
+								ifFalse: [ Color lightGray ])
+						width: 2);
 				background: (method compiledMethod = self compiledMethod
-						ifTrue: [ BrGlamorousColors primaryBorderColor muchLighter  ]
+						ifTrue: [ BrGlamorousColors primaryBorderColor muchLighter ]
 						ifFalse: [ Color veryVeryLightGray ]);
-				addAptitude: (BrGlamorousWithExplicitTooltipAptitude text: method gtDisplayString)
- ];
+				addAptitude: ((BrGlamorousWithExplicitTooltipAptitude text: method gtDisplayString)
+						hideDelay: 0 seconds;
+						showDelay: 0.1 seconds) ];
 		with: methods.
 	m edges
 		stencil: [ :method | 
@@ -104,8 +134,8 @@ RGMethodDefinition >> paintWithinSelfMessagesWith: m [
 				border: Color veryVeryLightGray;
 				toHead: (BlArrowheadSimpleArrow new border: Color veryVeryLightGray) ];
 		connectToAll: [ :each | 
-			(each compiledMethod selfMessages
-				collect: [ :method | self methodClass lookupSelector: method ])
+			((each compiledMethod selfMessages
+				collect: [ :method | self methodClass lookupSelector: method ]) reject: #isNil)
 				collect: #methodReference ].
 	m layout horizontalDominanceTree
 		levelDistance: 30;

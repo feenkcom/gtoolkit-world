@@ -47,8 +47,7 @@ GtWorldSanityCheck class >> createCheckProcessForImageFile: aFileReference [
 			self name asString.
 			'new'.
 			'checkImage'.
-			'--'.
-			'--detachChangesFromFileSystem'.
+			'--detachChanges'.
 			'--epiceaMemoryStore'.
 			'--noLepiterReload'.
 			'--noGtImageUpdate'}.
@@ -79,7 +78,7 @@ GtWorldSanityCheck >> runChecks [
 
 	self waitForWorldToInitialize.
 	
-	gtWorld := GtWorld allInstances anyOne.
+	gtWorld := GtWorld allOpenWorlds anyOne.
 	self assert: gtWorld isOpened.
 	
 	self runChecksForWorld: gtWorld.

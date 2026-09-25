@@ -14,9 +14,9 @@ GtRlSystemExamplesExplorer >> gtViewAllEditorExamplesFor: aView context: aPhlowC
 		stencil: [ | aCollection aGroup aGroupView anElement |
 			aGroup := self allEditorExamples.
 			aCollection := aGroup examples.
-			aGroupView := GtPhlowView empty on: aGroup perform: #gtExamplesFor:.
+			aGroupView := GtPhlowView empty on: aGroup perform: #gtExamplesFor:context:.
 			anElement := aGroupView asElement.
-			anElement userData at: #gtExamplesFor: put: aGroup.
+			anElement userData at: #gtExamplesFor:context: put: aGroup.
 			anExampleViewModel pharoExampleSuite stream: aCollection asAsyncStream.
 			anElement ];
 		actionStencil: [ :aBrTab | GtPharoCoderUIUtility newExamplesDropdownButtonForViewModel: anExampleViewModel ];
@@ -37,9 +37,9 @@ GtRlSystemExamplesExplorer >> gtViewAllExamplesFor: aView context: aPhlowContext
 		stencil: [ | aCollection aGroup aGroupView anElement |
 			aGroup := self allContainedExamples.
 			aCollection := aGroup examples.
-			aGroupView := GtPhlowView empty on: aGroup perform: #gtExamplesFor:.
+			aGroupView := GtPhlowView empty on: aGroup perform: #gtExamplesFor:context:.
 			anElement := aGroupView asElement.
-			anElement userData at: #gtExamplesFor: put: aGroup.
+			anElement userData at: #gtExamplesFor:context: put: aGroup.
 			anExampleViewModel pharoExampleSuite stream: aCollection asAsyncStream.
 			anElement ];
 		actionStencil: [ :aBrTab | GtPharoCoderUIUtility newExamplesDropdownButtonForViewModel: anExampleViewModel ];

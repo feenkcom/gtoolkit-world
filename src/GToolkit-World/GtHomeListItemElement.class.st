@@ -18,7 +18,7 @@ GtHomeListItemElement >> initialize [
 		hMatchParent;
 		vFitContent;
 		alignCenterLeft;
-		padding: (BlInsets all: 0).
+		padding: (BlInsets all: 1).
 	
 	label := self newCandidateLabel.
 	actOnButton := self newActOnButton.
@@ -69,7 +69,7 @@ GtHomeListItemElement >> newActOnButton [
 GtHomeListItemElement >> newCandidateLabel [
 	^ BrLabel new
 		hMatchParent;
-		beSmallSize;
+		"beSmallSize;"
 		aptitude: BrGlamorousLabelAptitude new;
 		addAptitude: GtHomeLepiterCardListItemAptitude new
 ]

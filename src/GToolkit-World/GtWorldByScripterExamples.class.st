@@ -584,8 +584,7 @@ GtWorldByScripterExamples >> assertNoSemanticErrorAndThreePanesForPharo12In: aSt
 			s
 				label: 'Click to navigate to the first pane';
 				onPager;
-				// #preview;
-				// BrButton;
+				// GtTreePagerPaneScrollPreviewElement;
 				@ 1 ].
 
 	aStep
@@ -745,7 +744,8 @@ GtWorldByScripterExamples >> browseImplementorsInTheSecondLepiterPagePane [
 						label: 'Browse implementors';
 						combination: BlKeyCombination primaryM;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 
 			aStep
@@ -806,7 +806,8 @@ GtWorldByScripterExamples >> browseSendersInTheSecondLepiterPagePane [
 						label: 'Browse senders';
 						combination: BlKeyCombination primaryN;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 
 			aStep
@@ -971,7 +972,7 @@ GtWorldByScripterExamples >> clickBackOnPlaygroundInTheFirstPane [
 				clickStep: [ :s | 
 					s
 						onPagerPaneWithIndex: 1;
-						onBreadthFirstChildOfClass: GtSourceCoderEditorElement ].
+						onBreadthFirstChildOfClass: GtSourceCoderElement ].
 
 			aStep
 				checkStep: [ :s | 
@@ -1151,7 +1152,7 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	aScripter memoryLogger
 		runFor: GtInspectorSampleBOneForwardObjectSignal , GtPhlowForwarderFutureElementSignal
 				, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
-				, GtInspectorSelectTabSignal
+				, GtPhlowSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				selectAll;
@@ -1175,7 +1176,7 @@ GtWorldByScripterExamples >> createInstanceTwiceDisplayingTheSecondTab [
 	aScripter memoryLogger
 		runFor: GtInspectorSampleBOneForwardObjectSignal , GtPhlowForwarderFutureElementSignal
 				, GtPhlowApplyToolSelectionSignal , GtPhlowStoreToolSelectionSignal
-				, GtInspectorSelectTabSignal
+				, GtPhlowSelectTabSignal
 		during: [ :aStep | 
 			aStep methodCoder
 				playAndInspect;
@@ -1342,6 +1343,7 @@ GtWorldByScripterExamples >> displayClassHierarchyDropdownInSecondPane_SelectAno
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self inspectRustRemoteObject.
@@ -1362,6 +1364,7 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu [
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDefiningMethod [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self displayRustObjectDefiningMethodContextMenu.
@@ -1378,6 +1381,7 @@ GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_hoverDef
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> displayRustObjectDefiningMethodContextMenu_inspectDefiningMethod [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self displayRustObjectDefiningMethodContextMenu.
@@ -1474,21 +1478,21 @@ GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 		assertNumberOfPaneElements: 3;
 		dragInspectorPlaygroundAtPaneColumn: 2
 			row: 1
-			verticallyBy: -150;
+			verticallyBy: -200;
 		dragInspectorPlaygroundAtPaneColumn: 3
 			row: 1
-			verticallyBy: -150;
+			verticallyBy: -200;
 		play.
 
 	aScripter methodCoder
+		onPagerPaneWithIndex: 3;
+		// #playground;
+		// GtSourceCoderEditorId;
 		click;
 		assertHasFocus;
 		selectAll;
 		type: Object name;
 		browseBehavior;
-		onPagerPaneWithIndex: 3;
-		// #playground;
-		// GtSourceCoderEditorId;
 		play.
 
 	aScripter treePager
@@ -1512,7 +1516,8 @@ GtWorldByScripterExamples >> executePlaygroundSnippet [
 				combination: BlKeyCombination primaryG;
 				id: GtWorldTabGroupId;
 				onPagerPaneWithIndex: 1;
-				onBreadthFirstChildOfClass: GtSourceCoderEditorElement;
+				onBreadthFirstChildOfClass: GtSourceCoderElement;
+				// GtSourceCoderEditorInnerId;
 				play.
 
 			aStep
@@ -1569,7 +1574,7 @@ GtWorldByScripterExamples >> expandMethodCoder [
 					assertMethodExpandersCountIs: 1;
 					assertSelfObjectIs: FileLocator;
 					assertTargetBehaviorIs: FileLocator class;
-					assertExplicitProviderClassIs: FileLocator class ];
+					assertExplicitReceiverClassIs: FileLocator class ];
 		onPagerPaneWithIndex: 1;
 		id: LeSnippetElementId index: 1;
 		play.
@@ -1702,7 +1707,8 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 						label: 'Format script';
 						combination: BlKeyCombination primaryShiftF;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 			aStep
 				assertStep: [ :s | 
@@ -1772,6 +1778,7 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 { #category : #'examples - remote objects' }
 GtWorldByScripterExamples >> inspectRustRemoteObject [
 	<gtExample>
+	<noTest>
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self addPlaygroundIntoTabElement.
@@ -1812,6 +1819,7 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 				combination: BlKeyCombination builder primary end build;
 				onPagerPaneWithIndex: 1;
 				id: GtSourceCoderEditorId;
+				// GtSourceCoderEditorInnerId;
 				play.
 
 			aStep shortcut
@@ -1819,6 +1827,7 @@ GtWorldByScripterExamples >> inspectRustRemoteObject [
 				combination: BlKeyCombination builder primary return build;
 				onPagerPaneWithIndex: 1;
 				id: GtSourceCoderEditorId;
+				// GtSourceCoderEditorInnerId;
 				play ].
 
 	aScripter
@@ -1981,7 +1990,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod [
 					insideDo: [ :insideStep | 
 						insideStep
 							assertTargetBehaviorIs: self nonExistentClass;
-							assertExplicitProviderClassIs: nil;
+							assertExplicitReceiverClassIs: nil;
 							assertBinding: #anInteger is: 72;
 							assertBinding: #anInteger1 is: 144 ];
 				// GtSourceCoderEditorId;
@@ -2028,7 +2037,7 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
 					insideDo: [ :insideStep | 
 						insideStep
 							assertTargetBehaviorIs: self nonExistentClass;
-							assertExplicitProviderClassIs: self nonExistentClass;
+							assertExplicitReceiverClassIs: self nonExistentClass;
 							assertBinding: #arg1 is: 72;
 							assertBinding: #arg2 is: 144 ];
 				// aSecondSnippetId;
@@ -2060,6 +2069,7 @@ GtWorldByScripterExamples >> nonExistentClass [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> openWorldMenu [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self worldElementInScripter.
 	aScripter
@@ -2072,6 +2082,36 @@ GtWorldByScripterExamples >> openWorldMenu [
 
 			aStep menuStep
 				assertMenuContainerExist;
+				play.
+
+			aStep assert
+				label: 'Assert dropdown handle bounds';
+				satisfies: [ :aHandle | 
+					| aButton |
+					aButton := (aHandle space root query // GtWorldMenuElementId) anyOne.
+					aHandle bounds inSpace asRectangle = aButton bounds inSpace asRectangle ];
+				onPopover;
+				onChildAt: 1;
+				play.
+
+			aStep assert
+				label: 'Assert dropdown contents top position';
+				satisfies: [ :aContents | 
+					| aHandle |
+					aHandle := aContents parent childAt: 1.
+					aContents bounds inSpace top + 1 = aHandle bounds inSpace bottom ];
+				onPopover;
+				onChildAt: 2;
+				play.
+
+			aStep assert
+				label: 'Assert dropdown contents right position';
+				satisfies: [ :aContents | 
+					| aHandle |
+					aHandle := aContents parent childAt: 1.
+					aContents bounds inSpace right = aHandle bounds inSpace right ];
+				onPopover;
+				onChildAt: 2;
 				play ].
 
 	^ aScripter
@@ -2080,6 +2120,7 @@ GtWorldByScripterExamples >> openWorldMenu [
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> openWorldMenuTranscript [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self openWorldMenu.
 	aScripter
@@ -2103,6 +2144,61 @@ GtWorldByScripterExamples >> openWorldMenuTranscript [
 			aStep assert
 				label: 'Assert two world tabs';
 				value: [ :anElement | anElement tabs tabs size ] equals: 2;
+				play ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> openWorldMenu_tooltip [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+
+	aScripter
+		substep: 'Show world menu tooltip'
+		do: [ :aStep | 
+			aStep mouseMoveOver
+				// GtWorldMenuElementId;
+				play.
+
+			aStep menuStep
+				assertMenuContainerExist;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip width';
+				satisfies: [ :aLabel | aLabel width < 60 ];
+				onPopover;
+				// BrMenuLabelItemElement;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip height';
+				satisfies: [ :aLabel | aLabel height < 30 ];
+				onPopover;
+				// BrMenuLabelItemElement;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip handle top position';
+				satisfies: [ :aHandle | 
+					| aButton |
+					aButton := (aHandle space root query // GtWorldMenuElementId) anyOne.
+					aHandle bounds inSpace top = aButton bounds inSpace bottom ];
+				onPopover;
+				onChildAt: 1;
+				play.
+
+			aStep assert
+				label: 'Assert tooltip label top position';
+				satisfies: [ :aLabel | 
+					| aHandle |
+					aHandle := aLabel parent childAt: 1.
+					aLabel bounds inSpace top = aHandle bounds inSpace bottom ];
+				onPopover;
+				onChildAt: 2;
 				play ].
 
 	^ aScripter
@@ -2148,7 +2244,8 @@ GtWorldByScripterExamples >> printScriptResultInTheSecondLepiterPagePane [
 						label: 'Play and print Pharo script';
 						combination: BlKeyCombination primaryP;
 						onPagerPaneWithIndex: 2;
-						// GtSourceCoderEditorId ].
+						// GtSourceCoderEditorId;
+						// GtSourceCoderEditorInnerId ].
 
 			aStep
 				assertStep: [ :s | 
@@ -2329,6 +2426,7 @@ GtWorldByScripterExamples >> removeMethodAddedByEpiceaSnippet [
 GtWorldByScripterExamples >> removeNonExistentClass [
 	| aClass aPackage |
 	aClass := self nonExistentClass.
+	aClass ifNil: [ ^ self ].
 	aPackage := aClass package.
 	aClass removeFromSystem.
 	aPackage removeFromSystem
@@ -2823,7 +2921,7 @@ GtWorldByScripterExamples >> twoContextualPlaygroundsOfTheSameKindOfObjects [
 		assertNumberOfPaneElements: 2;
 		dragInspectorPlaygroundAtPaneColumn: 2
 			row: 1
-			verticallyBy: -150;
+			verticallyBy: -200;
 		play.
 
 	aScripter methodCoder
@@ -2843,12 +2941,12 @@ GtWorldByScripterExamples >> twoContextualPlaygroundsOfTheSameKindOfObjects [
 		play.
 
 	aScripter editor
+		onTreePagerPaneColumn: 3;
+		id: GtSourceCoderEditorId index: 1;
 		click;
 		moveToEnd;
 		pressPrimaryReturn;
 		type: 'self selec';
-		onTreePagerPaneColumn: 3;
-		id: GtSourceCoderEditorId index: 1;
 		play.
 
 	aScripter click
@@ -2901,8 +2999,68 @@ GtWorldByScripterExamples >> worldElementInScripter [
 	<return: #BlScripter>
 	| aScripter |
 	aScripter := self scripter.
-	aScripter element: GtWorldElement new.
+	aScripter
+		element: (GtWorldElement new
+				knowledgeBase: LeDatabasesRegistry uniqueInstance currentLoadedDefaultLogicalDatabase).
 	^ aScripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter actionsCount updatedActionsCount |
+	aScripter := self worldElementInScripter.
+	
+	actionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount > 0.
+
+	aScripter element updateToolbarActions.
+	
+	updatedActionsCount := (((aScripter element  
+		childNamed: #header)
+		childNamed: #actionbar) query // BrToolbar) anyOne children size.
+	self assert: actionsCount equals: updatedActionsCount.
+		
+	^ aScripter
+]
+
+{ #category : #examples }
+GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
+	<gtExample>
+	<noTest>
+	<return: #BlScripter>
+	| registry world scripter |
+	
+	registry := GtLChatRegistry new.
+	registry newChatWithProvider: GtLOpenAIProviderStub new.
+	registry newChatWithProvider: GtLOpenAIProviderStub new.
+
+	world := GtWorldElement new
+		llmChatRegistry: registry.
+
+	scripter := BlScripter new
+		model: registry;
+		element: world.
+
+	scripter click
+		label: 'Open chats registry';
+		onSpaceRoot;
+		// GtLWorldChatRegistryDropdown;
+		// BrButton;
+		onChildAt: 1;
+		play.
+
+	scripter assert
+		label: 'List shows two chats';
+		value: [ :aList | aList items size ] equals: 2;
+		onPopover;
+		// BrColumnedList;
+		play.
+
+	^ scripter
 ]
 
 { #category : #'examples - world' }

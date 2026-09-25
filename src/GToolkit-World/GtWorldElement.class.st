@@ -2,10 +2,8 @@ Class {
 	#name : #GtWorldElement,
 	#superclass : #GtWorldTabElement,
 	#instVars : [
-		'spotterDropdown',
-		'subSpaceDropdown',
-		'notificationsDropdown',
-		'announcer'
+		'announcer',
+		'llmChatRegistry'
 	],
 	#classVars : [
 		'IsWorldSpotterPreviewDisplayed',
@@ -22,6 +20,12 @@ GtWorldElement class >> isWorldSpotterPreviewDisplayed [
 { #category : #'event handling' }
 GtWorldElement class >> onShowWorldSpotterPreview: anAnnouncement [
 	self showWorldSpotterPreview: anAnnouncement shouldShowPreview
+]
+
+{ #category : #accessing }
+GtWorldElement class >> requestAllInstancesToolbarUpdate [
+	self allInstances do: [ :aGtWorld |
+		aGtWorld requestToolbarUpdate ] 
 ]
 
 { #category : #accessing }
@@ -55,6 +59,21 @@ GtWorldElement >> clearKnowledgeBase [
 			source: self) ]
 ]
 
+{ #category : #'accessing - elements' }
+GtWorldElement >> currentNotificationsBadge [
+	^ tabs childWithId: GtWorldNotificationsBadgeElementId 
+]
+
+{ #category : #'accessing - elements' }
+GtWorldElement >> currentSpotterButton [
+	^ tabs childWithId: GtWorldSpotterSearchElementId 
+]
+
+{ #category : #'accessing - elements' }
+GtWorldElement >> currentSubSpaceButton [
+	^ tabs childWithId: GtWorldMenuElementId 
+]
+
 { #category : #accessing }
 GtWorldElement >> database [
 	^ self knowledgeBase
@@ -63,6 +82,65 @@ GtWorldElement >> database [
 { #category : #initialization }
 GtWorldElement >> defaultHomeElement [
 	^ GtHome new
+]
+
+{ #category : #'world-toolbar' }
+GtWorldElement >> gtWorldChatRegistryActionFor: anAction [
+	<gtWorldAction>
+	(GtLConnectionRegistry instance hasConnectableDefaultConnection
+		or: [ self llmChatRegistry hasChats ]) ifFalse: [ ^ anAction empty ].
+
+	^ anAction explicit
+		priority: 35;
+		stencil: [ self newChatRegistryDropdown ]
+]
+
+{ #category : #'toolbar actions' }
+GtWorldElement >> gtWorldLepiterStatusActionFor: anAction [
+	<gtWorldAction>
+	
+	^ anAction explicit
+		priority: 30;
+		stencil: [ self newLepiterStatusButton ]
+]
+
+{ #category : #'toolbar actions' }
+GtWorldElement >> gtWorldNotificationsActionFor: anAction [
+	<gtWorldAction>
+	
+	^ anAction explicit
+		priority: 10;
+		stencil: [ self newNotificationsBadge ]
+]
+
+{ #category : #'toolbar actions' }
+GtWorldElement >> gtWorldSpotterActionFor: anAction [
+	<gtWorldAction>
+	
+	^ anAction explicit
+		priority: 20;
+		stencil: [ self newSpotterButton ]
+]
+
+{ #category : #'toolbar actions' }
+GtWorldElement >> gtWorldSubSpaceActionFor: anAction [
+	<gtWorldAction>
+	
+	^ anAction explicit
+		priority: 50;
+		stencil: [ self newSubSpaceButton ]
+]
+
+{ #category : #'toolbar actions' }
+GtWorldElement >> gtWorldSynchronizeActionFor: anAction [
+	<gtWorldAction>
+	
+	GtImage isSyncEnabled 
+		ifFalse: [ ^ anAction noAction ].
+	
+	^ anAction explicit
+		priority: 40;
+		stencil: [ self newSynchronizeButton ]
 ]
 
 { #category : #initialization }
@@ -81,7 +159,11 @@ GtWorldElement >> initializeListeners [
 		when: GtSpawnSpotter
 		do: [ :anEvent | 
 			anEvent consumed: true.
-			spotterDropdown dispatchEvent: BrDropdownShowWish new ].
+			self currentSpotterButton dispatchEvent: BrDropdownShowWish new ].
+
+	self
+		when: GtPhlowObjectToSpawn
+		do: [ :anEvent | self onGtPhlowObjectToSpawn: anEvent ]
 ]
 
 { #category : #initialization }
@@ -91,36 +173,35 @@ GtWorldElement >> initializeShortcuts [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Open global Spotter';
 				repeatable: false;
-				combination: BlKeyCombination shiftReturn;
+				spaceShortcutId: BlSpaceShortcutIds default openSpotterShortcutId;
 				action: [ self dispatchEvent: GtSpawnSpotter new ]).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Open global menu';
 				repeatable: false;
-				combination: BlKeyCombination primaryT;
-				action: [ subSpaceDropdown
-						ifNotNil: [ subSpaceDropdown
+				spaceShortcutId: BlSpaceShortcutIds default openGlobalMenuShortcutId;
+				action: [ self currentSubSpaceButton
+						ifNotNil: [ self currentSubSpaceButton
 								dispatchEvent: (BrDropdownShowWish new
-										anchor: subSpaceDropdown;
+										anchor: self currentSubSpaceButton;
 										yourself) ] ]).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Select previous tab';
 				repeatable: true;
-				combination: (BlKeyCombinationBuilder new primary shift key: BlKeyboardKey leftBracket) build;
+				spaceShortcutId: BlSpaceShortcutIds default selectPreviousTabShortcutId;
 				action: [ self tabs selectTabToTheLeft ]).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Select next tab';
 				repeatable: true;
-				combination: (BlKeyCombinationBuilder new primary shift key: BlKeyboardKey rightBracket)
-						build;
+				spaceShortcutId: BlSpaceShortcutIds default selectNextTabShortcutId;
 				action: [ self tabs selectTabToTheRight ]).
 	self
 		addShortcut: (BlShortcutWithAction new
 				name: 'Close tab';
 				repeatable: true;
-				combination: BlKeyCombination primaryW;
+				spaceShortcutId: BlSpaceShortcutIds default closeTabShortcutId;
 				action: (BrTabGroupPreventableSelectedTabCloseAction new
 					tabGroup: self tabs;
 					keepContentElement: home;
@@ -129,7 +210,7 @@ GtWorldElement >> initializeShortcuts [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Close world';
 				repeatable: true;
-				combination: BlKeyCombination primaryQ;
+				spaceShortcutId: BlSpaceShortcutIds default closeWorldShortcutId;
 				action: [ self spaceDo: [ :aSpace | aSpace requestClose ] ])
 ]
 
@@ -146,37 +227,60 @@ GtWorldElement >> knowledgeBase: aKnowledgeBase [
 		source: self)
 ]
 
-{ #category : #'private - insance creation' }
+{ #category : #accessing }
+GtWorldElement >> llmChatRegistry [
+	llmChatRegistry ifNil: [
+		self llmChatRegistry: GtL registry ].
+	^ llmChatRegistry
+]
+
+{ #category : #accessing }
+GtWorldElement >> llmChatRegistry: anLlmChatRegistry [
+	llmChatRegistry := anLlmChatRegistry.
+	self announcer announce: (GtWorldElementChatRegistryChangedAnnouncement new
+		chatRegistry: anLlmChatRegistry;
+		worldElement: self;
+		source: self)
+]
+
+{ #category : #initialization }
 GtWorldElement >> newActionItemsInto: anActionbar [
 	super newActionItemsInto: anActionbar.
-	anActionbar addItem: self newNotificationsBadge.
-	anActionbar addItem: self newSpotterButton.
-	anActionbar addItem: self newStatusButton.
-	GtImage isSyncEnabled
-		ifTrue: [ anActionbar addItem: self newSynchronizeButton ].
-	anActionbar addItem: self newSubSpaceButton
+
+	self worldToolbarActions do: [ :each | 
+		each
+			asElement: [ :actionElement | 
+				anActionbar addItem: actionElement ]
+			withHostElement: anActionbar ]
+]
+
+{ #category : #private }
+GtWorldElement >> newChatRegistryDropdown [
+	^ GtLWorldChatRegistryDropdown new
+		initializeForWorldElement: self
+]
+
+{ #category : #'instance creation' }
+GtWorldElement >> newLepiterStatusButton [
+	"Answer a dropdown button for the  status of knowledge base associated with the current world"
+
+	^ LeWorldStatusDropdown new
+			leWorldElement: self
 ]
 
 { #category : #'private - instance creation' }
 GtWorldElement >> newNotificationsBadge [
-	self
-		assert: [ notificationsDropdown isNil ]
-		description: [ 'Notifications dropdown is already created!' ].
-
-	notificationsDropdown := GtNotificationsBadgeElement new
+	 ^ GtNotificationsBadgeElement new
+			id: GtWorldNotificationsBadgeElementId;
 			addAptitude: (BrGlamorousWithExplicitTooltipAptitude text: 'Notifications');
 			hide.
-
-	^ notificationsDropdown
 ]
 
 { #category : #'private - instance creation' }
 GtWorldElement >> newSpotterButton [
-	self 
-		assert: [ spotterDropdown isNil ]
-		description: [ 'Spotter dropdown is already created!' ].
+	| newspotterDropdown |
 	
-	spotterDropdown := GtSpotterDropdownButtonStencil new
+	newspotterDropdown := GtSpotterDropdownButtonStencil new
 		id: GtWorldSpotterSearchElementId;
 		tooltip: 'Search';
 		valuable: [ GtWorldSpotterSearchStart new
@@ -193,31 +297,22 @@ GtWorldElement >> newSpotterButton [
 			anAnnouncement beActed.
 			aButton phlow spawnTool: anAnnouncement toolToSend ];
 		asElement.
-	spotterDropdown aptitude - BrGlamorousButtonExteriorAptitude.
-	spotterDropdown
+	newspotterDropdown aptitude - BrGlamorousButtonExteriorAptitude.
+	newspotterDropdown
 		when: GtPhlowObjectToSpawn
 		do: [ :anEvent |
 			anEvent consumed: true.
 			
-			anEvent object gtSpotterActDefaultFrom: spotterDropdown ].
+			anEvent object gtSpotterActDefaultFrom: self currentSpotterButton ].
 
-	^ spotterDropdown
-]
-
-{ #category : #'instance creation' }
-GtWorldElement >> newStatusButton [
-	"Answer a dropdown button for the  status of knowledge base associated with the current world"
-
-	^ LeWorldStatusDropdown new
-		leWorldElement: self
+	^ newspotterDropdown
 ]
 
 { #category : #'private - instance creation' }
 GtWorldElement >> newSubSpaceButton [
-	self
-		assert: [ subSpaceDropdown isNil ]
-		description: [ 'Sub-space dropdown is already created!' ].
-	subSpaceDropdown := BrButton new
+	| newSubSpaceDropdown |
+	
+	newSubSpaceDropdown := BrButton new
 			id: GtWorldMenuElementId;
 			aptitude: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude
 					+ (BrGlamorousWithExplicitDropdownAptitude new
@@ -231,14 +326,15 @@ GtWorldElement >> newSubSpaceButton [
 								content: [ BrScrollPane new
 										aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
 										hExact: 420;
-										vMatchParent;
+										vFitContentLimited;
 										content: (GtToolsMenu new
 												knowledgeBase: self knowledgeBase;
 												yourself) ]);
 			icon: BrGlamorousVectorIcons hamburger;
 			label: 'Menu';
 			yourself.
-	^ subSpaceDropdown
+			
+	^ newSubSpaceDropdown
 ]
 
 { #category : #accessing }
@@ -262,6 +358,16 @@ GtWorldElement >> onAddedToSceneGraph [
 		when: MethodAnnouncement
 		send: #update:
 		to: self home. 
+]
+
+{ #category : #'private - event handling' }
+GtWorldElement >> onGtPhlowObjectToSpawn: anEvent [
+	anEvent consumed: true.
+
+	BlSpace new
+		withCommonSettings;
+		inPager: anEvent tool;
+		showFrom: self
 ]
 
 { #category : #'hooks - children' }
@@ -288,13 +394,21 @@ GtWorldElement >> refreshContent [
 
 { #category : #'api - notification' }
 GtWorldElement >> removeNotification: aNotification [
-	notificationsDropdown ifNotNil: [ :anElement | 
+	self currentNotificationsBadge ifNotNil: [ :anElement | 
 		anElement removeNotification: aNotification ]
 ]
 
 { #category : #'api - notification' }
 GtWorldElement >> showNotification: aNotification [
 	"I am a root element of the default space ID, I will display the notification."
-	notificationsDropdown ifNotNil: [ :anElement | 
+	self currentNotificationsBadge ifNotNil: [ :anElement | 
 		anElement notification: aNotification ]
+]
+
+{ #category : #toolbar }
+GtWorldElement >> worldToolbarActions [
+	^ GtPhlowActionsCollector new
+		pragmaName: #gtWorldAction;
+		fromObject: self;
+		collect
 ]

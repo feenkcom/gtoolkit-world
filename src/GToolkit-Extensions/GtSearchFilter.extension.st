@@ -7,6 +7,55 @@ GtSearchFilter >> children [
 ]
 
 { #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtActionCopyCreationCodeInspectFor: anAction [
+	<gtAction>
+	^ anAction button
+		priority: 90;
+		target: GtPhlowObjectContextMenuTarget;
+		icon: BrGlamorousVectorIcons clipboard;
+		tooltip: 'Copy creation code';
+		menuItemGroup: BrMenuItemGroupConfiguration editing;
+		menuItemPreview: ([ (self creationCodeString
+				copyWithout: Character tab) takeFirst: 50 ]
+			on: Error 
+			do: [ :e | e printString asRopedText foreground: Color red ]);
+		action: [ :aButton |
+			GtClipboard clipboardText: self creationCodeString ]
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtActionInspectCreationCodeBuilderFor: anAction [
+	<gtAction>
+	^ anAction button
+		priority: 100;
+		target: GtPhlowObjectContextMenuTarget;
+		icon: BrGlamorousVectorIcons inspect;
+		tooltip: 'Inspect creation code';
+		"id: GtInspectorInspectButtonId;"
+		menuItemGroup: BrMenuItemGroupConfiguration navigation;
+		menuItemPreview: ([ (self creationCodeString
+				copyWithout: Character tab) takeFirst: 50 ]
+			on: Error 
+			do: [ :e | e printString asRopedText foreground: Color red ]);
+		action: [ :aButton |
+			aButton phlow spawnObject: self creationCode ];
+		primaryModifierAction: [ :aButton |
+			BlSpace new
+				withCommonSettings;
+				objectInPager: self creationCode;
+				showFrom: aButton ]
+			mouseCursor: BlCopyCursor new
+]
+
+{ #category : #'*GToolkit-Extensions' }
+GtSearchFilter >> gtActionObjectDropdownFor: anAction [
+	<gtAction>
+	<gtToolAction>
+	
+	^super gtActionObjectDropdownFor: anAction
+]
+
+{ #category : #'*GToolkit-Extensions' }
 GtSearchFilter >> gtAreAllGtSearchMethodsFilterKind [
 	^ false
 ]
@@ -97,6 +146,7 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 				asyncSimilarCopy toArray wait 
 				groupedBy: [ :aCompiledMethod | aCompiledMethod methodClass ])
 				associations sorted: [ :assoc | assoc key name ] ascending ];
+		updateWhen: (GtMethodAnnouncementDone - GtMethodRepackagedDone - GtMethodRecategorizedDone) , GtClassAddedDone , GtClassRemovedDone in: SystemAnnouncer uniqueInstance;
 		column: 'Class' do: [ :aColumn |
 			aColumn
 				cellStencil: [ 
@@ -104,11 +154,23 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 				dataBinder: [ :anElement :assoc | 
 					anElement updateForClass: assoc key ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderClassTarget
+						menuItemsForObject: aCollection first key
+						hostElement: anElement ]
+				ifFalse: [ GtCoderClassesTarget
+						menuItemsForObject: (GtPharoClassGroup withAll: (aCollection 
+							collect: [ :each | each key ]))
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreAssociations :selectionIndexes |
 			selectionIndexes size = 1
 				ifTrue: [ GtSearchFixedMethodsFilter new 
 					withDefinedMethodsFrom: oneOrMoreAssociations value ;
 					highlighter: self highlighter;
+					associatedSearchFilter: (self 
+						& GtSearchImageMethodsFilter new
+						& (GtSearchMethodsInClassFilter forClass: oneOrMoreAssociations key) );
 					label: self gtDisplayString
 						, ' & '
 						, oneOrMoreAssociations key name, ' class' ]
@@ -117,6 +179,13 @@ GtSearchFilter >> gtItemsByClassFor: aView [
 						withDefinedMethodsFrom: (oneOrMoreAssociations
 							flatCollect: [ :each | each value])  ;
 						highlighter: self highlighter;
+						associatedSearchFilter: self 
+							& GtSearchImageMethodsFilter new
+							& (oneOrMoreAssociations copyWithoutFirst
+								inject: (GtSearchMethodsInClassFilter 
+									forClass: (oneOrMoreAssociations first key )) 
+								into: [ :aCompositeFilter :assoc |
+									aCompositeFilter | (GtSearchMethodsInClassFilter forClass: assoc key ) ]);
 						label: self gtDisplayString
 							, ' & ('
 							, (String streamContents: [ :s | 
@@ -135,6 +204,9 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 		title: 'By Method';
 		priority: 45;
 		withMultipleSelection;
+		updateWhen: GtMethodAnnouncementDone - GtMethodRepackagedDone - GtMethodRecategorizedDone , GtClassAddedDone
+					, GtClassRemovedDone
+			in: SystemAnnouncer uniqueInstance;
 		items: [ self result asyncSimilarCopy toArray wait
 				sorted: [ :assoc | assoc selector ] ascending ];
 		column: 'Method'
@@ -142,39 +214,14 @@ GtSearchFilter >> gtItemsByMethodFor: aView [
 				aColumn
 					cellStencil: [ GtPhlowLabelWithIcon new ];
 					dataBinder: [ :anElement :aMethod | anElement updateForMethod: aMethod ] ];
-		dynamicContextItems: [ :aCollection | 
-			| menuItems |
-			menuItems := OrderedCollection new.
-			menuItems
-				add: (BrMenuActionItem new
-						group: BrMenuItemGroupConfiguration navigation;
-						label: 'Inspect methods as filter' asRopedText glamorousRegularFont
-								, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
-										glamorousCodeFont;
-										foreground: Color gray;
-										glamorousCodeTinySize);
-						action: [ :b | b phlow spawnObject: (GtSearchFixedMethodsFilter new methods: aCollection) ]).
-			aCollection size = 2
-				ifTrue: [ menuItems
-						add: (BrMenuActionItem new
-								group: BrMenuItemGroupConfiguration navigation;
-								label: 'Compare methods' asRopedText glamorousRegularFont
-										, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
-												glamorousCodeFont;
-												foreground: Color gray;
-												glamorousCodeTinySize);
-								action: [ :b | 
-									b phlow
-										spawnObject: (GtRGMethodDefinitionWithComparisonGroup withAll: aCollection) ]) ].
-			menuItems	".u
-				BrMenuSubmenuItem new
-					group: BrMenuItemGroupConfiguration removal;
-					label: 'Remove methods' asRopedText glamorousRegularFont
-							, ((' ' , ('{1} methods' format: {aCollection size})) asRopedText
-									glamorousCodeFont;
-									foreground: Color gray;
-									glamorousCodeTinySize);
-					submenu: (self removeSeveralMethodsSubmenuFor: aCollection)" ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderMethodTarget
+						menuItemsForObject: aCollection first
+						hostElement: anElement ]
+				ifFalse: [ GtCoderMethodsTarget
+						menuItemsForObject: (GtPharoCompiledMethodGroup withAll: aCollection)
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreMethods :selectionIndexes | 
 			selectionIndexes size = 1
 				ifTrue: [ oneOrMoreMethods methodReference
@@ -207,6 +254,7 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 					assoc key 
 						ifNil: [ '' ] 
 						ifNotNil: [:aPackage | aPackage name] ] ascending ];
+		updateWhen: (GtMethodAnnouncementDone - GtMethodRepackagedDone - GtMethodRecategorizedDone) , GtClassAddedDone , GtClassRemovedDone in: SystemAnnouncer uniqueInstance;
 		column: 'Package' do: [ :aColumn |
 			aColumn
 				cellStencil: [ 
@@ -219,11 +267,24 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 							ifNil: [ '<Obsolete>' ] 
 							ifNotNil: [:aPackage | aPackage name ] ) ] ];
 		column: 'Items' text: [ :assoc | assoc value size ];
+		dynamicContextItems: [ :anElement :aCollection | 
+			aCollection size = 1
+				ifTrue: [ GtCoderPackageTarget
+						menuItemsForObject: aCollection first key
+						hostElement: anElement ]
+				ifFalse: [ GtCoderPackagesTarget
+						menuItemsForObject: (GtPharoPackageGroup withAll: (aCollection 
+							collect: [ :each | each key ]))
+						hostElement: anElement ] ];
 		send: [ :oneOrMoreAssociations :selectionIndexes |
 			selectionIndexes size = 1
 				ifTrue: [GtSearchFixedMethodsFilter new 
 					withDefinedMethodsFrom: oneOrMoreAssociations value ;
 					highlighter: self highlighter;
+					associatedSearchFilter: (self 
+						& GtSearchImageMethodsFilter new
+						& (GtSearchMethodsInPackageFilter 
+							forPackageOrUndefined: (oneOrMoreAssociations key )) );
 					label: (self gtDisplayString
 						, ' & '
 						, (oneOrMoreAssociations key 
@@ -234,6 +295,14 @@ GtSearchFilter >> gtItemsByPackageFor: aView [
 					withDefinedMethodsFrom: (oneOrMoreAssociations
 						flatCollect: [ :each | each value]) ;
 					highlighter: self highlighter;
+					associatedSearchFilter: self 
+						& GtSearchImageMethodsFilter new
+						& (oneOrMoreAssociations copyWithoutFirst
+								inject: (GtSearchMethodsInPackageFilter 
+									forPackageOrUndefined: (oneOrMoreAssociations first key )) 
+								into: [ :aCompositeFilter :assoc |
+									aCompositeFilter | (GtSearchMethodsInPackageFilter 
+										forPackageOrUndefined: assoc key) ]);
 					label: (self gtDisplayString
 						, ' & ('
 						, (String streamContents: [ :s | 
@@ -287,59 +356,4 @@ GtSearchFilter >> methodPackages [
 			aResult add: aSearchPackage ] ].
 			
 	^ aResult
-]
-
-{ #category : #'*GToolkit-Extensions' }
-GtSearchFilter >> removeSeveralMethodsSubmenuFor: aCollection [
-	| submenu |
-	submenu := BrMenuExplicit new.
-	^ submenu
-		stencil: [ | element changes change button |
-			element := BrVerticalPane new fitContent.
-			element
-				addChild: (BrLabel new
-						margin: (BlInsets
-								top: 10
-								bottom: 0
-								left: 10
-								right: 10);
-						aptitude: BrGlamorousLabelAptitude new glamorousRegularFont;
-						text: ('Remove {1} methods' format: {aCollection size}) asRopedText).
-			element
-				addChild: (BrAsyncWidget new
-						fitContent;
-						stencil: [ | pane references |
-							pane := BrVerticalPane new.
-							pane fitContent.
-							references := aCollection
-									inject: 0
-									into: [ :sum :method1 | sum + (GtPharoIndex current sendersOf: method1 selector) size ].
-							references > 0
-								ifTrue: [ pane
-										addChild: (BrLabel new
-												margin: (BlInsets left: 10 right: 10);
-												aptitude: BrGlamorousLabelAptitude new glamorousRegularFont thin;
-												text: (references printString , ' reference'
-														, (references > 1 ifTrue: [ 's' ] ifFalse: [ '' ])) asRopedText) ].
-							pane ]).
-			changes := aCollection
-					collect: [ :eachMethod | RBRemoveMethodChange remove: eachMethod selector from: eachMethod methodClass ].
-			change := RBCompositeRefactoryChange new
-					name: ('Remove {1} methods' format: {aCollection size});
-					changes: changes;
-					yourself.
-			button := BrButton new
-					aptitude: BrGlamorousButtonWithIconAptitude;
-					beSmallSize;
-					margin: (BlInsets
-							top: 10
-							bottom: 10
-							left: 10
-							right: 10);
-					icon: BrGlamorousVectorIcons remove;
-					label: 'Remove';
-					action: [ submenu hideAll.
-						change execute ].
-			element addChild: button as: #removeButton.
-			element ]
 ]

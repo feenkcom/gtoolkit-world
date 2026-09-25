@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 GtHomeListItemWithSummaryElement >> newCandidateLabel [
 	^ LePageTitleAndSummaryElement new
-		hMatchParent;
+		hFitContent;
 		vFitContent;
 		addAptitude: GtHomeLepiterCardListItemAptitude;
 		margin: (BlInsets all: 0)

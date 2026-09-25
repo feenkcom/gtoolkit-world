@@ -13,7 +13,7 @@ BlSpace >> withScreenshotHandler [
 		addShortcut: (BlShortcutWithAction new
 				name: 'Take screenshot';
 				repeatable: false;
-				combination: BlKeyCombination primaryShiftP;
+				spaceShortcutId: BlSpaceShortcutIds default takeScreenshotShortcutId;
 				action: [ :aShortcutEvent :aShortcut | 
 					aShortcutEvent currentTarget dispatchEvent: GtTakePicture new ]).
 	self root
@@ -26,4 +26,27 @@ BlSpace >> withScreenshotHandler [
 					element: anEvent currentTarget;
 					export.
 			Clipboard clipboardText: fileReference fullName ]
+]
+
+{ #category : #'*GToolkit-SceneDriller' }
+BlSpace >> withZoomInOutShortcuts [
+	<spaceCommonSettings>
+	self root
+		addShortcut: (BlShortcutWithAction new
+				name: 'Zoom in';
+				repeatable: false;
+				spaceShortcutId: BlSpaceShortcutIds default zoomInShortcutId;
+				action: [ :aShortcutEvent :aShortcut | BlSpace userScale: BlSpace userScale + 0.1 ]).
+	self root
+		addShortcut: (BlShortcutWithAction new
+				name: 'Zoom out';
+				repeatable: false;
+				spaceShortcutId: BlSpaceShortcutIds default zoomOutShortcutId;
+				action: [ :aShortcutEvent :aShortcut | BlSpace userScale: BlSpace userScale - 0.1 ]).
+	self root
+		addShortcut: (BlShortcutWithAction new
+				name: 'Zoom normal';
+				repeatable: false;
+				spaceShortcutId: BlSpaceShortcutIds default zoomNormalShortcutId;
+				action: [ :aShortcutEvent :aShortcut | BlSpace userScale: 1 ])
 ]
