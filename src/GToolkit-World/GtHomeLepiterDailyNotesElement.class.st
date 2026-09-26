@@ -45,23 +45,28 @@ GtHomeLepiterDailyNotesElement >> initialize [
 { #category : #initialization }
 GtHomeLepiterDailyNotesElement >> initializeGroupedListElement [
 	groupedListElement := BrGroupedList new
-			padding: (BlInsets top: 3 right: 5 bottom: 3 left: 3);
-			headerElementStencil: [ 
-				BrLabel new
+			padding: (BlInsets
+					top: 3
+					right: 5
+					bottom: 3
+					left: 3);
+			headerElementStencil: [ BrLabel new
 					beSmallSize;
 					aptitude: (BrGlamorousLabelAptitude new foreground: Color gray);
 					hMatchParent;
 					vFitContent;
 					margin: (BlInsets top: 5 left: 0) ];
-			headerDataBinder: [ :aLabelElement :aGroup | 
-				aLabelElement text: aGroup domainObject asString ];
+			headerDataBinder: [ :aLabelElement :aGroup | aLabelElement text: aGroup domainObject asString ];
 			when: BrSelectionDoubleClicked
 				do: [ :anEvent | 
 					anEvent selection
 						ifNotEmpty: [ :theIndices | 
 							| selectedObject |
-							selectedObject := anEvent currentTarget viewModel entityAt: theIndices first.
-							self spawnPage: selectedObject itemObject from: anEvent currentTarget ] ];
+							selectedObject := anEvent currentTarget viewModel
+									entityAt: theIndices first.
+							BlSpace
+								spawnPage: selectedObject itemObject
+								from: anEvent currentTarget ] ];
 			matchParent;
 			groups: #()
 ]
@@ -84,13 +89,6 @@ GtHomeLepiterDailyNotesElement >> onContentUIModelChanged [
 GtHomeLepiterDailyNotesElement >> onDailyNotesChanged: anAnnouncement [
 	updater ifNil: [ ^ self ].
 	updater requestUpdate
-]
-
-{ #category : #'event handling' }
-GtHomeLepiterDailyNotesElement >> spawnPage: aPage from: aButton [
-	"If we are in a pager, spawn the page in the current phlow, else create a new pager."
-
-	^ BlSpace spawnTool: [ aPage gtDefaultInspectorTool ] from: aButton
 ]
 
 { #category : #'private - subscriptions' }
