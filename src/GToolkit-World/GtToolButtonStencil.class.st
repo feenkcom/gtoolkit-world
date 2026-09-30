@@ -52,8 +52,8 @@ GtToolButtonStencil >> createBasicButton [
 		padding: (BlInsets all: 10);
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		layout: BlLinearLayout vertical alignCenter;
-		addChild: iconElement;
-		addChild: labelElement.
+		addChild: iconElement as: #cardIcon;
+		addChild: labelElement as: #cardLabel.
 	^ button
 ]
 
