@@ -58,7 +58,17 @@ ConfigurationOf class >> paintPackagesMapWith: mondrian [
 	projects := self project version projects.
 	mondrian nodes 
 		stencil: [ :packageSpec |
-			BlTextElement new text: packageSpec name asRopedText ];
+			| element |
+			element := BlTextElement new.
+			element
+				when: BlClickEvent do: [ :e | 
+					| toSpawn |
+					toSpawn := RPackage organizer 
+						packageNamed: packageSpec name 
+						ifAbsent: [ packageSpec ].
+					e consumed: true.
+					element phlow spawnObject: toSpawn ];
+				text: packageSpec name asRopedText ];
 		with: packages.
 	mondrian nodes 
 		stencil: [ :projectSpec |
@@ -66,8 +76,12 @@ ConfigurationOf class >> paintPackagesMapWith: mondrian [
 			element := BlTextElement new.
 			element 
 				when: BlClickEvent do: [ :e | 
+					| toSpawn |
+					toSpawn := Smalltalk globals 
+						at: projectSpec constructClassName asSymbol
+						ifAbsent: [ projectSpec ].
 					e consumed: true. 
-					element phlow spawnObject: (Smalltalk globals at: projectSpec constructClassName asSymbol) ];
+					element phlow spawnObject: toSpawn ];
 				text: (projectSpec name asRopedText foreground: Color gray) ];
 		with: projects.
 	packages do: [ :p | 

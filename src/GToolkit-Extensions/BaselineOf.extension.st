@@ -8,11 +8,27 @@ BaselineOf class >> gtAllReferencesFor: aView [
 		title: 'References';
 		tooltip: 'Class and baseline references';
 		priority: 40;
-		stencil: [ 
-			| aName |
+		stencil: [
+			| aName baselineCandidates |
 			aName := self name withoutPrefix: BaselineOf name.
+
+			baselineCandidates :=
+				(aName gtReferences | aName asSymbol gtReferences)
+					& (#baseline: gtReferences | #baseline:with: gtReferences).
+
 			self gtReferences
-			| (('`@receiver baseline: ''', aName, ''' with: `@arg') gtASTMatches) ]
+				| (baselineCandidates select: [ :method |
+					| found |
+					found := false.
+					method ast nodesDo: [ :node |
+						found ifFalse: [
+							found := node isMessage
+								and: [
+									(#(#baseline: #baseline:with:) includes: node selector)
+										and: [
+											node arguments first isLiteralNode
+												and: [ node arguments first value asString = aName ] ] ] ] ].
+					found ]) ]
 ]
 
 { #category : #'*GToolkit-Extensions' }
