@@ -246,12 +246,6 @@ GtImageSetup class >> performLocalSetup [
 	self cleanUpImageAfterLoad.
 	self preparePharoCompletionCache.
 	self installGtSessionManager.
-	
-	self 
-		forPharo12AndNewer: [] 
-		forPharo11: [
-			self registerGTNamespace.
-			self patchForStringSymbolStringComparison ].
 			
 	self resetFFIMethods.
 	self printNotRegisteredFFIMethods.
@@ -294,12 +288,6 @@ GtImageSetup class >> performSetupForRelease: aVersionComputationName [
 	self preparePharoCompletionCache.
 	self installGtSessionManager.
 	
-	self 
-		forPharo12AndNewer: [] 
-		forPharo11: [
-			self registerGTNamespace.
-			self patchForStringSymbolStringComparison ].
-	
 	self resetFFIMethods.
 	self printNotRegisteredFFIMethods.
 	
@@ -341,14 +329,6 @@ GtImageSetup class >> recordSpaceTallyAtEnd [
 	Smalltalk garbageCollect.
 	Smalltalk garbageCollect.
 	GtSpaceTallyHistory recordDefaultSystemWideDataLabeled: 'Image Setup End'
-]
-
-{ #category : #actions }
-GtImageSetup class >> registerGTNamespace [
-	self 
-		forPharo12AndNewer: [] 
-		forPharo11: [
-			RBClassModelFactory setRBNamespace: GtRBNamespace]
 ]
 
 { #category : #actions }
