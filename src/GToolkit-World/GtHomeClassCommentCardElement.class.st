@@ -45,7 +45,7 @@ GtHomeClassCommentCardElement >> documentClass: aClass [
 GtHomeClassCommentCardElement >> documentClassComment [
 	| targetClass |
 	targetClass := self documentClass.
-	^ targetClass gtComment
+	^ targetClass comment
 ]
 
 { #category : #'private - hooks' }

@@ -20,7 +20,4 @@ GtWorldStartupAction class >> startUp: isImageStarting [
 		forPharo12: [
 			Author fullNamePerSe isEmptyOrNil ifTrue: [ 
 				Author fullName: 'GlamorousAuthor' ]] 
-		forPharo11: [
-			Author fullNamePerSe isEmptyOrNil ifTrue: [ 
-				Author fullName: 'GlamorousAuthor' ]]
 ]
