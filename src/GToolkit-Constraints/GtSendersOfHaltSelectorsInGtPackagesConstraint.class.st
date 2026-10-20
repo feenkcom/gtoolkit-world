@@ -76,7 +76,9 @@ GtSendersOfHaltSelectorsInGtPackagesConstraint >> allowedSendersOfHalt [
 
 { #category : #accessing }
 GtSendersOfHaltSelectorsInGtPackagesConstraint >> classesAllowedToSendHalt [
-	^ { TDAPProtocolVisitor  }
+	^ { TDAPProtocolVisitor . GtRemotePhlowDebuggerStepTestObject}
+		, GtRemoteGemStoneDebuggerStepExamples withAllSubclasses
+		, GtRemoteGemStoneDebuggingSessionStepExamples withAllSubclasses
 ]
 
 { #category : #accessing }
