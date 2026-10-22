@@ -367,6 +367,7 @@ GtWorldElement >> onGtPhlowObjectToSpawn: anEvent [
 	BlSpace new
 		withCommonSettings;
 		inPager: anEvent tool;
+		withTitleAndIconOfTool: anEvent tool;
 		showFrom: self
 ]
 

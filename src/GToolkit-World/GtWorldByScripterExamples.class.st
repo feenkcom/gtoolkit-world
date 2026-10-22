@@ -6,6 +6,54 @@ Class {
 	#category : #'GToolkit-World-Examples'
 }
 
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> actOnWorldSpotterCandidateSatisfying: anItemBlock in: aScripter [
+	| isCandidate |
+
+	isCandidate := [ :each | anItemBlock value: each candidate item ].
+
+	aScripter mouseMoveOverStep: [ :s | 
+		s
+			label: 'Hover over the candidate';
+			onSpaceRoot;
+			// GtStreamingSpotterElement;
+			// GtStreamingSpotterCandidateElement;
+			@ isCandidate ].
+
+	aScripter clickStep: [ :s | 
+		s
+			label: 'Act on the candidate';
+			onSpaceRoot;
+			// GtStreamingSpotterElement;
+			// GtStreamingSpotterCandidateElement;
+			@ isCandidate;
+			id: GtSpotterCandidateActOnButtonId ]
+]
+
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> actOnWorldSpotterCategoryTitled: aTitle in: aScripter [
+	| isCategory |
+
+	isCategory := [ :each | each currentCategory search title = aTitle ].
+
+	aScripter mouseMoveOverStep: [ :s | 
+		s
+			label: 'Hover over the ' , aTitle , ' category';
+			onSpaceRoot;
+			// GtStreamingSpotterElement;
+			// GtStreamingSpotterCategoryElement;
+			@ isCategory ].
+
+	aScripter clickStep: [ :s | 
+		s
+			label: 'Act on the ' , aTitle , ' category';
+			onSpaceRoot;
+			// GtStreamingSpotterElement;
+			// GtStreamingSpotterCategoryElement;
+			@ isCategory;
+			id: GtSpotterCategoryActOnButtonId ]
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> addCoderIntoTabElement [
 	<gtExample>
@@ -549,6 +597,24 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 		play.
 
 	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> assertNewWorldTabIn: aScripter hasLabel: aString [
+	aScripter worldStep
+		label: 'Check the new world tab label';
+		assertTabAtIndex: 2 hasLabel: aString;
+		assertTabKeepsLabelAfterFocusAtIndex: 2;
+		play
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> assertNewWorldTabIn: aScripter hasLabelAndStableIcon: aString [
+	aScripter worldStep
+		label: 'Check the new world tab label and icon';
+		assertTabAtIndex: 2 hasLabel: aString;
+		assertTabKeepsLabelAndIconAfterFocusAtIndex: 2;
+		play
 ]
 
 { #category : #assertions }
@@ -2137,6 +2203,19 @@ GtWorldByScripterExamples >> openWorldMenu_tooltip [
 	^ aScripter
 ]
 
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> openWorldSpotterIn: aScripter query: aString [
+	aScripter clickStep: [ :s | 
+		s
+			label: 'Open the world spotter';
+			// GtWorldSpotterSearchElementId ].
+
+	aScripter typeStep: [ :s | 
+		s
+			label: 'Type the search query';
+			text: aString ]
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> paneModelKeyAt: aPaneIndex [
 	^ 'paneModelAt', aPaneIndex asString
@@ -2994,6 +3073,128 @@ GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	^ scripter
 ]
 
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> worldSpotterClassItemActOn [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldElementInScripter.
+	self openWorldSpotterIn: aScripter query: 'Character'.
+	self
+		actOnWorldSpotterCandidateSatisfying: [ :anItem | anItem = Character ]
+		in: aScripter.
+	self assertNewWorldTabIn: aScripter hasLabelAndStableIcon: 'Character'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> worldSpotterGlobalVariableItemActOn [
+	"SystemOrganization is used because no class, package or page name contains it,
+	so its Global variables category is visible at the top of the spotter"
+
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldElementInScripter.
+	self openWorldSpotterIn: aScripter query: 'SystemOrganization'.
+	self
+		actOnWorldSpotterCandidateSatisfying: [ :anItem | 
+			(anItem isKindOf: GlobalVariable) and: [ anItem key = #SystemOrganization ] ]
+		in: aScripter.
+	self assertNewWorldTabIn: aScripter hasLabel: 'a PackageOrganizer'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> worldSpotterImplementorsCategoryActOn [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldElementInScripter.
+	self openWorldSpotterIn: aScripter query: 'gtSpotterActDefaultFrom:'.
+	self actOnWorldSpotterCategoryTitled: 'Implementors' in: aScripter.
+	self assertNewWorldTabIn: aScripter hasLabel: 'Filter: ''gtS... implementors'.
+
+	aScripter phlowCompositeToolStep
+		label: 'Assert the tab shows the default search filter tool';
+		onPagerToolElement;
+		assertPhlowToolLabels: #('Search Filter' 'inspector')
+			andTypes: { GtPhlowSearchFilterTool. GtInspectorTool };
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> worldSpotterPragmaItemActOn [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldElementInScripter.
+	self openWorldSpotterIn: aScripter query: 'gtdebuggerspecification'.
+	self
+		actOnWorldSpotterCandidateSatisfying: [ :anItem | 
+			(anItem isKindOf: GtPragmaType)
+				and: [ anItem keyword = #gtDebuggerSpecification ] ]
+		in: aScripter.
+	self
+		assertNewWorldTabIn: aScripter
+		hasLabel: 'a GtPragmaType (gtDebuggerSpecification)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> worldSpotterPragmasCategoryActOn [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldElementInScripter.
+	self openWorldSpotterIn: aScripter query: 'gtdebuggerspecification'.
+	self actOnWorldSpotterCategoryTitled: 'Pragmas' in: aScripter.
+	self assertNewWorldTabIn: aScripter hasLabel: 'an AsyncCachedStream'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - spotter' }
+GtWorldByScripterExamples >> worldSpotterSpawnedToolOpensInTabWithObjectTitle [
+	"Spawning from the world spotter button goes through its own spawn handler, not GtWorldElement>>#onGtPhlowObjectToSpawn:"
+
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter aFilter |
+
+	aFilter := GtSearchCustomScopedMethodsFilter new
+			filterLabel: 'printOn: implementors';
+			defaultFilterScope: #() asAsyncStream.
+
+	aScripter := self worldElementInScripter.
+
+	aScripter doStep: [ :s | 
+		s
+			label: 'Spawn the filter default tool from the world spotter button';
+			block: [ :aWorld | aWorld currentSpotterButton phlow spawnTool: aFilter gtDefaultInspectorTool ] ].
+
+	self assertNewWorldTabIn: aScripter hasLabel: 'Filter: printOn: implementors'.
+
+	aScripter phlowCompositeToolStep
+		label: 'Assert the tab shows the default search filter tool';
+		onPagerToolElement;
+		assertPhlowToolLabels: #('Search Filter' 'inspector')
+			andTypes: { GtPhlowSearchFilterTool. GtInspectorTool };
+		play.
+
+	^ aScripter
+]
+
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> worldSpotter_ResizeVertically [
 	<gtExample>
@@ -3068,6 +3269,210 @@ GtWorldByScripterExamples >> worldSpotter_ResizeVertically_ClosePressingEscape_R
 
 	self resizeSpotterInScripter: aScripter.
 	self assertResizeSpotterInScripter: aScripter.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromClassBrowse [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | Character gtBrowseFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabelAndStableIcon: 'Character'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromGlobalVariableSpotterActDefault [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		(Smalltalk globals associationAt: #Smalltalk) gtSpotterActDefaultFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'a SmalltalkImage (Smalltalk)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromInspectorOpenOn [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		GtInspector openOn: (OrderedCollection withAll: #(1 2 3)) from: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'an OrderedCollection [3 items] (1 2 3)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromMethodBrowse [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | (Object >> #printString) gtBrowseFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabelAndStableIcon: 'Object'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromObjectBrowse [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 42 gtBrowseFrom: anElement ].
+	aScripter worldStep
+		label: 'Check the new world tab label and icon';
+		assertTabAtIndex: 2 hasLabel: '42';
+		"assertTabKeepsLabelAndIconAfterFocusAtIndex: 2;"
+		play.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromObjectSpotterActDefault [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		(OrderedCollection withAll: #(1 2 3)) gtSpotterActDefaultFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'an OrderedCollection [3 items] (1 2 3)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromObjectSpotterActDefaultWithLongTitle [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		GtInspectorExampleObjectWithTabContentIcon new gtSpotterActDefaultFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'a GtInspecto...abContentIcon'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromPackageBrowse [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | Character package gtBrowseFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabelAndStableIcon: Character package name.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromPackageTagBrowse [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter aTag |
+
+	aTag := Character package tagOf: Character.
+	aScripter := self worldTabOpenedBy: [ :anElement | aTag gtBrowseFrom: anElement ].
+	self
+		assertNewWorldTabIn: aScripter
+		hasLabelAndStableIcon: aTag packageName , '-' , aTag name.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromPaneInTreePager [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		BlSpace new
+			paneInTreePager: (GtTreePagerPaneModel new
+					phlowTool: (OrderedCollection withAll: #(1 2 3)) gtDefaultInspectorTool)
+			settings: nil;
+			withCommonSettings;
+			showFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'an OrderedCollection [3 items] (1 2 3)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromSearchFilterSpotterActDefault [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		GtPhlowSearchFilterToolExamples new searchFilter gtSpotterActDefaultFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'Filter: ''GTo...ages matching'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromShowObject [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		anElement phlow showObject: (OrderedCollection withAll: #(1 2 3)) ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'an OrderedCollection [3 items] (1 2 3)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromSpawnReachingWorldElement [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		anElement phlow spawnObject: (OrderedCollection withAll: #(1 2 3)) ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'an OrderedCollection [3 items] (1 2 3)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabFromToolSpotterActDefault [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+
+	aScripter := self worldTabOpenedBy: [ :anElement | 
+		(OrderedCollection withAll: #(1 2 3)) gtDefaultInspectorTool gtSpotterActDefaultFrom: anElement ].
+	self assertNewWorldTabIn: aScripter hasLabel: 'an OrderedCollection [3 items] (1 2 3)'.
+
+	^ aScripter
+]
+
+{ #category : #'examples - tabs' }
+GtWorldByScripterExamples >> worldTabOpenedBy: aBlock [
+	"aBlock receives an element inside the world from which the new tab is opened"
+
+	| aScripter |
+
+	aScripter := self worldElementInScripter.
+	aScripter doStep: [ :s | 
+		s
+			label: 'Open a new world tab';
+			block: [ :aWorld | aBlock value: aWorld tabs tabs first widget ] ].
 
 	^ aScripter
 ]
