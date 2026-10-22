@@ -2795,6 +2795,17 @@ GtWorldByScripterExamples >> spawnSameLepiterPageWithPharoSnippetToNextPane [
 	^ aScripter
 ]
 
+{ #category : #private }
+GtWorldByScripterExamples >> stubChatConnection [
+	"A connection that builds stub providers, so that adding chats
+	does not depend on the LLM connections configured on the machine."
+
+	^ GtLConnection new
+		label: 'Stub';
+		providerClass: GtLOpenAIProviderStub;
+		yourself
+]
+
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> syntaxErrorScriptInTheSecondLepiterPagePane [
 	<gtExample>
@@ -3040,7 +3051,6 @@ GtWorldByScripterExamples >> worldElementInScripter_updateToolbarActions [
 { #category : #examples }
 GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 	<gtExample>
-	<noTest>
 	<return: #BlScripter>
 	| registry world scripter |
 	
@@ -3050,6 +3060,10 @@ GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 
 	world := GtWorldElement new
 		llmChatRegistry: registry.
+	"The toolbar actions are computed when the world element is created, using the global
+	chat registry. Recompute them so that the chat registry action is shown because the
+	example registry has chats, even when no LLM connection is configured (e.g., on the CI)."
+	world updateToolbarActions.
 
 	scripter := BlScripter new
 		model: registry;
@@ -3068,6 +3082,45 @@ GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown [
 		value: [ :aList | aList items size ] equals: 2;
 		onPopover;
 		// BrColumnedList;
+		play.
+
+	^ scripter
+]
+
+{ #category : #'examples - world' }
+GtWorldByScripterExamples >> worldElement_openChatRegistryDropdown_addChatOpensOneTab [
+	<gtExample>
+	<return: #BlScripter>
+	| scripter |
+
+	scripter := self worldElement_openChatRegistryDropdown.
+
+	scripter doStep: [ :s |
+		s
+			label: 'Select a stub connection';
+			block: [ :anElement |
+				anElement registryViewModel
+					selectedConnection: self stubChatConnection
+					source: self ];
+			onPopover;
+			// GtLChatRegistryAddNewChatElement ].
+
+	scripter clickStep: [ :s | 
+		s
+			label: 'Click Add chat';
+			onPopover;
+			// GtLChatRegistryAddNewChatElement;
+			// BrButton;
+			@ [ :each | each label asString = 'Add chat' ] ].
+
+	scripter checkStep: [ :s | 
+		s
+			label: 'Assert only one new tab was opened';
+			value: [ :aWorld | aWorld tabs tabs size ] equals: 2 ].
+
+	scripter worldStep
+		label: 'Check the new chat tab';
+		assertTabAtIndex: 2 hasLabel: 'Chat';
 		play.
 
 	^ scripter
