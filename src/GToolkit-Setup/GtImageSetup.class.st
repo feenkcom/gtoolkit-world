@@ -97,6 +97,18 @@ GtImageSetup class >> copyDocFolders: docFolders [
 ]
 
 { #category : #utilities }
+GtImageSetup class >> createDevGt4GemStoneProperties [
+		| fileReference |
+	
+	fileReference := self devGt4GemStonePropertiesFile.
+	fileReference parent ensureCreateDirectory.
+	self createGt4GemStonePropertiesIn: fileReference
+		properties: {
+			#gsVersionString -> self currentGemStoneDevVersion versionString allButFirst.
+			} asDictionary.
+]
+
+{ #category : #utilities }
 GtImageSetup class >> createGt4GemStoneProperties [
 		| fileReference |
 	
@@ -108,9 +120,19 @@ GtImageSetup class >> createGt4GemStoneProperties [
 
 { #category : #utilities }
 GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference [
-		| contents |
+		
+		self createGt4GemStonePropertiesIn: aFileReference
+		properties: {
+			#gsVersionString -> '3.7.6'
+			} asDictionary
+]
+
+{ #category : #utilities }
+GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference properties: aDictionary [
+	| contents |
 	
-	contents :=
+	contents := String streamContents: [ :stream |
+		stream nextPutAll:
 '{
 	"__schema" : "4.1",
 	"namedConnectors" : {
@@ -131,7 +153,9 @@ GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference [
 				"__type" : "file",
 				"filename" : "remote-gemstone"
 			},
-			"gemstoneVersion" : "3.7.5"
+			"gemstoneVersion" : "';
+				nextPutAll: (aDictionary at: #gsVersionString);
+				nextPutAll: '"
 		},
 		"datacurator" : {
 			"__type" : "gemstoneGciConnector",
@@ -150,22 +174,46 @@ GtImageSetup class >> createGt4GemStonePropertiesIn: aFileReference [
 				"__type" : "file",
 				"filename" : "remote-gemstone"
 			},
-			"gemstoneVersion" : "3.7.5"
+			"gemstoneVersion" : "';
+				nextPutAll: (aDictionary at: #gsVersionString);
+				nextPutAll: '"
 		}
 	}
-}'.
+}' ].
 	aFileReference writeStreamDo: [ :stream |
-		stream nextPutAll: contents ].
+		| osStream |
+		stream truncate.
+		osStream := ZnNewLineWriterStream on: stream.
+		osStream nextPutAll: contents ].
+]
+
+{ #category : #accessing }
+GtImageSetup class >> currentGemStoneDevVersion [
+	"Answer the highest installed development version, or nil if none is available."
+	^ self currentGemStoneDevVersionIn: FileLocator imageDirectory / 'remote-gemstone'
+]
+
+{ #category : #private }
+GtImageSetup class >> currentGemStoneDevVersionIn: aDirectory [
+	"Consider immediate version directories with major versions 3 through 4 (inclusive)."
+	| highest |
+	
+	aDirectory isDirectory ifFalse: [ ^ nil ].
+	aDirectory directories do: [ :directory |
+		| basename version |
+		basename := directory basename.
+		(basename matchesRegex: '[0-9]+\.[0-9]+\.[0-9]+') ifTrue: [
+			version := GtGemStoneSemanticVersionNumber readFromString: basename.
+			(version major between: 3 and: 4) ifTrue: [
+				(highest isNil or: [ version > highest ]) ifTrue: [ highest := version ] ] ] ].
+	^ highest
 ]
 
 { #category : #utilities }
-GtImageSetup class >> createLocalGt4GemStoneProperties [
-		| fileReference |
-	
-	fileReference := FileLocator localDirectory asFileReference / 
+GtImageSetup class >> devGt4GemStonePropertiesFile [
+
+	^ FileLocator localDirectory asFileReference / 
 		'lepiter' / 'gt4gemstone.properties'.
-	fileReference parent ensureCreateDirectory.
-	self createGt4GemStonePropertiesIn: fileReference.
 ]
 
 { #category : #actions }
