@@ -307,7 +307,7 @@ Package >> paintClassHierarchyWith: aMondrian [
 Package >> paintTagAndClassHierarchyWith: aMondrian [
 
 	| aModel |
-	aModel := self tags  reject: #isRoot.
+	aModel := self tags.
 	aMondrian nodes
 		shape: [ :aTag | 
 			BrVerticalPane new
