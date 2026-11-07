@@ -232,6 +232,13 @@ GtWorld >> knowledgeBase: aKnowledgeBase [
 ]
 
 { #category : #accessing }
+GtWorld >> knowledgeBaseIfNone: aBlock [
+
+	^ self knowledgeBase ifNil: aBlock
+
+]
+
+{ #category : #accessing }
 GtWorld >> llmChatRegistry: anLlmChatRegistry [
 	worldElement llmChatRegistry: anLlmChatRegistry.
 ]
