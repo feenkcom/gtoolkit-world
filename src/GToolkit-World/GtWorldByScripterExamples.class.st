@@ -2512,7 +2512,8 @@ GtWorldByScripterExamples >> searchAndBrowseBlElementZIndexMethod [
 
 			aStep typeStep: [ :s | s text: (BlElement >> #zIndex:) printString ].
 
-			aLogger := MemoryLogger startFor: GtPharoStreamingMethodsCoderElementSignal.
+			aLogger := MemoryLogger new
+					startFor: GtPharoStreamingMethodsCoderElementSignal.
 			aLogger name: '01 Browse method'.
 			aScripter userData at: aLogger name put: aLogger.
 
