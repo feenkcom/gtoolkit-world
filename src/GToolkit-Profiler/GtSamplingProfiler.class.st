@@ -99,14 +99,14 @@ GtSamplingProfiler >> gtSourceFor: aView [
 		view: #gtSourceFor:
 ]
 
-{ #category : #inspecting }
+{ #category : #'gt - views' }
 GtSamplingProfiler >> gtTextReportFor: aView [
 	<gtView>
 	^ aView textEditor
 		title: 'Text report';
 		aptitude: BrGlamorousCodeEditorAptitude;
 		priority: 60;
-		text: [ String streamContents: [ :s | self report: s ] ]
+		text: [ self textReport ]
 ]
 
 { #category : #initialization }
@@ -339,4 +339,9 @@ GtSamplingProfiler >> spyOn: aBlock [
 	Smalltalk vm getParameters
 		keysAndValuesDo: [ :idx :gcVal | gcVal isNumber ifTrue: [ gcStats at: idx put: gcVal - (gcStats at: idx) ] ].
 	time := (Time microsecondClockValue - startTime) / 1000.0
+]
+
+{ #category : #reporting }
+GtSamplingProfiler >> textReport [
+	^ String streamContents: [ :stream | self report: stream ]
 ]
