@@ -302,6 +302,11 @@ GtImageSetup class >> performLocalSetup [
 	See https://github.com/feenkcom/gtoolkit-editor/issues/13"
 	GtTextualCoder useIncrementalParsing: true.
 	
+	"Use new rename refactoring by default. We want to use it in production too
+	as it is the implementation to work with both Brick and rust text editors.
+	See https://github.com/feenkcom/gtoolkit-editor/issues/12"
+	GtPharoCoderSettings displayNewRenameImplementationContextMenuItem: true.
+	
 	self recordSpaceTallyAtEnd.
 ]
 
