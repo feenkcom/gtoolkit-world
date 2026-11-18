@@ -98,7 +98,7 @@ GtMonitoredProcess >> suspendedContext [
 
 { #category : #actions }
 GtMonitoredProcess >> terminate [
-	^ self service ifNotNil: #terminate
+	^ self service ifNotNil: [ :v | v terminate ]
 ]
 
 { #category : #accessing }

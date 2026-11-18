@@ -20,7 +20,7 @@ GtCoderAddOns >> gtViewContextMenuActionsFor: aView [
 		items: [ self contextMenuActions
 				sorted: [ :anAction | 
 					anAction group
-						ifNotNil: #priority
+						ifNotNil: [ :v | v priority ]
 						ifNil: [ BrMenuItemGroupConfiguration default priority ] ] ascending
 						, [ :anAction | anAction priority ] ascending ];
 		column: 'Group'
