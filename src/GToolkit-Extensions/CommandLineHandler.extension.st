@@ -42,5 +42,6 @@ CommandLineHandler class >> gtCommandLineOptionsFor: aView [
 										and: [ node arguments anyOne isLiteralNode ] ] ] ])
 				sort: [ :a :b | a arguments anyOne value < b arguments anyOne value ] ];
 		column: 'Argument' text: [ :aMethod | aMethod arguments anyOne value ];
-		column: 'Method' text: [ :aMethod | aMethod methodNode ifNotNil: #method ]
+		column: 'Method'
+			text: [ :aMethod | aMethod methodNode ifNotNil: [ :v | v method ] ]
 ]

@@ -7,8 +7,10 @@ ZnServerSession >> gtAttributesFor: aView [
 
 	^ aView columnedList
 		title: 'Attributes';
-		items: [ attributes ifNil: [ #() ] ifNotNil: #associations ];
+		items: [ attributes ifNil: [ #() ] ifNotNil: [ :v | v associations ] ];
 		column: 'Name' text: #key;
-		column: 'Value' text: #value weight: 2;
+		column: 'Value'
+			text: #value
+			weight: 2;
 		send: #value
 ]

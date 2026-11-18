@@ -110,11 +110,13 @@ GtWorldPreviewerTreePagerPaneWithLabelElement >> previewScale: anObject [
 GtWorldPreviewerTreePagerPaneWithLabelElement >> updateElement [
 	| aText |
 	aText := self treePagerPaneModel paneElement
-			ifNotNil: [ :anElement | anElement paneModel ifNotNil: #title ifNil: [ '' ] ]
+			ifNotNil: [ :anElement | anElement paneModel ifNotNil: [ :v | v title ] ifNil: [ '' ] ]
 			ifNil: [ '' ].
 	labelElement text: aText asRopedText glamorousRegularFont.
 
 	iconElement removeChildren.
 	self treePagerPaneModel paneElement
-		ifNotNil: [ :anElement | iconElement addChild: (anElement paneModel icon asElement background: Color white) ]
+		ifNotNil: [ :anElement | 
+			iconElement
+				addChild: (anElement paneModel icon asElement background: Color white) ]
 ]

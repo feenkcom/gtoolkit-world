@@ -40,7 +40,7 @@ GtMonitoredProcessElement >> service: aGtMonitoredProcess [
 
 { #category : #accessing }
 GtMonitoredProcessElement >> stack [
-	^ self service ifNotNil: #stack ifNil: [ #() ]
+	^ self service ifNotNil: [ :v | v stack ] ifNil: [ #() ]
 ]
 
 { #category : #updating }

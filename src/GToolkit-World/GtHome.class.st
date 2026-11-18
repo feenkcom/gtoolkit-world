@@ -212,7 +212,7 @@ GtHome >> update: anAnnouncement [
 
 { #category : #updating }
 GtHome >> updateFeed [
-	feedElement ifNotNil: #updateWidget
+	feedElement ifNotNil: [ :v | v updateWidget ]
 ]
 
 { #category : #updating }
