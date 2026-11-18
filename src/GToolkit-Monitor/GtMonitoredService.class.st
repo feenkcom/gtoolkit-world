@@ -17,7 +17,7 @@ GtMonitoredService >> exists [
 { #category : #testing }
 GtMonitoredService >> isRunning [
 	<return: #Boolean>
-	^ self service ifNotNil: #isRunning ifNil: false
+	^ self service ifNotNil: [ :v | v isRunning ] ifNil: false
 ]
 
 { #category : #accessing }

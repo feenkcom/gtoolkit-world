@@ -31,11 +31,10 @@ GtMonitoredTaskItService >> queueSize [
 
 { #category : #accessing }
 GtMonitoredTaskItService >> title [
-
 	<return: #String>
 	| aService |
 	aService := self service.
 
 	aService ifNil: [ ^ '' ].
-	^ aService name ifNil: [ '' ] ifNotNil: #trimmed
+	^ aService name ifNil: [ '' ] ifNotNil: [ :v | v trimmed ]
 ]

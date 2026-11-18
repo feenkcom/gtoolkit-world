@@ -199,7 +199,7 @@ GtMonitoredScripterPulser >> pulserDo: aBlock [
 { #category : #accessing }
 GtMonitoredScripterPulser >> scripter [
 	<return: #BlScripter or: nil>
-	^ self pulser ifNotNil: #scripter
+	^ self pulser ifNotNil: [ :v | v scripter ]
 ]
 
 { #category : #accessing }
