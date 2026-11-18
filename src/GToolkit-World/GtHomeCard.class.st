@@ -207,7 +207,7 @@ GtHomeCard >> obsoleteInitializeDefiningMethod [
 	The rest is fallback."
 
 	stack
-		detect: [ :each | each method hasPragmaNamed: 'gtSectionCard' ]
+		detect: [ :each | each method hasPragmaNamed: #gtSectionCard ]
 		ifFound: [ :m | ^ definingMethod := m ].
 
 	"stack

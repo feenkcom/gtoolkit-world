@@ -51,7 +51,7 @@ GtHomeClassCommentCardElementExamples >> elementWithClassWithoutComment [
 	anElement documentClass: GtHomeClassWithoutClassComment.
 	self
 		assert: anElement titleElement text asString
-		equals: GtHomeClassWithoutClassComment name.
+		equals: GtHomeClassWithoutClassComment name asString.
 	self assert: anElement descriptionElement text isEmpty.
 	^ anElement
 ]
