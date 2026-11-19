@@ -56,7 +56,7 @@ GtDependencyAnalyzerForPackageFromBaseline >> computePackageRequirementsWithCont
 
 	^ thePackageSpec requires collect: [ :eachRequire |
 		aVersion packages
-			detect: [ :eachPackage | eachPackage name = eachRequire ]
+			detect: [ :eachPackage | eachPackage name sameContentAs: eachRequire ]
 			ifFound: [ :aPackageRequire |
 				GtDependencyAnalyzerPackagePackageRequirement new
 					packageFromBaseline: self;
@@ -67,7 +67,7 @@ GtDependencyAnalyzerForPackageFromBaseline >> computePackageRequirementsWithCont
 							preloadedBaselines: self preloadedBaselines)) ]
 			ifNone: [
 				aVersion projects
-					detect: [ :eachProjectSpec | eachProjectSpec name = eachRequire ]
+					detect: [ :eachProjectSpec | eachProjectSpec name sameContentAs: eachRequire ]
 					ifFound: [ :projectSpec |
 						GtDependencyAnalyzerPackageBaselineRequirement new
 							packageFromBaseline: self;
