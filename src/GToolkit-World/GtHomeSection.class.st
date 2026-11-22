@@ -409,10 +409,10 @@ GtHomeSection >> showSpaceWithIcon: anIcon title: aString with: aStencil from: a
 
 { #category : #'instance creation' }
 GtHomeSection >> showSpaceWithTitle: aString with: aStencil from: anotherElement [
-	^ GtWorldUtility 
-		showSpaceWithTitle: aString 
-		with: aStencil
-		from: anotherElement
+	^ BlSpace new
+		title: aString;
+		addChild: aStencil asElement;
+		showFrom: anotherElement
 ]
 
 { #category : #accessing }

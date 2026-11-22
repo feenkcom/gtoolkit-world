@@ -11,7 +11,7 @@ BrPopoverPinnableAptitude >> gtPinningActionsFor: aView [
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
 		column: 'Pre start action'
-			text: [ :eachItem | eachItem preStartPinBlock ifNotNil: #gtDisplayText ifNil: [ '' ] ];
+			text: [ :eachItem | eachItem preStartPinBlock ifNotNil: [ :v | v gtDisplayText ] ifNil: [ '' ] ];
 		column: 'Pre end action'
-			text: [ :eachItem | eachItem preEndPinBlock ifNotNil: #gtDisplayText ifNil: [ '' ] ]
+			text: [ :eachItem | eachItem preEndPinBlock ifNotNil: [ :v | v gtDisplayText ] ifNil: [ '' ] ]
 ]

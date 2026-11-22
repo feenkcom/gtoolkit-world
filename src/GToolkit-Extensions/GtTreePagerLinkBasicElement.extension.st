@@ -13,5 +13,5 @@ GtTreePagerLinkBasicElement >> gtPaneModelProperty [
 	<gtInspectorElementOverview>
 	^ GtInspectorElementOverviewProperty new
 		label: 'Pane model';
-		object: [ self linkModel ifNotNil: #paneModel ]
+		object: [ self linkModel ifNotNil: [ :v | v paneModel ] ]
 ]
