@@ -201,6 +201,7 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 							aPager := GtPagerSettings usedPager createWrappedOn: aPageElement.
 							isMaximized ifTrue: [ aPager maximized ].
 							BlSpace new
+								host: aTabElement space host;
 								icon: aTool icon;
 								title: aLePage title;
 								addChild: aPager;
@@ -473,6 +474,33 @@ GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 	^ aScripter
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageWithTextAndPharoSnippets [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter aDatabase aPage |
+	aScripter := self tabElementInScripter.
+	aDatabase := LeTemporaryDatabase new.
+	aPage := aDatabase database pageBuilder
+			title: 'Text and Pharo snippets';
+			add.
+	aPage addSnippet: (LeTextSnippet new string: 'A text snippet.').
+	aPage addSnippet: (LePharoSnippet empty code: '42 printString').
+	aScripter
+		model: (LePageExampleHolder new
+				page: aPage;
+				temporaryDatabase: aDatabase).
+	self
+		addLepiterPage: aPage
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+	self
+		clickOnLepiterPageTitle: aPage
+		atPagerPaneIndex: 1
+		scripter: aScripter.
+	^ aScripter
+]
+
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> addPlaygroundIntoTabElement [
 	<gtExample>
@@ -597,6 +625,107 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 		play.
 
 	^ aScripter
+]
+
+{ #category : #'asserting - theme' }
+GtWorldByScripterExamples >> assertLepiterPageBackground: aBackgroundColor snippetForeground: aForegroundColor in: aScripter [
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Lepiter page background';
+				// GtTreePagerPaneContentElement;
+				value: [ :aPane | aPane background paint color blocResolveColorForTheme: aPane theme ]
+					equals: aBackgroundColor ].
+	{LeTextCoderSnippetElement.
+		LePharoSnippetElement}
+		do: [ :aSnippetClass | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the editor foreground of ' , aSnippetClass name;
+						// aSnippetClass;
+						// BrTextEditorParagraphElement;
+						value: [ :aParagraph | aParagraph defaultTextColor blocResolveColorForTheme: aParagraph theme ]
+							equals: aForegroundColor ] ]
+]
+
+{ #category : #'asserting - theme' }
+GtWorldByScripterExamples >> assertLepiterPageTitleBackground: aColor focused: isFocused hovered: isHovered in: aScripter [
+	| aStateLabel |
+	aStateLabel := isFocused
+			ifTrue: [ 'focused' ]
+			ifFalse: [ isHovered ifTrue: [ 'hovered' ] ifFalse: [ 'at rest' ] ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the page title background ' , aStateLabel;
+				// LePageEditableTitleElement;
+				// BrEditor;
+				value: [ :anEditor | 
+						{anEditor states hasState: BlElementState focused.
+							anEditor states hasState: BlElementState hovered.
+							anEditor background paint color blocResolveColorForTheme: anEditor theme} ]
+					equals: {isFocused.
+							isHovered.
+							aColor} ]
+]
+
+{ #category : #'asserting - theme' }
+GtWorldByScripterExamples >> assertLepiterPageTitleBackground: aColor in: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Move focus away from the page title';
+				// LeTextCoderSnippetElement ].
+	self
+		assertLepiterPageTitleBackground: aColor
+		focused: false
+		hovered: false
+		in: aScripter.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the page title';
+				// LePageEditableTitleElement;
+				// BrEditor ].
+	self
+		assertLepiterPageTitleBackground: aColor
+		focused: false
+		hovered: true
+		in: aScripter.
+	self
+		clickOnLepiterPageTitle: aScripter model page
+		atPagerPaneIndex: 1
+		scripter: aScripter.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Move the pointer away from the focused page title';
+				// LeTextCoderSnippetElement ].
+	self
+		assertLepiterPageTitleBackground: aColor
+		focused: true
+		hovered: false
+		in: aScripter
+]
+
+{ #category : #'asserting - theme' }
+GtWorldByScripterExamples >> assertLepiterSnippetBackground: aBackgroundColor shadowColor: aShadowColor of: aSnippetClass in: aScripter [
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the background of ' , aSnippetClass name;
+				// aSnippetClass;
+				// #snippetContainer;
+				value: [ :aContainer | aContainer background paint color blocResolveColorForTheme: aContainer theme ]
+					equals: aBackgroundColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the shadow color of ' , aSnippetClass name;
+				// aSnippetClass;
+				// #snippetContainer;
+				value: [ :aContainer | aContainer effect color ] equals: aShadowColor ]
 ]
 
 { #category : #'examples - tabs' }
@@ -1771,6 +1900,38 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 						// GtSourceCoderEditorId;
 						// GtSourceCoderErrorButtonElementId ] ].
 
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> hoverOverLepiterSnippetsIn: aScripter afterEach: aBlock [
+	{LeTextCoderSnippetElement.
+		LePharoSnippetElement}
+		do: [ :aSnippetClass | 
+			aScripter
+				mouseMoveOverStep: [ :aStep | 
+					aStep
+						label: 'Hover over ' , aSnippetClass name;
+						// aSnippetClass ].
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check that the snippet is hovered without focus';
+						// aSnippetClass;
+						satisfies: [ :aSnippet | 
+								(aSnippet states hasState: BlElementState hovered)
+									and: [ (aSnippet states hasState: BlElementState focused) not ] ]
+							description: [ 'The hover should apply without the focused style' ] ].
+			aBlock value: aSnippetClass ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> hoverOverLepiterTextAndPharoSnippets [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self addLepiterPageWithTextAndPharoSnippets.
+	self hoverOverLepiterSnippetsIn: aScripter afterEach: [ :aSnippetClass |  ].
 	^ aScripter
 ]
 
