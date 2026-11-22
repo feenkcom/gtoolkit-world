@@ -627,107 +627,6 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 	^ aScripter
 ]
 
-{ #category : #'asserting - theme' }
-GtWorldByScripterExamples >> assertLepiterPageBackground: aBackgroundColor snippetForeground: aForegroundColor in: aScripter [
-	aScripter
-		checkStep: [ :aStep | 
-			aStep
-				label: 'Check the Lepiter page background';
-				// GtTreePagerPaneContentElement;
-				value: [ :aPane | aPane background paint color blocResolveColorForTheme: aPane theme ]
-					equals: aBackgroundColor ].
-	{LeTextCoderSnippetElement.
-		LePharoSnippetElement}
-		do: [ :aSnippetClass | 
-			aScripter
-				checkStep: [ :aStep | 
-					aStep
-						label: 'Check the editor foreground of ' , aSnippetClass name;
-						// aSnippetClass;
-						// BrTextEditorParagraphElement;
-						value: [ :aParagraph | aParagraph defaultTextColor blocResolveColorForTheme: aParagraph theme ]
-							equals: aForegroundColor ] ]
-]
-
-{ #category : #'asserting - theme' }
-GtWorldByScripterExamples >> assertLepiterPageTitleBackground: aColor focused: isFocused hovered: isHovered in: aScripter [
-	| aStateLabel |
-	aStateLabel := isFocused
-			ifTrue: [ 'focused' ]
-			ifFalse: [ isHovered ifTrue: [ 'hovered' ] ifFalse: [ 'at rest' ] ].
-	aScripter
-		checkStep: [ :aStep | 
-			aStep
-				label: 'Check the page title background ' , aStateLabel;
-				// LePageEditableTitleElement;
-				// BrEditor;
-				value: [ :anEditor | 
-						{anEditor states hasState: BlElementState focused.
-							anEditor states hasState: BlElementState hovered.
-							anEditor background paint color blocResolveColorForTheme: anEditor theme} ]
-					equals: {isFocused.
-							isHovered.
-							aColor} ]
-]
-
-{ #category : #'asserting - theme' }
-GtWorldByScripterExamples >> assertLepiterPageTitleBackground: aColor in: aScripter [
-	aScripter
-		clickStep: [ :aStep | 
-			aStep
-				label: 'Move focus away from the page title';
-				// LeTextCoderSnippetElement ].
-	self
-		assertLepiterPageTitleBackground: aColor
-		focused: false
-		hovered: false
-		in: aScripter.
-	aScripter
-		mouseMoveOverStep: [ :aStep | 
-			aStep
-				label: 'Hover over the page title';
-				// LePageEditableTitleElement;
-				// BrEditor ].
-	self
-		assertLepiterPageTitleBackground: aColor
-		focused: false
-		hovered: true
-		in: aScripter.
-	self
-		clickOnLepiterPageTitle: aScripter model page
-		atPagerPaneIndex: 1
-		scripter: aScripter.
-	aScripter
-		mouseMoveOverStep: [ :aStep | 
-			aStep
-				label: 'Move the pointer away from the focused page title';
-				// LeTextCoderSnippetElement ].
-	self
-		assertLepiterPageTitleBackground: aColor
-		focused: true
-		hovered: false
-		in: aScripter
-]
-
-{ #category : #'asserting - theme' }
-GtWorldByScripterExamples >> assertLepiterSnippetBackground: aBackgroundColor shadowColor: aShadowColor of: aSnippetClass in: aScripter [
-	aScripter
-		checkStep: [ :aStep | 
-			aStep
-				label: 'Check the background of ' , aSnippetClass name;
-				// aSnippetClass;
-				// #snippetContainer;
-				value: [ :aContainer | aContainer background paint color blocResolveColorForTheme: aContainer theme ]
-					equals: aBackgroundColor ].
-	aScripter
-		checkStep: [ :aStep | 
-			aStep
-				label: 'Check the shadow color of ' , aSnippetClass name;
-				// aSnippetClass;
-				// #snippetContainer;
-				value: [ :aContainer | aContainer effect color ] equals: aShadowColor ]
-]
-
 { #category : #'examples - tabs' }
 GtWorldByScripterExamples >> assertNewWorldTabIn: aScripter hasLabel: aString [
 	aScripter worldStep
@@ -3174,6 +3073,75 @@ GtWorldByScripterExamples >> typeSnippetInPlayground [
 						value: [ :anElement | anElement text asString ] equals: '42' ] ].
 
 	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitLepiterPageTitleStatesIn: aScripter afterEach: aBlock [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Move focus away from the page title';
+				// LeTextCoderSnippetElement ].
+	aBlock value: false value: false.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the page title';
+				// LePageEditableTitleElement;
+				// BrEditor ].
+	aBlock value: false value: true.
+	self
+		clickOnLepiterPageTitle: aScripter model page
+		atPagerPaneIndex: 1
+		scripter: aScripter.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Move the pointer away from the focused page title';
+				// LeTextCoderSnippetElement ].
+	aBlock value: true value: false
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitLepiterSnippetDecorationButtonStatesIn: aScripter afterEach: aBlock [
+	| controls |
+	controls := {'add-snippet button' -> [ :aStep | aStep // #bottomToolbar ].
+			'remove-snippet button'
+				-> [ :aStep | 
+					aStep
+						// #sidebarContainer;
+						onChildAt: 1 ].
+			'snippet menu button'
+				-> [ :aStep | 
+					aStep
+						// #sidebarContainer;
+						onChildAt: 2 ]}.
+	self
+		hoverOverLepiterSnippetsIn: aScripter
+		afterEach: [ :aSnippetClass | 
+			controls
+				do: [ :aControl | 
+					| aButtonTarget |
+					aButtonTarget := [ :aStep | 
+						aStep // aSnippetClass.
+						aControl value value: aStep ].
+					aScripter
+						mouseMoveOverStep: [ :aStep | 
+							aStep
+								label: 'Hover over the snippet';
+								// aSnippetClass ].
+					aBlock
+						value: aControl key
+						value: aButtonTarget
+						value: false.
+					aScripter
+						mouseMoveOverStep: [ :aStep | 
+							aStep label: 'Hover over the ' , aControl key.
+							aButtonTarget value: aStep ].
+					aBlock
+						value: aControl key
+						value: aButtonTarget
+						value: true ] ]
 ]
 
 { #category : #'examples - world' }

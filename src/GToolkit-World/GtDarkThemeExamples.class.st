@@ -1,6 +1,6 @@
 Class {
 	#name : #GtDarkThemeExamples,
-	#superclass : #Object,
+	#superclass : #GtThemeExamples,
 	#category : #'GToolkit-World-Examples'
 }
 
@@ -31,7 +31,7 @@ GtDarkThemeExamples >> focusLepiterTextSnippetWithCustomPrimaryShadowColor [
 				// LeTextCoderSnippetElement;
 				value: [ :aSnippet | aSnippet states hasState: BlElementState focused ]
 					equals: true ].
-	GtWorldByScripterExamples new
+	self
 		assertLepiterSnippetBackground: (aTheme default contentBackground
 				blocResolveColorForTheme: aTheme)
 		shadowColor: aShadowColor
@@ -54,7 +54,7 @@ GtDarkThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 	aWorldExamples
 		hoverOverLepiterSnippetsIn: aScripter
 		afterEach: [ :aSnippetClass | 
-			aWorldExamples
+			self
 				assertLepiterSnippetBackground: aBackgroundColor
 				shadowColor: aShadowColor
 				of: aSnippetClass
@@ -69,7 +69,7 @@ GtDarkThemeExamples >> lepiterPageTitleBackground [
 	| aScripter aTheme |
 	aScripter := self lepiterPageWithTextAndPharoSnippets.
 	aTheme := aScripter element theme.
-	GtWorldByScripterExamples new
+	self
 		assertLepiterPageTitleBackground: (aTheme default contentBackground blocResolveColorForTheme: aTheme)
 		in: aScripter.
 	^ aScripter
@@ -88,9 +88,19 @@ GtDarkThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 			aStep
 				label: 'Apply the dark theme';
 				block: [ :anElement | anElement theme: aTheme ] ].
-	aWorldExamples
+	self
 		assertLepiterPageBackground: (Color fromHexString: '#262626')
 		snippetForeground: (Color fromHexString: '#EAEAEA')
 		in: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtDarkThemeExamples >> lepiterSnippetDecorationButtonBackgrounds [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterSnippetDecorationBackgroundsIn: aScripter.
 	^ aScripter
 ]

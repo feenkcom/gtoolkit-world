@@ -1,6 +1,6 @@
 Class {
 	#name : #GtLightThemeExamples,
-	#superclass : #Object,
+	#superclass : #GtThemeExamples,
 	#category : #'GToolkit-World-Examples'
 }
 
@@ -18,7 +18,7 @@ GtLightThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 	aWorldExamples
 		hoverOverLepiterSnippetsIn: aScripter
 		afterEach: [ :aSnippetClass | 
-			aWorldExamples
+			self
 				assertLepiterSnippetBackground: aBackgroundColor
 				shadowColor: aShadowColor
 				of: aSnippetClass
@@ -33,7 +33,7 @@ GtLightThemeExamples >> lepiterPageTitleBackground [
 	| aScripter aTheme |
 	aScripter := self lepiterPageWithTextAndPharoSnippets.
 	aTheme := aScripter element theme.
-	GtWorldByScripterExamples new
+	self
 		assertLepiterPageTitleBackground: (aTheme default contentBackground blocResolveColorForTheme: aTheme)
 		in: aScripter.
 	^ aScripter
@@ -52,9 +52,19 @@ GtLightThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 			aStep
 				label: 'Apply the light theme';
 				block: [ :anElement | anElement theme: aTheme ] ].
-	aWorldExamples
+	self
 		assertLepiterPageBackground: Color white
 		snippetForeground: Color black
 		in: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterSnippetDecorationButtonBackgrounds [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterSnippetDecorationBackgroundsIn: aScripter.
 	^ aScripter
 ]
