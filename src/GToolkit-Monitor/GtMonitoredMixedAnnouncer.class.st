@@ -212,32 +212,21 @@ GtMonitoredMixedAnnouncer >> removeSubscriptions [
 
 { #category : #private }
 GtMonitoredMixedAnnouncer >> shouldIgnoreForInstVarsPointer: anObject [
-
-	(anObject isKindOf: AnnouncementSubscription)
-		ifTrue: [ ^ true ].
-		
-	(anObject isKindOf: WeakAnnouncementSubscription)
-		ifTrue: [ ^ true ].
-		
-	((anObject isKindOf: Context) and: [ anObject method = (Announcer >> #gtSubscriptionsFor:) ])
-		ifTrue: [ ^ true ].
-	
-	((anObject isKindOf: GtPhlowForwarderView) and: [ anObject definingMethod methodClass = self class ])
-		ifTrue: [ ^ true ].
-		
-	(anObject isKindOf: GtPhlowBuildContext)
-		ifTrue: [ ^ true ].
-		
-	^ false
+	(anObject isKindOf: AbstractAnnouncementSubscription) ifTrue: [^true].
+	((anObject isKindOf: Context)
+		and: [anObject method = (Announcer >> #gtSubscriptionsFor:)])
+			ifTrue: [^true].
+	((anObject isKindOf: GtPhlowForwarderView)
+		and: [anObject definingMethod methodClass = self class]) ifTrue: [^true].
+	(anObject isKindOf: GtPhlowBuildContext) ifTrue: [^true].
+	^false
 ]
 
 { #category : #accessing }
 GtMonitoredMixedAnnouncer >> strongSubscriptions [
-	^ self announcer
-		ifNil: [ #() ]
-		ifNotNil: [ :anAnnouncer |
-			(anAnnouncer subscriptions subscriptions
-				select: [ :eachSubscription | eachSubscription isKindOf: AnnouncementSubscription ]) ]
+	^self announcer
+		ifNil: [#()]
+		ifNotNil: [:anAnnouncer | anAnnouncer subscriptions allStrongSubscriptions]
 ]
 
 { #category : #accessing }
@@ -249,9 +238,7 @@ GtMonitoredMixedAnnouncer >> title [
 
 { #category : #accessing }
 GtMonitoredMixedAnnouncer >> weakSubscriptions [
-	^ self announcer
-		ifNil: [ #() ]
-		ifNotNil: [ :anAnnouncer |
-			(anAnnouncer subscriptions subscriptions
-				select: [ :eachSubscription | eachSubscription isKindOf: WeakAnnouncementSubscription ]) ]
+	^self announcer
+		ifNil: [#()]
+		ifNotNil: [:anAnnouncer | anAnnouncer subscriptions allWeakSubscriptions]
 ]
