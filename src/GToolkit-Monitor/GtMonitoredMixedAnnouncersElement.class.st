@@ -24,8 +24,7 @@ GtMonitoredMixedAnnouncersElement class >> allMixedAnnouncers [
 
 { #category : #private }
 GtMonitoredMixedAnnouncersElement class >> hasMultipleSubscriptionTypesFor: anAnnouncer [
-	^ (anAnnouncer subscriptions 
-			subscriptions groupedBy: [ :each | each class ]) keys size > 1
+	^anAnnouncer subscriptions hasLeakProneSubscriptionMix
 ]
 
 { #category : #private }
