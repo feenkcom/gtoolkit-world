@@ -20,13 +20,13 @@ GtWorldElementStep >> assertTabAtIndex: anIndex hasLabel: aString [
 				label: 'Assert tab model label at index';
 				value: [ :aTabsElement | 
 						(aTabsElement tabs at: anIndex) tabLabel text asString ]
-					equals: aString.
+					sameContentAs: aString.
 			aSubStep check
 				onParentStepTarget: aSubStep;
 				label: 'Assert tab widget label at index';
 				value: [ :aTabsElement | 
 						(aTabsElement tabs at: anIndex) widget label asString ]
-					equals: aString. ].
+					sameContentAs: aString. ].
 	
 	step
 		referenceSender;
