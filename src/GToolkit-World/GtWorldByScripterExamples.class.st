@@ -627,6 +627,16 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 	^ aScripter
 ]
 
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> assertHomeVersionLabelIsCurrentIn: aStep [
+	aStep assert
+		label: 'Assert the version label shows the current version';
+		value: [ :aButton | aButton label asString ]
+			equals: [ :aButton | aButton parent versionLabelText ];
+		// #versionLabel;
+		play
+]
+
 { #category : #'examples - tabs' }
 GtWorldByScripterExamples >> assertNewWorldTabIn: aScripter hasLabel: aString [
 	aScripter worldStep
@@ -1802,6 +1812,32 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 	^ aScripter
 ]
 
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> homeInScripter_afterWidgetUpdatesRequestedOutsideSceneGraph [
+	<gtExample>
+	<return: #BlScripter>
+	| aHome aScripter aLogger |
+	aHome := GtHome new.
+	(aHome childNamed: #versionLabel) label: 'Outdated version'.
+	3 timesRepeat: [ aHome requestWidgetUpdate ].
+	self assert: aHome taskQueue tasks isEmpty.
+
+	aLogger := MemoryLogger new.
+	aScripter := self scripter.
+	aLogger
+		runFor: BrElementUpdaterPerformUpdateSignal
+		during: [ aScripter element: aHome ].
+	self
+		assert: (aLogger recordings select: [ :eachSignal | eachSignal updater element == aHome ]) size
+		equals: 1.
+
+	aScripter
+		substep: 'Check the home version label'
+		do: [ :aStep | self assertHomeVersionLabelIsCurrentIn: aStep ].
+
+	^ aScripter
+]
+
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> hoverOverLepiterPaneIn: aScripter [
 	aScripter
@@ -2309,6 +2345,21 @@ GtWorldByScripterExamples >> openWorldSpotterIn: aScripter query: aString [
 		s
 			label: 'Type the search query';
 			text: aString ]
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> outdateHomeVersionLabelIn: aStep [
+	aStep do
+		label: 'Make the version label outdated';
+		block: [ :aButton | aButton label: 'Outdated version' ];
+		// #versionLabel;
+		play.
+
+	aStep assert
+		label: 'Assert the version label is outdated';
+		value: [ :aButton | aButton label asString ] equals: 'Outdated version';
+		// #versionLabel;
+		play
 ]
 
 { #category : #'examples - coder' }
@@ -3228,6 +3279,79 @@ GtWorldByScripterExamples >> worldElementInScripter [
 	aScripter
 		element: (GtWorldElement new
 				knowledgeBase: LeDatabasesRegistry uniqueInstance currentLoadedDefaultLogicalDatabase).
+	^ aScripter
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> worldElementInScripter_homeVersionLabel [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+	aScripter
+		substep: 'Check the home version label'
+		do: [ :aStep | self assertHomeVersionLabelIsCurrentIn: aStep ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> worldElementInScripter_homeVersionLabel_refreshContent [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter_homeVersionLabel.
+	aScripter
+		substep: 'Refresh the world content'
+		do: [ :aStep |
+			self outdateHomeVersionLabelIn: aStep.
+
+			aStep do
+				label: 'Refresh the world content';
+				block: [ :aWorldElement | aWorldElement refreshContent ];
+				play.
+
+			self assertHomeVersionLabelIsCurrentIn: aStep ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> worldElementInScripter_homeVersionLabel_requestWidgetUpdate [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter_homeVersionLabel.
+	aScripter
+		substep: 'Update the home widget'
+		do: [ :aStep |
+			self outdateHomeVersionLabelIn: aStep.
+
+			aStep memoryLogger
+				label: 'Log home widget updates';
+				runFor: BrElementUpdaterPerformUpdateSignal
+				during: [ :aLoggerStep |
+					aLoggerStep do
+						label: 'Request three home widget updates';
+						block: [ :aHome | 3 timesRepeat: [ aHome requestWidgetUpdate ] ];
+						// GtHome;
+						play.
+
+					aLoggerStep wait
+						forEmptySpaceTaskQueueTimeout: 5 seconds;
+						play.
+
+					aLoggerStep assert
+						label: 'Assert the home widget is updated once';
+						value: [ :aHome |
+								(aLoggerStep recordings
+									select: [ :eachSignal | eachSignal updater element == aHome ]) size ]
+							equals: 1;
+						// GtHome;
+						play ].
+
+			self assertHomeVersionLabelIsCurrentIn: aStep ].
+
 	^ aScripter
 ]
 

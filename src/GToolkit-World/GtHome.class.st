@@ -5,7 +5,8 @@ Class {
 		'sectionsHolder',
 		'feedElement',
 		'notificationsElement',
-		'knowledgeBase'
+		'knowledgeBase',
+		'widgetUpdater'
 	],
 	#category : #'GToolkit-World-UI'
 }
@@ -45,7 +46,7 @@ GtHome >> createSectionsHolder [
 { #category : #building }
 GtHome >> createVersionLabel [
 	^ BrButton new
-		label: 'Glamorous Toolkit ' , GtImage instance version versionString;
+		label: self versionLabelText;
 		beSmallSize;
 		aptitude: BrGlamorousButtonWithLabelAptitude new
 				+ (BrGlamorousButtonExteriorAptitude new
@@ -53,7 +54,7 @@ GtHome >> createVersionLabel [
 						backgroundPaint: Color transparent);
 		margin: (BlInsets all: 5);
 		constraintsDo: [ :c | c linear horizontal alignRight ];
-		action: [ :button | 
+		action: [ :button |
 			| database startPage |
 			database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
 					databaseNamed: LeDatabase gtBookName.
@@ -102,10 +103,11 @@ GtHome >> initialize [
 	super initialize.
 	self background: self theme default backdropBackground.
 	self
-		constraintsDo: [ :c | 
+		constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical matchParent ].
 	self layout: BlLinearLayout vertical.
+	self initializeWidgetUpdater.
 	self initializePanes.
 	self updateWidget
 ]
@@ -117,14 +119,14 @@ GtHome >> initializePanes [
 		constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical fitContent ].
-	
-	mainPane := BlElement new 
+
+	mainPane := BlElement new
 		layout: BlLinearLayout horizontal;
 		constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical fitContent ];
 		padding: (BlInsets top: 0 left: 0 bottom: 0 right: self spaceGap).
-	sectionsPane := BlElement new 
+	sectionsPane := BlElement new
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c |
 			c horizontal matchParent.
@@ -134,18 +136,25 @@ GtHome >> initializePanes [
 	feedElement constraintsDo: [ :c |
 			c horizontal fitContent.
 			c vertical fitContent ]."
-	
+
 	sectionsHolder := self createSectionsHolder.
 	sectionsPane addChild: notificationsElement.
 	sectionsPane addChild: sectionsHolder.
 	"mainPane addChild: self toolsSectionElement as: #toolsSection."
 	mainPane addChild: sectionsPane.
 	"mainPane addChild: feedElement."
-	
+
 	self addChild: (BrScrollPane new
 		aptitude: BrScrollPaneAptitude + BrGlamorousWithVerticalScrollbarAptitude;
 		content: mainPane).
-	self addChild: self createVersionLabel.
+	self addChild: self createVersionLabel as: #versionLabel.
+]
+
+{ #category : #initialization }
+GtHome >> initializeWidgetUpdater [
+	widgetUpdater := BrElementUpdater new
+		postponedDuration: 100 milliSeconds;
+		element: self selector: #updateWidget
 ]
 
 { #category : #accessing }
@@ -174,8 +183,9 @@ GtHome >> refreshNotifications [
 
 { #category : #updating }
 GtHome >> requestWidgetUpdate [
-	self enqueueTask: (BlTaskAction new 
-		action: [ self updateWidget ])
+	widgetUpdater
+		ifNil: [ self enqueueTask: (BlTaskAction new action: [ self updateWidget ]) ]
+		ifNotNil: [ :anUpdater | anUpdater requestUpdate ]
 ]
 
 { #category : #accessing }
@@ -243,9 +253,23 @@ GtHome >> updateToolsSection [
 ]
 
 { #category : #updating }
+GtHome >> updateVersionLabel [
+	self
+		childNamed: #versionLabel
+		ifFound: [ :aButton | aButton label: self versionLabelText ]
+		ifNone: [ ]
+]
+
+{ #category : #updating }
 GtHome >> updateWidget [
 	self updateNotifications.
 	self updateSections.
 	self updateFeed.
+	self updateVersionLabel.
 	"self updateToolsSection."
+]
+
+{ #category : #building }
+GtHome >> versionLabelText [
+	^ 'Glamorous Toolkit ' , GtImage instance version versionString
 ]
