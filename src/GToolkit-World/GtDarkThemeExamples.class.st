@@ -113,6 +113,17 @@ GtDarkThemeExamples >> lepiterPageTitleBackground [
 ]
 
 { #category : #'examples - lepiter' }
+GtDarkThemeExamples >> lepiterPageWithExpandedActionsMenu [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	GtWorldByScripterExamples new openLepiterPageActionsMenuIn: aScripter.
+	self assertLepiterPageActionsMenuColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtDarkThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 	<gtExample>
 	<return: #BlScripter>

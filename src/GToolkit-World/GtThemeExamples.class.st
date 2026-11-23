@@ -56,7 +56,7 @@ GtThemeExamples >> assertLepiterCompositeToolSwitcherColorsIn: aScripter [
 				@ [ :aTab | aTab label asString = 'Lepiter' ];
 				// #icon;
 				// BlTextElement;
-				value: [ :aGlyph | self resolvedForegroundOfLepiterGlyph: aGlyph ]
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
 					equals: (aTheme label defaultTextForeground blocResolveColorForTheme: aTheme) ].
 	GtWorldByScripterExamples new
 		visitLepiterCompositeToolTabStatesIn: aScripter
@@ -94,9 +94,60 @@ GtThemeExamples >> assertLepiterInspectorDatabaseIconForegroundIn: aScripter [
 						anOutline := anIcon children first.
 						aGlyph := anIcon children second children first.
 						{anOutline border paint color rawColor.
-							self resolvedForegroundOfLepiterGlyph: aGlyph} ]
+							self resolvedTextForegroundOf: aGlyph} ]
 					equals: {aForeground.
 							aForeground} ]
+]
+
+{ #category : #'asserting - theme' }
+GtThemeExamples >> assertLepiterPageActionMenuItemColors: anItem [
+	| aLabel aTheme aSurface aForeground |
+	aLabel := ((anItem childNamed: #'menu--labeled') childNamed: #'menu--label')
+			childNamed: #label.
+	aTheme := anItem theme.
+	aSurface := anItem.
+	[ aSurface background isTransparent ]
+		whileTrue: [ aSurface := aSurface parent ].
+	aForeground := anItem isEnabled
+			ifTrue: [ aTheme label defaultTextForeground ]
+			ifFalse: [ aTheme button disabledTextColor ].
+	self
+		assert: (aSurface background paint color blocResolveColorForTheme: aSurface theme)
+		equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme).
+	self
+		assert: (self resolvedTextForegroundOf: aLabel)
+		equals: (aForeground blocResolveColorForTheme: aTheme)
+]
+
+{ #category : #'asserting - theme' }
+GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the background and foreground of the expanded page actions menu';
+				onSpaceRoot;
+				// BrMenuSteppedElement;
+				do: [ :aMenu | 
+					| aTheme itemRows groupLabels |
+					aTheme := aMenu theme.
+					self
+						assert: (aMenu background paint color blocResolveColorForTheme: aTheme)
+						equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme).
+					itemRows := OrderedCollection new.
+					groupLabels := OrderedCollection new.
+					aMenu
+						allChildrenBreadthFirstDo: [ :anElement | 
+							(anElement isKindOf: BrMenuLabeledItemElement)
+								ifTrue: [ itemRows add: anElement ].
+							((anElement isKindOf: BrLabel)
+								and: [ anElement parent isKindOf: BrInfiniteListElement ])
+								ifTrue: [ groupLabels add: (anElement childNamed: #label) ] ].
+					self assert: groupLabels isNotEmpty.
+					groupLabels
+						do: [ :aLabel | self assert: (self resolvedTextForegroundOf: aLabel) equals: Color gray ].
+					self assert: itemRows isNotEmpty.
+					itemRows
+						do: [ :anItem | self assertLepiterPageActionMenuItemColors: anItem ] ] ]
 ]
 
 { #category : #'asserting - theme' }
@@ -265,7 +316,7 @@ GtThemeExamples >> assertTreePagerPaneButtonColorsIn: aScripter [
 ]
 
 { #category : #'asserting - theme' }
-GtThemeExamples >> resolvedForegroundOfLepiterGlyph: aGlyph [
+GtThemeExamples >> resolvedTextForegroundOf: aGlyph [
 	| aForeground |
 	aForeground := (aGlyph text attributesAt: 1)
 			detect: [ :anAttribute | anAttribute isKindOf: BlTextForegroundAttribute ]

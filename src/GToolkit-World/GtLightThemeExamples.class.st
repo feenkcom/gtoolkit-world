@@ -60,6 +60,17 @@ GtLightThemeExamples >> lepiterPageTitleBackground [
 ]
 
 { #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterPageWithExpandedActionsMenu [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	GtWorldByScripterExamples new openLepiterPageActionsMenuIn: aScripter.
+	self assertLepiterPageActionsMenuColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtLightThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 	<gtExample>
 	<return: #BlScripter>

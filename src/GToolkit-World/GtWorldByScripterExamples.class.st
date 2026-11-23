@@ -2130,8 +2130,34 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> lepiterPageWithExpandedActionsMenu [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self addLepiterPageWithTextAndPharoSnippets.
+	self openLepiterPageActionsMenuIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> nonExistentClass [
 	^ self class environment classNamed: LeModelExamples new nonExistentClassName
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> openLepiterPageActionsMenuIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the Lepiter page actions menu';
+				// LePageActionTargetDropdownButtonId ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check that the page actions menu is expanded';
+				onSpaceRoot;
+				// BrMenuSteppedElement;
+				value: [ :aMenu | aMenu isVisible ] equals: true ]
 ]
 
 { #category : #'examples - world' }
