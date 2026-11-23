@@ -11,6 +11,15 @@ GtFeedStatus class >> registryValue [
 	self subclassResponsibility
 ]
 
+{ #category : #'instance creation' }
+GtFeedStatus class >> statusFor: aRegistryValue ifNone: aBlock [
+	^ self subclasses 
+		detect: [ :aSubclass | aSubclass registryValue sameContentAs: aRegistryValue ]
+		ifFound: [ :aSubclass | aSubclass new ] 
+		ifNone: aBlock
+		
+]
+
 { #category : #testing }
 GtFeedStatus >> isEnabled [
 	^ false

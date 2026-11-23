@@ -201,6 +201,7 @@ GtWorldByScripterExamples >> addLepiterPage: aLePage intoTabElementUsingScripter
 							aPager := GtPagerSettings usedPager createWrappedOn: aPageElement.
 							isMaximized ifTrue: [ aPager maximized ].
 							BlSpace new
+								host: aTabElement space host;
 								icon: aTool icon;
 								title: aLePage title;
 								addChild: aPager;
@@ -470,6 +471,33 @@ GtWorldByScripterExamples >> addLepiterPageWithPharoSnippetIntoTabElement [
 		intoTabElementUsingScripter: aScripter
 		maximized: false.
 
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> addLepiterPageWithTextAndPharoSnippets [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter aDatabase aPage |
+	aScripter := self tabElementInScripter.
+	aDatabase := LeTemporaryDatabase new.
+	aPage := aDatabase database pageBuilder
+			title: 'Text and Pharo snippets';
+			add.
+	aPage addSnippet: (LeTextSnippet new string: 'A text snippet.').
+	aPage addSnippet: (LePharoSnippet empty code: '42 printString').
+	aScripter
+		model: (LePageExampleHolder new
+				page: aPage;
+				temporaryDatabase: aDatabase).
+	self
+		addLepiterPage: aPage
+		intoTabElementUsingScripter: aScripter
+		maximized: false.
+	self
+		clickOnLepiterPageTitle: aPage
+		atPagerPaneIndex: 1
+		scripter: aScripter.
 	^ aScripter
 ]
 
@@ -1068,7 +1096,7 @@ GtWorldByScripterExamples >> clickOnPackageEditableName [
 				label: 'Check World tab label';
 				id: GtPackageCoderPackageNameId;
 				value: [ :anElement | anElement text asString ]
-					equals: [ aScripter model name ] ].
+					equals: [ aScripter model name asString ] ].
 
 	^ aScripter
 ]
@@ -1807,6 +1835,47 @@ GtWorldByScripterExamples >> homeInScripter_afterWidgetUpdatesRequestedOutsideSc
 		substep: 'Check the home version label'
 		do: [ :aStep | self assertHomeVersionLabelIsCurrentIn: aStep ].
 
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> hoverOverLepiterPaneIn: aScripter [
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Lepiter pane';
+				// GtTreePagerPaneContentElement ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> hoverOverLepiterSnippetsIn: aScripter afterEach: aBlock [
+	{LeTextCoderSnippetElement.
+		LePharoSnippetElement}
+		do: [ :aSnippetClass | 
+			aScripter
+				mouseMoveOverStep: [ :aStep | 
+					aStep
+						label: 'Hover over ' , aSnippetClass name;
+						// aSnippetClass ].
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check that the snippet is hovered without focus';
+						// aSnippetClass;
+						satisfies: [ :aSnippet | 
+								(aSnippet states hasState: BlElementState hovered)
+									and: [ (aSnippet states hasState: BlElementState focused) not ] ]
+							description: [ 'The hover should apply without the focused style' ] ].
+			aBlock value: aSnippetClass ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> hoverOverLepiterTextAndPharoSnippets [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self addLepiterPageWithTextAndPharoSnippets.
+	self hoverOverLepiterSnippetsIn: aScripter afterEach: [ :aSnippetClass |  ].
 	^ aScripter
 ]
 
@@ -3064,6 +3133,115 @@ GtWorldByScripterExamples >> typeSnippetInPlayground [
 						value: [ :anElement | anElement text asString ] equals: '42' ] ].
 
 	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitLepiterCompositeToolTabStatesIn: aScripter afterEach: aBlock [
+	| aTarget |
+	aTarget := [ :aStep | 
+		aStep
+			// #tool;
+			/ #header;
+			// BrTab;
+			@ [ :aTab | aTab label asString = 'inspector' ] ].
+	aBlock value: aTarget value: #deselectedColor.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep label: 'Hover over the inspector tab'.
+			aTarget value: aStep ].
+	aBlock value: aTarget value: #hoveredColor.
+	aScripter mouseDown play.
+	aBlock value: aTarget value: #pressedColor.
+	aScripter mouseUp play.
+	aBlock value: aTarget value: #selectedColor
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitLepiterPageTitleStatesIn: aScripter afterEach: aBlock [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Move focus away from the page title';
+				// LeTextCoderSnippetElement ].
+	aBlock value: false value: false.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the page title';
+				// LePageEditableTitleElement;
+				// BrEditor ].
+	aBlock value: false value: true.
+	self
+		clickOnLepiterPageTitle: aScripter model page
+		atPagerPaneIndex: 1
+		scripter: aScripter.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Move the pointer away from the focused page title';
+				// LeTextCoderSnippetElement ].
+	aBlock value: true value: false
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitLepiterSnippetDecorationButtonStatesIn: aScripter afterEach: aBlock [
+	| controls |
+	controls := {'add-snippet button' -> [ :aStep | aStep // #bottomToolbar ].
+			'remove-snippet button'
+				-> [ :aStep | 
+					aStep
+						// #sidebarContainer;
+						onChildAt: 1 ].
+			'snippet menu button'
+				-> [ :aStep | 
+					aStep
+						// #sidebarContainer;
+						onChildAt: 2 ]}.
+	self
+		hoverOverLepiterSnippetsIn: aScripter
+		afterEach: [ :aSnippetClass | 
+			controls
+				do: [ :aControl | 
+					| aButtonTarget |
+					aButtonTarget := [ :aStep | 
+						aStep // aSnippetClass.
+						aControl value value: aStep ].
+					aScripter
+						mouseMoveOverStep: [ :aStep | 
+							aStep
+								label: 'Hover over the snippet';
+								// aSnippetClass ].
+					aBlock
+						value: aControl key
+						value: aButtonTarget
+						value: false.
+					aScripter
+						mouseMoveOverStep: [ :aStep | 
+							aStep label: 'Hover over the ' , aControl key.
+							aButtonTarget value: aStep ].
+					aBlock
+						value: aControl key
+						value: aButtonTarget
+						value: true ] ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitPaneDropdownStatesIn: aScripter triggerId: anId afterEach: aBlock [
+	aBlock value: false.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the pane dropdown';
+				onSpaceRoot;
+				// anId ].
+	aBlock value: true.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Close the pane dropdown by clicking outside';
+				onSpaceRoot;
+				// LePageEditableTitleElement ].
+	aBlock value: false
 ]
 
 { #category : #'examples - world' }
