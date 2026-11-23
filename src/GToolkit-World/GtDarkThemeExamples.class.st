@@ -63,6 +63,43 @@ GtDarkThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 ]
 
 { #category : #'examples - lepiter' }
+GtDarkThemeExamples >> lepiterBindingsButtonIconForeground [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterBindingsButtonIconForegroundIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtDarkThemeExamples >> lepiterCompositeToolSwitcherColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterCompositeToolSwitcherColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtDarkThemeExamples >> lepiterMaximizedPaneDropdownShadows [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPaneToolbarButtonColors.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Maximize the Lepiter pane';
+				// #'tree-pager--maximize-pane-button' ].
+	self
+		assertPaneDropdownShadowsIn: aScripter
+		triggerId: #'tree-pager--maximized-dropdown-menu-button'.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtDarkThemeExamples >> lepiterPageTitleBackground [
 	<gtExample>
 	<return: #BlScripter>
@@ -92,6 +129,29 @@ GtDarkThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 		assertLepiterPageBackground: (Color fromHexString: '#262626')
 		snippetForeground: (Color fromHexString: '#EAEAEA')
 		in: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtDarkThemeExamples >> lepiterPaneDropdownShadows [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPaneToolbarButtonColors.
+	self
+		assertPaneDropdownShadowsIn: aScripter
+		triggerId: #'tree-pager--dropdown-menu-button'.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtDarkThemeExamples >> lepiterPaneToolbarButtonColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	GtWorldByScripterExamples new hoverOverLepiterPaneIn: aScripter.
+	self assertTreePagerPaneButtonColorsIn: aScripter.
 	^ aScripter
 ]
 

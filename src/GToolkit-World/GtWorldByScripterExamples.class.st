@@ -1803,6 +1803,15 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> hoverOverLepiterPaneIn: aScripter [
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Lepiter pane';
+				// GtTreePagerPaneContentElement ]
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> hoverOverLepiterSnippetsIn: aScripter afterEach: aBlock [
 	{LeTextCoderSnippetElement.
 		LePharoSnippetElement}
@@ -3076,6 +3085,27 @@ GtWorldByScripterExamples >> typeSnippetInPlayground [
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitLepiterCompositeToolTabStatesIn: aScripter afterEach: aBlock [
+	| aTarget |
+	aTarget := [ :aStep | 
+		aStep
+			// #tool;
+			/ #header;
+			// BrTab;
+			@ [ :aTab | aTab label asString = 'inspector' ] ].
+	aBlock value: aTarget value: #deselectedColor.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep label: 'Hover over the inspector tab'.
+			aTarget value: aStep ].
+	aBlock value: aTarget value: #hoveredColor.
+	aScripter mouseDown play.
+	aBlock value: aTarget value: #pressedColor.
+	aScripter mouseUp play.
+	aBlock value: aTarget value: #selectedColor
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> visitLepiterPageTitleStatesIn: aScripter afterEach: aBlock [
 	aScripter
 		clickStep: [ :aStep | 
@@ -3142,6 +3172,25 @@ GtWorldByScripterExamples >> visitLepiterSnippetDecorationButtonStatesIn: aScrip
 						value: aControl key
 						value: aButtonTarget
 						value: true ] ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitPaneDropdownStatesIn: aScripter triggerId: anId afterEach: aBlock [
+	aBlock value: false.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the pane dropdown';
+				onSpaceRoot;
+				// anId ].
+	aBlock value: true.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Close the pane dropdown by clicking outside';
+				onSpaceRoot;
+				// LePageEditableTitleElement ].
+	aBlock value: false
 ]
 
 { #category : #'examples - world' }
