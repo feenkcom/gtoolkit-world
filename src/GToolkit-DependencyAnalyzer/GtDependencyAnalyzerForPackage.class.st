@@ -29,7 +29,7 @@ GtDependencyAnalyzerForPackage class >> baselinesForPackage: aPackageOrName [
 					baseline: eachBaseline;
 					emit.
 				anError return: #() ].
-		somePackageNames anySatisfy: [ :each | each sameContentAs: aPackageName ] ]
+		somePackageNames includesSameContentAs: aPackageName ]
 ]
 
 { #category : #dependencies }
