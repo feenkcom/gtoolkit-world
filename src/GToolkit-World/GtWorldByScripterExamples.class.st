@@ -1086,7 +1086,7 @@ GtWorldByScripterExamples >> clickOnPackageEditableName [
 				label: 'Check World tab label';
 				id: GtPackageCoderPackageNameId;
 				value: [ :anElement | anElement text asString ]
-					equals: [ aScripter model name ] ].
+					equals: [ aScripter model name asString ] ].
 
 	^ aScripter
 ]
