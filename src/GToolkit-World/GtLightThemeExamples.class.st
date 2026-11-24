@@ -47,6 +47,16 @@ GtLightThemeExamples >> lepiterCompositeToolSwitcherColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> lepiterEvaluatedMetaColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterEvaluatedMetaColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> lepiterEvaluatedRawIconColors [
 	<gtExample>
 	<return: #BlScripter>

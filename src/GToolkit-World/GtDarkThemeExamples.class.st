@@ -123,6 +123,16 @@ GtDarkThemeExamples >> lepiterCompositeToolSwitcherColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> lepiterEvaluatedMetaColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterEvaluatedMetaColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> lepiterEvaluatedRawIconColors [
 	<gtExample>
 	<return: #BlScripter>

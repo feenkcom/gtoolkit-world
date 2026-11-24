@@ -104,6 +104,38 @@ GtThemeExamples >> assertLepiterCompositeToolSwitcherColorsIn: aScripter [
 ]
 
 { #category : #assertions }
+GtThemeExamples >> assertLepiterEvaluatedMetaColorsIn: aScripter [
+	| aTheme |
+	GtWorldByScripterExamples new openEvaluatedLepiterSnippetMetaViewIn: aScripter.
+	aTheme := aScripter element theme.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Meta view backdrop and Coder background';
+				// GtInspector;
+				// GtCoderElement;
+				value: [ :aCoder | 
+						{aCoder parent background paint color blocResolveColorForTheme: aCoder theme.
+							aCoder background paint color blocResolveColorForTheme: aCoder theme} ]
+					equals: {aTheme default backdropBackground blocResolveColorForTheme: aTheme.
+							aTheme default contentBackground blocResolveColorForTheme: aTheme} ].
+	{GtBehaviorCoderActionsElement.
+		GtFilterItemsElement}
+		do: [ :aContainerClass | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the Meta view string icon foreground';
+						// GtInspector;
+						// GtCoderElement;
+						// aContainerClass;
+						// BlAttributedTextElement;
+						@ [ :aGlyph | aGlyph text asString = '¶' ];
+						value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+							equals: (aTheme label metadataTextForeground blocResolveColorForTheme: aTheme) ] ]
+]
+
+{ #category : #assertions }
 GtThemeExamples >> assertLepiterEvaluatedRawIconsIn: aScripter [
 	| aTheme aForeground |
 	GtWorldByScripterExamples new openEvaluatedLepiterSnippetRawViewIn: aScripter.
