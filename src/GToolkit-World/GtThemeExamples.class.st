@@ -7,6 +7,20 @@ Class {
 	#category : #'GToolkit-World-Examples'
 }
 
+{ #category : #assertions }
+GtThemeExamples >> assertLabels: someLabels foreground: aColor in: aScripter [
+	someLabels
+		do: [ :aString | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the foreground of ' , aString;
+						onSpaceRoot;
+						// BlAttributedTextElement;
+						@ [ :aLabel | aLabel text asString = aString ];
+						value: [ :aLabel | self resolvedTextForegroundOf: aLabel ] equals: aColor ] ]
+]
+
 { #category : #'asserting - theme' }
 GtThemeExamples >> assertLepiterBindingsButtonIconForegroundIn: aScripter [
 	| aTheme aForeground aColorOf |
@@ -32,6 +46,18 @@ GtThemeExamples >> assertLepiterBindingsButtonIconForegroundIn: aScripter [
 				// #'lepiter--page-bindings-button';
 				// #iconDropdown;
 				value: aColorOf equals: aForeground ]
+]
+
+{ #category : #assertions }
+GtThemeExamples >> assertLepiterBindingsTableColorsIn: aScripter [
+	| aTheme |
+	aTheme := aScripter element theme.
+	GtWorldByScripterExamples new openLepiterPageBindingsIn: aScripter.
+	self
+		assertLabels: #('Name' 'Value' 'Actions')
+		foreground: (aTheme label metadataTextForeground
+				blocResolveColorForTheme: aTheme)
+		in: aScripter
 ]
 
 { #category : #'asserting - theme' }
@@ -77,6 +103,30 @@ GtThemeExamples >> assertLepiterCompositeToolSwitcherColorsIn: aScripter [
 	self assertLepiterInspectorDatabaseIconForegroundIn: aScripter
 ]
 
+{ #category : #assertions }
+GtThemeExamples >> assertLepiterEvaluatedRawIconsIn: aScripter [
+	| aTheme aForeground |
+	GtWorldByScripterExamples new openEvaluatedLepiterSnippetRawViewIn: aScripter.
+	aTheme := aScripter element theme.
+	aForeground := aTheme label metadataTextForeground
+			blocResolveColorForTheme: aTheme.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the string and number icons in the Raw inspector';
+				// GtInspector;
+				// #'inspector--raw-value-icon';
+				value: [ :someIcons | 
+						(someIcons
+							collect: [ :anIcon | 
+								{anIcon text asString.
+									self resolvedTextForegroundOf: (anIcon childNamed: #label)} ]) asSet ]
+					equals: {{'¶'.
+								aForeground}.
+							{'Σ'.
+								aForeground}} asSet ]
+]
+
 { #category : #'asserting - theme' }
 GtThemeExamples >> assertLepiterInspectorDatabaseIconForegroundIn: aScripter [
 	| aTheme aForeground |
@@ -97,6 +147,29 @@ GtThemeExamples >> assertLepiterInspectorDatabaseIconForegroundIn: aScripter [
 							self resolvedTextForegroundOf: aGlyph} ]
 					equals: {aForeground.
 							aForeground} ]
+]
+
+{ #category : #assertions }
+GtThemeExamples >> assertLepiterInspectorSnippetsTableColorsIn: aScripter [
+	| aTheme |
+	aTheme := aScripter element theme.
+	GtWorldByScripterExamples new selectLepiterInspectorSnippetsIn: aScripter.
+	self
+		assertLabels: #('Type' 'Content')
+			foreground: (aTheme label metadataTextForeground
+					blocResolveColorForTheme: aTheme)
+			in: aScripter;
+		assertLabels: #('LeTextSnippet' 'LePharoSnippet' 'A text snippet.' '42 printString')
+			foreground: (aTheme label defaultTextForeground
+					blocResolveColorForTheme: aTheme)
+			in: aScripter.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the inspector playground resize handle';
+				// LeInspectorPlaygroundResizerId;
+				value: [ :aResizer | aResizer background paint color blocResolveColorForTheme: aResizer theme ]
+					equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme) ]
 ]
 
 { #category : #'asserting - theme' }
@@ -144,7 +217,10 @@ GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
 								ifTrue: [ groupLabels add: (anElement childNamed: #label) ] ].
 					self assert: groupLabels isNotEmpty.
 					groupLabels
-						do: [ :aLabel | self assert: (self resolvedTextForegroundOf: aLabel) equals: Color gray ].
+						do: [ :aLabel | 
+							self
+								assert: (self resolvedTextForegroundOf: aLabel)
+								equals: (aTheme label metadataTextForeground blocResolveColorForTheme: aTheme) ].
 					self assert: itemRows isNotEmpty.
 					itemRows
 						do: [ :anItem | self assertLepiterPageActionMenuItemColors: anItem ] ] ]
@@ -205,6 +281,30 @@ GtThemeExamples >> assertLepiterPageTitleBackground: aColor in: aScripter [
 				in: aScripter ]
 ]
 
+{ #category : #assertions }
+GtThemeExamples >> assertLepiterPharoSnippetExpanderColorsIn: aScripter [
+	| aTheme aFadedColor |
+	aTheme := aScripter element theme.
+	aFadedColor := aTheme button fadedBackgroundColor
+			blocResolveColorForTheme: aTheme.
+	self assertPharoSnippetExpander: aFadedColor in: aScripter.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Pharo snippet';
+				// LePharoSnippetElement ].
+	self assertPharoSnippetExpander: aFadedColor in: aScripter.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Focus the Pharo snippet editor';
+				// LePharoSnippetElement;
+				// BrEditor ].
+	self
+		assertPharoSnippetExpander: (aTheme default primaryBorderColor blocResolveColorForTheme: aTheme)
+		in: aScripter
+]
+
 { #category : #'asserting - theme' }
 GtThemeExamples >> assertLepiterSnippetBackground: aBackgroundColor shadowColor: aShadowColor of: aSnippetClass in: aScripter [
 	aScripter
@@ -221,7 +321,8 @@ GtThemeExamples >> assertLepiterSnippetBackground: aBackgroundColor shadowColor:
 				label: 'Check the shadow color of ' , aSnippetClass name;
 				// aSnippetClass;
 				// #snippetContainer;
-				value: [ :aContainer | aContainer effect color ] equals: aShadowColor ]
+				value: [ :aContainer | aContainer effect color blocResolveColorForTheme: aContainer theme ]
+					equals: (aShadowColor blocResolveColorForTheme: aScripter element theme) ]
 ]
 
 { #category : #'asserting - theme' }
@@ -244,6 +345,37 @@ GtThemeExamples >> assertLepiterSnippetDecorationBackgroundsIn: aScripter [
 						equals: {true.
 								isHovered.
 								aColor} ] ]
+]
+
+{ #category : #assertions }
+GtThemeExamples >> assertLepiterTreePagerConfigurationColorsIn: aScripter [
+	| aTheme aForeground |
+	aTheme := aScripter element theme.
+	aForeground := aTheme label defaultTextForeground
+			blocResolveColorForTheme: aTheme.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the pager scrollbar thumb color';
+				// GtTreePagerScrollbarElement;
+				// BlHorizontalScrollbarElement;
+				/ #thumb;
+				value: [ :aThumb | aThumb background paint color blocResolveColorForTheme: aThumb theme ]
+					equals: (aTheme button fadedBackgroundColor blocResolveColorForTheme: aTheme) ].
+	GtWorldByScripterExamples new openLepiterTreePagerConfigurationIn: aScripter.
+	self
+		assertLabels: #('Number of visible columns')
+		foreground: aForeground
+		in: aScripter.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the displayed number of columns';
+				onSpaceRoot;
+				// #'tree-pager--visible-columns-value';
+				/ #label;
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: aForeground ]
 ]
 
 { #category : #'asserting - theme' }
@@ -269,6 +401,23 @@ GtThemeExamples >> assertPaneDropdownShadowsIn: aScripter triggerId: anId [
 								// BrMenuSteppedElement;
 								/ BrButton;
 								value: [ :aHandle | aHandle effect class ] equals: BlNullEffect ] ] ]
+]
+
+{ #category : #assertions }
+GtThemeExamples >> assertPharoSnippetExpander: aColor in: aScripter [
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Pharo snippet expander color';
+				// LePharoSnippetElement;
+				/ #content;
+				/ #snippetContainer;
+				value: [ :aContainer | 
+						| anExpander |
+						anExpander := aContainer children first.
+						anExpander background paint color
+							blocResolveColorForTheme: anExpander theme ]
+					equals: aColor ]
 ]
 
 { #category : #'asserting - theme' }
@@ -315,6 +464,57 @@ GtThemeExamples >> assertTreePagerPaneButtonColorsIn: aScripter [
 							0 @ 1} ]
 ]
 
+{ #category : #assertions }
+GtThemeExamples >> assertWorldTabColorsIn: aScripter [
+	| aTheme aForeground aPageTitle |
+	aTheme := aScripter element theme.
+	aForeground := aTheme label defaultTextForeground
+			blocResolveColorForTheme: aTheme.
+	aPageTitle := aScripter model page title.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the World tab title';
+				// GtWorldTabGroupId;
+				/ #header;
+				// BrTab;
+				@ [ :aTab | aTab label asString = aPageTitle ];
+				/ #label;
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: aForeground ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Lepiter World tab icon outline and glyph';
+				// GtWorldTabGroupId;
+				value: [ :aTabGroup | 
+						| anIcon anOutline aGlyph |
+						anIcon := aTabGroup tabs second widget childNamed: #icon.
+						anOutline := anIcon children first.
+						aGlyph := anIcon children second children first.
+						{anOutline border paint color blocResolveColorForTheme: anOutline theme.
+							self resolvedTextForegroundOf: aGlyph} ]
+					equals: {aForeground.
+							aForeground} ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the World Home icon';
+				// GtWorldTabGroupId;
+				/ #header;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Home' ];
+				// #icon;
+				// BlTextElement;
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: aForeground ]
+]
+
+{ #category : #assertions }
+GtThemeExamples >> constantColorRoles [
+	^ #(#(default #(defaultShadowColor primaryShadowColor primaryBorderColor darkBorderColor newsBackgroundColor lightBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground borderColor focusedBorderColor)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+]
+
 { #category : #'asserting - theme' }
 GtThemeExamples >> resolvedTextForegroundOf: aGlyph [
 	| aForeground |
@@ -322,6 +522,148 @@ GtThemeExamples >> resolvedTextForegroundOf: aGlyph [
 			detect: [ :anAttribute | anAttribute isKindOf: BlTextForegroundAttribute ]
 			ifNone: [ nil ].
 	^ aForeground
-		ifNil: [ Color black ]
+		ifNil: [ (aGlyph defaultTextForeground ifNil: [ Color black ])
+				blocResolveColorForTheme: aGlyph theme ]
 		ifNotNil: [ aForeground paint blocResolveColorForTheme: aGlyph theme ]
+]
+
+{ #category : #examples }
+GtThemeExamples >> worldCoderWithTheme: aTheme [
+	| aScripter aWorldExamples aForeground |
+	aScripter := self worldSpotterScripterWithTheme: aTheme.
+	aWorldExamples := GtWorldByScripterExamples new.
+	aWorldExamples
+		actOnWorldSpotterCandidateSatisfying: [ :anItem | anItem = Character ]
+		in: aScripter.
+	aWorldExamples
+		assertNewWorldTabIn: aScripter
+		hasLabelAndStableIcon: 'Character'.
+	aForeground := aTheme label defaultTextForeground
+			blocResolveColorForTheme: aTheme.
+	self
+		assertLabels: #('Packages' 'Classes' 'Superclass:' 'Package:' 'Tag:')
+			foreground: (aTheme label metadataTextForeground
+					blocResolveColorForTheme: aTheme)
+			in: aScripter;
+		assertLabels: #('Methods up to' 'Category' 'Instance slots')
+			foreground: aForeground
+			in: aScripter.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Coder superclass name';
+				// GtPharoBehaviorDefinitionCoderElement;
+				// BrTextElementWithCursors;
+				@ [ :aLabel | aLabel text asString = 'Magnitude' ];
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: (aTheme editor defaultTextForeground blocResolveColorForTheme: aTheme) ].
+	#('filter--name-1' 'filter--add')
+		do: [ :anId | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the Coder filter background';
+						// GtFilterItemsElement;
+						// BlElement;
+						@ [ :anElement | anElement id asString includesSubstring: anId ];
+						value: [ :anElement | anElement background paint color blocResolveColorForTheme: anElement theme ]
+							equals: (aTheme status neutralBackgroundColor blocResolveColorForTheme: aTheme) ] ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Coder definition expander';
+				// GtPharoBehaviorDefinitionCoderElement;
+				/ #sidebar;
+				value: [ :aSidebar | aSidebar background paint color blocResolveColorForTheme: aSidebar theme ]
+					equals: (aTheme button fadedBackgroundColor blocResolveColorForTheme: aTheme) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the World Coder tab icon';
+				// GtWorldTabGroupId;
+				value: [ :aTabGroup | 
+						| anIcon |
+						anIcon := aTabGroup tabs second widget childNamed: #icon.
+						{anIcon background paint color blocResolveColorForTheme: anIcon theme.
+							anIcon border paint color blocResolveColorForTheme: anIcon theme} ]
+					equals: {aForeground.
+							aForeground} ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> worldSpotterScripterWithTheme: aTheme [
+	| aWorldExamples aScripter |
+	aWorldExamples := GtWorldByScripterExamples new.
+	aScripter := aWorldExamples worldElementInScripter.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Apply the World theme';
+				block: [ :aWorld | aWorld theme: aTheme ] ].
+	aWorldExamples openWorldSpotterIn: aScripter query: 'Character'.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> worldSpotterWithTheme: aTheme [
+	| aScripter aHeaderColor |
+	aScripter := self worldSpotterScripterWithTheme: aTheme.
+	aHeaderColor := aTheme header secondaryBackgroundColor
+			blocResolveColorForTheme: aTheme.
+	self
+		assertLabels: #('Spotter')
+		foreground: (aTheme button defaultTextForeground
+				blocResolveColorForTheme: aTheme)
+		in: aScripter.
+	{GtStreamingSpotterBreadcrumb.
+		BrMenuSteppedElement}
+		do: [ :anElementClass | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the Spotter header or popover surface';
+						onSpaceRoot;
+						// anElementClass;
+						value: [ :anElement | anElement background paint color blocResolveColorForTheme: anElement theme ]
+							equals: aHeaderColor ] ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Spotter popover shadow and border';
+				onSpaceRoot;
+				// BrMenuSteppedElement;
+				value: [ :aPopover | 
+						{aPopover effect color blocResolveColorForTheme: aPopover theme.
+							aPopover border paint color blocResolveColorForTheme: aPopover theme} ]
+					equals: {aTheme default defaultShadowColor blocResolveColorForTheme: aTheme.
+							aTheme button fadedBackgroundColor blocResolveColorForTheme: aTheme} ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the World chat icon outline';
+				// GtLWorldChatRegistryDropdown;
+				// #icon;
+				value: [ :anIcon | anIcon border paint color blocResolveColorForTheme: anIcon theme ]
+					equals: (aTheme label defaultTextForeground blocResolveColorForTheme: aTheme) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Spotter editor caret';
+				onSpaceRoot;
+				// GtStreamingSpotterSearchField;
+				// BrCursorElement;
+				value: [ :aCaret | aCaret background paint color blocResolveColorForTheme: aCaret theme ]
+					equals: (aTheme editor defaultTextForeground blocResolveColorForTheme: aTheme) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Spotter results scrollbar thumb';
+				onSpaceRoot;
+				// GtStreamingSpotterPager;
+				// #verticalScrollbar;
+				// #thumb;
+				value: [ :aThumb | aThumb background paint color blocResolveColorForTheme: aThumb theme ]
+					equals: (aTheme button fadedBackgroundColor blocResolveColorForTheme: aTheme) ].
+	^ aScripter
 ]

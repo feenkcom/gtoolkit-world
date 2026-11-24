@@ -2180,6 +2180,23 @@ GtWorldByScripterExamples >> nonExistentClass [
 	^ self class environment classNamed: LeModelExamples new nonExistentClassName
 ]
 
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openEvaluatedLepiterSnippetRawViewIn: aScripter [
+	aScripter shortcut
+		label: 'Evaluate the Pharo snippet and inspect its result';
+		combination: BlKeyCombination primaryG;
+		// LePharoSnippetElement;
+		// GtSourceCoderEditorInnerId;
+		play.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the result inspector Raw view';
+				// GtInspector;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Raw' ] ]
+]
+
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> openLepiterPageActionsMenuIn: aScripter [
 	aScripter
@@ -2194,6 +2211,24 @@ GtWorldByScripterExamples >> openLepiterPageActionsMenuIn: aScripter [
 				onSpaceRoot;
 				// BrMenuSteppedElement;
 				value: [ :aMenu | aMenu isVisible ] equals: true ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openLepiterPageBindingsIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the page variable bindings';
+				// #'lepiter--page-bindings-button' ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openLepiterTreePagerConfigurationIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the pager configuration menu';
+				// #'tree-pager--configuration-menu-button' ]
 ]
 
 { #category : #'examples - world' }
@@ -2765,6 +2800,23 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 							equals: [ aScripter userData at: #secondPaneTabLabel ] ] ].
 
 	^ aScripter
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> selectLepiterInspectorSnippetsIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the page inspector';
+				// #tool;
+				/ #header;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'inspector' ] ];
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the Snippets view';
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Snippets' ] ]
 ]
 
 { #category : #'examples - coder' }

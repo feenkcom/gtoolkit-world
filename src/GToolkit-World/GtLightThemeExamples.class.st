@@ -46,6 +46,36 @@ GtLightThemeExamples >> lepiterCompositeToolSwitcherColors [
 	^ aScripter
 ]
 
+{ #category : #examples }
+GtLightThemeExamples >> lepiterEvaluatedRawIconColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterEvaluatedRawIconsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterInspectorSnippetsTableColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterInspectorSnippetsTableColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterPageBindingsTableColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterBindingsTableColorsIn: aScripter.
+	^ aScripter
+]
+
 { #category : #'examples - lepiter' }
 GtLightThemeExamples >> lepiterPageTitleBackground [
 	<gtExample>
@@ -82,7 +112,10 @@ GtLightThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 		doStep: [ :aStep | 
 			aStep
 				label: 'Apply the light theme';
-				block: [ :anElement | anElement theme: aTheme ] ].
+				block: [ :anElement | 
+					anElement
+						theme: aTheme;
+						background: aTheme default appBackground ] ].
 	self
 		assertLepiterPageBackground: Color white
 		snippetForeground: Color black
@@ -101,6 +134,16 @@ GtLightThemeExamples >> lepiterPaneToolbarButtonColors [
 	^ aScripter
 ]
 
+{ #category : #examples }
+GtLightThemeExamples >> lepiterPharoSnippetExpanderColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterPharoSnippetExpanderColorsIn: aScripter.
+	^ aScripter
+]
+
 { #category : #'examples - lepiter' }
 GtLightThemeExamples >> lepiterSnippetDecorationButtonBackgrounds [
 	<gtExample>
@@ -108,5 +151,39 @@ GtLightThemeExamples >> lepiterSnippetDecorationButtonBackgrounds [
 	| aScripter |
 	aScripter := self lepiterPageWithTextAndPharoSnippets.
 	self assertLepiterSnippetDecorationBackgroundsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterTreePagerConfigurationColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterTreePagerConfigurationColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> worldCoderColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self worldCoderWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> worldSpotterColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self worldSpotterWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> worldTabColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertWorldTabColorsIn: aScripter.
 	^ aScripter
 ]
