@@ -309,6 +309,13 @@ GtDarkThemeExamples >> lepiterTreePagerConfigurationColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderCompletionColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderCompletionColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> themeableColorRoles [
 	<gtExample>
 	<return: #BrGlamorousDarkTheme>

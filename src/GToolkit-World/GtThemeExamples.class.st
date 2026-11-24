@@ -565,7 +565,47 @@ GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(defaultShadowColor primaryShadowColor primaryBorderColor darkBorderColor newsBackgroundColor lightBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(defaultShadowColor primaryShadowColor primaryBorderColor darkBorderColor newsBackgroundColor lightBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderCompletionColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := GtPharoMethodCoderByScripterExamples new
+			emptyBodyMethodCoderUI_ModifySourceCode.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Apply the theme to the coder';
+				block: [ :aCoder | 
+					aCoder
+						theme: aTheme;
+						background: aTheme default contentBackground ] ].
+	aScripter
+		assertStep: [ :aStep | 
+			aStep
+				label: 'Completion popup follows the editor theme';
+				onSpaceRoot;
+				// GtCompletionPopupElement;
+				value: [ :aPopup | aPopup theme ] equals: aTheme;
+				value: [ :aPopup | aPopup background paint color blocResolveColorForTheme: aPopup theme ]
+					equals: aTheme default contentBackground rawColor ].
+	aScripter
+		assertStep: [ :aStep | 
+			aStep
+				label: 'Advice highlights use the theme error background';
+				id: GtSourceCoderEditorId;
+				id: GtSourceCoderEditorInnerId;
+				value: [ :anEditor | 
+						| aText aHighlight aStyleBuilder |
+						aText := anEditor editor text.
+						aHighlight := (aText attributesAt: aText size)
+								detect: [ :anAttribute | anAttribute isKindOf: BlTextHighlightAttribute ].
+						aStyleBuilder := BlTextFontAndStyleBuilder new.
+						aHighlight applyOnFontAndStyleBuilder: aStyleBuilder theme: anEditor theme.
+						aStyleBuilder background ]
+					equals: aTheme status paleErrorBackgroundColor rawColor ].
+	^ aScripter
 ]
 
 { #category : #'asserting - theme' }
