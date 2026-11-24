@@ -248,7 +248,7 @@ GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
 	aScripter
 		checkStep: [ :aStep | 
 			aStep
-				label: 'Check the background and foreground of the expanded page actions menu';
+				label: 'Check the colors of the expanded page actions menu';
 				onSpaceRoot;
 				// BrMenuSteppedElement;
 				do: [ :aMenu | 
@@ -257,6 +257,9 @@ GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
 					self
 						assert: (aMenu background paint color blocResolveColorForTheme: aTheme)
 						equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme).
+					self
+						assert: (aMenu border paint color blocResolveColorForTheme: aTheme)
+						equals: (aTheme button defaultBorderColor blocResolveColorForTheme: aTheme).
 					itemRows := OrderedCollection new.
 					groupLabels := OrderedCollection new.
 					aMenu
