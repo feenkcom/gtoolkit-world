@@ -220,7 +220,23 @@ GtThemeExamples >> assertLepiterInspectorSnippetsTableColorsIn: aScripter [
 				label: 'Check the inspector playground resize handle';
 				// LeInspectorPlaygroundResizerId;
 				value: [ :aResizer | aResizer background paint color blocResolveColorForTheme: aResizer theme ]
-					equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme) ]
+					equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the composite tool switcher shadow';
+				onSpaceRoot;
+				value: [ :aRoot | 
+						| aTabGroup aShadow |
+						aTabGroup := aRoot withAllChildrenBreadthFirst
+								detect: [ :anElement | 
+									(anElement isKindOf: BrTabGroup)
+										and: [ (anElement childNamed: #header) effect isKindOf: BlGaussianShadowEffect ] ].
+						aShadow := (aTabGroup childNamed: #header) effect.
+						{aShadow color isKindOf: Color.
+							aShadow color} ]
+					equals: {true.
+							aTheme default defaultShadowColor rawColor} ]
 ]
 
 { #category : #'asserting - theme' }
