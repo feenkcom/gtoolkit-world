@@ -1848,6 +1848,16 @@ GtWorldByScripterExamples >> homeInScripter_afterWidgetUpdatesRequestedOutsideSc
 	^ aScripter
 ]
 
+{ #category : #examples }
+GtWorldByScripterExamples >> hoverCoderFilterIn: aScripter [
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Category filter';
+				// GtFilterItemsElement;
+				// (GtFilterNameId indexed: 2) ]
+]
+
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> hoverOverLepiterPaneIn: aScripter [
 	aScripter

@@ -8,6 +8,25 @@ Class {
 }
 
 { #category : #assertions }
+GtThemeExamples >> assertCloseIconIn: aScripter target: aButtonTarget [
+	aScripter
+		checkStep: [ :aStep | 
+			aStep label: 'Check the close icon and its size'.
+			aButtonTarget value: aStep.
+			aStep
+				value: [ :aButton | 
+					| anIcon |
+					anIcon := aButton childNamed: #icon.
+					{aButton isVisible.
+						anIcon geometry class.
+						aButton bounds inSpace asRectangle
+							containsRect: anIcon bounds inSpace asRectangle} ]
+				equals: {true.
+						BlSvgPath.
+						true} ]
+]
+
+{ #category : #assertions }
 GtThemeExamples >> assertLabels: someLabels foreground: aColor in: aScripter [
 	someLabels
 		do: [ :aString | 
@@ -376,7 +395,9 @@ GtThemeExamples >> assertLepiterSnippetDecorationBackgroundsIn: aScripter [
 								aButton background paint color blocResolveColorForTheme: aButton theme} ]
 						equals: {true.
 								isHovered.
-								aColor} ] ]
+								aColor} ].
+			aLabel = 'remove-snippet button'
+				ifTrue: [ self assertCloseIconIn: aScripter target: aButtonTarget ] ]
 ]
 
 { #category : #assertions }
@@ -620,6 +641,14 @@ GtThemeExamples >> worldCoderWithTheme: aTheme [
 							anIcon border paint color blocResolveColorForTheme: anIcon theme} ]
 					equals: {aForeground.
 							aForeground} ].
+	GtWorldByScripterExamples new hoverCoderFilterIn: aScripter.
+	self
+		assertCloseIconIn: aScripter
+		target: [ :aStep | 
+			aStep
+				// GtFilterItemsElement;
+				// (GtFilterNameId indexed: 2);
+				// GtPagerClosePageButtonElementId ].
 	^ aScripter
 ]
 
