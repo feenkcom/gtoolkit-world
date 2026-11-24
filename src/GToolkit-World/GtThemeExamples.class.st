@@ -386,16 +386,25 @@ GtThemeExamples >> assertLepiterSnippetDecorationBackgroundsIn: aScripter [
 		afterEach: [ :aLabel :aButtonTarget :isHovered | 
 			aScripter
 				checkStep: [ :aStep | 
-					aStep label: 'Check the background of the ' , aLabel.
+					aStep label: 'Check the colors of the ' , aLabel.
 					aButtonTarget value: aStep.
 					aStep
 						value: [ :aButton | 
+							| anIcon |
+							anIcon := aButton childNamed: #icon.
 							{aButton isVisible.
 								aButton states hasState: BlElementState hovered.
-								aButton background paint color blocResolveColorForTheme: aButton theme} ]
+								aButton background paint color blocResolveColorForTheme: aButton theme.
+								anIcon geometry class.
+								anIcon background paint color blocResolveColorForTheme: aButton theme} ]
 						equals: {true.
 								isHovered.
-								aColor} ].
+								aColor.
+								BlSvgPath.
+								(isHovered
+									ifTrue: [ aTheme button hoveredTextColor ]
+									ifFalse: [ aTheme button defaultTextForeground ])
+									blocResolveColorForTheme: aTheme} ].
 			aLabel = 'remove-snippet button'
 				ifTrue: [ self assertCloseIconIn: aScripter target: aButtonTarget ] ]
 ]
