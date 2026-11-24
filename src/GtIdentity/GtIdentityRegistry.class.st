@@ -41,7 +41,7 @@ GtIdentityRegistry >> clearCredentials [
 
 { #category : #accessing }
 GtIdentityRegistry >> credentialKey [
-	^ #credential
+	^ 'credential'
 ]
 
 { #category : #accessing }
@@ -100,7 +100,7 @@ GtIdentityRegistry >> identitiesFile [
 
 { #category : #accessing }
 GtIdentityRegistry >> identityNameKey [
-	^ #identityName
+	^ 'identityName'
 ]
 
 { #category : #accessing }
