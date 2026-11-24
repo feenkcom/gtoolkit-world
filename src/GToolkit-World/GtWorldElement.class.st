@@ -389,8 +389,10 @@ GtWorldElement >> prepareForRelease [
 
 { #category : #updating }
 GtWorldElement >> refreshContent [
-	"Refresh all notifications in the home screen."
-	self home refreshNotifications
+	"Refresh all notifications and the version label in the home screen."
+	self home
+		refreshNotifications;
+		updateVersionLabel
 ]
 
 { #category : #'api - notification' }

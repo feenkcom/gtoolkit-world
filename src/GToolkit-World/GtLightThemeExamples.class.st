@@ -27,6 +27,26 @@ GtLightThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 ]
 
 { #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterBindingsButtonIconForeground [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterBindingsButtonIconForegroundIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterCompositeToolSwitcherColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterCompositeToolSwitcherColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtLightThemeExamples >> lepiterPageTitleBackground [
 	<gtExample>
 	<return: #BlScripter>
@@ -36,6 +56,17 @@ GtLightThemeExamples >> lepiterPageTitleBackground [
 	self
 		assertLepiterPageTitleBackground: (aTheme default contentBackground blocResolveColorForTheme: aTheme)
 		in: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterPageWithExpandedActionsMenu [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	GtWorldByScripterExamples new openLepiterPageActionsMenuIn: aScripter.
+	self assertLepiterPageActionsMenuColorsIn: aScripter.
 	^ aScripter
 ]
 
@@ -56,6 +87,17 @@ GtLightThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 		assertLepiterPageBackground: Color white
 		snippetForeground: Color black
 		in: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterPaneToolbarButtonColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	GtWorldByScripterExamples new hoverOverLepiterPaneIn: aScripter.
+	self assertTreePagerPaneButtonColorsIn: aScripter.
 	^ aScripter
 ]
 
