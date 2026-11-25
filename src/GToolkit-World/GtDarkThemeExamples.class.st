@@ -5,6 +5,58 @@ Class {
 }
 
 { #category : #examples }
+GtDarkThemeExamples >> classDefinitionHistoryDiffColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aTheme aHistory aPreviousHistory aDiff aScripter anExpectedColor anExample |
+	aTheme := BrGlamorousDarkTheme new.
+	aPreviousHistory := GtLVariableChangeHistoryExamples new classDefinitionHistory.
+	aHistory := GtLClassDefinitionChangeHistory new
+			targetClassName: aPreviousHistory targetClassName;
+			addChange: aPreviousHistory latestChange;
+			yourself.
+	aDiff := (aHistory gtDiffFor: GtPhlowView empty)
+			asElementDo: [ :anElement | anElement ].
+	self assert: aDiff leftStyler class equals: GtPharoStyler.
+	self assert: aDiff rightStyler class equals: GtPharoStyler.
+	self assert: aDiff leftStyler ~~ aDiff rightStyler.
+	aScripter := BlScripter new
+			element: (BrVerticalPane new
+					theme: aTheme;
+					background: aTheme default contentBackground;
+					addChild: aDiff;
+					yourself).
+	anExpectedColor := aTheme editor pharoStringLiteralForeground rawColor.
+	{GtDiffOldTextId.
+		GtDiffNewTextId}
+		do: [ :anId | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the class-definition string foreground';
+						// anId;
+						value: [ :anEditor | 
+								| aText anIndex aForeground |
+								aText := anEditor text.
+								anIndex := aText asString findString: 'first'.
+								aForeground := (aText attributesAt: anIndex)
+										detect: [ :each | each isKindOf: BlTextForegroundAttribute ].
+								aForeground paint blocResolveColorForTheme: anEditor theme ]
+							equals: anExpectedColor ] ].
+	anExample := GtDiffElementThemeExamples new.
+	anExample
+		assertFragment: '""'
+			in: GtDiffOldTextId
+			resolvedColor: aTheme diffElement deletedTextBackgroundColor rawColor
+			scripter: aScripter;
+		assertFragment: 'A commented class'
+			in: GtDiffNewTextId
+			resolvedColor: aTheme diffElement addedTextBackgroundColor rawColor
+			scripter: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> customizedThemeableColorsAfterThemeModified [
 	<gtExample>
 	<return: #BrGlamorousDarkTheme>
@@ -99,6 +151,53 @@ GtDarkThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 				shadowColor: aShadowColor
 				of: aSnippetClass
 				in: aScripter ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> iceNodeMethodDiffColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aTheme aBefore anAfter aNode aDiff aScripter |
+	aTheme := BrGlamorousDarkTheme new.
+	aBefore := IceMethodDefinition
+			className: self class name
+			classIsMeta: false
+			protocol: 'examples'
+			name: #sampleMethod
+			sourceCode: 'sampleMethod
+	^ 1'.
+	anAfter := aBefore copy
+			sourceCode: 'sampleMethod
+	^ 2'.
+	aNode := IceNode value: (IceModification left: anAfter right: aBefore).
+	aDiff := (aNode gtViewTwoPanesDiffFor: GtPhlowView empty)
+			asElementDo: [ :anElement | anElement ].
+	aScripter := BlScripter new
+			element: (BrVerticalPane new
+					theme: aTheme;
+					background: aTheme default contentBackground;
+					addChild: aDiff;
+					yourself).
+	{GtDiffOldTextId -> '1'.
+		GtDiffNewTextId -> '2'}
+		do: [ :aSide | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the method selector and literal styling';
+						// aSide key;
+						value: [ :anEditor | 
+								| aText aForeground |
+								aText := anEditor text.
+								aForeground := (aText
+										attributesAt: (aText asString findString: aSide value))
+										detect: [ :each | each isKindOf: BlTextForegroundAttribute ].
+								{(aText attributesAt: (aText asString findString: 'sampleMethod'))
+										anySatisfy: [ :each | each isKindOf: BlFontWeightAttribute ].
+									aForeground paint blocResolveColorForTheme: anEditor theme} ]
+							equals: {true.
+									aTheme editor pharoNumberLiteralForeground rawColor} ] ].
 	^ aScripter
 ]
 
@@ -317,6 +416,50 @@ GtDarkThemeExamples >> methodCoderCompletionColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodHistoryDiffColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aTheme aResult aHistory aDiff aScripter |
+	aTheme := BrGlamorousDarkTheme new.
+	aResult := GtLMethodCompilationResultExamples new
+			methodCompilationResultCreation.
+	aHistory := GtLMethodChangeHistory new
+			methodReference: aResult targetMethodReference;
+			addChange: (GtLSummarizerCodeChange new
+					changeResult: aResult;
+					yourself);
+			yourself.
+	aDiff := (aHistory gtDiffFor: GtPhlowView empty)
+			asElementDo: [ :anElement | anElement ].
+	aScripter := BlScripter new
+			element: (BrVerticalPane new
+					theme: aTheme;
+					background: aTheme default contentBackground;
+					addChild: aDiff;
+					yourself).
+	{GtDiffOldTextId -> '1'.
+		GtDiffNewTextId -> '2'}
+		do: [ :aSide | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the method selector and literal styling';
+						// aSide key;
+						value: [ :anEditor | 
+								| aText aForeground |
+								aText := anEditor text.
+								aForeground := (aText
+										attributesAt: (aText asString findString: aSide value))
+										detect: [ :each | each isKindOf: BlTextForegroundAttribute ].
+								{(aText attributesAt: (aText asString findString: 'sampleMethod'))
+										anySatisfy: [ :each | each isKindOf: BlFontWeightAttribute ].
+									aForeground paint blocResolveColorForTheme: anEditor theme} ]
+							equals: {true.
+									aTheme editor pharoNumberLiteralForeground rawColor} ] ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> themeableColorRoles [
 	<gtExample>
 	<return: #BrGlamorousDarkTheme>
@@ -380,6 +523,51 @@ GtDarkThemeExamples >> worldCoderColors [
 	<gtExample>
 	<return: #BlScripter>
 	^ self worldCoderWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> worldInspectorTabIconColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter aTheme aForeground |
+	aScripter := GtWorldByScripterExamples new worldTabFromInspectorOpenOn.
+	aTheme := BrGlamorousDarkTheme new.
+	aForeground := aTheme label defaultTextForeground
+			blocResolveColorForTheme: aTheme.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Apply the dark theme to the world';
+				block: [ :aWorld | aWorld theme: aTheme ] ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Inspector tab icon fill';
+				// GtWorldTabGroupId;
+				value: [ :aGroup | 
+						| anIcon |
+						anIcon := aGroup tabs second widget childNamed: #icon.
+						anIcon background paint color blocResolveColorForTheme: anIcon theme ]
+					equals: aForeground ].
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Replace the Inspector tab icon';
+				// GtWorldTabGroupId;
+				block: [ :aGroup | aGroup tabs second widget icon: BrGlamorousVectorIcons emphasizedInspect ] ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the replacement icon fill and stroke';
+				// GtWorldTabGroupId;
+				value: [ :aGroup | 
+						| anIcon |
+						anIcon := aGroup tabs second widget childNamed: #icon.
+						{anIcon background paint color blocResolveColorForTheme: anIcon theme.
+							anIcon border paint color blocResolveColorForTheme: anIcon theme} ]
+					equals: {aForeground.
+							aForeground} ].
+	^ aScripter
 ]
 
 { #category : #examples }
