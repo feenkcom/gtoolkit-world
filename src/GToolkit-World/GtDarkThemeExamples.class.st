@@ -123,6 +123,16 @@ GtDarkThemeExamples >> lepiterCompositeToolSwitcherColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> lepiterEvaluatedMetaColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterEvaluatedMetaColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> lepiterEvaluatedRawIconColors [
 	<gtExample>
 	<return: #BlScripter>
@@ -210,7 +220,8 @@ GtDarkThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 						theme: aTheme;
 						background: aTheme default appBackground ] ].
 	self
-		assertLepiterPageBackground: (Color fromHexString: '#262626')
+		assertLepiterPageBackground: (aTheme default contentBackground
+				blocResolveColorForTheme: aTheme)
 		snippetForeground: (Color fromHexString: '#EAEAEA')
 		in: aScripter.
 	^ aScripter
@@ -296,6 +307,13 @@ GtDarkThemeExamples >> lepiterTreePagerConfigurationColors [
 	aScripter := self lepiterPageWithTextAndPharoSnippets.
 	self assertLepiterTreePagerConfigurationColorsIn: aScripter.
 	^ aScripter
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderCompletionColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderCompletionColorsWithTheme: BrGlamorousDarkTheme new
 ]
 
 { #category : #examples }

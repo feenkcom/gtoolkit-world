@@ -1495,6 +1495,16 @@ GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	^ aScripter
 ]
 
+{ #category : #lepiter }
+GtWorldByScripterExamples >> evaluateLepiterPharoSnippetIn: aScripter [
+	aScripter shortcut
+		label: 'Evaluate the Pharo snippet and inspect its result';
+		combination: BlKeyCombination primaryG;
+		// LePharoSnippetElement;
+		// GtSourceCoderEditorInnerId;
+		play
+]
+
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 	<gtExample>
@@ -1836,6 +1846,16 @@ GtWorldByScripterExamples >> homeInScripter_afterWidgetUpdatesRequestedOutsideSc
 		do: [ :aStep | self assertHomeVersionLabelIsCurrentIn: aStep ].
 
 	^ aScripter
+]
+
+{ #category : #examples }
+GtWorldByScripterExamples >> hoverCoderFilterIn: aScripter [
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Category filter';
+				// GtFilterItemsElement;
+				// (GtFilterNameId indexed: 2) ]
 ]
 
 { #category : #'examples - lepiter' }
@@ -2181,13 +2201,21 @@ GtWorldByScripterExamples >> nonExistentClass [
 ]
 
 { #category : #lepiter }
+GtWorldByScripterExamples >> openEvaluatedLepiterSnippetMetaViewIn: aScripter [
+	self evaluateLepiterPharoSnippetIn: aScripter.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Select the result inspector Meta view';
+				// GtInspector;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Meta' ];
+				block: [ :aTab | aTab select ] ]
+]
+
+{ #category : #lepiter }
 GtWorldByScripterExamples >> openEvaluatedLepiterSnippetRawViewIn: aScripter [
-	aScripter shortcut
-		label: 'Evaluate the Pharo snippet and inspect its result';
-		combination: BlKeyCombination primaryG;
-		// LePharoSnippetElement;
-		// GtSourceCoderEditorInnerId;
-		play.
+	self evaluateLepiterPharoSnippetIn: aScripter.
 	aScripter
 		clickStep: [ :aStep | 
 			aStep

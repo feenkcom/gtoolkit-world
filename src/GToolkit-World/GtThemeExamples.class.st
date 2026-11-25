@@ -8,6 +8,25 @@ Class {
 }
 
 { #category : #assertions }
+GtThemeExamples >> assertCloseIconIn: aScripter target: aButtonTarget [
+	aScripter
+		checkStep: [ :aStep | 
+			aStep label: 'Check the close icon and its size'.
+			aButtonTarget value: aStep.
+			aStep
+				value: [ :aButton | 
+					| anIcon |
+					anIcon := aButton childNamed: #icon.
+					{aButton isVisible.
+						anIcon geometry class.
+						aButton bounds inSpace asRectangle
+							containsRect: anIcon bounds inSpace asRectangle} ]
+				equals: {true.
+						BlSvgPath.
+						true} ]
+]
+
+{ #category : #assertions }
 GtThemeExamples >> assertLabels: someLabels foreground: aColor in: aScripter [
 	someLabels
 		do: [ :aString | 
@@ -104,6 +123,38 @@ GtThemeExamples >> assertLepiterCompositeToolSwitcherColorsIn: aScripter [
 ]
 
 { #category : #assertions }
+GtThemeExamples >> assertLepiterEvaluatedMetaColorsIn: aScripter [
+	| aTheme |
+	GtWorldByScripterExamples new openEvaluatedLepiterSnippetMetaViewIn: aScripter.
+	aTheme := aScripter element theme.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the Meta view backdrop and Coder background';
+				// GtInspector;
+				// GtCoderElement;
+				value: [ :aCoder | 
+						{aCoder parent background paint color blocResolveColorForTheme: aCoder theme.
+							aCoder background paint color blocResolveColorForTheme: aCoder theme} ]
+					equals: {aTheme default backdropBackground blocResolveColorForTheme: aTheme.
+							aTheme default contentBackground blocResolveColorForTheme: aTheme} ].
+	{GtBehaviorCoderActionsElement.
+		GtFilterItemsElement}
+		do: [ :aContainerClass | 
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Check the Meta view string icon foreground';
+						// GtInspector;
+						// GtCoderElement;
+						// aContainerClass;
+						// BlAttributedTextElement;
+						@ [ :aGlyph | aGlyph text asString = '¶' ];
+						value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+							equals: (aTheme label metadataTextForeground blocResolveColorForTheme: aTheme) ] ]
+]
+
+{ #category : #assertions }
 GtThemeExamples >> assertLepiterEvaluatedRawIconsIn: aScripter [
 	| aTheme aForeground |
 	GtWorldByScripterExamples new openEvaluatedLepiterSnippetRawViewIn: aScripter.
@@ -169,7 +220,23 @@ GtThemeExamples >> assertLepiterInspectorSnippetsTableColorsIn: aScripter [
 				label: 'Check the inspector playground resize handle';
 				// LeInspectorPlaygroundResizerId;
 				value: [ :aResizer | aResizer background paint color blocResolveColorForTheme: aResizer theme ]
-					equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme) ]
+					equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the composite tool switcher shadow';
+				onSpaceRoot;
+				value: [ :aRoot | 
+						| aTabGroup aShadow |
+						aTabGroup := aRoot withAllChildrenBreadthFirst
+								detect: [ :anElement | 
+									(anElement isKindOf: BrTabGroup)
+										and: [ (anElement childNamed: #header) effect isKindOf: BlGaussianShadowEffect ] ].
+						aShadow := (aTabGroup childNamed: #header) effect.
+						{aShadow color isKindOf: Color.
+							aShadow color} ]
+					equals: {true.
+							aTheme default defaultShadowColor rawColor} ]
 ]
 
 { #category : #'asserting - theme' }
@@ -197,7 +264,7 @@ GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
 	aScripter
 		checkStep: [ :aStep | 
 			aStep
-				label: 'Check the background and foreground of the expanded page actions menu';
+				label: 'Check the colors of the expanded page actions menu';
 				onSpaceRoot;
 				// BrMenuSteppedElement;
 				do: [ :aMenu | 
@@ -206,6 +273,9 @@ GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
 					self
 						assert: (aMenu background paint color blocResolveColorForTheme: aTheme)
 						equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme).
+					self
+						assert: (aMenu border paint color blocResolveColorForTheme: aTheme)
+						equals: (aTheme button defaultBorderColor blocResolveColorForTheme: aTheme).
 					itemRows := OrderedCollection new.
 					groupLabels := OrderedCollection new.
 					aMenu
@@ -335,16 +405,27 @@ GtThemeExamples >> assertLepiterSnippetDecorationBackgroundsIn: aScripter [
 		afterEach: [ :aLabel :aButtonTarget :isHovered | 
 			aScripter
 				checkStep: [ :aStep | 
-					aStep label: 'Check the background of the ' , aLabel.
+					aStep label: 'Check the colors of the ' , aLabel.
 					aButtonTarget value: aStep.
 					aStep
 						value: [ :aButton | 
+							| anIcon |
+							anIcon := aButton childNamed: #icon.
 							{aButton isVisible.
 								aButton states hasState: BlElementState hovered.
-								aButton background paint color blocResolveColorForTheme: aButton theme} ]
+								aButton background paint color blocResolveColorForTheme: aButton theme.
+								anIcon geometry class.
+								anIcon background paint color blocResolveColorForTheme: aButton theme} ]
 						equals: {true.
 								isHovered.
-								aColor} ] ]
+								aColor.
+								BlSvgPath.
+								(isHovered
+									ifTrue: [ aTheme button hoveredTextColor ]
+									ifFalse: [ aTheme button defaultTextForeground ])
+									blocResolveColorForTheme: aTheme} ].
+			aLabel = 'remove-snippet button'
+				ifTrue: [ self assertCloseIconIn: aScripter target: aButtonTarget ] ]
 ]
 
 { #category : #assertions }
@@ -512,7 +593,47 @@ GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(defaultShadowColor primaryShadowColor primaryBorderColor darkBorderColor newsBackgroundColor lightBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground borderColor focusedBorderColor)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderCompletionColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := GtPharoMethodCoderByScripterExamples new
+			emptyBodyMethodCoderUI_ModifySourceCode.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Apply the theme to the coder';
+				block: [ :aCoder | 
+					aCoder
+						theme: aTheme;
+						background: aTheme default contentBackground ] ].
+	aScripter
+		assertStep: [ :aStep | 
+			aStep
+				label: 'Completion popup follows the editor theme';
+				onSpaceRoot;
+				// GtCompletionPopupElement;
+				value: [ :aPopup | aPopup theme ] equals: aTheme;
+				value: [ :aPopup | aPopup background paint color blocResolveColorForTheme: aPopup theme ]
+					equals: aTheme default contentBackground rawColor ].
+	aScripter
+		assertStep: [ :aStep | 
+			aStep
+				label: 'Advice highlights use the theme error background';
+				id: GtSourceCoderEditorId;
+				id: GtSourceCoderEditorInnerId;
+				value: [ :anEditor | 
+						| aText aHighlight aStyleBuilder |
+						aText := anEditor editor text.
+						aHighlight := (aText attributesAt: aText size)
+								detect: [ :anAttribute | anAttribute isKindOf: BlTextHighlightAttribute ].
+						aStyleBuilder := BlTextFontAndStyleBuilder new.
+						aHighlight applyOnFontAndStyleBuilder: aStyleBuilder theme: anEditor theme.
+						aStyleBuilder background ]
+					equals: aTheme status paleErrorBackgroundColor rawColor ].
+	^ aScripter
 ]
 
 { #category : #'asserting - theme' }
@@ -588,6 +709,14 @@ GtThemeExamples >> worldCoderWithTheme: aTheme [
 							anIcon border paint color blocResolveColorForTheme: anIcon theme} ]
 					equals: {aForeground.
 							aForeground} ].
+	GtWorldByScripterExamples new hoverCoderFilterIn: aScripter.
+	self
+		assertCloseIconIn: aScripter
+		target: [ :aStep | 
+			aStep
+				// GtFilterItemsElement;
+				// (GtFilterNameId indexed: 2);
+				// GtPagerClosePageButtonElementId ].
 	^ aScripter
 ]
 
@@ -637,7 +766,7 @@ GtThemeExamples >> worldSpotterWithTheme: aTheme [
 						{aPopover effect color blocResolveColorForTheme: aPopover theme.
 							aPopover border paint color blocResolveColorForTheme: aPopover theme} ]
 					equals: {aTheme default defaultShadowColor blocResolveColorForTheme: aTheme.
-							aTheme button fadedBackgroundColor blocResolveColorForTheme: aTheme} ].
+							aTheme button defaultBorderColor blocResolveColorForTheme: aTheme} ].
 	aScripter
 		checkStep: [ :aStep | 
 			aStep

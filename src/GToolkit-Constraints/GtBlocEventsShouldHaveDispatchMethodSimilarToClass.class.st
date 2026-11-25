@@ -16,7 +16,7 @@ GtBlocEventsShouldHaveDispatchMethodSimilarToClass >> issues [
 	| eventsWithSendTo |
 
 	eventsWithSendTo := BlEvent allSubclasses select: [ :eachEventClass |
-		(eachEventClass package name = 'Bloc')
+		(eachEventClass package name = #Bloc)
 			and: [ eachEventClass includesSelector: #sendTo: ] ].
 
 	^ eventsWithSendTo reject: [ :echEventClass |

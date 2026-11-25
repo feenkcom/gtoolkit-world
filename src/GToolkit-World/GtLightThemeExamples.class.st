@@ -47,6 +47,16 @@ GtLightThemeExamples >> lepiterCompositeToolSwitcherColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> lepiterEvaluatedMetaColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterEvaluatedMetaColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> lepiterEvaluatedRawIconColors [
 	<gtExample>
 	<return: #BlScripter>
@@ -162,6 +172,13 @@ GtLightThemeExamples >> lepiterTreePagerConfigurationColors [
 	aScripter := self lepiterPageWithTextAndPharoSnippets.
 	self assertLepiterTreePagerConfigurationColorsIn: aScripter.
 	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderCompletionColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderCompletionColorsWithTheme: BrGlamorousLightTheme new
 ]
 
 { #category : #examples }
