@@ -766,7 +766,7 @@ GtThemeExamples >> worldSpotterWithTheme: aTheme [
 						{aPopover effect color blocResolveColorForTheme: aPopover theme.
 							aPopover border paint color blocResolveColorForTheme: aPopover theme} ]
 					equals: {aTheme default defaultShadowColor blocResolveColorForTheme: aTheme.
-							aTheme button fadedBackgroundColor blocResolveColorForTheme: aTheme} ].
+							aTheme button defaultBorderColor blocResolveColorForTheme: aTheme} ].
 	aScripter
 		checkStep: [ :aStep | 
 			aStep
