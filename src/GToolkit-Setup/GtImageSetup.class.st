@@ -307,9 +307,6 @@ GtImageSetup class >> performLocalSetup [
 	See https://github.com/feenkcom/gtoolkit-editor/issues/12"
 	GtPharoCoderSettings displayNewRenameImplementationContextMenuItem: true.
 	
-	"Enable by default the mixed announcer registry in Lepiter databases"
-	LeUseMixedSubscriptionRegistryFlag enable.
-	
 	self recordSpaceTallyAtEnd.
 ]
 
