@@ -182,6 +182,13 @@ GtLightThemeExamples >> methodCoderCompletionColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderDeprecationColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderDeprecationColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> worldCoderColors [
 	<gtExample>
 	<return: #BlScripter>

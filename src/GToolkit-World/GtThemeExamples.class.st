@@ -636,6 +636,44 @@ GtThemeExamples >> methodCoderCompletionColorsWithTheme: aTheme [
 	^ aScripter
 ]
 
+{ #category : #examples }
+GtThemeExamples >> methodCoderDeprecationColorsWithTheme: aTheme [
+	| aCoder anElement aScripter |
+	aCoder := GtPharoMethodCoder new
+			behavior: GtThemeExamples;
+			sourceCodeSynchronously: (GtCoderExplicitStringSource new
+					source: 'deprecatedShape
+	^ BlCircle');
+			yourself.
+	anElement := aCoder asElement
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			yourself.
+	aScripter := BlScripter new
+			extent: 520 @ 100;
+			element: anElement.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The deprecated class strike-through follows the editor foreground';
+				id: GtSourceCoderEditorId;
+				id: GtSourceCoderEditorInnerId;
+				value: [ :anEditor | 
+						| aText aPosition anAttribute aStyle |
+						aText := anEditor editor text.
+						aPosition := aText asString findString: 'BlCircle'.
+						anAttribute := (aText attributesAt: aPosition)
+								detect: [ :each | each isKindOf: BlTextDecorationAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle decoration color ]
+					equals: [ :anEditor | anEditor theme editor pharoDeclaredVariableForeground rawColor ] ].
+	^ aScripter
+]
+
 { #category : #'asserting - theme' }
 GtThemeExamples >> resolvedTextForegroundOf: aGlyph [
 	| aForeground |
