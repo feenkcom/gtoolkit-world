@@ -27,6 +27,66 @@ GtLightThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 ]
 
 { #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterBindingsButtonIconForeground [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterBindingsButtonIconForegroundIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterCompositeToolSwitcherColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterCompositeToolSwitcherColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterEvaluatedMetaColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterEvaluatedMetaColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterEvaluatedRawIconColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterEvaluatedRawIconsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterInspectorSnippetsTableColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterInspectorSnippetsTableColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterPageBindingsTableColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterBindingsTableColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtLightThemeExamples >> lepiterPageTitleBackground [
 	<gtExample>
 	<return: #BlScripter>
@@ -36,6 +96,17 @@ GtLightThemeExamples >> lepiterPageTitleBackground [
 	self
 		assertLepiterPageTitleBackground: (aTheme default contentBackground blocResolveColorForTheme: aTheme)
 		in: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterPageWithExpandedActionsMenu [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	GtWorldByScripterExamples new openLepiterPageActionsMenuIn: aScripter.
+	self assertLepiterPageActionsMenuColorsIn: aScripter.
 	^ aScripter
 ]
 
@@ -51,11 +122,35 @@ GtLightThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 		doStep: [ :aStep | 
 			aStep
 				label: 'Apply the light theme';
-				block: [ :anElement | anElement theme: aTheme ] ].
+				block: [ :anElement | 
+					anElement
+						theme: aTheme;
+						background: aTheme default appBackground ] ].
 	self
 		assertLepiterPageBackground: Color white
 		snippetForeground: Color black
 		in: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
+GtLightThemeExamples >> lepiterPaneToolbarButtonColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	GtWorldByScripterExamples new hoverOverLepiterPaneIn: aScripter.
+	self assertTreePagerPaneButtonColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterPharoSnippetExpanderColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterPharoSnippetExpanderColorsIn: aScripter.
 	^ aScripter
 ]
 
@@ -66,5 +161,46 @@ GtLightThemeExamples >> lepiterSnippetDecorationButtonBackgrounds [
 	| aScripter |
 	aScripter := self lepiterPageWithTextAndPharoSnippets.
 	self assertLepiterSnippetDecorationBackgroundsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> lepiterTreePagerConfigurationColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertLepiterTreePagerConfigurationColorsIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderCompletionColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderCompletionColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> worldCoderColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self worldCoderWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> worldSpotterColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self worldSpotterWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> worldTabColors [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self lepiterPageWithTextAndPharoSnippets.
+	self assertWorldTabColorsIn: aScripter.
 	^ aScripter
 ]

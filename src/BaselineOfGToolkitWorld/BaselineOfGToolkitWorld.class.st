@@ -47,7 +47,9 @@ BaselineOfGToolkitWorld >> baseline: spec [
 				baseline: 'XdocClient'
 					with: [ spec repository: 'github://feenkcom/xdoc:main/src' ];
 				baseline: 'LepiterEngine'
-					with: [ spec repository: 'github://feenkcom/lepiter:main/src' ].
+					with: [ spec repository: 'github://feenkcom/lepiter:main/src' ];
+				baseline: 'GToolkitExamplesJUnit'
+					with: [ spec repository: 'github://feenkcom/gtoolkit-examples:main/src' ].
 
 			spec
 				package: 'GToolkit-Docs'
@@ -73,7 +75,7 @@ BaselineOfGToolkitWorld >> baseline: spec [
 							requires: #( 'GToolkitPager' ) ];
 				package: 'GToolkit-Extensions'
 					with: [ spec
-							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkit-World' 'GToolkit-Setup' 'GToolkit4GraphQL' 'GToolkit-WorldPreviewer') ];
+							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkit-World' 'GToolkit-Setup' 'GToolkit4GraphQL' 'GToolkit-WorldPreviewer' 'GToolkitExamplesJUnit') ];
 				package: 'GToolkit-LLMExtensions'
 					with: [ spec
 							requires: #('GToolkitCoder' 'GToolkit4Pharo' 'GToolkitSpotter' 'GToolkitVirtualMachine' 'GToolkitClipboard' 'GToolkitDebugger' 'GToolkitFileBrowser' 'GToolkitConstrainer' 'GToolkit4Git' 'GToolkitVisualizerPhlow' 'GToolkitReleaser' 'GToolkit4XMLSupport' 'GToolkit-DependencyAnalyzer' 'GToolkit-Docs' 'GToolkit-Monitor' 'GToolkit-Profiler' 'GToolkit-Constraints' 'GToolkit-SceneDriller' 'GToolkit-World' 'GToolkit-Setup' 'GToolkit4GraphQL' 'GToolkit-WorldPreviewer') ];

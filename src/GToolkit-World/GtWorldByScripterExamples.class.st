@@ -627,6 +627,16 @@ GtWorldByScripterExamples >> applyEpiceaSnippetChanges [
 	^ aScripter
 ]
 
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> assertHomeVersionLabelIsCurrentIn: aStep [
+	aStep assert
+		label: 'Assert the version label shows the current version';
+		value: [ :aButton | aButton label asString ]
+			equals: [ :aButton | aButton parent versionLabelText ];
+		// #versionLabel;
+		play
+]
+
 { #category : #'examples - tabs' }
 GtWorldByScripterExamples >> assertNewWorldTabIn: aScripter hasLabel: aString [
 	aScripter worldStep
@@ -1485,6 +1495,16 @@ GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	^ aScripter
 ]
 
+{ #category : #lepiter }
+GtWorldByScripterExamples >> evaluateLepiterPharoSnippetIn: aScripter [
+	aScripter shortcut
+		label: 'Evaluate the Pharo snippet and inspect its result';
+		combination: BlKeyCombination primaryG;
+		// LePharoSnippetElement;
+		// GtSourceCoderEditorInnerId;
+		play
+]
+
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 	<gtExample>
@@ -1800,6 +1820,51 @@ GtWorldByScripterExamples >> formatScriptWithSyntaxErrorInTheSecondLepiterPagePa
 						// GtSourceCoderErrorButtonElementId ] ].
 
 	^ aScripter
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> homeInScripter_afterWidgetUpdatesRequestedOutsideSceneGraph [
+	<gtExample>
+	<return: #BlScripter>
+	| aHome aScripter aLogger |
+	aHome := GtHome new.
+	(aHome childNamed: #versionLabel) label: 'Outdated version'.
+	3 timesRepeat: [ aHome requestWidgetUpdate ].
+	self assert: aHome taskQueue tasks isEmpty.
+
+	aLogger := MemoryLogger new.
+	aScripter := self scripter.
+	aLogger
+		runFor: BrElementUpdaterPerformUpdateSignal
+		during: [ aScripter element: aHome ].
+	self
+		assert: (aLogger recordings select: [ :eachSignal | eachSignal updater element == aHome ]) size
+		equals: 1.
+
+	aScripter
+		substep: 'Check the home version label'
+		do: [ :aStep | self assertHomeVersionLabelIsCurrentIn: aStep ].
+
+	^ aScripter
+]
+
+{ #category : #examples }
+GtWorldByScripterExamples >> hoverCoderFilterIn: aScripter [
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Category filter';
+				// GtFilterItemsElement;
+				// (GtFilterNameId indexed: 2) ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> hoverOverLepiterPaneIn: aScripter [
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Lepiter pane';
+				// GtTreePagerPaneContentElement ]
 ]
 
 { #category : #'examples - lepiter' }
@@ -2121,8 +2186,77 @@ GtWorldByScripterExamples >> lepiterPageCreateNonExistentMethod2 [
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> lepiterPageWithExpandedActionsMenu [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self addLepiterPageWithTextAndPharoSnippets.
+	self openLepiterPageActionsMenuIn: aScripter.
+	^ aScripter
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> nonExistentClass [
 	^ self class environment classNamed: LeModelExamples new nonExistentClassName
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openEvaluatedLepiterSnippetMetaViewIn: aScripter [
+	self evaluateLepiterPharoSnippetIn: aScripter.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Select the result inspector Meta view';
+				// GtInspector;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Meta' ];
+				block: [ :aTab | aTab select ] ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openEvaluatedLepiterSnippetRawViewIn: aScripter [
+	self evaluateLepiterPharoSnippetIn: aScripter.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the result inspector Raw view';
+				// GtInspector;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Raw' ] ]
+]
+
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> openLepiterPageActionsMenuIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the Lepiter page actions menu';
+				// LePageActionTargetDropdownButtonId ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check that the page actions menu is expanded';
+				onSpaceRoot;
+				// BrMenuSteppedElement;
+				value: [ :aMenu | aMenu isVisible ] equals: true ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openLepiterPageBindingsIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the page variable bindings';
+				// #'lepiter--page-bindings-button' ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openLepiterTreePagerConfigurationIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the pager configuration menu';
+				// #'tree-pager--configuration-menu-button' ]
 ]
 
 { #category : #'examples - world' }
@@ -2274,6 +2408,21 @@ GtWorldByScripterExamples >> openWorldSpotterIn: aScripter query: aString [
 		s
 			label: 'Type the search query';
 			text: aString ]
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> outdateHomeVersionLabelIn: aStep [
+	aStep do
+		label: 'Make the version label outdated';
+		block: [ :aButton | aButton label: 'Outdated version' ];
+		// #versionLabel;
+		play.
+
+	aStep assert
+		label: 'Assert the version label is outdated';
+		value: [ :aButton | aButton label asString ] equals: 'Outdated version';
+		// #versionLabel;
+		play
 ]
 
 { #category : #'examples - coder' }
@@ -2681,6 +2830,23 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 	^ aScripter
 ]
 
+{ #category : #lepiter }
+GtWorldByScripterExamples >> selectLepiterInspectorSnippetsIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the page inspector';
+				// #tool;
+				/ #header;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'inspector' ] ];
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the Snippets view';
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Snippets' ] ]
+]
+
 { #category : #'examples - coder' }
 GtWorldByScripterExamples >> selectPackageInCoder [
 	<gtExample>
@@ -3076,6 +3242,27 @@ GtWorldByScripterExamples >> typeSnippetInPlayground [
 ]
 
 { #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitLepiterCompositeToolTabStatesIn: aScripter afterEach: aBlock [
+	| aTarget |
+	aTarget := [ :aStep | 
+		aStep
+			// #tool;
+			/ #header;
+			// BrTab;
+			@ [ :aTab | aTab label asString = 'inspector' ] ].
+	aBlock value: aTarget value: #deselectedColor.
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep label: 'Hover over the inspector tab'.
+			aTarget value: aStep ].
+	aBlock value: aTarget value: #hoveredColor.
+	aScripter mouseDown play.
+	aBlock value: aTarget value: #pressedColor.
+	aScripter mouseUp play.
+	aBlock value: aTarget value: #selectedColor
+]
+
+{ #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> visitLepiterPageTitleStatesIn: aScripter afterEach: aBlock [
 	aScripter
 		clickStep: [ :aStep | 
@@ -3144,6 +3331,25 @@ GtWorldByScripterExamples >> visitLepiterSnippetDecorationButtonStatesIn: aScrip
 						value: true ] ]
 ]
 
+{ #category : #'examples - lepiter' }
+GtWorldByScripterExamples >> visitPaneDropdownStatesIn: aScripter triggerId: anId afterEach: aBlock [
+	aBlock value: false.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the pane dropdown';
+				onSpaceRoot;
+				// anId ].
+	aBlock value: true.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Close the pane dropdown by clicking outside';
+				onSpaceRoot;
+				// LePageEditableTitleElement ].
+	aBlock value: false
+]
+
 { #category : #'examples - world' }
 GtWorldByScripterExamples >> worldElementInScripter [
 	<gtExample>
@@ -3153,6 +3359,79 @@ GtWorldByScripterExamples >> worldElementInScripter [
 	aScripter
 		element: (GtWorldElement new
 				knowledgeBase: LeDatabasesRegistry uniqueInstance currentLoadedDefaultLogicalDatabase).
+	^ aScripter
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> worldElementInScripter_homeVersionLabel [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter.
+	aScripter
+		substep: 'Check the home version label'
+		do: [ :aStep | self assertHomeVersionLabelIsCurrentIn: aStep ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> worldElementInScripter_homeVersionLabel_refreshContent [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter_homeVersionLabel.
+	aScripter
+		substep: 'Refresh the world content'
+		do: [ :aStep |
+			self outdateHomeVersionLabelIn: aStep.
+
+			aStep do
+				label: 'Refresh the world content';
+				block: [ :aWorldElement | aWorldElement refreshContent ];
+				play.
+
+			self assertHomeVersionLabelIsCurrentIn: aStep ].
+
+	^ aScripter
+]
+
+{ #category : #'examples - home' }
+GtWorldByScripterExamples >> worldElementInScripter_homeVersionLabel_requestWidgetUpdate [
+	<gtExample>
+	<return: #BlScripter>
+	| aScripter |
+	aScripter := self worldElementInScripter_homeVersionLabel.
+	aScripter
+		substep: 'Update the home widget'
+		do: [ :aStep |
+			self outdateHomeVersionLabelIn: aStep.
+
+			aStep memoryLogger
+				label: 'Log home widget updates';
+				runFor: BrElementUpdaterPerformUpdateSignal
+				during: [ :aLoggerStep |
+					aLoggerStep do
+						label: 'Request three home widget updates';
+						block: [ :aHome | 3 timesRepeat: [ aHome requestWidgetUpdate ] ];
+						// GtHome;
+						play.
+
+					aLoggerStep wait
+						forEmptySpaceTaskQueueTimeout: 5 seconds;
+						play.
+
+					aLoggerStep assert
+						label: 'Assert the home widget is updated once';
+						value: [ :aHome |
+								(aLoggerStep recordings
+									select: [ :eachSignal | eachSignal updater element == aHome ]) size ]
+							equals: 1;
+						// GtHome;
+						play ].
+
+			self assertHomeVersionLabelIsCurrentIn: aStep ].
+
 	^ aScripter
 ]
 
