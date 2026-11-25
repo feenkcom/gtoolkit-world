@@ -53,7 +53,7 @@ GtHomeToolsSection >> create [
 			c vertical fitContent ];
 		background: BlTheme default default contentBackground; 
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		aptitude: (BrShadowAptitude new beLarge);
+		aptitude: (BrShadowAptitude new);
 		padding: (BlInsets top: 10 left: 0 bottom: 10 right: 0).
 	cardsContainer := BlElement new
 		layout: BlLinearLayout vertical;
