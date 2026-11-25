@@ -9,5 +9,6 @@ GtJUnitTestCase >> gtPharoMethodFor: aView [
 		title: 'Method';
 		priority: 20;
 		question: 'What Pharo method was executed?';
-		stencil: [ (GtPharoMethodCoder forMethod: self pharoMethod) asExpandedOnlyElement ]
+		stencil: [ (GtPharoMethodCoder forMethod: self pharoMethod) asExpandedOnlyElement
+				vFitContentLimited ]
 ]
