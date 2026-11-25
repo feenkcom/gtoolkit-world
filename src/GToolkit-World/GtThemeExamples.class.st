@@ -220,7 +220,23 @@ GtThemeExamples >> assertLepiterInspectorSnippetsTableColorsIn: aScripter [
 				label: 'Check the inspector playground resize handle';
 				// LeInspectorPlaygroundResizerId;
 				value: [ :aResizer | aResizer background paint color blocResolveColorForTheme: aResizer theme ]
-					equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme) ]
+					equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Check the composite tool switcher shadow';
+				onSpaceRoot;
+				value: [ :aRoot | 
+						| aTabGroup aShadow |
+						aTabGroup := aRoot withAllChildrenBreadthFirst
+								detect: [ :anElement | 
+									(anElement isKindOf: BrTabGroup)
+										and: [ (anElement childNamed: #header) effect isKindOf: BlGaussianShadowEffect ] ].
+						aShadow := (aTabGroup childNamed: #header) effect.
+						{aShadow color isKindOf: Color.
+							aShadow color} ]
+					equals: {true.
+							aTheme default defaultShadowColor rawColor} ]
 ]
 
 { #category : #'asserting - theme' }
@@ -248,7 +264,7 @@ GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
 	aScripter
 		checkStep: [ :aStep | 
 			aStep
-				label: 'Check the background and foreground of the expanded page actions menu';
+				label: 'Check the colors of the expanded page actions menu';
 				onSpaceRoot;
 				// BrMenuSteppedElement;
 				do: [ :aMenu | 
@@ -257,6 +273,9 @@ GtThemeExamples >> assertLepiterPageActionsMenuColorsIn: aScripter [
 					self
 						assert: (aMenu background paint color blocResolveColorForTheme: aTheme)
 						equals: (aTheme default contentBackground blocResolveColorForTheme: aTheme).
+					self
+						assert: (aMenu border paint color blocResolveColorForTheme: aTheme)
+						equals: (aTheme button defaultBorderColor blocResolveColorForTheme: aTheme).
 					itemRows := OrderedCollection new.
 					groupLabels := OrderedCollection new.
 					aMenu
@@ -386,16 +405,25 @@ GtThemeExamples >> assertLepiterSnippetDecorationBackgroundsIn: aScripter [
 		afterEach: [ :aLabel :aButtonTarget :isHovered | 
 			aScripter
 				checkStep: [ :aStep | 
-					aStep label: 'Check the background of the ' , aLabel.
+					aStep label: 'Check the colors of the ' , aLabel.
 					aButtonTarget value: aStep.
 					aStep
 						value: [ :aButton | 
+							| anIcon |
+							anIcon := aButton childNamed: #icon.
 							{aButton isVisible.
 								aButton states hasState: BlElementState hovered.
-								aButton background paint color blocResolveColorForTheme: aButton theme} ]
+								aButton background paint color blocResolveColorForTheme: aButton theme.
+								anIcon geometry class.
+								anIcon background paint color blocResolveColorForTheme: aButton theme} ]
 						equals: {true.
 								isHovered.
-								aColor} ].
+								aColor.
+								BlSvgPath.
+								(isHovered
+									ifTrue: [ aTheme button hoveredTextColor ]
+									ifFalse: [ aTheme button defaultTextForeground ])
+									blocResolveColorForTheme: aTheme} ].
 			aLabel = 'remove-snippet button'
 				ifTrue: [ self assertCloseIconIn: aScripter target: aButtonTarget ] ]
 ]
@@ -565,7 +593,7 @@ GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(defaultShadowColor primaryShadowColor primaryBorderColor darkBorderColor newsBackgroundColor lightBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
 ]
 
 { #category : #examples }

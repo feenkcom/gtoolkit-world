@@ -220,7 +220,8 @@ GtDarkThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 						theme: aTheme;
 						background: aTheme default appBackground ] ].
 	self
-		assertLepiterPageBackground: (Color fromHexString: '#262626')
+		assertLepiterPageBackground: (aTheme default contentBackground
+				blocResolveColorForTheme: aTheme)
 		snippetForeground: (Color fromHexString: '#EAEAEA')
 		in: aScripter.
 	^ aScripter
