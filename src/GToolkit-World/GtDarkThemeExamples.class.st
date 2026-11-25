@@ -423,6 +423,13 @@ GtDarkThemeExamples >> methodCoderDeprecationColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderDynamicHighlightColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderDynamicHighlightColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodHistoryDiffColors [
 	<gtExample>
 	<return: #BlScripter>

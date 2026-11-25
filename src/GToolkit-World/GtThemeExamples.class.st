@@ -593,7 +593,7 @@ GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
 ]
 
 { #category : #examples }
@@ -671,6 +671,56 @@ GtThemeExamples >> methodCoderDeprecationColorsWithTheme: aTheme [
 						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
 						aStyle decoration color ]
 					equals: [ :anEditor | anEditor theme editor pharoDeclaredVariableForeground rawColor ] ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderDynamicHighlightColorsWithTheme: aTheme [
+	| aSource aCoder aScripter |
+	aSource := 'highlightOccurrences
+	| items |
+	items := #(1 2 3).
+	^ items at: 4 ifAbsent: [ items first ]'.
+	aCoder := GtPharoMethodCoder new
+			behavior: GtThemeExamples;
+			sourceCodeSynchronously: (GtCoderExplicitStringSource new source: aSource);
+			yourself.
+	aScripter := GtPharoDynamicHighlightStylerExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter space windowExtent: 520 @ 145.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	{'items at:' -> #('items :=' 'items at:' 'items first').
+		'at: 4' -> #('at: 4' 'ifAbsent:')}
+		do: [ :aCase | 
+			aScripter
+				doStep: [ :aStep | 
+					aStep
+						label: 'Move the cursor into ' , aCase key;
+						action: [ :aViewModel | aViewModel moveCursorTo: (aSource findString: aCase key) + 1 ];
+						onModel ].
+			aScripter
+				checkStep: [ :aStep | 
+					aStep
+						label: 'Occurrences use the editor highlight color';
+						id: GtSourceCoderEditorId;
+						value: [ :anEditor | 
+								aCase value
+									collect: [ :aFragment | 
+										| aPosition anAttribute aStyle |
+										aPosition := anEditor text asString findString: aFragment.
+										anAttribute := (anEditor text attributesAt: aPosition)
+												detect: [ :each | each isKindOf: GtPharoDynamicHighlightAttribute ].
+										aStyle := BlTextFontAndStyleBuilder new.
+										anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+										aStyle background ] ]
+							equals: (Array
+									new: aCase value size
+									withAll: aTheme editor occurrenceHighlight rawColor) ] ].
 	^ aScripter
 ]
 
