@@ -189,6 +189,13 @@ GtLightThemeExamples >> lepiterTreePagerConfigurationColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderClassExpanderBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderClassExpanderBackgroundWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderCompletionColors [
 	<gtExample>
 	<return: #BlScripter>

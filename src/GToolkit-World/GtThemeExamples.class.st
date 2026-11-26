@@ -686,6 +686,39 @@ GtThemeExamples >> constantColorRoles [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderClassExpanderBackgroundWithTheme: aTheme [
+	| aCoder aPane aScripter |
+	aCoder := GtPharoMethodCoder
+			forClass: self class
+			source: 'example ^ OrderedCollection new'.
+	aPane := BrVerticalPane new
+			matchParent;
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			addChild: aCoder asExpandedOnlyElement;
+			yourself.
+	aScripter := BlScripter new
+			extent: 710 @ 530;
+			element: aPane.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Expand OrderedCollection';
+				// (GtPharoBehaviorExpanderId indexed: 1) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The embedded class coder uses the theme content background';
+				// GtCoderElement;
+				value: [ :aClassCoder | aClassCoder background paint color blocResolveColorForTheme: aClassCoder theme ]
+					equals: aTheme default contentBackground rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderCompletionColorsWithTheme: aTheme [
 	| aScripter |
 	aScripter := GtPharoMethodCoderByScripterExamples new
