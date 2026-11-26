@@ -246,6 +246,13 @@ GtLightThemeExamples >> methodCoderParenthesesHighlight [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderPrintResultColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderPrintResultColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderSyntaxErrorColors [
 	<gtExample>
 	<return: #BlScripter>

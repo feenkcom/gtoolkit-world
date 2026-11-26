@@ -482,6 +482,13 @@ GtDarkThemeExamples >> methodCoderParenthesesHighlight [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderPrintResultColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderPrintResultColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodCoderSyntaxErrorColors [
 	<gtExample>
 	<return: #BlScripter>

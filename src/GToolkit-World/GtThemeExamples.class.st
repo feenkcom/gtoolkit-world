@@ -1026,6 +1026,43 @@ GtThemeExamples >> methodCoderParenthesesHighlightWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderPrintResultColorsWithTheme: aTheme [
+	| aSource aCoder aScripter |
+	aSource := 'printedValue
+	^ 20 + 22'.
+	aCoder := GtPharoMethodCoder forClass: self class source: aSource.
+	aScripter := GtPharoMethodCoderByScripterExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter extent: 560 @ 175.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter methodCoder
+		select: '20 + 22'
+			from: (aSource findString: '20 + 22') - 1
+			to: aSource size;
+		printIt;
+		assertPrintItString: '42';
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The printed result uses the neutral background and editor focus border';
+				// GtCoderPrintStringElementId;
+				value: [ :aLabel | 
+						{aLabel isFocused.
+							aLabel background paint color blocResolveColorForTheme: aLabel theme.
+							aLabel border paint color blocResolveColorForTheme: aLabel theme} ]
+					equals: {true.
+							aTheme status neutralBackgroundColor rawColor.
+							aTheme editor focusedBorderColor rawColor} ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderSyntaxErrorColorsWithTheme: aTheme [
 	| aScripter |
 	aScripter := GtPharoSnippetCoderByScripterExamples new
