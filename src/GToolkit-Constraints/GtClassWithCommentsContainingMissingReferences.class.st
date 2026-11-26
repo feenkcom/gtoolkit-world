@@ -31,5 +31,5 @@ GtClassWithCommentsContainingMissingReferences >> packagesToAnalyse [
 	"We reject Magritte-Model because {{gtClass: MACompositeAccessor}} includes a link to a method that we do not load in GToolkit."
 
 	^ BaselineOfGToolkit gtRlAllValidRPackages
-		reject: [ :each | each name = 'Magritte-Model' ]
+		reject: [ :each | each name = #'Magritte-Model' ]
 ]

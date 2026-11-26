@@ -146,7 +146,7 @@ GtHomeSection >> newHeaderCardWithTitle: aTitle description: aDescription size: 
 					backgroundPaint: Color white;
 					borderPaint: Color transparent)
 					+ BrGlamorousButtonWithLabelTooltipAptitude2 new
-					+ BrShadowAptitude new beLarge;
+					+ BrShadowAptitude new;
 			label: aDescription;
 			padding: (BlInsets all: 1);
 			margin: (BlInsets
@@ -173,7 +173,7 @@ GtHomeSection >> newHeaderCardWithTitle: aTitle description: aDescription width:
 					backgroundPaint: Color white;
 					borderPaint: Color transparent)
 					+ BrGlamorousButtonWithLabelTooltipAptitude2 new
-					+ BrShadowAptitude new beLarge;
+					+ BrShadowAptitude new;
 			label: aDescription;
 			padding: (BlInsets all: 1);
 			margin: (BlInsets

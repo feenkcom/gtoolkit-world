@@ -54,7 +54,7 @@ GtHomeLepiterBaseCard >> createContainer [
 		layout: BlLinearLayout horizontal;
 		exact: 500 @ 250;
 		background: BlTheme default default contentBackground;
-		aptitude: BrShadowAptitude new beLarge + BrGlamorousButtonWithLabelTooltipAptitude2 new;
+		aptitude: BrShadowAptitude new + BrGlamorousButtonWithLabelTooltipAptitude2 new;
 		label: self description;
 		padding: (BlInsets
 				top: 10

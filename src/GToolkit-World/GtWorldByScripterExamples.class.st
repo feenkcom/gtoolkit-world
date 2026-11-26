@@ -1495,6 +1495,16 @@ GtWorldByScripterExamples >> doesNotUnderstandDebugSession [
 	^ aScripter
 ]
 
+{ #category : #lepiter }
+GtWorldByScripterExamples >> evaluateLepiterPharoSnippetIn: aScripter [
+	aScripter shortcut
+		label: 'Evaluate the Pharo snippet and inspect its result';
+		combination: BlKeyCombination primaryG;
+		// LePharoSnippetElement;
+		// GtSourceCoderEditorInnerId;
+		play
+]
+
 { #category : #'examples - playground' }
 GtWorldByScripterExamples >> executeInspectorPlaygroundSnippetInTheThirdPage [
 	<gtExample>
@@ -1836,6 +1846,16 @@ GtWorldByScripterExamples >> homeInScripter_afterWidgetUpdatesRequestedOutsideSc
 		do: [ :aStep | self assertHomeVersionLabelIsCurrentIn: aStep ].
 
 	^ aScripter
+]
+
+{ #category : #examples }
+GtWorldByScripterExamples >> hoverCoderFilterIn: aScripter [
+	aScripter
+		mouseMoveOverStep: [ :aStep | 
+			aStep
+				label: 'Hover over the Category filter';
+				// GtFilterItemsElement;
+				// (GtFilterNameId indexed: 2) ]
 ]
 
 { #category : #'examples - lepiter' }
@@ -2180,6 +2200,31 @@ GtWorldByScripterExamples >> nonExistentClass [
 	^ self class environment classNamed: LeModelExamples new nonExistentClassName
 ]
 
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openEvaluatedLepiterSnippetMetaViewIn: aScripter [
+	self evaluateLepiterPharoSnippetIn: aScripter.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Select the result inspector Meta view';
+				// GtInspector;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Meta' ];
+				block: [ :aTab | aTab select ] ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openEvaluatedLepiterSnippetRawViewIn: aScripter [
+	self evaluateLepiterPharoSnippetIn: aScripter.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the result inspector Raw view';
+				// GtInspector;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Raw' ] ]
+]
+
 { #category : #'examples - lepiter' }
 GtWorldByScripterExamples >> openLepiterPageActionsMenuIn: aScripter [
 	aScripter
@@ -2194,6 +2239,24 @@ GtWorldByScripterExamples >> openLepiterPageActionsMenuIn: aScripter [
 				onSpaceRoot;
 				// BrMenuSteppedElement;
 				value: [ :aMenu | aMenu isVisible ] equals: true ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openLepiterPageBindingsIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the page variable bindings';
+				// #'lepiter--page-bindings-button' ]
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> openLepiterTreePagerConfigurationIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the pager configuration menu';
+				// #'tree-pager--configuration-menu-button' ]
 ]
 
 { #category : #'examples - world' }
@@ -2765,6 +2828,23 @@ GtWorldByScripterExamples >> selectClassInSecondPane [
 							equals: [ aScripter userData at: #secondPaneTabLabel ] ] ].
 
 	^ aScripter
+]
+
+{ #category : #lepiter }
+GtWorldByScripterExamples >> selectLepiterInspectorSnippetsIn: aScripter [
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the page inspector';
+				// #tool;
+				/ #header;
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'inspector' ] ];
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Open the Snippets view';
+				// BrTab;
+				@ [ :aTab | aTab label asString = 'Snippets' ] ]
 ]
 
 { #category : #'examples - coder' }

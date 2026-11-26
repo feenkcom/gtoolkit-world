@@ -94,7 +94,7 @@ GtHomeCard >> cardElement [
 			aptitude: (BrGlamorousButtonExteriorAptitude new
 					backgroundPaint: Color white;
 					borderPaint: Color transparent)
-					+ BrShadowAptitude new beLarge
+					+ BrShadowAptitude new
 					+ (BrGlamorousWithExplicitTooltipAptitude
 							text: [ self description]);
 			padding: (BlInsets all: 1);

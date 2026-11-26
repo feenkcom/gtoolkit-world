@@ -53,7 +53,7 @@ GtHomeToolsSection >> create [
 			c vertical fitContent ];
 		background: BlTheme default default contentBackground; 
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		aptitude: (BrShadowAptitude new beLarge);
+		aptitude: (BrShadowAptitude new);
 		padding: (BlInsets top: 10 left: 0 bottom: 10 right: 0).
 	cardsContainer := BlElement new
 		layout: BlLinearLayout vertical;
@@ -167,11 +167,13 @@ GtHomeToolsSection >> newCoderButtonStencil [
 { #category : #'tools creation' }
 GtHomeToolsSection >> newGitButtonStencil [
 	<gtToolButton>
-
-	^ GtToolButtonStencil new 
+	^ GtToolButtonStencil new
 		title: 'Git';
 		priority: 30;
-		icon: BrGlamorousVectorIcons largebranching;
+		icon: [ BrGlamorousVectorIcons largebranching asElement
+				addAptitude: (BrLazyStyleCommonAptitude new
+						default: [ :aStyle :aTheme | aStyle background: aTheme label defaultTextForeground ]);
+				yourself ] asStencil;
 		action: [ :card | 
 			self
 				showSpaceWithIcon: BrGlamorousVectorIcons emphasizedInspect
