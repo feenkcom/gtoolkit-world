@@ -1063,6 +1063,42 @@ GtThemeExamples >> methodCoderPrintResultColorsWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderPrintResultMenuButtonColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := self methodCoderPrintResultColorsWithTheme: aTheme.
+	aScripter mouseMoveOver
+		// GtCoderPrintStringElementId;
+		/ BrButton;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Print it menu button uses the themed hover background';
+				// GtCoderPrintStringElementId;
+				/ BrButton;
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme status neutralBackgroundColor rawColor darker ].
+	aScripter mouseDown play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Print it menu button uses the themed pressed background';
+				// GtCoderPrintStringElementId;
+				/ BrButton;
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme status neutralBackgroundColor rawColor darker darker ].
+	aScripter mouseMoveOver
+		// GtSourceCoderEditorId;
+		play.
+	aScripter mouseUp play.
+	aScripter mouseMoveOver
+		// GtCoderPrintStringElementId;
+		/ BrButton;
+		play.
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderSyntaxErrorColorsWithTheme: aTheme [
 	| aScripter |
 	aScripter := GtPharoSnippetCoderByScripterExamples new

@@ -253,6 +253,14 @@ GtLightThemeExamples >> methodCoderPrintResultColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderPrintResultMenuButtonColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		methodCoderPrintResultMenuButtonColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderSyntaxErrorColors [
 	<gtExample>
 	<return: #BlScripter>

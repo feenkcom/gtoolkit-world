@@ -489,6 +489,14 @@ GtDarkThemeExamples >> methodCoderPrintResultColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderPrintResultMenuButtonColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		methodCoderPrintResultMenuButtonColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodCoderSyntaxErrorColors [
 	<gtExample>
 	<return: #BlScripter>
