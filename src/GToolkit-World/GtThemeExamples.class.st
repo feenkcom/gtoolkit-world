@@ -725,6 +725,63 @@ GtThemeExamples >> methodCoderDynamicHighlightColorsWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderExampleStatusColorsWithTheme: aTheme [
+	| someCases aPane aScripter |
+	someCases := {{#three.
+				AssertionFailure.
+				'assert:'.
+				aTheme status failureBackgroundColor}.
+			{#two.
+				ZeroDivide.
+				'/'.
+				aTheme status errorBackgroundColor}}.
+	aPane := BrVerticalPane new
+			matchParent;
+			cellSpacing: 8;
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			yourself.
+	someCases
+		do: [ :aCase | 
+			| aClass aCoder |
+			aClass := GtFiltersDummyObjectWithAllExampleStates.
+			aCoder := GtPharoMethodCoder forMethod: aClass >> aCase first.
+			aCoder example run.
+			self assert: (aCoder example returnValue isKindOf: aCase second).
+			aPane addChild: aCoder asElement as: aCase first ].
+	aScripter := BlScripter new
+			extent: 640 @ 300;
+			element: aPane.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Example failures and errors use their status backgrounds';
+				value: [ :aRoot | 
+						someCases
+							collect: [ :aCase | 
+								| aCoderElement anEditor aText anUnderlay aStyle |
+								aCoderElement := aRoot childNamed: aCase first.
+								anEditor := aCoderElement withAllChildrenBreadthFirst
+										detect: [ :each | each id = GtSourceCoderEditorId asBlocElementId ].
+								aText := anEditor text.
+								anUnderlay := (aText
+										attributesAt: (aText asString findString: aCase third))
+										detect: [ :each | each isKindOf: BlTextUnderlayAttribute ].
+								aStyle := BlTextFontAndStyleBuilder new.
+								anUnderlay applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+								{(anUnderlay paint blocResolveForTheme: anEditor theme) == aCase fourth.
+									aStyle background} ] ]
+					equals: (someCases
+							collect: [ :aCase | 
+								{true.
+									aCase fourth rawColor} ]) ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderTimeLimitColorsWithTheme: aTheme [
 	| aCoder anElement aScripter |
 	aCoder := GtPharoMethodCoder
