@@ -620,6 +620,63 @@ GtThemeExamples >> baselinePackageExpanderBackgroundWithTheme: aTheme [
 				// GtPharoPackageCoderElement;
 				value: [ :anExpander | anExpander background paint color blocResolveColorForTheme: anExpander theme ]
 					equals: aTheme default contentBackground rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The class title uses the theme label foreground';
+				// GtPharoPackageCoderElement;
+				// GtClassCardElement;
+				// BlShrinkingTextElement;
+				@ [ :aTitle | aTitle text asString = 'GtObjectClipboard' ];
+				value: [ :aTitle | self resolvedTextForegroundOf: aTitle ]
+					equals: aTheme label defaultTextForeground rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> baselinePackageOccurrenceHighlightWithTheme: aTheme [
+	| aMethod aSource aPackageName aFirst aSecond aScripter |
+	aMethod := BaselineOfGToolkit4Ruby >> #baseline:.
+	aSource := aMethod sourceCode.
+	aPackageName := 'SmaCC_Mysql'.
+	aFirst := aSource findString: aPackageName.
+	aSecond := aSource findString: aPackageName startingAt: aFirst + 1.
+	aScripter := GtPharoDynamicHighlightStylerExamples new
+			scripterForBlock: [ (GtPharoMethodCoder forMethod: aMethod) asCoderViewModel ].
+	aScripter space windowExtent: 700 @ 195.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Move the cursor into the package name';
+				action: [ :aViewModel | aViewModel moveCursorTo: aFirst + 1 ];
+				onModel ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Both package occurrences use the editor highlight';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						{aFirst.
+							aSecond}
+							collect: [ :aPosition | 
+								| someHighlights |
+								someHighlights := (anEditor text attributesAt: aPosition)
+										select: [ :each | each isKindOf: GtPharoDynamicHighlightAttribute ].
+								(someHighlights
+									collect: [ :anAttribute | 
+										| aStyle |
+										aStyle := BlTextFontAndStyleBuilder new.
+										anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+										aStyle background ]) asSet ] ]
+					equals: (Array
+							new: 2
+							withAll: (Set with: aTheme editor occurrenceHighlight rawColor)) ].
 	^ aScripter
 ]
 

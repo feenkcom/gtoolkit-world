@@ -12,6 +12,13 @@ GtDarkThemeExamples >> baselinePackageExpanderBackground [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> baselinePackageOccurrenceHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageOccurrenceHighlightWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> classDefinitionHistoryDiffColors [
 	<gtExample>
 	<return: #BlScripter>

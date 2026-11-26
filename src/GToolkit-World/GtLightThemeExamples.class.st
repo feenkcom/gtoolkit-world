@@ -11,6 +11,13 @@ GtLightThemeExamples >> baselinePackageExpanderBackground [
 	^ self baselinePackageExpanderBackgroundWithTheme: BrGlamorousLightTheme new
 ]
 
+{ #category : #examples }
+GtLightThemeExamples >> baselinePackageOccurrenceHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageOccurrenceHighlightWithTheme: BrGlamorousLightTheme new
+]
+
 { #category : #'examples - lepiter' }
 GtLightThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 	<gtExample>
