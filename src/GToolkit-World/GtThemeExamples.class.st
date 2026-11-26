@@ -1099,6 +1099,39 @@ GtThemeExamples >> methodCoderPrintResultMenuButtonColorsWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderPrintResultTooltipColorsWithTheme: aTheme [
+	| aScripter someKeys |
+	aScripter := self methodCoderPrintResultColorsWithTheme: aTheme.
+	aScripter extent: 620 @ 235.
+	aScripter mouseMoveOver
+		// GtCoderPrintStringElementId;
+		/ #label;
+		play.
+	someKeys := #('ctrl/cmd + c' 'ctrl/cmd + i' 'enter' 'backspace').
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Print it shortcut labels use the themed neutral background';
+				onSpaceRoot;
+				// BrMenuSteppedElement;
+				// BrEditor;
+				value: [ :aTooltip | 
+						| aText aString |
+						aText := aTooltip text.
+						aString := aText asString.
+						someKeys
+							collect: [ :aKey | 
+								| aStyle |
+								aStyle := BlTextFontAndStyleBuilder new.
+								(aText attributesAt: (aString findString: aKey))
+									do: [ :anAttribute | anAttribute applyOnFontAndStyleBuilder: aStyle theme: aTooltip theme ].
+								aKey -> aStyle background ] ]
+					equals: (someKeys
+							collect: [ :aKey | aKey -> aTheme status neutralBackgroundColor rawColor ]) ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderSyntaxErrorColorsWithTheme: aTheme [
 	| aScripter |
 	aScripter := GtPharoSnippetCoderByScripterExamples new

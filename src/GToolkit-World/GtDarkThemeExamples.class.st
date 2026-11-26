@@ -497,6 +497,13 @@ GtDarkThemeExamples >> methodCoderPrintResultMenuButtonColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderPrintResultTooltipColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderPrintResultTooltipColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodCoderSyntaxErrorColors [
 	<gtExample>
 	<return: #BlScripter>
