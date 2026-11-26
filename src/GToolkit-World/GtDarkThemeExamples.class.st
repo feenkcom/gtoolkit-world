@@ -488,6 +488,13 @@ GtDarkThemeExamples >> methodHistoryDiffColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> scripterSourceReferenceColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self scripterSourceReferenceColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> themeableColorRoles [
 	<gtExample>
 	<return: #BrGlamorousDarkTheme>

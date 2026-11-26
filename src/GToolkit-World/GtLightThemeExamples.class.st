@@ -210,6 +210,13 @@ GtLightThemeExamples >> methodCoderTimeLimitColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> scripterSourceReferenceColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self scripterSourceReferenceColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> worldCoderColors [
 	<gtExample>
 	<return: #BlScripter>
