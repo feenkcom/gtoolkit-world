@@ -912,6 +912,47 @@ GtThemeExamples >> methodCoderExampleStatusColorsWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderParenthesesHighlightWithTheme: aTheme [
+	| aSource aCoder aScripter |
+	aSource := 'parenthesesHighlight
+	^ (10 + 20) * 3'.
+	aCoder := GtPharoMethodCoder new
+			behavior: GtThemeExamples;
+			sourceCodeSynchronously: (GtCoderExplicitStringSource new source: aSource);
+			yourself.
+	aScripter := GtPharoDynamicHighlightStylerExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter space windowExtent: 460 @ 135.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Move the cursor after the opening parenthesis';
+				action: [ :aViewModel | aViewModel moveCursorTo: (aSource indexOf: $() ];
+				onModel ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Matching parentheses use the editor highlight color';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| aText anAttribute aStyle |
+						aText := anEditor text.
+						anAttribute := (aText attributesAt: (aText asString findString: '10 + 20'))
+								detect: [ :each | each isKindOf: GtPharoParenthesesHighlightAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle background ]
+					equals: aTheme editor occurrenceHighlight rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderTimeLimitColorsWithTheme: aTheme [
 	| aCoder anElement aScripter |
 	aCoder := GtPharoMethodCoder

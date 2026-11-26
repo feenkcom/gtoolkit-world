@@ -225,6 +225,13 @@ GtLightThemeExamples >> methodCoderExampleStatusColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderParenthesesHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderParenthesesHighlightWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderTimeLimitColors [
 	<gtExample>
 	<return: #BlScripter>
