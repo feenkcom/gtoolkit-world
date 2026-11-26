@@ -4,6 +4,20 @@ Class {
 	#category : #'GToolkit-World-Examples'
 }
 
+{ #category : #examples }
+GtLightThemeExamples >> baselinePackageExpanderBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageExpanderBackgroundWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> baselinePackageOccurrenceHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageOccurrenceHighlightWithTheme: BrGlamorousLightTheme new
+]
+
 { #category : #'examples - lepiter' }
 GtLightThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 	<gtExample>
@@ -193,6 +207,27 @@ GtLightThemeExamples >> methodCoderDynamicHighlightColors [
 	<gtExample>
 	<return: #BlScripter>
 	^ self methodCoderDynamicHighlightColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderExampleStatusColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderExampleStatusColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderTimeLimitColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderTimeLimitColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> scripterSourceReferenceColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self scripterSourceReferenceColorsWithTheme: BrGlamorousLightTheme new
 ]
 
 { #category : #examples }

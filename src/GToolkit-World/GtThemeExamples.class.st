@@ -591,9 +591,98 @@ GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 					equals: aForeground ]
 ]
 
+{ #category : #examples }
+GtThemeExamples >> baselinePackageExpanderBackgroundWithTheme: aTheme [
+	| aCoder aPane aScripter |
+	aCoder := GtPharoMethodCoder
+			forMethod: BaselineOfGToolkitObjectClipboard >> #baseline:.
+	aPane := BrVerticalPane new
+			matchParent;
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			addChild: aCoder asExpandedOnlyElement;
+			yourself.
+	aScripter := BlScripter new
+			extent: 710 @ 590;
+			element: aPane.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Expand the baseline package';
+				id: GtSourceCoderEmbeddedExpanderToggleId ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The package expander uses the editor theme content background';
+				// GtPharoPackageCoderElement;
+				value: [ :anExpander | anExpander background paint color blocResolveColorForTheme: anExpander theme ]
+					equals: aTheme default contentBackground rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The class title uses the theme label foreground';
+				// GtPharoPackageCoderElement;
+				// GtClassCardElement;
+				// BlShrinkingTextElement;
+				@ [ :aTitle | aTitle text asString = 'GtObjectClipboard' ];
+				value: [ :aTitle | self resolvedTextForegroundOf: aTitle ]
+					equals: aTheme label defaultTextForeground rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> baselinePackageOccurrenceHighlightWithTheme: aTheme [
+	| aMethod aSource aPackageName aFirst aSecond aScripter |
+	aMethod := BaselineOfGToolkit4Ruby >> #baseline:.
+	aSource := aMethod sourceCode.
+	aPackageName := 'SmaCC_Mysql'.
+	aFirst := aSource findString: aPackageName.
+	aSecond := aSource findString: aPackageName startingAt: aFirst + 1.
+	aScripter := GtPharoDynamicHighlightStylerExamples new
+			scripterForBlock: [ (GtPharoMethodCoder forMethod: aMethod) asCoderViewModel ].
+	aScripter space windowExtent: 700 @ 195.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Move the cursor into the package name';
+				action: [ :aViewModel | aViewModel moveCursorTo: aFirst + 1 ];
+				onModel ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Both package occurrences use the editor highlight';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						{aFirst.
+							aSecond}
+							collect: [ :aPosition | 
+								| someHighlights |
+								someHighlights := (anEditor text attributesAt: aPosition)
+										select: [ :each | each isKindOf: GtPharoDynamicHighlightAttribute ].
+								(someHighlights
+									collect: [ :anAttribute | 
+										| aStyle |
+										aStyle := BlTextFontAndStyleBuilder new.
+										anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+										aStyle background ]) asSet ] ]
+					equals: (Array
+							new: 2
+							withAll: (Set with: aTheme editor occurrenceHighlight rawColor)) ].
+	^ aScripter
+]
+
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
 ]
 
 { #category : #examples }
@@ -724,6 +813,90 @@ GtThemeExamples >> methodCoderDynamicHighlightColorsWithTheme: aTheme [
 	^ aScripter
 ]
 
+{ #category : #examples }
+GtThemeExamples >> methodCoderExampleStatusColorsWithTheme: aTheme [
+	| someCases aPane aScripter |
+	someCases := {{#three.
+				AssertionFailure.
+				'assert:'.
+				aTheme status failureBackgroundColor}.
+			{#two.
+				ZeroDivide.
+				'/'.
+				aTheme status errorBackgroundColor}}.
+	aPane := BrVerticalPane new
+			matchParent;
+			cellSpacing: 8;
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			yourself.
+	someCases
+		do: [ :aCase | 
+			| aClass aCoder |
+			aClass := GtFiltersDummyObjectWithAllExampleStates.
+			aCoder := GtPharoMethodCoder forMethod: aClass >> aCase first.
+			aCoder example run.
+			self assert: (aCoder example returnValue isKindOf: aCase second).
+			aPane addChild: aCoder asElement as: aCase first ].
+	aScripter := BlScripter new
+			extent: 640 @ 300;
+			element: aPane.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Example failures and errors use their status backgrounds';
+				value: [ :aRoot | 
+						someCases
+							collect: [ :aCase | 
+								| aCoderElement anEditor aText anUnderlay aStyle |
+								aCoderElement := aRoot childNamed: aCase first.
+								anEditor := aCoderElement withAllChildrenBreadthFirst
+										detect: [ :each | each id = GtSourceCoderEditorId asBlocElementId ].
+								aText := anEditor text.
+								anUnderlay := (aText
+										attributesAt: (aText asString findString: aCase third))
+										detect: [ :each | each isKindOf: BlTextUnderlayAttribute ].
+								aStyle := BlTextFontAndStyleBuilder new.
+								anUnderlay applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+								{(anUnderlay paint blocResolveForTheme: anEditor theme) == aCase fourth.
+									aStyle background} ] ]
+					equals: (someCases
+							collect: [ :aCase | 
+								{true.
+									aCase fourth rawColor} ]) ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderTimeLimitColorsWithTheme: aTheme [
+	| aCoder anElement aScripter |
+	aCoder := GtPharoMethodCoder
+			forMethod: GtCoderExampleTimeLimitStylerExamples >> #methodWithTimeLimit.
+	anElement := aCoder asElement
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			yourself.
+	aScripter := BlScripter new
+			extent: 520 @ 145;
+			element: anElement.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The duration annotation uses the theme foreground';
+				id: GtSourceCoderEditorId;
+				// BlTextElement;
+				@ [ :aLabel | aLabel text asString = ' ms (2 minutes)' ];
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: aTheme button disabledTextColor rawColor ].
+	^ aScripter
+]
+
 { #category : #'asserting - theme' }
 GtThemeExamples >> resolvedTextForegroundOf: aGlyph [
 	| aForeground |
@@ -734,6 +907,59 @@ GtThemeExamples >> resolvedTextForegroundOf: aGlyph [
 		ifNil: [ (aGlyph defaultTextForeground ifNil: [ Color black ])
 				blocResolveColorForTheme: aGlyph theme ]
 		ifNotNil: [ aForeground paint blocResolveColorForTheme: aGlyph theme ]
+]
+
+{ #category : #examples }
+GtThemeExamples >> scripterSourceReferenceColorsWithTheme: aTheme [
+	| aMethod aSource aStart aReference anElement aPane aScripter aSearchDecoration |
+	aMethod := ProtoObject >> #isNil.
+	aSource := aMethod sourceCode.
+	aStart := aSource findString: 'false' startingAt: (aSource indexOf: $^).
+	aReference := BlDevScripterReference
+			method: aMethod asRingDefinition
+			interval: (aStart to: aStart + 4).
+	anElement := (aReference gtReferenceFor: GtPhlowView empty)
+			asElementDo: [ :each | each ].
+	aPane := BrVerticalPane new
+			matchParent;
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			addChild: anElement;
+			yourself.
+	aScripter := BlScripter new
+			extent: 520 @ 155;
+			element: aPane.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aSearchDecoration := GtSourceReferenceHighlighter highlightAttribute decoration.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The source reference uses the search underline';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| someAttributes anUnderline aDecoration |
+						someAttributes := anEditor text attributesAt: aStart.
+						anUnderline := someAttributes
+								detect: [ :each | each isKindOf: BlTextDecorationAttribute ]
+								ifNone: [ nil ].
+						aDecoration := anUnderline
+								ifNotNil: [ | aStyle |
+									aStyle := BlTextFontAndStyleBuilder new.
+									anUnderline applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+									aStyle decoration ].
+						{aDecoration
+								ifNotNil: [ {aDecoration type.
+										aDecoration thickness.
+										aDecoration color} ].
+							someAttributes
+								anySatisfy: [ :each | each isKindOf: BlTextUnderlayAttribute ]} ]
+					equals: {{aSearchDecoration type.
+								aSearchDecoration thickness.
+								aTheme editor sourceReferenceHighlight rawColor}.
+							false} ].
+	^ aScripter
 ]
 
 { #category : #examples }

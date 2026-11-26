@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #examples }
+GtDarkThemeExamples >> baselinePackageExpanderBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageExpanderBackgroundWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> baselinePackageOccurrenceHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageOccurrenceHighlightWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> classDefinitionHistoryDiffColors [
 	<gtExample>
 	<return: #BlScripter>
@@ -430,6 +444,20 @@ GtDarkThemeExamples >> methodCoderDynamicHighlightColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderExampleStatusColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderExampleStatusColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderTimeLimitColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderTimeLimitColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodHistoryDiffColors [
 	<gtExample>
 	<return: #BlScripter>
@@ -471,6 +499,13 @@ GtDarkThemeExamples >> methodHistoryDiffColors [
 							equals: {true.
 									aTheme editor pharoNumberLiteralForeground rawColor} ] ].
 	^ aScripter
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> scripterSourceReferenceColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self scripterSourceReferenceColorsWithTheme: BrGlamorousDarkTheme new
 ]
 
 { #category : #examples }
