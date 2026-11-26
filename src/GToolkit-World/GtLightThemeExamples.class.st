@@ -196,6 +196,14 @@ GtLightThemeExamples >> methodCoderCompletionColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderDefineClassPreviewBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		methodCoderDefineClassPreviewBackgroundWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderDeprecationColors [
 	<gtExample>
 	<return: #BlScripter>
