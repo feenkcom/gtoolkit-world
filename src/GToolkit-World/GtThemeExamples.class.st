@@ -682,7 +682,7 @@ GtThemeExamples >> baselinePackageOccurrenceHighlightWithTheme: aTheme [
 
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor neutralBorderColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
 ]
 
 { #category : #examples }
@@ -721,6 +721,47 @@ GtThemeExamples >> methodCoderCompletionColorsWithTheme: aTheme [
 						aStyleBuilder := BlTextFontAndStyleBuilder new.
 						aHighlight applyOnFontAndStyleBuilder: aStyleBuilder theme: anEditor theme.
 						aStyleBuilder background ]
+					equals: aTheme status paleErrorBackgroundColor rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderDefineClassPreviewBackgroundWithTheme: aTheme [
+	| aScripter |
+	aScripter := GtPharoMethodCoderByScripterExamples new
+			fixitCreateClass_03_click_define_class.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter extent: 670 @ 415.
+	aScripter pulse.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The class definition preview uses the theme content background';
+				// GtCreationFormWidget;
+				value: [ :aForm | 
+						{aForm theme.
+							aForm background paint color blocResolveColorForTheme: aForm theme} ]
+					equals: {aTheme.
+							aTheme default contentBackground rawColor} ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The undefined class uses the pale error background';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| aText anUnderlay aStyle |
+						aText := anEditor text.
+						anUnderlay := (aText
+								attributesAt: (aText asString findString: 'ClassThatDoesNotExist'))
+								detect: [ :each | each isKindOf: BlTextUnderlayAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anUnderlay applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle background ]
 					equals: aTheme status paleErrorBackgroundColor rawColor ].
 	^ aScripter
 ]

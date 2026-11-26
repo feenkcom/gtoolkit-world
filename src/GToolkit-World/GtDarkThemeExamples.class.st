@@ -78,11 +78,13 @@ GtDarkThemeExamples >> customizedThemeableColorsAfterThemeModified [
 	aTheme := BrGlamorousDarkTheme new.
 	aColor := BrAntColors cyan3.
 	aTheme status neutralBackgroundColor: aColor.
+	aTheme status neutralBorderColor: aColor.
 	aTheme link color: aColor.
 	aTheme item hoveredColor: aColor.
 	aTheme default primaryShadowColor: aColor.
 	aTheme themeModified.
 	{aTheme status neutralBackgroundColor.
+		aTheme status neutralBorderColor.
 		aTheme link color.
 		aTheme item hoveredColor.
 		aTheme default primaryShadowColor}
@@ -427,6 +429,14 @@ GtDarkThemeExamples >> methodCoderCompletionColors [
 	<gtExample>
 	<return: #BlScripter>
 	^ self methodCoderCompletionColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderDefineClassPreviewBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		methodCoderDefineClassPreviewBackgroundWithTheme: BrGlamorousDarkTheme new
 ]
 
 { #category : #examples }
