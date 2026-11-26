@@ -461,6 +461,13 @@ GtDarkThemeExamples >> methodCoderDynamicHighlightColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderEvaluationMarkerColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderEvaluationMarkerColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodCoderExampleStatusColors [
 	<gtExample>
 	<return: #BlScripter>

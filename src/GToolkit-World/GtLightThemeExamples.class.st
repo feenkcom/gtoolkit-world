@@ -225,6 +225,13 @@ GtLightThemeExamples >> methodCoderDynamicHighlightColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderEvaluationMarkerColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderEvaluationMarkerColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderExampleStatusColors [
 	<gtExample>
 	<return: #BlScripter>

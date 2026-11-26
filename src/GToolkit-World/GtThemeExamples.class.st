@@ -888,6 +888,79 @@ GtThemeExamples >> methodCoderDynamicHighlightColorsWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderEvaluationMarkerColorsWithTheme: aTheme [
+	| aSource aCoder aScripter |
+	aSource := 'evaluatedValue
+	^ 20 + 22'.
+	aCoder := GtPharoMethodCoder forClass: self class source: aSource.
+	aScripter := GtPharoMethodCoderByScripterExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter extent: 570 @ 325.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter methodCoder
+		select: '20 + 22'
+			from: (aSource findString: '20 + 22') - 1
+			to: aSource size;
+		play.
+	aScripter shortcut
+		combination: BlKeyCombination primaryD;
+		// GtSourceCoderEditorInnerId;
+		play.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Clear the original text selection';
+				// GtSourceCoderEditorId;
+				action: [ :anEditor | 
+					anEditor deselecter
+						all;
+						deselect ] ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The evaluation marker uses the default button border color';
+				// GtSourceCoderEditorId;
+				// BrButton;
+				@ [ :aButton | aButton geometry isKindOf: BlEllipseGeometry ];
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme button defaultBorderColor rawColor ].
+	aScripter mouseMoveOver
+		// GtSourceCoderEditorId;
+		// BrButton;
+		@ [ :aButton | aButton geometry isKindOf: BlEllipseGeometry ];
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The hovered evaluation marker uses the hovered button border color';
+				// GtSourceCoderEditorId;
+				// BrButton;
+				@ [ :aButton | aButton geometry isKindOf: BlEllipseGeometry ];
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme button hoveredBorderColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Hovering the evaluation marker highlights the evaluated expression';
+				// GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| anAttribute aStyle |
+						anAttribute := (anEditor text
+								attributesAt: (aSource findString: '20 + 22'))
+								detect: [ :each | each isKindOf: BlTextHighlightAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle background ]
+					equals: aTheme button textHighlightColor rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderExampleStatusColorsWithTheme: aTheme [
 	| someCases aPane aScripter |
 	someCases := {{#three.
