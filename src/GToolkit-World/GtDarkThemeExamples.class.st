@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #examples }
+GtDarkThemeExamples >> baselinePackageExpanderBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageExpanderBackgroundWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> classDefinitionHistoryDiffColors [
 	<gtExample>
 	<return: #BlScripter>

@@ -591,6 +591,38 @@ GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 					equals: aForeground ]
 ]
 
+{ #category : #examples }
+GtThemeExamples >> baselinePackageExpanderBackgroundWithTheme: aTheme [
+	| aCoder aPane aScripter |
+	aCoder := GtPharoMethodCoder
+			forMethod: BaselineOfGToolkitObjectClipboard >> #baseline:.
+	aPane := BrVerticalPane new
+			matchParent;
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			addChild: aCoder asExpandedOnlyElement;
+			yourself.
+	aScripter := BlScripter new
+			extent: 710 @ 590;
+			element: aPane.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Expand the baseline package';
+				id: GtSourceCoderEmbeddedExpanderToggleId ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The package expander uses the editor theme content background';
+				// GtPharoPackageCoderElement;
+				value: [ :anExpander | anExpander background paint color blocResolveColorForTheme: anExpander theme ]
+					equals: aTheme default contentBackground rawColor ].
+	^ aScripter
+]
+
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
 	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))

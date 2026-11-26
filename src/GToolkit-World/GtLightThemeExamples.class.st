@@ -4,6 +4,13 @@ Class {
 	#category : #'GToolkit-World-Examples'
 }
 
+{ #category : #examples }
+GtLightThemeExamples >> baselinePackageExpanderBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self baselinePackageExpanderBackgroundWithTheme: BrGlamorousLightTheme new
+]
+
 { #category : #'examples - lepiter' }
 GtLightThemeExamples >> hoverOverLepiterTextAndPharoSnippets [
 	<gtExample>
