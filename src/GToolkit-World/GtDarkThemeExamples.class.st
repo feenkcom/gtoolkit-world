@@ -468,6 +468,13 @@ GtDarkThemeExamples >> methodCoderParenthesesHighlight [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderSyntaxErrorColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderSyntaxErrorColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodCoderTimeLimitColors [
 	<gtExample>
 	<return: #BlScripter>

@@ -953,6 +953,66 @@ GtThemeExamples >> methodCoderParenthesesHighlightWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderSyntaxErrorColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := GtPharoSnippetCoderByScripterExamples new
+			scripterForBlock: [ GtPharoMethodCoder forNewMethod: self class ].
+	aScripter space windowExtent: 540 @ 220.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter clickStep: [ :aStep | aStep // GtSourceCoderEditorId ].
+	(aScripter type: 'broken ^ (1 + 2') play.
+	aScripter clickStep: [ :aStep | aStep // GtMethodCoderSaveActionId ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The syntax error popup uses the standard themed border';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtSourceCoderErrorContentElementId;
+				value: [ :aContent | 
+						| aMenu |
+						aMenu := aContent parent.
+						aMenu border paint color blocResolveColorForTheme: aMenu theme ]
+					equals: aTheme button defaultBorderColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The syntax error marker uses the themed error color';
+				// GtSourceCoderErrorButtonElementId;
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme status errorBackgroundColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The open syntax error popup keeps the themed error marker';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtSourceCoderErrorContentElementId;
+				value: [ :aContent | 
+						| aHandle |
+						aHandle := aContent parent children
+								detect: [ :each | each isKindOf: BrButton ].
+						aHandle background paint color blocResolveColorForTheme: aHandle theme ]
+					equals: aTheme status errorBackgroundColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The syntax error message uses the themed label foreground';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtSourceCoderErrorContentElementId;
+				// BlTextElement;
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: aTheme label defaultTextForeground rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderTimeLimitColorsWithTheme: aTheme [
 	| aCoder anElement aScripter |
 	aCoder := GtPharoMethodCoder
