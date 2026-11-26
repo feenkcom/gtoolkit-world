@@ -724,6 +724,33 @@ GtThemeExamples >> methodCoderDynamicHighlightColorsWithTheme: aTheme [
 	^ aScripter
 ]
 
+{ #category : #examples }
+GtThemeExamples >> methodCoderTimeLimitColorsWithTheme: aTheme [
+	| aCoder anElement aScripter |
+	aCoder := GtPharoMethodCoder
+			forMethod: GtCoderExampleTimeLimitStylerExamples >> #methodWithTimeLimit.
+	anElement := aCoder asElement
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			yourself.
+	aScripter := BlScripter new
+			extent: 520 @ 145;
+			element: anElement.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The duration annotation uses the theme foreground';
+				id: GtSourceCoderEditorId;
+				// BlTextElement;
+				@ [ :aLabel | aLabel text asString = ' ms (2 minutes)' ];
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: aTheme button disabledTextColor rawColor ].
+	^ aScripter
+]
+
 { #category : #'asserting - theme' }
 GtThemeExamples >> resolvedTextForegroundOf: aGlyph [
 	| aForeground |

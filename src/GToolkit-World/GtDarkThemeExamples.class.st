@@ -430,6 +430,13 @@ GtDarkThemeExamples >> methodCoderDynamicHighlightColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderTimeLimitColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderTimeLimitColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodHistoryDiffColors [
 	<gtExample>
 	<return: #BlScripter>
