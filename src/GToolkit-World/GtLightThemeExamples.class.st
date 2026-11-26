@@ -232,6 +232,13 @@ GtLightThemeExamples >> methodCoderExampleStatusColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderFoldableTextHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderFoldableTextHighlightWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderParenthesesHighlight [
 	<gtExample>
 	<return: #BlScripter>

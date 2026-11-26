@@ -945,6 +945,46 @@ GtThemeExamples >> methodCoderExampleStatusColorsWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderFoldableTextHighlightWithTheme: aTheme [
+	| aCoder aScripter |
+	aCoder := GtPharoMethodCoder
+			forClass: self class
+			source: 'foldNoiseExample
+	self assert: true description: ''Always true''.
+	^ 1'.
+	aScripter := GtPharoDynamicHighlightStylerExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter extent: 580 @ 175.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter mouseMoveOver
+		label: 'Hover over the Assert fold control';
+		// GtSourceCoderEditorId;
+		// BrInlineExpanderElement;
+		@ [ :anExpander | anExpander id = BlElementId noId ];
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Foldable code uses the editor highlight color';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| aText anAttribute aStyle |
+						aText := anEditor text.
+						anAttribute := (aText attributesAt: (aText asString findString: 'assert:'))
+								detect: [ :each | each isKindOf: BlTextHighlightAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle background ]
+					equals: aTheme editor occurrenceHighlight rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderParenthesesHighlightWithTheme: aTheme [
 	| aSource aCoder aScripter |
 	aSource := 'parenthesesHighlight

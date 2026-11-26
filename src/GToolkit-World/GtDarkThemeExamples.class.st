@@ -468,6 +468,13 @@ GtDarkThemeExamples >> methodCoderExampleStatusColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderFoldableTextHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderFoldableTextHighlightWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodCoderParenthesesHighlight [
 	<gtExample>
 	<return: #BlScripter>
