@@ -952,7 +952,7 @@ GtThemeExamples >> methodCoderEvaluationMarkerColorsWithTheme: aTheme [
 						| anAttribute aStyle |
 						anAttribute := (anEditor text
 								attributesAt: (aSource findString: '20 + 22'))
-								detect: [ :each | each isKindOf: BlTextHighlightAttribute ].
+								detect: [ :each | each isKindOf: BlTextUnderlayAttribute ].
 						aStyle := BlTextFontAndStyleBuilder new.
 						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
 						aStyle background ]
