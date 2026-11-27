@@ -337,7 +337,7 @@ GtDarkThemeExamples >> lepiterPageWithTextAndPharoSnippets [
 	self
 		assertLepiterPageBackground: (aTheme default contentBackground
 				blocResolveColorForTheme: aTheme)
-		snippetForeground: (Color fromHexString: '#EAEAEA')
+		snippetForeground: aTheme editor defaultTextForeground rawColor
 		in: aScripter.
 	^ aScripter
 ]
@@ -424,6 +424,34 @@ GtDarkThemeExamples >> lepiterTreePagerConfigurationColors [
 	^ aScripter
 ]
 
+{ #category : #magritte }
+GtDarkThemeExamples >> magritteActionColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteActionColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #magritte }
+GtDarkThemeExamples >> magritteReadOnlyEditorColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteReadOnlyEditorColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #magritte }
+GtDarkThemeExamples >> magritteValidationColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteValidationColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderClassExpanderBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderClassExpanderBackgroundWithTheme: BrGlamorousDarkTheme new
+]
+
 { #category : #examples }
 GtDarkThemeExamples >> methodCoderCompletionColors [
 	<gtExample>
@@ -454,10 +482,60 @@ GtDarkThemeExamples >> methodCoderDynamicHighlightColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> methodCoderEvaluationMarkerColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderEvaluationMarkerColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> methodCoderExampleStatusColors [
 	<gtExample>
 	<return: #BlScripter>
 	^ self methodCoderExampleStatusColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderFoldableTextHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderFoldableTextHighlightWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderParenthesesHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderParenthesesHighlightWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderPrintResultColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderPrintResultColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderPrintResultMenuButtonColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		methodCoderPrintResultMenuButtonColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderPrintResultTooltipColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderPrintResultTooltipColorsWithTheme: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> methodCoderSyntaxErrorColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderSyntaxErrorColorsWithTheme: BrGlamorousDarkTheme new
 ]
 
 { #category : #examples }
@@ -627,6 +705,15 @@ GtDarkThemeExamples >> worldInspectorTabIconColors [
 					equals: {aForeground.
 							aForeground} ].
 	^ aScripter
+]
+
+{ #category : #examples }
+GtDarkThemeExamples >> worldMenuIconColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		worldMenuIconColorsWithTheme: BrGlamorousDarkTheme new
+		switchingTo: BrGlamorousLightTheme new
 ]
 
 { #category : #examples }

@@ -545,6 +545,49 @@ GtThemeExamples >> assertTreePagerPaneButtonColorsIn: aScripter [
 							0 @ 1} ]
 ]
 
+{ #category : #examples }
+GtThemeExamples >> assertWorldMenuIconColorsIn: aScripter [
+	| someIconPaintCounts aForeground |
+	someIconPaintCounts := {'Page' -> 2.
+			'Knowledge bases' -> 2.
+			'Coder' -> 1.
+			'Git' -> 1.
+			'Code changes' -> 3.
+			'Monitor' -> 1.
+			'Transcript' -> 1}.
+	aForeground := aScripter element theme label defaultTextForeground rawColor.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The world menu tool icons use the theme foreground';
+				onSpaceRoot;
+				// GtToolsMenu;
+				value: [ :aMenu | 
+						someIconPaintCounts
+							collect: [ :aCase | 
+								| aCard somePaints |
+								aCard := aMenu children
+										detect: [ :each | 
+											each
+												childNamed: #cardLabel
+												ifFound: [ :aLabel | aLabel text asString = aCase key ]
+												ifNone: [ false ] ].
+								somePaints := OrderedCollection new.
+								(aCard childNamed: #cardIcon)
+									withAllChildrenBreadthFirstDo: [ :anElement | 
+										(anElement background isKindOf: BlPaintBackground)
+											ifTrue: [ somePaints
+													add: (anElement background paint color blocResolveColorForTheme: anElement theme) ].
+										anElement border isVisible
+											ifTrue: [ somePaints
+													add: (anElement border paint color blocResolveColorForTheme: anElement theme) ].
+										(anElement isKindOf: BlTextElement)
+											ifTrue: [ somePaints add: (self resolvedTextForegroundOf: anElement) ] ].
+								aCase key -> somePaints asArray ] ]
+					equals: (someIconPaintCounts
+							collect: [ :aCase | aCase key -> (Array new: aCase value withAll: aForeground) ]) ]
+]
+
 { #category : #assertions }
 GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 	| aTheme aForeground aPageTitle |
@@ -682,7 +725,240 @@ GtThemeExamples >> baselinePackageOccurrenceHighlightWithTheme: aTheme [
 
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor neutralBorderColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor focusedReadOnlyTextForeground completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor neutralBorderColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor errorTextForeground successTextForeground)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+]
+
+{ #category : #magritte }
+GtThemeExamples >> magritteActionColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := GtMagritteByScripterExamples new
+			addressWithCallbacksAndDefectiveAcceptAction.
+	aScripter extent: 850 @ 215.
+	aScripter element theme: aTheme.
+	aScripter space root
+		size: aScripter extent;
+		theme: aTheme;
+		background: aTheme default contentBackground.
+
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The execution error uses the status background';
+				// GtMagritteExecutionStatusElementId;
+				value: [ :aStatus | 
+						aStatus background isTransparent
+							ifTrue: [ Color transparent ]
+							ifFalse: [ aStatus background paint color blocResolveColorForTheme: aStatus theme ] ]
+					equals: aTheme status errorBackgroundColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The exception text uses the regular foreground';
+				// GtMagritteExecutionStatusElementId;
+				// BrLabel;
+				/ #label;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme label defaultTextForeground rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The debugger icon uses the button foreground';
+				// GtMagritteExecutionStatusElementId;
+				// BrButton;
+				/ #icon;
+				value: [ :anIcon | anIcon background paint color blocResolveColorForTheme: anIcon theme ]
+					equals: aTheme button defaultTextForeground rawColor ].
+
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Show the executing state';
+				// GtMagritteExecutionStatusElementId;
+				block: [ :aStatus | aStatus onExecutionStatusChanged: GtMagritteExecutionExecutingStatus new ] ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The executing state uses the metadata foreground';
+				// GtMagritteExecutionStatusElementId;
+				// BrLabel;
+				/ #label;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme label metadataTextForeground rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The executing state clears the error background';
+				// GtMagritteExecutionStatusElementId;
+				value: [ :aStatus | aStatus background isTransparent ] equals: true ].
+
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Show the failed action again';
+				// GtMagritteExecutionStatusElementId;
+				block: [ :aStatus | 
+					aStatus
+						onExecutionStatusChanged: aStatus mementoViewModel memento executionStatus valueOrNil ] ].
+
+	^ aScripter
+]
+
+{ #category : #magritte }
+GtThemeExamples >> magritteReadOnlyEditorColorsWithTheme: aTheme [
+	| aScripter aPortId anActionId |
+	aScripter := GtMagritteByScripterExamples new serverObjectInStartedState.
+	aScripter extent: 520 @ 210.
+	aScripter element theme: aTheme.
+	aScripter space root
+		size: aScripter extent;
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aPortId := GtMagritteFieldElementId new
+			description: aScripter model portDescription.
+	anActionId := GtMagritteActionElementId new
+			description: aScripter model startAndStopActionDescription.
+
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Apply the Magritte editor aptitude to the read-only port';
+				// aPortId;
+				block: [ :anEditor | anEditor addAptitude: GtMagritteEditorAptitude new ] ].
+	aScripter mouseMoveOver
+		// aPortId;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The hovered read-only editor uses the disabled surface';
+				// aPortId;
+				value: [ :anEditor | anEditor background paint color blocResolveColorForTheme: anEditor theme ]
+					equals: aTheme button disabledBackgroundColor rawColor ].
+
+	aScripter requestFocus
+		// aPortId;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The focused read-only editor uses the focus color';
+				// aPortId;
+				value: [ :anEditor | anEditor background paint color blocResolveColorForTheme: anEditor theme ]
+					equals: aTheme editor focusedBorderColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The focused read-only text contrasts with its background';
+				// aPortId;
+				// BrTextElementWithCursors;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme editor focusedReadOnlyTextForeground rawColor ].
+
+	aScripter requestFocus
+		// anActionId;
+		play.
+	aScripter mouseMoveOver
+		// anActionId;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The read-only editor restores the normal foreground when focus moves';
+				// aPortId;
+				// BrTextElementWithCursors;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme editor defaultTextForeground rawColor ].
+
+	^ aScripter
+]
+
+{ #category : #magritte }
+GtThemeExamples >> magritteValidationColorsWithTheme: aTheme [
+	| aScripter aDescription aValidatorId |
+	aScripter := GtMagritteByScripterExamples new addressEmptyStreet.
+	aScripter extent: 520 @ 210.
+	aScripter element theme: aTheme.
+	aScripter space root
+		size: aScripter extent;
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aDescription := aScripter model descriptionStreet.
+	aValidatorId := GtMagritteValidatorElementId new description: aDescription.
+
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The field label uses the metadata foreground';
+				// (GtMagritteFieldLabelId new description: aDescription);
+				// #label;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme label metadataTextForeground rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The changed field shows the change color';
+				// aValidatorId;
+				// GtMagritteChangeIndicatorId;
+				value: [ :anElement | anElement isVisible ] equals: true;
+				value: [ :anElement | anElement background paint color blocResolveColorForTheme: anElement theme ]
+					equals: aTheme status changesBackgroundColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The invalid field shows the error color';
+				// aValidatorId;
+				// GtMagritteChangeErrorIndicatorId;
+				value: [ :anElement | anElement isVisible ] equals: true;
+				value: [ :anElement | anElement background paint color blocResolveColorForTheme: anElement theme ]
+					equals: aTheme status errorBackgroundColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The validation message uses the error foreground';
+				// aValidatorId;
+				// GtMagritteIssuesExplanationId;
+				value: [ :anEditor | anEditor isVisible ] equals: true;
+				value: [ :anEditor | 
+						| someGlyphs |
+						someGlyphs := anEditor
+								allChildrenBreadthFirstSelect: [ :each | each isKindOf: BrTextElementWithCursors ].
+						(someGlyphs collect: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ])
+							asSet ]
+					equals: (Set with: aTheme status errorTextForeground rawColor) ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Primary checkbox uses the control background';
+				// (GtMagritteFieldElementId new description: aScripter model descriptionIsPrimary);
+				// BrCheckbox;
+				value: [ :aCheckbox | aCheckbox background paint color blocResolveColorForTheme: aCheckbox theme ]
+					equals: aTheme button defaultBackground rawColor ].
+
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderClassExpanderBackgroundWithTheme: aTheme [
+	| aCoder aPane aScripter |
+	aCoder := GtPharoMethodCoder
+			forClass: self class
+			source: 'example ^ OrderedCollection new'.
+	aPane := BrVerticalPane new
+			matchParent;
+			theme: aTheme;
+			background: aTheme default contentBackground;
+			addChild: aCoder asExpandedOnlyElement;
+			yourself.
+	aScripter := BlScripter new
+			extent: 710 @ 530;
+			element: aPane.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		clickStep: [ :aStep | 
+			aStep
+				label: 'Expand OrderedCollection';
+				// (GtPharoBehaviorExpanderId indexed: 1) ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The embedded class coder uses the theme content background';
+				// GtCoderElement;
+				value: [ :aClassCoder | aClassCoder background paint color blocResolveColorForTheme: aClassCoder theme ]
+					equals: aTheme default contentBackground rawColor ].
+	^ aScripter
 ]
 
 { #category : #examples }
@@ -855,6 +1131,79 @@ GtThemeExamples >> methodCoderDynamicHighlightColorsWithTheme: aTheme [
 ]
 
 { #category : #examples }
+GtThemeExamples >> methodCoderEvaluationMarkerColorsWithTheme: aTheme [
+	| aSource aCoder aScripter |
+	aSource := 'evaluatedValue
+	^ 20 + 22'.
+	aCoder := GtPharoMethodCoder forClass: self class source: aSource.
+	aScripter := GtPharoMethodCoderByScripterExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter extent: 570 @ 325.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter methodCoder
+		select: '20 + 22'
+			from: (aSource findString: '20 + 22') - 1
+			to: aSource size;
+		play.
+	aScripter shortcut
+		combination: BlKeyCombination primaryD;
+		// GtSourceCoderEditorInnerId;
+		play.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Clear the original text selection';
+				// GtSourceCoderEditorId;
+				action: [ :anEditor | 
+					anEditor deselecter
+						all;
+						deselect ] ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The evaluation marker uses the default button border color';
+				// GtSourceCoderEditorId;
+				// BrButton;
+				@ [ :aButton | aButton geometry isKindOf: BlEllipseGeometry ];
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme button defaultBorderColor rawColor ].
+	aScripter mouseMoveOver
+		// GtSourceCoderEditorId;
+		// BrButton;
+		@ [ :aButton | aButton geometry isKindOf: BlEllipseGeometry ];
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The hovered evaluation marker uses the hovered button border color';
+				// GtSourceCoderEditorId;
+				// BrButton;
+				@ [ :aButton | aButton geometry isKindOf: BlEllipseGeometry ];
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme button hoveredBorderColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Hovering the evaluation marker highlights the evaluated expression';
+				// GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| anAttribute aStyle |
+						anAttribute := (anEditor text
+								attributesAt: (aSource findString: '20 + 22'))
+								detect: [ :each | each isKindOf: BlTextUnderlayAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle background ]
+					equals: aTheme button textHighlightColor rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
 GtThemeExamples >> methodCoderExampleStatusColorsWithTheme: aTheme [
 	| someCases aPane aScripter |
 	someCases := {{#three.
@@ -908,6 +1257,253 @@ GtThemeExamples >> methodCoderExampleStatusColorsWithTheme: aTheme [
 							collect: [ :aCase | 
 								{true.
 									aCase fourth rawColor} ]) ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderFoldableTextHighlightWithTheme: aTheme [
+	| aCoder aScripter |
+	aCoder := GtPharoMethodCoder
+			forClass: self class
+			source: 'foldNoiseExample
+	self assert: true description: ''Always true''.
+	^ 1'.
+	aScripter := GtPharoDynamicHighlightStylerExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter extent: 580 @ 175.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter mouseMoveOver
+		label: 'Hover over the Assert fold control';
+		// GtSourceCoderEditorId;
+		// BrInlineExpanderElement;
+		@ [ :anExpander | anExpander id = BlElementId noId ];
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Foldable code uses the editor highlight color';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| aText anAttribute aStyle |
+						aText := anEditor text.
+						anAttribute := (aText attributesAt: (aText asString findString: 'assert:'))
+								detect: [ :each | each isKindOf: BlTextHighlightAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle background ]
+					equals: aTheme editor occurrenceHighlight rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderParenthesesHighlightWithTheme: aTheme [
+	| aSource aCoder aScripter |
+	aSource := 'parenthesesHighlight
+	^ (10 + 20) * 3'.
+	aCoder := GtPharoMethodCoder new
+			behavior: GtThemeExamples;
+			sourceCodeSynchronously: (GtCoderExplicitStringSource new source: aSource);
+			yourself.
+	aScripter := GtPharoDynamicHighlightStylerExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter space windowExtent: 460 @ 135.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Move the cursor after the opening parenthesis';
+				action: [ :aViewModel | aViewModel moveCursorTo: (aSource indexOf: $() ];
+				onModel ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'Matching parentheses use the editor highlight color';
+				id: GtSourceCoderEditorId;
+				value: [ :anEditor | 
+						| aText anAttribute aStyle |
+						aText := anEditor text.
+						anAttribute := (aText attributesAt: (aText asString findString: '10 + 20'))
+								detect: [ :each | each isKindOf: GtPharoParenthesesHighlightAttribute ].
+						aStyle := BlTextFontAndStyleBuilder new.
+						anAttribute applyOnFontAndStyleBuilder: aStyle theme: anEditor theme.
+						aStyle background ]
+					equals: aTheme editor occurrenceHighlight rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderPrintResultColorsWithTheme: aTheme [
+	| aSource aCoder aScripter |
+	aSource := 'printedValue
+	^ 20 + 22'.
+	aCoder := GtPharoMethodCoder forClass: self class source: aSource.
+	aScripter := GtPharoMethodCoderByScripterExamples new
+			scripterForBlock: [ aCoder asCoderViewModel ].
+	aScripter extent: 560 @ 175.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter methodCoder
+		select: '20 + 22'
+			from: (aSource findString: '20 + 22') - 1
+			to: aSource size;
+		printIt;
+		assertPrintItString: '42';
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The printed result uses the neutral background and editor focus border';
+				// GtCoderPrintStringElementId;
+				value: [ :aLabel | 
+						{aLabel isFocused.
+							aLabel background paint color blocResolveColorForTheme: aLabel theme.
+							aLabel border paint color blocResolveColorForTheme: aLabel theme} ]
+					equals: {true.
+							aTheme status neutralBackgroundColor rawColor.
+							aTheme editor focusedBorderColor rawColor} ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderPrintResultMenuButtonColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := self methodCoderPrintResultColorsWithTheme: aTheme.
+	aScripter mouseMoveOver
+		// GtCoderPrintStringElementId;
+		/ BrButton;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Print it menu button uses the themed hover background';
+				// GtCoderPrintStringElementId;
+				/ BrButton;
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme status neutralBackgroundColor rawColor darker ].
+	aScripter mouseDown play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Print it menu button uses the themed pressed background';
+				// GtCoderPrintStringElementId;
+				/ BrButton;
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme status neutralBackgroundColor rawColor darker darker ].
+	aScripter mouseMoveOver
+		// GtSourceCoderEditorId;
+		play.
+	aScripter mouseUp play.
+	aScripter mouseMoveOver
+		// GtCoderPrintStringElementId;
+		/ BrButton;
+		play.
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderPrintResultTooltipColorsWithTheme: aTheme [
+	| aScripter someKeys |
+	aScripter := self methodCoderPrintResultColorsWithTheme: aTheme.
+	aScripter extent: 620 @ 235.
+	aScripter mouseMoveOver
+		// GtCoderPrintStringElementId;
+		/ #label;
+		play.
+	someKeys := #('ctrl/cmd + c' 'ctrl/cmd + i' 'enter' 'backspace').
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Print it shortcut labels use the themed neutral background';
+				onSpaceRoot;
+				// BrMenuSteppedElement;
+				// BrEditor;
+				value: [ :aTooltip | 
+						| aText aString |
+						aText := aTooltip text.
+						aString := aText asString.
+						someKeys
+							collect: [ :aKey | 
+								| aStyle |
+								aStyle := BlTextFontAndStyleBuilder new.
+								(aText attributesAt: (aString findString: aKey))
+									do: [ :anAttribute | anAttribute applyOnFontAndStyleBuilder: aStyle theme: aTooltip theme ].
+								aKey -> aStyle background ] ]
+					equals: (someKeys
+							collect: [ :aKey | aKey -> aTheme status neutralBackgroundColor rawColor ]) ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> methodCoderSyntaxErrorColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := GtPharoSnippetCoderByScripterExamples new
+			scripterForBlock: [ GtPharoMethodCoder forNewMethod: self class ].
+	aScripter space windowExtent: 540 @ 220.
+	aScripter element
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter clickStep: [ :aStep | aStep // GtSourceCoderEditorId ].
+	(aScripter type: 'broken ^ (1 + 2') play.
+	aScripter clickStep: [ :aStep | aStep // GtMethodCoderSaveActionId ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The syntax error popup uses the standard themed border';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtSourceCoderErrorContentElementId;
+				value: [ :aContent | 
+						| aMenu |
+						aMenu := aContent parent.
+						aMenu border paint color blocResolveColorForTheme: aMenu theme ]
+					equals: aTheme button defaultBorderColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The syntax error marker uses the themed error color';
+				// GtSourceCoderErrorButtonElementId;
+				value: [ :aButton | aButton background paint color blocResolveColorForTheme: aButton theme ]
+					equals: aTheme status errorBackgroundColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The open syntax error popup keeps the themed error marker';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtSourceCoderErrorContentElementId;
+				value: [ :aContent | 
+						| aHandle |
+						aHandle := aContent parent children
+								detect: [ :each | each isKindOf: BrButton ].
+						aHandle background paint color blocResolveColorForTheme: aHandle theme ]
+					equals: aTheme status errorBackgroundColor rawColor ].
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The syntax error message uses the themed label foreground';
+				onSpaceRoot;
+				onDropdown: true;
+				// GtSourceCoderErrorContentElementId;
+				// BlTextElement;
+				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
+					equals: aTheme label defaultTextForeground rawColor ].
 	^ aScripter
 ]
 
@@ -1072,6 +1668,36 @@ GtThemeExamples >> worldCoderWithTheme: aTheme [
 				// GtFilterItemsElement;
 				// (GtFilterNameId indexed: 2);
 				// GtPagerClosePageButtonElementId ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> worldMenuIconColorsWithTheme: aTheme switchingTo: anotherTheme [
+	| aWorldExamples aScripter |
+	aWorldExamples := GtWorldByScripterExamples new.
+	aScripter := aWorldExamples worldElementInScripter.
+	aScripter extent: 1100 @ 710.
+	aScripter element theme: aTheme.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter pulse.
+	aWorldExamples openWorldMenuIn: aScripter.
+	self assertWorldMenuIconColorsIn: aScripter.
+	{anotherTheme.
+		aTheme}
+		do: [ :aLocalTheme | 
+			aScripter
+				doStep: [ :aStep | 
+					aStep
+						label: 'Switch the theme with the world menu open';
+						onSpaceRoot;
+						block: [ :aRoot | 
+							aScripter element theme: aLocalTheme.
+							aRoot
+								theme: aLocalTheme;
+								background: aLocalTheme default contentBackground ] ].
+			self assertWorldMenuIconColorsIn: aScripter ].
 	^ aScripter
 ]
 

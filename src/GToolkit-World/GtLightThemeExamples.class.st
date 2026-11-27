@@ -188,6 +188,34 @@ GtLightThemeExamples >> lepiterTreePagerConfigurationColors [
 	^ aScripter
 ]
 
+{ #category : #magritte }
+GtLightThemeExamples >> magritteActionColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteActionColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #magritte }
+GtLightThemeExamples >> magritteReadOnlyEditorColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteReadOnlyEditorColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #magritte }
+GtLightThemeExamples >> magritteValidationColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteValidationColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderClassExpanderBackground [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderClassExpanderBackgroundWithTheme: BrGlamorousLightTheme new
+]
+
 { #category : #examples }
 GtLightThemeExamples >> methodCoderCompletionColors [
 	<gtExample>
@@ -218,10 +246,60 @@ GtLightThemeExamples >> methodCoderDynamicHighlightColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> methodCoderEvaluationMarkerColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderEvaluationMarkerColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> methodCoderExampleStatusColors [
 	<gtExample>
 	<return: #BlScripter>
 	^ self methodCoderExampleStatusColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderFoldableTextHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderFoldableTextHighlightWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderParenthesesHighlight [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderParenthesesHighlightWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderPrintResultColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderPrintResultColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderPrintResultMenuButtonColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		methodCoderPrintResultMenuButtonColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderPrintResultTooltipColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderPrintResultTooltipColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> methodCoderSyntaxErrorColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self methodCoderSyntaxErrorColorsWithTheme: BrGlamorousLightTheme new
 ]
 
 { #category : #examples }
@@ -243,6 +321,15 @@ GtLightThemeExamples >> worldCoderColors [
 	<gtExample>
 	<return: #BlScripter>
 	^ self worldCoderWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
+GtLightThemeExamples >> worldMenuIconColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		worldMenuIconColorsWithTheme: BrGlamorousLightTheme new
+		switchingTo: BrGlamorousDarkTheme new
 ]
 
 { #category : #examples }

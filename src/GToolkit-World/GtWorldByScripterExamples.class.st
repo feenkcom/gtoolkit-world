@@ -2263,8 +2263,11 @@ GtWorldByScripterExamples >> openLepiterTreePagerConfigurationIn: aScripter [
 GtWorldByScripterExamples >> openWorldMenu [
 	<gtExample>
 	<return: #BlScripter>
-	| aScripter |
-	aScripter := self worldElementInScripter.
+	^ self openWorldMenuIn: self worldElementInScripter
+]
+
+{ #category : #examples }
+GtWorldByScripterExamples >> openWorldMenuIn: aScripter [
 	aScripter
 		substep: 'Open world menu dropdown'
 		do: [ :aStep | 
