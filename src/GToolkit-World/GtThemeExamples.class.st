@@ -545,6 +545,49 @@ GtThemeExamples >> assertTreePagerPaneButtonColorsIn: aScripter [
 							0 @ 1} ]
 ]
 
+{ #category : #examples }
+GtThemeExamples >> assertWorldMenuIconColorsIn: aScripter [
+	| someIconPaintCounts aForeground |
+	someIconPaintCounts := {'Page' -> 2.
+			'Knowledge bases' -> 2.
+			'Coder' -> 1.
+			'Git' -> 1.
+			'Code changes' -> 3.
+			'Monitor' -> 1.
+			'Transcript' -> 1}.
+	aForeground := aScripter element theme label defaultTextForeground rawColor.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The world menu tool icons use the theme foreground';
+				onSpaceRoot;
+				// GtToolsMenu;
+				value: [ :aMenu | 
+						someIconPaintCounts
+							collect: [ :aCase | 
+								| aCard somePaints |
+								aCard := aMenu children
+										detect: [ :each | 
+											each
+												childNamed: #cardLabel
+												ifFound: [ :aLabel | aLabel text asString = aCase key ]
+												ifNone: [ false ] ].
+								somePaints := OrderedCollection new.
+								(aCard childNamed: #cardIcon)
+									withAllChildrenBreadthFirstDo: [ :anElement | 
+										(anElement background isKindOf: BlPaintBackground)
+											ifTrue: [ somePaints
+													add: (anElement background paint color blocResolveColorForTheme: anElement theme) ].
+										anElement border isVisible
+											ifTrue: [ somePaints
+													add: (anElement border paint color blocResolveColorForTheme: anElement theme) ].
+										(anElement isKindOf: BlTextElement)
+											ifTrue: [ somePaints add: (self resolvedTextForegroundOf: anElement) ] ].
+								aCase key -> somePaints asArray ] ]
+					equals: (someIconPaintCounts
+							collect: [ :aCase | aCase key -> (Array new: aCase value withAll: aForeground) ]) ]
+]
+
 { #category : #assertions }
 GtThemeExamples >> assertWorldTabColorsIn: aScripter [
 	| aTheme aForeground aPageTitle |
@@ -1625,6 +1668,36 @@ GtThemeExamples >> worldCoderWithTheme: aTheme [
 				// GtFilterItemsElement;
 				// (GtFilterNameId indexed: 2);
 				// GtPagerClosePageButtonElementId ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> worldMenuIconColorsWithTheme: aTheme switchingTo: anotherTheme [
+	| aWorldExamples aScripter |
+	aWorldExamples := GtWorldByScripterExamples new.
+	aScripter := aWorldExamples worldElementInScripter.
+	aScripter extent: 1100 @ 710.
+	aScripter element theme: aTheme.
+	aScripter space root
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aScripter pulse.
+	aWorldExamples openWorldMenuIn: aScripter.
+	self assertWorldMenuIconColorsIn: aScripter.
+	{anotherTheme.
+		aTheme}
+		do: [ :aLocalTheme | 
+			aScripter
+				doStep: [ :aStep | 
+					aStep
+						label: 'Switch the theme with the world menu open';
+						onSpaceRoot;
+						block: [ :aRoot | 
+							aScripter element theme: aLocalTheme.
+							aRoot
+								theme: aLocalTheme;
+								background: aLocalTheme default contentBackground ] ].
+			self assertWorldMenuIconColorsIn: aScripter ].
 	^ aScripter
 ]
 

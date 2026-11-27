@@ -324,6 +324,15 @@ GtLightThemeExamples >> worldCoderColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> worldMenuIconColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		worldMenuIconColorsWithTheme: BrGlamorousLightTheme new
+		switchingTo: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> worldSpotterColors [
 	<gtExample>
 	<return: #BlScripter>

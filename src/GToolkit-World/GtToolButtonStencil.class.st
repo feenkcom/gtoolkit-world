@@ -38,22 +38,25 @@ GtToolButtonStencil >> create [
 { #category : #'api - instantiation' }
 GtToolButtonStencil >> createBasicButton [
 	| iconElement labelElement button |
-	iconElement := (self icon asElement asScalableElement) 
-		size: self iconSize; 
-		margin: (BlInsets bottom: 5).
-	labelElement := BrLabel new 
-	    text: self title;
-	    aptitude: (BrGlamorousLabelAptitude new fontSize: 10).
+	iconElement := self icon asElement asScalableElement
+			size: self iconSize;
+			margin: (BlInsets bottom: 5).
+	labelElement := BrLabel new
+			text: self title;
+			aptitude: (BrGlamorousLabelAptitude new fontSize: 10).
 	button := BrButton new
-		label: self description;
-		constraintsDo:[ :c | 
-	        c horizontal exact: 80.
-	        c vertical exact: 80 ];
-		padding: (BlInsets all: 10);
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		layout: BlLinearLayout vertical alignCenter;
-		addChild: iconElement as: #cardIcon;
-		addChild: labelElement as: #cardLabel.
+			label: self description;
+			constraintsDo: [ :c | 
+				c horizontal exact: 80.
+				c vertical exact: 80 ];
+			padding: (BlInsets all: 10);
+			geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+			layout: BlLinearLayout vertical alignCenter;
+			addChild: iconElement as: #cardIcon;
+			addChild: labelElement as: #cardLabel.
+	BrIconAptitude
+		replaceBlackPaintIn: iconElement
+		with: button theme label defaultTextForeground.
 	^ button
 ]
 

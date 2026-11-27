@@ -170,10 +170,7 @@ GtHomeToolsSection >> newGitButtonStencil [
 	^ GtToolButtonStencil new
 		title: 'Git';
 		priority: 30;
-		icon: [ BrGlamorousVectorIcons largebranching asElement
-				addAptitude: (BrLazyStyleCommonAptitude new
-						default: [ :aStyle :aTheme | aStyle background: aTheme label defaultTextForeground ]);
-				yourself ] asStencil;
+		icon: BrGlamorousVectorIcons largebranching;
 		action: [ :card | 
 			self
 				showSpaceWithIcon: BrGlamorousVectorIcons emphasizedInspect

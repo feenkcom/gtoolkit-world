@@ -708,6 +708,15 @@ GtDarkThemeExamples >> worldInspectorTabIconColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> worldMenuIconColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		worldMenuIconColorsWithTheme: BrGlamorousDarkTheme new
+		switchingTo: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> worldSpotterColors [
 	<gtExample>
 	<return: #BlScripter>
