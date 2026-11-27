@@ -188,6 +188,27 @@ GtLightThemeExamples >> lepiterTreePagerConfigurationColors [
 	^ aScripter
 ]
 
+{ #category : #magritte }
+GtLightThemeExamples >> magritteActionColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteActionColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #magritte }
+GtLightThemeExamples >> magritteReadOnlyEditorColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteReadOnlyEditorColorsWithTheme: BrGlamorousLightTheme new
+]
+
+{ #category : #magritte }
+GtLightThemeExamples >> magritteValidationColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self magritteValidationColorsWithTheme: BrGlamorousLightTheme new
+]
+
 { #category : #examples }
 GtLightThemeExamples >> methodCoderClassExpanderBackground [
 	<gtExample>

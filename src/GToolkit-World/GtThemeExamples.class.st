@@ -682,7 +682,207 @@ GtThemeExamples >> baselinePackageOccurrenceHighlightWithTheme: aTheme [
 
 { #category : #assertions }
 GtThemeExamples >> constantColorRoles [
-	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor neutralBorderColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+	^ #(#(default #(appBackground contentBackground backdropBackground backdropEmphasisBackground navigationBackground defaultShadowColor primaryShadowColor primaryBorderColor strongBorderColor newsBackgroundColor subtleBorderColor expandCollapseTriangleBackgroundColor shadowColor)) #(header #(defaultBackgroundColor textMarkupColor disabledTextColor defaultTextColor secondaryBackgroundColor)) #(button #(disabledBackgroundColor defaultBackground disabledTextColor pressedBorderColor defaultBorderColor defaultTextColor hoveredBorderColor pressedTextColor hoveredTextColor textHighlightColor fadedBackgroundColor focusedFadedBackgroundColor disabledBorderColor)) #(editor #(pharoDeclaredVariableForeground pharoUndeclaredVariableForeground pharoSelfVariableForeground pharoSuperVariableForeground pharoThisContextVariableForeground pharoPragmaForeground pharoReturnArrowForeground pharoStringLiteralForeground pharoSymbolLiteralForeground pharoNumberLiteralForeground pharoNilLiteralForeground pharoBooleanLiteralForeground pharoCharacterLiteralForeground pharoCommentForeground pharoErrorTokenForeground enabledBreakpointForeground enabledBreakpointBackground disabledBreakpointForeground disabledBreakpointBackground borderColor focusedBorderColor focusedReadOnlyTextForeground completionPreviewBackground occurrenceHighlight sourceReferenceHighlight)) #(item #(selectedColor deselectedColor hoveredColor defaultColor focusedBorderColor pressedColor)) #(status #(successBackgroundColor successBorderColor neutralBackgroundColor neutralBorderColor errorBorderColor errorBackgroundColor failureBorderColor paleErrorBackgroundColor failureBackgroundColor changesBackgroundColor errorTextForeground successTextForeground)) #(link #(color errorColor)) #(markup #(foreground background codeFenceForeground)) #(columnedList #(headerBackgroundColor sortableHeaderHoveredBackgroundColor)) #(diffElement #(deletedLineBackgroundColor deletedTextBackgroundColor addedLineBackgroundColor addedTextBackgroundColor unchangedSideBackgroundColor connectorBackgroundColor borderColor editorBorderColor editorBackgroundColor selectedBorderColor labelForegroundColor)))
+]
+
+{ #category : #magritte }
+GtThemeExamples >> magritteActionColorsWithTheme: aTheme [
+	| aScripter |
+	aScripter := GtMagritteByScripterExamples new
+			addressWithCallbacksAndDefectiveAcceptAction.
+	aScripter extent: 850 @ 215.
+	aScripter element theme: aTheme.
+	aScripter space root
+		size: aScripter extent;
+		theme: aTheme;
+		background: aTheme default contentBackground.
+
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The execution error uses the status background';
+				// GtMagritteExecutionStatusElementId;
+				value: [ :aStatus | 
+						aStatus background isTransparent
+							ifTrue: [ Color transparent ]
+							ifFalse: [ aStatus background paint color blocResolveColorForTheme: aStatus theme ] ]
+					equals: aTheme status errorBackgroundColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The exception text uses the regular foreground';
+				// GtMagritteExecutionStatusElementId;
+				// BrLabel;
+				/ #label;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme label defaultTextForeground rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The debugger icon uses the button foreground';
+				// GtMagritteExecutionStatusElementId;
+				// BrButton;
+				/ #icon;
+				value: [ :anIcon | anIcon background paint color blocResolveColorForTheme: anIcon theme ]
+					equals: aTheme button defaultTextForeground rawColor ].
+
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Show the executing state';
+				// GtMagritteExecutionStatusElementId;
+				block: [ :aStatus | aStatus onExecutionStatusChanged: GtMagritteExecutionExecutingStatus new ] ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The executing state uses the metadata foreground';
+				// GtMagritteExecutionStatusElementId;
+				// BrLabel;
+				/ #label;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme label metadataTextForeground rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The executing state clears the error background';
+				// GtMagritteExecutionStatusElementId;
+				value: [ :aStatus | aStatus background isTransparent ] equals: true ].
+
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Show the failed action again';
+				// GtMagritteExecutionStatusElementId;
+				block: [ :aStatus | 
+					aStatus
+						onExecutionStatusChanged: aStatus mementoViewModel memento executionStatus valueOrNil ] ].
+
+	^ aScripter
+]
+
+{ #category : #magritte }
+GtThemeExamples >> magritteReadOnlyEditorColorsWithTheme: aTheme [
+	| aScripter aPortId anActionId |
+	aScripter := GtMagritteByScripterExamples new serverObjectInStartedState.
+	aScripter extent: 520 @ 210.
+	aScripter element theme: aTheme.
+	aScripter space root
+		size: aScripter extent;
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aPortId := GtMagritteFieldElementId new
+			description: aScripter model portDescription.
+	anActionId := GtMagritteActionElementId new
+			description: aScripter model startAndStopActionDescription.
+
+	aScripter
+		doStep: [ :aStep | 
+			aStep
+				label: 'Apply the Magritte editor aptitude to the read-only port';
+				// aPortId;
+				block: [ :anEditor | anEditor addAptitude: GtMagritteEditorAptitude new ] ].
+	aScripter mouseMoveOver
+		// aPortId;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The hovered read-only editor uses the disabled surface';
+				// aPortId;
+				value: [ :anEditor | anEditor background paint color blocResolveColorForTheme: anEditor theme ]
+					equals: aTheme button disabledBackgroundColor rawColor ].
+
+	aScripter requestFocus
+		// aPortId;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The focused read-only editor uses the focus color';
+				// aPortId;
+				value: [ :anEditor | anEditor background paint color blocResolveColorForTheme: anEditor theme ]
+					equals: aTheme editor focusedBorderColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The focused read-only text contrasts with its background';
+				// aPortId;
+				// BrTextElementWithCursors;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme editor focusedReadOnlyTextForeground rawColor ].
+
+	aScripter requestFocus
+		// anActionId;
+		play.
+	aScripter mouseMoveOver
+		// anActionId;
+		play.
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The read-only editor restores the normal foreground when focus moves';
+				// aPortId;
+				// BrTextElementWithCursors;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme editor defaultTextForeground rawColor ].
+
+	^ aScripter
+]
+
+{ #category : #magritte }
+GtThemeExamples >> magritteValidationColorsWithTheme: aTheme [
+	| aScripter aDescription aValidatorId |
+	aScripter := GtMagritteByScripterExamples new addressEmptyStreet.
+	aScripter extent: 520 @ 210.
+	aScripter element theme: aTheme.
+	aScripter space root
+		size: aScripter extent;
+		theme: aTheme;
+		background: aTheme default contentBackground.
+	aDescription := aScripter model descriptionStreet.
+	aValidatorId := GtMagritteValidatorElementId new description: aDescription.
+
+	aScripter
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The field label uses the metadata foreground';
+				// (GtMagritteFieldLabelId new description: aDescription);
+				// #label;
+				value: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ]
+					equals: aTheme label metadataTextForeground rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The changed field shows the change color';
+				// aValidatorId;
+				// GtMagritteChangeIndicatorId;
+				value: [ :anElement | anElement isVisible ] equals: true;
+				value: [ :anElement | anElement background paint color blocResolveColorForTheme: anElement theme ]
+					equals: aTheme status changesBackgroundColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The invalid field shows the error color';
+				// aValidatorId;
+				// GtMagritteChangeErrorIndicatorId;
+				value: [ :anElement | anElement isVisible ] equals: true;
+				value: [ :anElement | anElement background paint color blocResolveColorForTheme: anElement theme ]
+					equals: aTheme status errorBackgroundColor rawColor ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The validation message uses the error foreground';
+				// aValidatorId;
+				// GtMagritteIssuesExplanationId;
+				value: [ :anEditor | anEditor isVisible ] equals: true;
+				value: [ :anEditor | 
+						| someGlyphs |
+						someGlyphs := anEditor
+								allChildrenBreadthFirstSelect: [ :each | each isKindOf: BrTextElementWithCursors ].
+						(someGlyphs collect: [ :aGlyph | self resolvedTextForegroundOf: aGlyph ])
+							asSet ]
+					equals: (Set with: aTheme status errorTextForeground rawColor) ];
+		checkStep: [ :aStep | 
+			aStep
+				label: 'The Primary checkbox uses the control background';
+				// (GtMagritteFieldElementId new description: aScripter model descriptionIsPrimary);
+				// BrCheckbox;
+				value: [ :aCheckbox | aCheckbox background paint color blocResolveColorForTheme: aCheckbox theme ]
+					equals: aTheme button defaultBackground rawColor ].
+
+	^ aScripter
 ]
 
 { #category : #examples }
