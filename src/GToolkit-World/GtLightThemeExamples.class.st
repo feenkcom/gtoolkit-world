@@ -310,6 +310,15 @@ GtLightThemeExamples >> methodCoderTimeLimitColors [
 ]
 
 { #category : #examples }
+GtLightThemeExamples >> notificationBadgeAndCardColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		notificationBadgeAndCardColorsWithTheme: BrGlamorousLightTheme new
+		switchingTo: BrGlamorousDarkTheme new
+]
+
+{ #category : #examples }
 GtLightThemeExamples >> scripterSourceReferenceColors [
 	<gtExample>
 	<return: #BlScripter>

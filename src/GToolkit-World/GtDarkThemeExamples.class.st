@@ -590,6 +590,15 @@ GtDarkThemeExamples >> methodHistoryDiffColors [
 ]
 
 { #category : #examples }
+GtDarkThemeExamples >> notificationBadgeAndCardColors [
+	<gtExample>
+	<return: #BlScripter>
+	^ self
+		notificationBadgeAndCardColorsWithTheme: BrGlamorousDarkTheme new
+		switchingTo: BrGlamorousLightTheme new
+]
+
+{ #category : #examples }
 GtDarkThemeExamples >> scripterSourceReferenceColors [
 	<gtExample>
 	<return: #BlScripter>

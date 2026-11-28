@@ -7,6 +7,28 @@ Class {
 	#category : #'GToolkit-World-Examples'
 }
 
+{ #category : #asserting }
+GtThemeExamples >> assertBadgeColorsOf: aLabel in: aContainer [
+	| aTheme aGlyph aForeground |
+	aTheme := aLabel theme.
+	aGlyph := (aLabel query // BlTextElement) anyOne.
+	aForeground := (aGlyph text attributesAt: 1)
+			detect: [ :anAttribute | anAttribute isKindOf: BlTextForegroundAttribute ].
+	self assert: (aForeground paint isKindOf: BlThemeableColor).
+	self
+		assert: (aForeground paint blocResolveColorForTheme: aTheme)
+		equals: aTheme status notificationBadgeForeground rawColor.
+	{aLabel.
+		aContainer}
+		do: [ :anElement | 
+			| aPaint |
+			aPaint := anElement background paint color.
+			self assert: (aPaint isKindOf: BlThemeableColor).
+			self
+				assert: (aPaint blocResolveColorForTheme: aTheme)
+				equals: aTheme status notificationBadgeBackground rawColor ]
+]
+
 { #category : #assertions }
 GtThemeExamples >> assertCloseIconIn: aScripter target: aButtonTarget [
 	aScripter
@@ -457,6 +479,23 @@ GtThemeExamples >> assertLepiterTreePagerConfigurationColorsIn: aScripter [
 				/ #label;
 				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
 					equals: aForeground ]
+]
+
+{ #category : #asserting }
+GtThemeExamples >> assertNotificationCardColorsIn: aScripter [
+	| aCard aTheme aBackground aBorder |
+	aCard := (aScripter root query // GtNotificationBorderElement) anyOne.
+	aTheme := aCard theme.
+	aBackground := aCard background paint color.
+	aBorder := aCard borderElement border paint color.
+	self assert: (aBackground isKindOf: BlThemeableColor).
+	self assert: (aBorder isKindOf: BlThemeableColor).
+	self
+		assert: (aBackground blocResolveColorForTheme: aTheme)
+		equals: aTheme default contentBackground rawColor.
+	self
+		assert: (aBorder blocResolveColorForTheme: aTheme)
+		equals: aTheme default subtleBorderColor rawColor
 ]
 
 { #category : #'asserting - theme' }
@@ -1531,6 +1570,38 @@ GtThemeExamples >> methodCoderTimeLimitColorsWithTheme: aTheme [
 				@ [ :aLabel | aLabel text asString = ' ms (2 minutes)' ];
 				value: [ :aLabel | self resolvedTextForegroundOf: aLabel ]
 					equals: aTheme button disabledTextColor rawColor ].
+	^ aScripter
+]
+
+{ #category : #examples }
+GtThemeExamples >> notificationBadgeAndCardColorsWithTheme: aTheme switchingTo: anotherTheme [
+	| aFixture aScripter themes aBadge |
+	aFixture := GtNotificationBadgeByScripterExamples new.
+	aScripter := aFixture objectNotificationInSpace.
+	themes := {aTheme.
+			BrGlamorousNearWhiteTheme new.
+			anotherTheme}.
+	aBadge := (aScripter root query // GtNotificationsBadgeElement) anyOne.
+	self assert: aBadge isDropdownVisible not.
+	themes
+		do: [ :aLocalTheme | 
+			aScripter root
+				theme: aLocalTheme;
+				background: aLocalTheme default contentBackground.
+			aScripter pulseUntilReady.
+			self assert: aBadge badgeElement theme == aLocalTheme.
+			self assertBadgeColorsOf: aBadge badgeElement in: aBadge badgeContainer ].
+	aFixture clickOnBadgeIn: aScripter do: [ :aStep |  ].
+	themes
+		reverseDo: [ :aLocalTheme | 
+			aScripter root theme: aLocalTheme.
+			aScripter pulseUntilReady.
+			self assert: aBadge isDropdownVisible.
+			self assert: aBadge dropdownBadgeElement theme == aLocalTheme.
+			self
+				assertBadgeColorsOf: aBadge dropdownBadgeElement
+				in: aBadge dropdownBadgeContainer.
+			self assertNotificationCardColorsIn: aScripter ].
 	^ aScripter
 ]
 
